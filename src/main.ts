@@ -1,8 +1,10 @@
 import { EventBus, GameEngine } from '@/engine/index.js'
+import { InputHandler } from '@/engine/InputHandler.js'
 import { I18nService } from '@/i18n/index.js'
 import { SynthAudioProvider } from '@/providers/audio/SynthAudioProvider.js'
 import { CanvasTextRenderer } from '@/providers/renderer/CanvasTextRenderer.js'
 import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem } from '@/systems/index.js'
+import { MovementSystem } from '@/world/MovementSystem.js'
 
 async function boot(): Promise<void> {
   const loadingEl = document.getElementById('loading')!
@@ -15,16 +17,17 @@ async function boot(): Promise<void> {
   }
 
   setProgress(10, 'Loading language...')
-  const i18n = new I18nService()
-  await i18n.setLocale('en')
+  // i18n loaded globally; will be injected into systems in Phase 2
+  await new I18nService().setLocale('en')
 
-  setProgress(30, 'Initialising audio...')
+  setProgress(30, 'Initialising systems...')
   const audio    = new SynthAudioProvider()
   const renderer = new CanvasTextRenderer()
   const eventBus = new EventBus()
   const engine   = new GameEngine(eventBus, renderer, audio)
+  const movement = new MovementSystem(eventBus)
 
-  setProgress(50, 'Registering systems...')
+  engine.setMovementSystem(movement)
   engine.registerSystem(new LoopSystem(eventBus))
   engine.registerSystem(new KnowledgeSystem(eventBus))
   engine.registerSystem(new QuestSystem(eventBus))
@@ -33,15 +36,12 @@ async function boot(): Promise<void> {
   setProgress(80, 'Preparing world...')
   const canvas = document.getElementById('game-canvas') as HTMLCanvasElement
 
-  // Unlock audio on first user interaction
-  const unlockAudio = async () => {
-    await audio.unlock()
-    canvas.removeEventListener('click', unlockAudio)
-    document.removeEventListener('keydown', unlockAudio)
-    eventBus.emit('audio.unlock', {})
-  }
-  canvas.addEventListener('click', unlockAudio)
-  document.addEventListener('keydown', unlockAudio)
+  // Wire renderer action handler (canvas click regions)
+  renderer.setActionHandler(action => engine.handleAction(action))
+
+  // Wire InputHandler (keyboard + first-click audio unlock)
+  const input = new InputHandler(canvas, eventBus)
+  input.init(action => engine.handleAction(action))
 
   setProgress(100, 'Ready.')
   await engine.start(canvas)
