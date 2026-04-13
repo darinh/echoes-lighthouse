@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import type { II18n } from '@/interfaces/index.js'
 
 type LocaleBundle = Record<string, unknown>
