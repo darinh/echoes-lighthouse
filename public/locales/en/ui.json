@@ -1,0 +1,113 @@
+{
+  "game": {
+    "title": "Echoes of the Lighthouse",
+    "tagline": "Every loop reveals more. Every choice persists."
+  },
+  "phase": {
+    "title":      "Title",
+    "dawn":       "Dawn",
+    "day":        "Day",
+    "dusk":       "Dusk",
+    "night_safe": "Night",
+    "night_dark": "Night",
+    "vision":     "Vision",
+    "ending":     "Ending"
+  },
+  "hud": {
+    "stamina":      "Stamina",
+    "light":        "Light",
+    "hearts":       "Hearts",
+    "insight":      "Insight",
+    "loop":         "Loop {count}",
+    "time_warning": "Darkness approaches"
+  },
+  "action": {
+    "examine":  "Examine",
+    "move":     "Move",
+    "talk":     "Talk",
+    "take":     "Take",
+    "use":      "Use",
+    "bank":     "Bank Insight",
+    "continue": "Continue",
+    "back":     "Back",
+    "skip":     "Skip"
+  },
+  "menu": {
+    "new_game":    "Begin",
+    "continue":    "Continue",
+    "settings":    "Settings",
+    "language":    "Language",
+    "volume":      "Volume",
+    "master":      "Master",
+    "ambient":     "Ambient",
+    "ui_sounds":   "Interface",
+    "narrative":   "Narrative"
+  },
+  "journal": {
+    "title":          "The Journal",
+    "threads":        "Active Threads",
+    "sealed":         "Sealed Insights",
+    "archive":        "Archive Mastery",
+    "no_threads":     "Nothing recorded yet.",
+    "seal_prompt":    "Seal this insight as truth?",
+    "seal_confirm":   "Seal",
+    "seal_cancel":    "Not yet"
+  },
+  "dialogue": {
+    "requires_insight":   "Requires {amount} Insight",
+    "requires_resonance": "Requires Resonance {level} with {npc}",
+    "requires_archive":   "Requires {domain} knowledge"
+  },
+  "death": {
+    "title":       "The loop resets.",
+    "insight_lost": "Unbanked Insight lost: {amount}",
+    "loop_count":  "Loop {count} begins.",
+    "continue":    "Wake again"
+  },
+  "location": {
+    "keepers_cottage":  "Keeper's Cottage",
+    "lighthouse_base":  "Lighthouse",
+    "lighthouse_top":   "Lighthouse — Lantern Room",
+    "mechanism_room":   "Mechanism Room",
+    "village_square":   "Village Square",
+    "harbor":           "The Harbour",
+    "chapel":           "St. Maret's Chapel",
+    "mill":             "The Old Mill",
+    "forest_path":      "Forest Path",
+    "ruins":            "The Old Ruins",
+    "cliffside":        "Cliffside",
+    "archive_basement": "Archive Basement",
+    "tidal_caves":      "Tidal Caves"
+  },
+  "archive": {
+    "domain": {
+      "history":      "History",
+      "occult":       "Occult",
+      "maritime":     "Maritime",
+      "ecology":      "Ecology",
+      "alchemy":      "Alchemy",
+      "cartography":  "Cartography",
+      "linguistics":  "Linguistics"
+    },
+    "level": {
+      "0": "Unknown",
+      "1": "Novice",
+      "2": "Novice",
+      "3": "Novice",
+      "4": "Adept",
+      "5": "Adept",
+      "6": "Adept",
+      "7": "Master",
+      "8": "Master",
+      "9": "Master",
+      "10": "Master"
+    }
+  },
+  "settings": {
+    "saved": "Settings saved."
+  },
+  "error": {
+    "load_failed": "Failed to load. Please refresh.",
+    "save_failed":  "Save failed. Progress may be lost."
+  }
+}

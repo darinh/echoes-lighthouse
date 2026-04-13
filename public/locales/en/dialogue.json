@@ -1,0 +1,43 @@
+{
+  "npc": {
+    "maren": {
+      "name": "Maren",
+      "title": "The Archivist",
+      "greeting": {
+        "tier0": "You're the new Keeper? The last one left quite a mess.",
+        "tier1": "I've been expecting someone to come asking questions.",
+        "tier2": "You've been here before. I can see it in your eyes.",
+        "tier3": "You remember more than you should. That's dangerous."
+      }
+    },
+    "vael": {
+      "name": "Vael",
+      "title": "The Echo",
+      "greeting": {
+        "tier0": "...",
+        "tier1": "You can hear me. The others couldn't.",
+        "tier2": "I've been in this loop longer than you know.",
+        "tier3": "I am what you become if you fail. Listen carefully."
+      }
+    },
+    "silas": {
+      "name": "Silas",
+      "title": "Harbormaster",
+      "greeting": {
+        "tier0": "Harbour's closed. Storm season.",
+        "tier1": "What is it you actually want, Keeper?",
+        "tier2": "I saw what happened to the last three. I stayed quiet.",
+        "tier3": "There are things in this harbour older than the lighthouse."
+      }
+    }
+  },
+  "choice": {
+    "ask_about":       "Ask about {subject}",
+    "press_harder":    "Press harder",
+    "let_it_go":       "Let it go",
+    "offer_help":      "Offer to help",
+    "demand_truth":    "Demand the truth",
+    "lie":             "Lie",
+    "stay_silent":     "Say nothing"
+  }
+}

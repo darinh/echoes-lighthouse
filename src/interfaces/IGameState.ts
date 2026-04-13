@@ -1,0 +1,85 @@
+import type {
+  GamePhase,
+  NPCId,
+  LocationId,
+  ArchiveDomain,
+  InsightCardId,
+  JournalThreadId,
+  NPCAttitude,
+} from './types.js'
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DIALOGUE STATE
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface IDialogueChoice {
+  readonly id: string
+  readonly textKey: string             // i18n key
+  readonly requiresInsight?: number
+  readonly requiresResonance?: number
+  readonly requiresArchive?: { domain: ArchiveDomain; minLevel: number }
+  readonly requiresSealedInsight?: InsightCardId
+  readonly moralAlignment?: import('./types.js').MoralAlignment
+  readonly isAvailable: boolean        // pre-computed by dialogue system
+}
+
+export interface IDialogueState {
+  readonly npcId: NPCId
+  readonly currentNodeId: string
+  readonly speakerTextKey: string      // i18n key for current NPC line
+  readonly availableChoices: ReadonlyArray<IDialogueChoice>
+  readonly isActive: boolean
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NPC STATE
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface INPCState {
+  readonly id: NPCId
+  readonly resonance: number                          // 0–10, persistent
+  readonly isAlive: boolean
+  readonly dialogueTier: number                       // 0–10, unlocked by resonance
+  readonly revealedFacts: ReadonlySet<string>
+  readonly lastInteractionLoop: number
+  readonly attitude: NPCAttitude
+  readonly currentLocation: LocationId | null
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PLAYER STATE
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface IPlayerState {
+  // Physical — reset on death
+  readonly stamina: number                                        // 0–100
+  readonly lightReserves: number                                  // 0–100
+  readonly hearts: number                                         // 1–3
+
+  // Persistent across loops
+  readonly insight: number                                        // 0–999
+  readonly insightBanked: number                                  // banked at archive desk
+  readonly resonance: Readonly<Record<NPCId, number>>             // 0–10 per NPC
+  readonly archiveMastery: Readonly<Record<ArchiveDomain, number>> // 0–10 per domain
+  readonly loopCount: number
+  readonly moralWeight: number
+  readonly discoveredLocations: ReadonlySet<LocationId>
+  readonly sealedInsights: ReadonlySet<InsightCardId>
+  readonly activeJournalThreads: ReadonlySet<JournalThreadId>
+  readonly currentLocation: LocationId
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GAME STATE — The central read-only snapshot passed to all systems.
+// Systems never mutate this directly; they return a new state.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface IGameState {
+  readonly phase: GamePhase
+  readonly dayTimeRemaining: number                               // 0–1 fraction
+  readonly player: IPlayerState
+  readonly npcStates: Readonly<Record<NPCId, INPCState>>
+  readonly activeDialogue: IDialogueState | null
+  readonly locale: string
+  readonly isPaused: boolean
+}

@@ -1,0 +1,34 @@
+{
+  "thread": {
+    "mechanism_failure": {
+      "name":    "The Broken Mechanism",
+      "summary": "The lighthouse mechanism is in pieces. Someone — or something — took it apart deliberately."
+    },
+    "prior_keepers": {
+      "name":    "The Lost Keepers",
+      "summary": "Three Keepers before you. None left the island. Their echoes remain."
+    },
+    "the_warden": {
+      "name":    "What Lies Beneath",
+      "summary": "The lighthouse was not built to guide ships."
+    },
+    "marens_secret": {
+      "name":    "The Archivist's Burden",
+      "summary": "Maren knows more than she admits. She has been here through more loops than you."
+    },
+    "the_seal": {
+      "name":    "The Old Seal",
+      "summary": "Something was bound beneath the island long before the lighthouse was built."
+    }
+  },
+  "insight_card": {
+    "blacksmith_lying": {
+      "name":    "The Blacksmith Arrived Late",
+      "summary": "Tobias claims he arrived before the storm. The harbour records disagree."
+    },
+    "chapel_symbol": {
+      "name":    "The Chapel Symbol",
+      "summary": "The symbol above the chapel door is not a religious icon. It is a containment mark."
+    }
+  }
+}

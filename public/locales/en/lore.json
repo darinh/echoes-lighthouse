@@ -1,0 +1,30 @@
+{
+  "location": {
+    "keepers_cottage": {
+      "enter": "A small stone cottage. The fire went out. The last Keeper's journal lies open on the table.",
+      "examine_journal": "The final entry reads: 'The mechanism won't hold. Three nights, three failures. It knows when I'm close.'",
+      "examine_fire":    "Cold ash. At least three days since it was lit."
+    },
+    "lighthouse_base": {
+      "enter": "The lighthouse rises above you. The door is unlocked, but something about the threshold resists you.",
+      "examine_door":    "Salt-crusted iron hinges. Fresh scratch marks around the lock."
+    },
+    "harbor": {
+      "enter": "The harbour is quiet. Too quiet for a working port. A single lantern burns at the harbormaster's office.",
+      "examine_boats":   "The boats are tied down. Supplies are still aboard."
+    },
+    "village_square": {
+      "enter": "The village square. A few residents hurry past without making eye contact.",
+      "examine_well":    "The well has been sealed with planks. Nailed shut from above."
+    },
+    "ruins": {
+      "enter": "Older than the village. Older, perhaps, than the island itself. The stones don't fit together right.",
+      "examine_stones":  "Maritime runes. But they predate any known maritime civilisation."
+    }
+  },
+  "vision": {
+    "loop5":  "You see the lighthouse as it was. Full of light. Full of people. They were not afraid then.",
+    "loop10": "A Keeper — not you — walks toward the mechanism room. She does not come back out.",
+    "loop15": "The thing beneath the island has a face. You have seen it before. In your reflection."
+  }
+}
