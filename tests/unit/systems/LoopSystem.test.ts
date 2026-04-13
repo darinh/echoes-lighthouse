@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { LoopSystem } from '@/systems/LoopSystem.js'
 import { EventBus } from '@/engine/EventBus.js'
 import { createInitialState } from '@/engine/initialState.js'
-import type { IGameState, IGameEvent, GameEventType } from '@/interfaces/index.js'
+import type { IGameState, IGameEvent, GameEventType, LocationId, InsightCardId } from '@/interfaces/index.js'
 
 function makeEvent(type: GameEventType, payload: Record<string, unknown> = {}): IGameEvent {
   return { type, payload, timestamp: Date.now() }
@@ -150,11 +150,11 @@ function withResonance(s: IGameState, npc: string, level: number): IGameState {
 function withArchive(s: IGameState, domain: string, level: number): IGameState {
   return { ...s, player: { ...s.player, archiveMastery: { ...s.player.archiveMastery, [domain]: level } } }
 }
-function withSealedInsight(s: IGameState, id: string): IGameState {
-  return { ...s, player: { ...s.player, sealedInsights: new Set([...s.player.sealedInsights, id]) } }
+function withSealedInsight(s: IGameState, id: InsightCardId): IGameState {
+  return { ...s, player: { ...s.player, sealedInsights: new Set([...s.player.sealedInsights, id]) as ReadonlySet<InsightCardId> } }
 }
-function withDiscovered(s: IGameState, loc: string): IGameState {
-  return { ...s, player: { ...s.player, discoveredLocations: new Set([...s.player.discoveredLocations, loc]) } }
+function withDiscovered(s: IGameState, loc: LocationId): IGameState {
+  return { ...s, player: { ...s.player, discoveredLocations: new Set([...s.player.discoveredLocations, loc]) as ReadonlySet<LocationId> } }
 }
 function withMoralWeight(s: IGameState, weight: number): IGameState {
   return { ...s, player: { ...s.player, moralWeight: weight } }

@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { EventBus } from '@/engine/EventBus.js'
-import type { GameEventType } from '@/interfaces/index.js'
 
 describe('EventBus', () => {
   let bus: EventBus
