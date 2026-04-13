@@ -47,7 +47,16 @@ docs(gdd): update 04-systems-design with balance tuning notes
 chore(ci): add Vitest to test pipeline
 ```
 
-The commit type feeds into auto-generated release notes.
+**Commit type → version bump (automatic on merge to main):**
+
+| Type | Bump | Example |
+|---|---|---|
+| `feat:` | minor `0.x.0` | New gameplay system, new UI panel |
+| `fix:` `perf:` | patch `0.0.x` | Bug fix, performance improvement |
+| `feat!:` or `BREAKING CHANGE:` footer | major `x.0.0` | Incompatible interface change |
+| `chore:` `docs:` `test:` `refactor:` `content:` | **none** | No release triggered |
+
+You never touch `package.json` version manually. The release workflow reads commit messages since the last tag and determines the bump automatically.
 
 ### Opening a PR
 
@@ -64,24 +73,35 @@ The commit type feeds into auto-generated release notes.
 
 When `develop` has accumulated enough changes to warrant a release:
 
-1. **Bump the version** in `package.json` (use [semver](https://semver.org/)):
-   - `patch` (0.0.x) — bug fixes, content additions
-   - `minor` (0.x.0) — new gameplay features, new systems
-   - `major` (x.0.0) — breaking changes, major milestones (e.g. full Act 1 complete)
+1. **Open a PR from `develop` to `main`** — no version bump needed, ever
+   - Title follows conventional commit format, e.g. `feat: complete Act 1 content`
+   - CI runs typecheck + tests — all must pass before merge is permitted
 
-2. **Open a PR from `develop` to `main`**
-   - Title: `release: vX.Y.Z`
-   - Describe what changed (CI will also auto-generate release notes from commits)
-
-3. **CI runs** — all tests must pass before merge is permitted
-
-4. **Merge the PR** — this triggers the release workflow automatically:
-   - Reads version from `package.json`
+2. **Merge the PR** — the release workflow runs automatically:
+   - Reads all commits since the last tag
+   - Determines version bump from commit types
    - Creates git tag `vX.Y.Z`
-   - Creates a GitHub Release with auto-generated notes
+   - Creates GitHub Release with auto-generated changelog
    - Builds and deploys to GitHub Pages
 
-**No manual tagging. No manual deploys. The version in `package.json` is the single source of truth.**
+**You never manually bump the version. The commit messages are the version.**
+
+#### Version bump rules
+
+| Commits since last release contain... | Result |
+|---|---|
+| Any `feat:` commit | minor bump `0.x.0` |
+| Only `fix:` / `perf:` commits | patch bump `0.0.x` |
+| Any `feat!:` or `BREAKING CHANGE:` footer | major bump `x.0.0` |
+| Only `chore:` `docs:` `test:` `refactor:` `content:` | **no release created** |
+
+#### Signalling a breaking change
+
+```
+feat!: redesign ISystem interface
+
+BREAKING CHANGE: ISystem.onEvent signature changed — all systems must update.
+```
 
 ---
 
@@ -105,7 +125,7 @@ Triggered by: push to `main`
 | Job | What it does |
 |---|---|
 | `typecheck-and-test` | Full test suite one final time |
-| `tag-and-release` | Creates git tag + GitHub Release from `package.json` version |
+| `tag-and-release` | Determines bump from commits → creates tag + GitHub Release |
 | `build-and-deploy` | Vite build → GitHub Pages |
 
 ---
