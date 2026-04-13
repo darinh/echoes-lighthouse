@@ -10,7 +10,7 @@ import type { IEventBus } from '@/interfaces/index.js'
 export class KnowledgeSystem implements ISystem {
   readonly name = 'KnowledgeSystem'
 
-  constructor(private readonly eventBus: IEventBus) {}
+  constructor(private readonly _eventBus: IEventBus) {}
 
   init(state: IGameState): IGameState { return state }
 

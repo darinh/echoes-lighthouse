@@ -23,7 +23,7 @@ const DEFAULT_NPC_STATES: Record<NPCId, INPCState> = Object.fromEntries(
     attitude: 'neutral' as const,
     currentLocation: null,
   }])
-) as Record<NPCId, INPCState>
+) as unknown as Record<NPCId, INPCState>
 
 const DEFAULT_PLAYER: IPlayerState = {
   stamina: 100,
