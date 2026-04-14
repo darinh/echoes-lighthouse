@@ -63,6 +63,10 @@ export class GameEngine {
     return this.state
   }
 
+  loadState(state: IGameState): void {
+    this.state = state
+  }
+
   /**
    * Handle a player action. Actions come from InputHandler (keyboard/click)
    * or from rendered canvas hit-regions.
@@ -91,21 +95,18 @@ export class GameEngine {
         break
 
       case 'interact':
-        // Phase 1: open stub dialogue for Maren
-        if (action.npcId === 'maren') {
-          this.openMarenDialogue()
-        }
+        this.applyEvent('dialogue.start', { npcId: action.npcId })
+        this.eventBus.emit('dialogue.start', { npcId: action.npcId })
         break
 
       case 'dialogue.choice':
-        this.handleDialogueChoice(action.choiceId)
+        this.applyEvent('dialogue.choice.selected', { choiceId: action.choiceId })
+        this.eventBus.emit('dialogue.choice.selected', { choiceId: action.choiceId })
         break
 
       case 'dialogue.close':
-        if (this.state.activeDialogue?.isActive) {
-          this.eventBus.emit('npc.dialogue.closed', { npcId: this.state.activeDialogue.npcId })
-          this.state = { ...this.state, activeDialogue: null }
-        }
+        this.applyEvent('dialogue.close', {})
+        this.eventBus.emit('dialogue.close', {})
         break
 
       case 'pause.toggle':
@@ -120,63 +121,6 @@ export class GameEngine {
     for (const system of this.systems) {
       this.state = system.onEvent(event, this.state)
     }
-  }
-
-  private openMarenDialogue(): void {
-    // Phase 1 stub: immediate tier-0 dialogue with a single choice
-    const tier = this.state.npcStates.maren?.dialogueTier ?? 0
-    this.state = {
-      ...this.state,
-      activeDialogue: {
-        npcId: 'maren',
-        currentNodeId: `maren.greeting.tier${tier}`,
-        speakerTextKey: `npc.maren.greeting.tier${tier}`,
-        isActive: true,
-        availableChoices: [
-          {
-            id: 'ask.lighthouse',
-            textKey: 'dialogue.choice.ask_lighthouse',
-            isAvailable: true,
-          },
-          {
-            id: 'ask.archive',
-            textKey: 'dialogue.choice.ask_archive',
-            isAvailable: true,
-          },
-          {
-            id: 'leave',
-            textKey: 'dialogue.choice.leave',
-            isAvailable: true,
-          },
-        ],
-      },
-    }
-    this.eventBus.emit('npc.dialogue.opened', { npcId: 'maren' })
-  }
-
-  private handleDialogueChoice(choiceId: string): void {
-    if (!this.state.activeDialogue) return
-
-    if (choiceId === 'leave') {
-      this.state = { ...this.state, activeDialogue: null }
-      return
-    }
-
-    // Emit choice event — KnowledgeSystem and other systems react
-    this.eventBus.emit('npc.dialogue.choice.made', {
-      npcId: this.state.activeDialogue.npcId,
-      choiceId,
-      nodeId: this.state.activeDialogue.currentNodeId,
-    })
-
-    // Apply insight gain for meaningful dialogue choices (Phase 1 stub)
-    if (choiceId !== 'leave') {
-      this.applyEvent('insight.gained', { amount: 5 })
-      this.eventBus.emit('insight.gained', { amount: 5 })
-    }
-
-    // Close dialogue after choice (Phase 2: will navigate to next node)
-    this.state = { ...this.state, activeDialogue: null }
   }
 
   private loop(timestamp: number): void {

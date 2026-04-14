@@ -3,7 +3,7 @@ import { InputHandler } from '@/engine/InputHandler.js'
 import { I18nService } from '@/i18n/index.js'
 import { SynthAudioProvider } from '@/providers/audio/SynthAudioProvider.js'
 import { CanvasTextRenderer } from '@/providers/renderer/CanvasTextRenderer.js'
-import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem } from '@/systems/index.js'
+import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, SaveSystem } from '@/systems/index.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
 
 async function boot(): Promise<void> {
@@ -36,6 +36,12 @@ async function boot(): Promise<void> {
 
   setProgress(80, 'Preparing world...')
   const canvas = document.getElementById('game-canvas') as HTMLCanvasElement
+
+  // Load persisted save state if available.
+  const savedState = SaveSystem.loadState()
+  if (savedState) {
+    engine.loadState(savedState)
+  }
 
   // Wire renderer action handler (canvas click regions)
   renderer.setActionHandler(action => engine.handleAction(action))

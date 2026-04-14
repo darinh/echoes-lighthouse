@@ -1,45 +1,107 @@
-export const PETRA_NPC = {
-  id: 'petra' as const,
+import type { NPCFullData } from './dialogueTypes.js'
+
+export const PETRA_NPC: NPCFullData = {
+  id: 'petra',
   nameKey: 'npc.petra.name',
   titleKey: 'npc.petra.title',
-  defaultLocation: 'ruins' as const,
-  defaultAttitude: 'neutral' as const,
-  schedule: {
-    night_dark: 'chapel' as const,
-  },
-  tierThresholds: [0, 3, 7, 15] as const,
-  greetingNodes: ['petra.greeting.tier0', 'petra.greeting.tier1', 'petra.greeting.tier2', 'petra.greeting.tier3'],
+  defaultLocation: 'village_square',
+  defaultAttitude: 'neutral',
+  schedule: { night_dark: 'chapel' },
+  tierThresholds: [0, 3, 7, 15, 25, 40, 60, 80, 100, 130, 170],
+  greetingNodes: ['petra.greeting.tier0','petra.greeting.tier1','petra.greeting.tier2','petra.greeting.tier3','petra.greeting.tier4','petra.greeting.tier5'],
   nodes: {
     'petra.greeting.tier0': {
       speakerKey: 'npc.petra.greeting.tier0',
       choices: [
-        { id: 'ask.lighthouse', textKey: 'dialogue.choice.ask_lighthouse', insightGain: 5, moralWeight: 0 },
-        { id: 'leave',          textKey: 'dialogue.choice.leave',           insightGain: 0, moralWeight: 0 },
+        { id: 'ask.remedies', textKey: 'dialogue.choice.ask_remedies', nextNodeId: 'petra.remedies.offer', insightGain: 3, trustGain: 2 },
+        { id: 'ask.island', textKey: 'dialogue.choice.ask_island', nextNodeId: 'petra.island.intro', insightGain: 5 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.remedies.offer': {
+      speakerKey: 'npc.petra.remedies.offer',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.island.intro': {
+      speakerKey: 'npc.petra.island.intro',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
     'petra.greeting.tier1': {
       speakerKey: 'npc.petra.greeting.tier1',
       choices: [
-        { id: 'ask.lighthouse', textKey: 'dialogue.choice.ask_lighthouse', insightGain: 5, moralWeight: 0 },
-        { id: 'ask.keeper',     textKey: 'dialogue.choice.ask_keeper',     insightGain: 8, moralWeight: 0 },
-        { id: 'leave',          textKey: 'dialogue.choice.leave',           insightGain: 0, moralWeight: 0 },
+        { id: 'ask.keepers', textKey: 'dialogue.choice.ask_keeper', nextNodeId: 'petra.keepers.pattern', insightGain: 8, trustGain: 3 },
+        { id: 'ask.remedies', textKey: 'dialogue.choice.ask_remedies', nextNodeId: 'petra.remedies.offer' },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.keepers.pattern': {
+      speakerKey: 'npc.petra.keepers.pattern',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
     'petra.greeting.tier2': {
       speakerKey: 'npc.petra.greeting.tier2',
       choices: [
-        { id: 'ask.echo',   textKey: 'dialogue.choice.ask_echo',   insightGain: 10, moralWeight: 1 },
-        { id: 'ask.keeper', textKey: 'dialogue.choice.ask_keeper', insightGain: 8,  moralWeight: 0 },
-        { id: 'leave',      textKey: 'dialogue.choice.leave',       insightGain: 0,  moralWeight: 0 },
+        { id: 'ask.archive.pages', textKey: 'dialogue.choice.ask_archive_pages', nextNodeId: 'petra.archive.hints', insightGain: 10, trustGain: 4, requiresArchiveDomain: { domain: 'history', level: 1 } },
+        { id: 'ask.island.memory', textKey: 'dialogue.choice.ask_island_memory', nextNodeId: 'petra.island.gossip', insightGain: 8 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.archive.hints': {
+      speakerKey: 'npc.petra.archive.hints',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.island.gossip': {
+      speakerKey: 'npc.petra.island.gossip',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
     'petra.greeting.tier3': {
       speakerKey: 'npc.petra.greeting.tier3',
       choices: [
-        { id: 'demand_truth', textKey: 'dialogue.choice.demand_truth', insightGain: 15, moralWeight: 2 },
-        { id: 'offer_help',   textKey: 'dialogue.choice.offer_help',   insightGain: 10, moralWeight: 0 },
-        { id: 'leave',        textKey: 'dialogue.choice.leave',         insightGain: 0,  moralWeight: 0 },
+        { id: 'ask.who.forgot', textKey: 'dialogue.choice.ask_who_needed_to_forget', nextNodeId: 'petra.memory.medicine', insightGain: 12, moralWeight: 1, trustGain: 5 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.memory.medicine': {
+      speakerKey: 'npc.petra.memory.medicine',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.greeting.tier4': {
+      speakerKey: 'npc.petra.greeting.tier4',
+      choices: [
+        { id: 'ask.family.silenced', textKey: 'dialogue.choice.ask_silenced', nextNodeId: 'petra.family.silenced', insightGain: 15, moralWeight: 2, requiresTier: 4 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.family.silenced': {
+      speakerKey: 'npc.petra.family.silenced',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.greeting.tier5': {
+      speakerKey: 'npc.petra.greeting.tier5',
+      choices: [
+        { id: 'accept.vial', textKey: 'dialogue.choice.accept_gift', nextNodeId: 'petra.vial.gift', insightGain: 15, trustGain: 10, worldFlagSet: 'ruins_unlocked_petra' },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.vial.gift': {
+      speakerKey: 'npc.petra.vial.gift',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
   },
-} as const
+}

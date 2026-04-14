@@ -1,8 +1,12 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
+import pkg from './package.json'
 
 export default defineConfig({
   base: '/echoes-lighthouse/',
+  define: {
+    'import.meta.env.VITE_APP_VERSION': JSON.stringify(pkg.version),
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
@@ -10,14 +14,12 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
+    sourcemap: false,
+    assetsInlineLimit: 2 * 1024 * 1024,
     rollupOptions: {
       output: {
-        manualChunks: {
-          'data-npcs':      ['./src/data/npcs/index.ts'],
-          'data-quests':    ['./src/data/quests/index.ts'],
-          'data-codex':     ['./src/data/codex/index.ts'],
-          'data-locations': ['./src/data/locations/index.ts'],
-        },
+        manualChunks: undefined,
+        inlineDynamicImports: true,
       },
     },
   },

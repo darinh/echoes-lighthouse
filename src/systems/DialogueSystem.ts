@@ -2,7 +2,7 @@ import type { ISystem } from '@/interfaces/ISystem.js'
 import type { IGameState, IDialogueState, IDialogueChoice } from '@/interfaces/IGameState.js'
 import type { IGameEvent, IEventBus } from '@/interfaces/IEventBus.js'
 import type { NPCId, InsightCardId } from '@/interfaces/types.js'
-import type { NPCFullData, NPCDialogueChoice } from '@/data/npcs/dialogueTypes.js'
+import type { NPCFullData, DialogueChoice as NPCDialogueChoice } from '@/data/npcs/dialogueTypes.js'
 import { MAREN_NPC }  from '@/data/npcs/maren.js'
 import { VAEL_NPC }   from '@/data/npcs/vael.js'
 import { SILAS_NPC }  from '@/data/npcs/silas.js'
@@ -167,8 +167,8 @@ export class DialogueSystem implements ISystem {
       if (c.requiresInsight !== undefined) {
         isAvailable = isAvailable && state.player.insight >= c.requiresInsight
       }
-      if (c.requiresQuestFlag) {
-        isAvailable = isAvailable && state.worldFlags.has(c.requiresQuestFlag)
+      if (c.worldFlagRequired) {
+        isAvailable = isAvailable && state.worldFlags.has(c.worldFlagRequired)
       }
       if (c.requiresSealedInsight) {
         isAvailable = isAvailable && state.player.sealedInsights.has(c.requiresSealedInsight as InsightCardId)

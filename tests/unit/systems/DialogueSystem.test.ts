@@ -63,6 +63,19 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     isPaused: false,
     saveVersion: 1,
     worldFlags: new Set<string>(),
+    activePanel: 'none',
+    endingId: null,
+    nightDangerLevel: 0,
+    pendingVisions: [],
+    priorPhase: null,
+    lighthouseLitThisLoop: false,
+    settings: {
+      masterVolume: 1,
+      ambientVolume: 0.6,
+      uiVolume: 0.8,
+      narrativeVolume: 1,
+      locale: 'en',
+    },
     ...overrides,
   }
 }
