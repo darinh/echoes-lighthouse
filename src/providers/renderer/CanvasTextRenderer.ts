@@ -818,7 +818,9 @@ export class CanvasTextRenderer implements IRenderer {
     this.setFont(14, 'bold')
     ctx.fillStyle = this.colors.accent
     ctx.textAlign = 'left'
-    ctx.fillText(dlg.npcId.toUpperCase(), x, y + 16)
+    const rawDisplayName = this.t(`npc.${dlg.npcId}.name`)
+    const speakerName = (rawDisplayName === `npc.${dlg.npcId}.name`) ? dlg.npcId : rawDisplayName
+    ctx.fillText(speakerName.toUpperCase(), x, y + 16)
 
     ctx.fillStyle = this.colors.borderBright
     ctx.fillRect(x, y + 24, w, 1)
@@ -1079,8 +1081,10 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.96)'
     ctx.fillRect(0, 0, width, height)
 
-    const title = this.t(`vision.${visionId}.title`)
-    const text = this.t(`vision.${visionId}.text`)
+    const titleKey = `vision.${visionId}.title`
+    const textKey = `vision.${visionId}.text`
+    const title = this.t(titleKey) === titleKey ? 'A vision stirs…' : this.t(titleKey)
+    const text = this.t(textKey) === textKey ? 'Something ancient brushes against your memory, shapeless and fleeting.' : this.t(textKey)
 
     ctx.globalAlpha = fadeIn
 

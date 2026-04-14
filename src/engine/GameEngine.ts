@@ -87,6 +87,11 @@ export class GameEngine {
           const wasDiscovered = this.state.player.discoveredLocations.has(action.target)
           this.state = { ...this.movement.moveTo(this.state, action.target), lastExaminedKey: null }
           this.applyEvent('location.moved', {})
+          // Transition to death immediately when stamina is depleted by this move
+          if (this.state.player.stamina === 0) {
+            this.state = { ...this.state, phase: 'death', deathCause: 'death.stamina_depleted' }
+            break
+          }
           if (!wasDiscovered) {
             const exploreEntry: IJournalEntry = {
               id: `discover.${action.target}`,
@@ -155,6 +160,13 @@ export class GameEngine {
 
       case 'pause.toggle':
         this.state = { ...this.state, isPaused: !this.state.isPaused }
+        break
+
+      case 'panel.toggle':
+        this.state = {
+          ...this.state,
+          activePanel: this.state.activePanel === action.panel ? 'none' : action.panel,
+        }
         break
 
       case 'insight.bank':
