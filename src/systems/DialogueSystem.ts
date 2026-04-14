@@ -119,6 +119,15 @@ export class DialogueSystem implements ISystem {
       this.eventBus.emit('quest.started', { questId: choice.questTrigger })
     }
 
+    if (choice.questStart) {
+      if (!newState.activeQuests.has(choice.questStart) && !newState.completedQuests.has(choice.questStart)) {
+        const newQuests = new Set(newState.activeQuests)
+        newQuests.add(choice.questStart)
+        newState = { ...newState, activeQuests: newQuests }
+        this.eventBus.emit('quest.started', { questId: choice.questStart })
+      }
+    }
+
     this.eventBus.emit('npc.dialogue.choice.made', { npcId, choiceId })
 
     if (choice.nextNodeId) {
