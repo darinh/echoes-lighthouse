@@ -62,7 +62,23 @@
   "vision": {
     "loop5": "You see the lighthouse as it was. Full of light. Full of people. They were not afraid then.",
     "loop10": "A Keeper — not you — walks toward the mechanism room. She does not come back out.",
-    "loop15": "The thing beneath the island has a face. You have seen it before. In your reflection."
+    "loop15": "The thing beneath the island has a face. You have seen it before. In your reflection.",
+    "vael_whisper": {
+      "title": "◈  VISION: THE LIGHTHOUSE'S PURPOSE  ◈",
+      "text": "The lighthouse does not guide ships. It keeps something contained. The beam does not reach outward — it holds inward. Every night you turn the light on, you are not saving sailors. You are renewing a lock. You have been turning the key without knowing what lies behind the door."
+    },
+    "keeper_memory": {
+      "title": "◈  VISION: THE KEEPER'S BARGAIN  ◈",
+      "text": "A memory not your own: the previous Keeper standing at the mechanism room at midnight. Something old and patient waited in the dark below, its patience measured in centuries. The Keeper spoke words they did not fully understand, in a language older than the island. The mechanism accepted the bargain. What the Keeper paid came due much later, and all at once."
+    },
+    "island_truth": {
+      "title": "◈  VISION: THE DRIFTING ISLE  ◈",
+      "text": "The island has moved. It appears on no maps because it chooses who finds it. Ships do not navigate to it — the island navigates to them, drifting unseen between one chart and the next. You were not lucky to wash ashore. You were selected. The question left unasked is: selected by whom, and for what purpose."
+    },
+    "threshold_call": {
+      "title": "◈  VISION: THE DOOR BELOW  ◈",
+      "text": "The mechanism beneath the lighthouse is a door. It has been waiting. Not for the right key or the correct keeper — it has been waiting for someone willing. The question was never whether the door opens. The door opens. The question is what you choose to do when it does, and what comes through in the moment of your choosing."
+    }
   },
   "codex": {
     "history_01": {
@@ -470,32 +486,49 @@
   },
   "insight": {
     "vael_origin": {
+      "name": "The Vael's True Nature",
       "title": "The Vael's True Nature",
       "desc": "Not a monster. An ancient intelligence, wrongly imprisoned within the mechanism a century ago by keepers who feared what they did not understand."
     },
     "mechanism_purpose": {
+      "name": "The Lighthouse Mechanism",
       "title": "The Mechanism's Purpose",
       "desc": "The lighthouse does not merely guide ships. The mechanism beneath it is a binding engine — it exists to trap, not illuminate."
     },
     "light_source_truth": {
+      "name": "The Light's Source",
       "title": "The Light's Source",
       "desc": "The lighthouse burns on no oil, no gas. It feeds on something else entirely. The lens inscription names it: 'borrowed life.'"
     },
     "keeper_betrayal": {
+      "name": "The Keeper's Pact",
       "title": "The Keeper's Fate",
       "desc": "The previous Keeper discovered the truth and tried to leave. They never reached the mainland. The last log entry is dated three weeks before anyone reported them missing."
     },
     "spirit_binding": {
+      "name": "Bonds of the Old Covenant",
       "title": "The Binding Ritual",
       "desc": "The runes in the mechanism room are not decorative. They are a cage. Whoever conducted the original binding knew exactly what they were doing — and chose to do it anyway."
     },
     "island_history": {
+      "name": "The Drifting Isle",
       "title": "What This Island Was",
       "desc": "Before the lighthouse, before the village, there was a place of convergence. The Vael was not summoned here — it was born here. The island was built around it."
     },
     "final_signal": {
+      "name": "The Final Transmission",
       "title": "The Final Transmission",
       "desc": "On the night the mechanism fails completely, the lighthouse sends one last signal. Not to ships. To something much further away. You have seen it. You cannot unsee it."
+    },
+    "light_covenant": {
+      "name": "The Light's Promise",
+      "title": "The Light's Promise",
+      "desc": "The lighthouse's light is not a beacon — it is a covenant renewed each night. Break the covenant once and the island remembers. Break it twice and something older than memory takes notice."
+    },
+    "warden_truth": {
+      "name": "The Warden's Secret",
+      "title": "The Warden's Secret",
+      "desc": "There is a Warden beneath the island. Not the Vael — something that predates it. The Vael is not the prisoner. The Vael is the guard. And the guard has grown tired."
     }
   }
 }
