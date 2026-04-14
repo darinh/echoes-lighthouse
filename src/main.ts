@@ -3,7 +3,7 @@ import { InputHandler } from '@/engine/InputHandler.js'
 import { I18nService } from '@/i18n/index.js'
 import { SynthAudioProvider } from '@/providers/audio/SynthAudioProvider.js'
 import { CanvasTextRenderer } from '@/providers/renderer/CanvasTextRenderer.js'
-import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, SaveSystem } from '@/systems/index.js'
+import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, SaveSystem, AudioFeedbackSystem } from '@/systems/index.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
 
 async function boot(): Promise<void> {
@@ -34,6 +34,7 @@ async function boot(): Promise<void> {
   engine.registerSystem(new QuestSystem(eventBus))
   engine.registerSystem(new MoralWeightSystem(eventBus))
   engine.registerSystem(new DialogueSystem(eventBus))
+  engine.registerSystem(new AudioFeedbackSystem(audio, eventBus))
 
   setProgress(80, 'Preparing world...')
   const canvas = document.getElementById('game-canvas') as HTMLCanvasElement
@@ -50,14 +51,6 @@ async function boot(): Promise<void> {
   // Wire InputHandler (keyboard + first-click audio unlock)
   const input = new InputHandler(canvas, eventBus)
   input.init(action => engine.handleAction(action))
-
-  // Wire event bus -> audio
-  eventBus.on('insight.gained',   () => audio.play('insight.gained'))
-  eventBus.on('insight.banked',   () => audio.play('insight.banked'))
-  eventBus.on('lighthouse.lit',   () => audio.play('lighthouse.lit'))
-  eventBus.on('player.died',      () => audio.play('player.died'))
-  eventBus.on('loop.started',     () => audio.play('loop.started'))
-  eventBus.on('ending.triggered', () => audio.play('ending.reached'))
 
   setProgress(100, 'Ready.')
   await engine.start(canvas)
