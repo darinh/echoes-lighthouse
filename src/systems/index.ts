@@ -2,6 +2,8 @@ export { KnowledgeSystem } from './KnowledgeSystem.js'
 export { QuestSystem } from './QuestSystem.js'
 export { MoralWeightSystem } from './MoralWeightSystem.js'
 export { LoopSystem } from './LoopSystem.js'
+export { DialogueSystem } from './DialogueSystem.js'
+
 export { ResonanceSystem } from './ResonanceSystem.js'
 export { InsightBankingSystem } from './InsightBankingSystem.js'
 export { StaminaSystem } from './StaminaSystem.js'
