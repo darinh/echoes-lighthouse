@@ -7,7 +7,7 @@ import type { ISystem, IGameState, IGameEvent, IEventBus } from '@/interfaces/in
 export class MoralWeightSystem implements ISystem {
   readonly name = 'MoralWeightSystem'
 
-  constructor(private readonly _eventBus: IEventBus) {}
+  constructor(_eventBus: IEventBus) {}
 
   init(state: IGameState): IGameState { return state }
   update(state: IGameState, _deltaMs: number): IGameState { return state }

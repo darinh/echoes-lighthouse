@@ -47,7 +47,7 @@ export class GameEngine {
 
     // Wire up event bus → state updates from events
     this.eventBus.on('audio.unlock', () => {
-      this.audio.unlock()
+      this._audio.unlock()
     })
 
     this.running = true
