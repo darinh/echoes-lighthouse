@@ -29,6 +29,10 @@ export type GameEventType =
   | 'npc.attitude.changed'
   | 'npc.trust.gained'
   | 'npc.trust.lost'
+  // Dialogue lifecycle
+  | 'dialogue.start'
+  | 'dialogue.choice.selected'
+  | 'dialogue.close'
   | 'npc.tier.unlocked'
   // World
   | 'location.entered'
@@ -49,6 +53,7 @@ export type GameEventType =
   // Lantern
   | 'lantern.refilled'
   | 'lighthouse.lit'
+  | 'ending.triggered'
   // Time
   | 'time.tick'
   // Moral
@@ -58,13 +63,20 @@ export type GameEventType =
   | 'game.loaded'
   | 'audio.unlock'
   | 'locale.changed'
+  | 'audio.volume.changed'
+  | 'save.requested'
+  | 'save.cleared'
+  | 'panel.opened'
+  | 'panel.closed'
   | 'renderer.resized'
-  | 'lighthouse.lit'
   | 'loop.dawn'
   | 'night.danger.escalate'
-  | 'ending.triggered'
   | 'vision.started'
   | 'vision.completed'
+
+| 'lighthouse.lit'
+  | 'loop.dawn'
+  | 'ending.triggered'
   | 'save.requested'
   | 'save.cleared'
 

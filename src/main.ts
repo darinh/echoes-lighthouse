@@ -62,6 +62,14 @@ async function boot(): Promise<void> {
   const input = new InputHandler(canvas, eventBus)
   input.init(action => engine.handleAction(action))
 
+  // Wire event bus -> audio
+  eventBus.on('insight.gained',   () => audio.play('insight.gained'))
+  eventBus.on('insight.banked',   () => audio.play('insight.banked'))
+  eventBus.on('lighthouse.lit',   () => audio.play('lighthouse.lit'))
+  eventBus.on('player.died',      () => audio.play('player.died'))
+  eventBus.on('loop.started',     () => audio.play('loop.started'))
+  eventBus.on('ending.triggered', () => audio.play('ending.reached'))
+
   setProgress(100, 'Ready.')
   await engine.start(canvas)
 
