@@ -348,6 +348,20 @@ export class SynthAudioProvider implements IAudioProvider {
 
     switch (soundId) {
 
+      case 'examine.completed': {
+        // Short rising two-tone chime — insight discovery
+        const e1 = this.buildOscSound(523, 784, 120, 'sine', 0.18, 5, 60, 0.1, 150, 280, 'ui')
+        const e2 = this.buildOscSound(1047, null, 0, 'sine', 0.1, 5, 60, 0.1, 150, 200, 'ui', 80)
+        return [...e1, ...e2]
+      }
+
+      case 'lighthouse.top': {
+        // High sustained tone — arrival at the peak
+        const lt1 = this.buildOscSound(1320, null, 0, 'sine', 0.15, 200, 400, 0.6, 800, 2000, 'ui')
+        const lt2 = this.buildOscSound(1980, null, 0, 'sine', 0.06, 200, 400, 0.5, 800, 1800, 'ui', 100)
+        return [...lt1, ...lt2]
+      }
+
       case 'button.hover':
         return this.buildOscSound(800, 600, 10, 'sine', 0.1, 2, 30, 0, 20, 50, 'ui')
 
