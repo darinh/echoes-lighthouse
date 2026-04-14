@@ -259,10 +259,30 @@ export class GameEngine {
         // eslint-disable-next-line no-case-declarations -- needed for static call
         { SaveSystem.saveState(this.state); break }
 
+      case 'save.clear':
+        // Confirm flow is handled in the renderer; engine no-ops on first click.
+        break
+
       case 'save.clear.confirmed':
         SaveSystem.clearSave()
         this.state = createInitialState()
         break
+
+      case 'setting.volume': {
+        const { key, value } = action
+        this.state = {
+          ...this.state,
+          settings: { ...this.state.settings, [key]: value },
+        }
+        const categoryMap: Record<typeof key, import('@/interfaces/types.js').AudioCategory> = {
+          masterVolume:    'master',
+          ambientVolume:   'ambient',
+          uiVolume:        'ui',
+          narrativeVolume: 'narrative',
+        }
+        this._audio.setVolume(categoryMap[key], value)
+        break
+      }
 
       case 'night.hide': {
         if (Math.random() < 0.5) {

@@ -1401,6 +1401,15 @@ export class CanvasTextRenderer implements IRenderer {
     const my = e.clientY - rect.top
     for (const region of this.clickRegions) {
       if (mx >= region.x && mx <= region.x + region.w && my >= region.y && my <= region.y + region.h) {
+        if (region.action.type === 'save.clear') {
+          if (this._clearSaveConfirmPending) {
+            this._clearSaveConfirmPending = false
+            this.onAction({ type: 'save.clear.confirmed' })
+          } else {
+            this._clearSaveConfirmPending = true
+          }
+          return
+        }
         this.onAction(region.action)
         return
       }
@@ -1808,75 +1817,161 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = this.colors.borderDim
     ctx.fillRect(panelX + m, hY + 8, panelW - m * 2, 1)
 
-    const mapStartY = hY + 28
+    // ── Node positions (x/y as fractions of map content area) ────────────────
+    type LocId = import('@/interfaces/types.js').LocationId
+    const NODE_POS: Record<LocId, { x: number; y: number }> = {
+      lighthouse_top:    { x: 0.50, y: 0.04 },
+      lighthouse_base:   { x: 0.50, y: 0.15 },
+      mechanism_room:    { x: 0.28, y: 0.25 },
+      cliffside:         { x: 0.23, y: 0.15 },
+      tidal_caves:       { x: 0.08, y: 0.25 },
+      keepers_cottage:   { x: 0.72, y: 0.25 },
+      village_square:    { x: 0.72, y: 0.40 },
+      village_inn:       { x: 0.55, y: 0.54 },
+      harbor:            { x: 0.72, y: 0.54 },
+      chapel:            { x: 0.88, y: 0.54 },
+      forest_path:       { x: 0.72, y: 0.68 },
+      mill:              { x: 0.88, y: 0.68 },
+      ruins:             { x: 0.72, y: 0.82 },
+      archive_basement:  { x: 0.72, y: 0.94 },
+    }
+
+    // Edges (bidirectional)
+    const EDGES: ReadonlyArray<[LocId, LocId]> = [
+      ['lighthouse_top',   'lighthouse_base'],
+      ['lighthouse_base',  'mechanism_room'],
+      ['lighthouse_base',  'keepers_cottage'],
+      ['lighthouse_base',  'cliffside'],
+      ['cliffside',        'tidal_caves'],
+      ['keepers_cottage',  'village_square'],
+      ['village_square',   'village_inn'],
+      ['village_square',   'harbor'],
+      ['village_square',   'chapel'],
+      ['harbor',           'forest_path'],
+      ['forest_path',      'mill'],
+      ['forest_path',      'ruins'],
+      ['ruins',            'archive_basement'],
+    ]
+
+    // Map content area (leave 26px at bottom for legend + footer)
+    const legendH = 36
     const mapX = panelX + m
-    ctx.font = `${Math.round(this.basePx * 1.45)}px monospace`
-    ctx.textAlign = 'left'
-    const lh = Math.round(this.basePx * 1.8)
+    const mapY = hY + 24
+    const mapW = panelW - m * 2
+    const mapH = panelH - (mapY - panelY) - legendH - 20
 
     const discovered = state.player.discoveredLocations
     const cur = state.player.currentLocation
 
-    const locLabel = (id: import('@/interfaces/types.js').LocationId, short: string): string => {
-      if (cur === id) return `►${short}◄`
-      if (discovered.has(id)) return `[${short}]`
-      return '[????]'
-    }
-    const locColor = (id: import('@/interfaces/types.js').LocationId): string => {
-      if (cur === id) return this.colors.accentWarm
-      if (discovered.has(id)) return this.colors.textPrimary
-      return this.colors.textFaint
-    }
+    // Resolve pixel coords
+    const px = (fx: number): number => mapX + Math.round(fx * mapW)
+    const py = (fy: number): number => mapY + Math.round(fy * mapH)
 
-    type MapLine = { text: string; locations: Array<{ id: import('@/interfaces/types.js').LocationId; label: string }> }
-    const mapLines: MapLine[] = [
-      { text: '           N ↑', locations: [] },
-      { text: '', locations: [] },
-      { text: `  LH──────────CL`, locations: [
-        { id: 'lighthouse_base', label: 'LH' },
-        { id: 'cliffside', label: 'CL' },
-      ]},
-      { text: `  │                │`, locations: [] },
-      { text: `  │            HARBOUR`, locations: [{ id: 'harbor', label: 'HARBOUR' }] },
-      { text: `  RU──VIL──────────┤`, locations: [
-        { id: 'ruins', label: 'RU' },
-        { id: 'village_square', label: 'VIL' },
-      ]},
-      { text: `      │  ╲         PIER`, locations: [] },
-      { text: `  FORGE CHAPEL APOTH`, locations: [] },
-      { text: '', locations: [] },
-      { text: `  COTTAGE──VIL (via path)`, locations: [{ id: 'keepers_cottage', label: 'COTTAGE' }] },
-      { text: `  ARCHIVE ← via lighthouse`, locations: [{ id: 'archive_basement', label: 'ARCHIVE' }] },
-      { text: `  TIDAL CAVES ← via harbour`, locations: [{ id: 'tidal_caves', label: 'TIDAL CAVES' }] },
-    ]
+    // ── Draw edges ────────────────────────────────────────────────────────────
+    ctx.strokeStyle = this.colors.borderDim
+    ctx.lineWidth = 1
+    for (const [a, b] of EDGES) {
+      ctx.beginPath()
+      ctx.moveTo(px(NODE_POS[a].x), py(NODE_POS[a].y))
+      ctx.lineTo(px(NODE_POS[b].x), py(NODE_POS[b].y))
+      ctx.stroke()
+    }
+    ctx.lineWidth = 1
 
-    let ly = mapStartY
-    for (const line of mapLines) {
-      if (line.locations.length === 0) {
-        ctx.fillStyle = this.colors.textDim
-        ctx.fillText(line.text, mapX, ly + lh * 0.8)
+    // ── Draw nodes ────────────────────────────────────────────────────────────
+    const NODE_R = 6
+    const CUR_R  = 10
+    const allLocIds = Object.keys(NODE_POS) as LocId[]
+
+    for (const id of allLocIds) {
+      const np = NODE_POS[id]
+      const nx = px(np.x)
+      const ny = py(np.y)
+      const isCurrent    = cur === id
+      const isDiscovered = discovered.has(id)
+
+      if (isCurrent) {
+        // Outer accent ring
+        ctx.strokeStyle = this.colors.accent
+        ctx.lineWidth = 2
+        ctx.beginPath()
+        ctx.arc(nx, ny, CUR_R, 0, Math.PI * 2)
+        ctx.stroke()
+        ctx.lineWidth = 1
+        // Filled core
+        ctx.fillStyle = this.colors.accentWarm
+        ctx.beginPath()
+        ctx.arc(nx, ny, NODE_R, 0, Math.PI * 2)
+        ctx.fill()
+      } else if (isDiscovered) {
+        ctx.fillStyle = this.colors.textPrimary
+        ctx.beginPath()
+        ctx.arc(nx, ny, NODE_R, 0, Math.PI * 2)
+        ctx.fill()
       } else {
-        ctx.fillStyle = this.colors.textDim
-        ctx.fillText(line.text, mapX, ly + lh * 0.8)
-        for (const loc of line.locations) {
-          const idx = line.text.indexOf(loc.label)
-          if (idx >= 0) {
-            const before = line.text.slice(0, idx)
-            const bW = ctx.measureText(before).width
-            ctx.fillStyle = locColor(loc.id)
-            ctx.fillText(locLabel(loc.id, loc.label), mapX + bW, ly + lh * 0.8)
-          }
-        }
+        // Unknown — dim dot
+        ctx.fillStyle = this.colors.textFaint
+        ctx.beginPath()
+        ctx.arc(nx, ny, 3, 0, Math.PI * 2)
+        ctx.fill()
       }
-      ly += lh
+
+      // Label (discovered or current only)
+      if (isDiscovered || isCurrent) {
+        const label = id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+        this.setFont(8)
+        ctx.fillStyle = isCurrent ? this.colors.accentWarm : this.colors.textDim
+        ctx.textAlign = 'center'
+        ctx.fillText(label, nx, ny + CUR_R + 10)
+      }
     }
 
-    const footerY = panelY + panelH - 20
-    this.setFont(10)
-    ctx.fillStyle = this.colors.textDim
+    // ── Legend ────────────────────────────────────────────────────────────────
+    const legendY = panelY + panelH - legendH
+    ctx.fillStyle = this.colors.borderDim
+    ctx.fillRect(panelX + m, legendY, panelW - m * 2, 1)
+
+    this.setFont(9)
     ctx.textAlign = 'left'
+    const lx = panelX + m
+
+    // Discovered dot
+    ctx.fillStyle = this.colors.textPrimary
+    ctx.beginPath()
+    ctx.arc(lx + 6, legendY + 14, 5, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = this.colors.textDim
+    ctx.fillText('discovered', lx + 16, legendY + 18)
+
+    // Current ring
+    ctx.strokeStyle = this.colors.accent
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.arc(lx + 110, legendY + 14, 7, 0, Math.PI * 2)
+    ctx.stroke()
+    ctx.fillStyle = this.colors.accentWarm
+    ctx.beginPath()
+    ctx.arc(lx + 110, legendY + 14, 4, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.lineWidth = 1
+    ctx.fillStyle = this.colors.textDim
+    ctx.fillText('current', lx + 122, legendY + 18)
+
+    // Unknown dot
+    ctx.fillStyle = this.colors.textFaint
+    ctx.beginPath()
+    ctx.arc(lx + 192, legendY + 14, 2, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = this.colors.textDim
+    ctx.fillText('unknown', lx + 200, legendY + 18)
+
+    // Footer
+    const footerY = panelY + panelH - 8
+    this.setFont(9)
+    ctx.fillStyle = this.colors.textFaint
+    ctx.textAlign = 'right'
     const phaseName = state.phase.replace('_', ' ').toUpperCase()
-    ctx.fillText(`Phase: ${phaseName}  ·  Time: ${Math.round(state.dayTimeRemaining * 100)}%`, panelX + m, footerY)
+    ctx.fillText(`${phaseName}  ·  ${Math.round(state.dayTimeRemaining * 100)}% day remaining`, panelX + panelW - m, footerY)
   }
 
   private renderSettings(state: IGameState): void {
@@ -1905,53 +2000,74 @@ export class CanvasTextRenderer implements IRenderer {
     this.setFont(10)
     ctx.fillStyle = this.colors.textDim
     ctx.textAlign = 'right'
-    ctx.fillText('[Esc] close', panelX + panelW - m, hY)
+    ctx.fillText('[S] close', panelX + panelW - m, hY)
 
     ctx.fillStyle = this.colors.borderDim
     ctx.fillRect(panelX + m, hY + 8, panelW - m * 2, 1)
 
     let y = hY + 28
     const contentX = panelX + m
-    const sliderW = 120
-    const rowH = Math.round(this.basePx * 2.4)
+    const rowH = Math.round(this.basePx * 2.6)
+    const SEGS = 10
+    const segGap = 2
+    const segTotalW = Math.min(200, Math.round((panelW - m * 2) * 0.45))
+    const segW = Math.round((segTotalW - segGap * (SEGS - 1)) / SEGS)
+    const segH = 14
+    const labelW = 140
 
+    // ── AUDIO section ─────────────────────────────────────────────────────────
     this.setFont(10, 'bold')
     ctx.fillStyle = this.colors.textDim
     ctx.textAlign = 'left'
     ctx.fillText('AUDIO', contentX, y + 14)
     y += 24
 
-    const volumes: Array<{ label: string; key: 'masterVolume' | 'ambientVolume' | 'uiVolume' | 'narrativeVolume' }> = [
+    const volumes: Array<{
+      label: string
+      key: 'masterVolume' | 'ambientVolume' | 'uiVolume' | 'narrativeVolume'
+    }> = [
       { label: 'Master Volume', key: 'masterVolume' },
-      { label: 'Ambient', key: 'ambientVolume' },
-      { label: 'UI Sounds', key: 'uiVolume' },
-      { label: 'Narrative', key: 'narrativeVolume' },
+      { label: 'Ambient',       key: 'ambientVolume' },
+      { label: 'UI Sounds',     key: 'uiVolume' },
+      { label: 'Narrative',     key: 'narrativeVolume' },
     ]
 
     for (const vol of volumes) {
       const value = state.settings[vol.key]
-      const pct = Math.round(value * 100)
-      const labelW = 130
+      const filledSegs = Math.round(value * SEGS)
 
       this.setFont(11)
       ctx.fillStyle = this.colors.textPrimary
       ctx.textAlign = 'left'
-      ctx.fillText(vol.label, contentX, y + 14)
+      ctx.fillText(vol.label, contentX, y + segH)
 
       const sx = contentX + labelW
-      ctx.fillStyle = this.colors.borderDim
-      ctx.fillRect(sx, y + 6, sliderW, 10)
-      ctx.fillStyle = this.colors.accent
-      ctx.fillRect(sx, y + 6, Math.round(sliderW * value), 10)
+      for (let i = 0; i < SEGS; i++) {
+        const segX = sx + i * (segW + segGap)
+        const segY = y + 2
+        ctx.fillStyle = i < filledSegs ? this.colors.accent : this.colors.borderDim
+        ctx.fillRect(segX, segY, segW, segH)
+        // Clickable region: each segment sets volume to (i+1)/SEGS
+        const segValue = (i + 1) / SEGS
+        this.addClickRegion(segX, segY, segW, segH, {
+          type: 'setting.volume',
+          key: vol.key,
+          value: segValue,
+        }, `${vol.label} ${Math.round(segValue * 100)}%`)
+      }
 
+      const pct = Math.round(value * 100)
+      this.setFont(10)
       ctx.fillStyle = this.colors.textDim
-      ctx.fillText(`${pct}%`, sx + sliderW + 8, y + 14)
+      ctx.textAlign = 'left'
+      ctx.fillText(`${pct}%`, sx + segTotalW + 8, y + segH)
 
       y += rowH
     }
 
     y += 12
 
+    // ── DISPLAY section ───────────────────────────────────────────────────────
     this.setFont(10, 'bold')
     ctx.fillStyle = this.colors.textDim
     ctx.textAlign = 'left'
@@ -1960,11 +2076,12 @@ export class CanvasTextRenderer implements IRenderer {
 
     this.setFont(11)
     ctx.fillStyle = this.colors.textPrimary
-    ctx.fillText(`Language`, contentX, y + 14)
+    ctx.fillText('Language', contentX, y + 14)
     ctx.fillStyle = this.colors.textDim
-    ctx.fillText(`[${state.settings.locale} ▾]`, contentX + 130, y + 14)
+    ctx.fillText(`[${state.settings.locale} ▾]`, contentX + labelW, y + 14)
     y += rowH + 12
 
+    // ── DATA section ──────────────────────────────────────────────────────────
     this.setFont(10, 'bold')
     ctx.fillStyle = this.colors.textDim
     ctx.textAlign = 'left'
@@ -1975,12 +2092,19 @@ export class CanvasTextRenderer implements IRenderer {
     const btnH = 32
 
     this.renderActionButton(contentX, y, btnW, btnH, 'SAVE NOW', this.colors.safe)
-    this.addClickRegion(contentX, y, btnW, btnH, { type: 'save.now' } as unknown as GameAction, 'Save Now')
+    this.addClickRegion(contentX, y, btnW, btnH, { type: 'save.now' }, 'Save Now')
 
     const clearLabel = this._clearSaveConfirmPending ? 'CONFIRM?' : 'CLEAR SAVE'
     const clearColor = this._clearSaveConfirmPending ? this.colors.danger : this.colors.textDim
     this.renderActionButton(contentX + btnW + 16, y, btnW, btnH, clearLabel, clearColor)
-    this.addClickRegion(contentX + btnW + 16, y, btnW, btnH, { type: 'save.clear' } as unknown as GameAction, 'Clear Save')
+    this.addClickRegion(contentX + btnW + 16, y, btnW, btnH, { type: 'save.clear' }, 'Clear Save')
+
+    if (this._clearSaveConfirmPending) {
+      this.setFont(9)
+      ctx.fillStyle = this.colors.danger
+      ctx.textAlign = 'left'
+      ctx.fillText('Press again to confirm — this cannot be undone', contentX, y + btnH + 16)
+    }
   }
 
   private updateAriaLabel(state: IGameState): void {
