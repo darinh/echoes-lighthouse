@@ -1,5 +1,4 @@
-import type { IGameState, IPlayerState, INPCState } from '@/interfaces/index.js'
-import type { NPCId } from '@/interfaces/index.js'
+import type { IGameState, IPlayerState, INPCState, NPCId, LocationId } from '@/interfaces/index.js'
 
 const DEFAULT_RESONANCE = Object.fromEntries([
   'maren','vael','silas','petra','tobias','elara','corvin',
@@ -12,6 +11,15 @@ const DEFAULT_ARCHIVE_MASTERY = {
   ecology: 0, alchemy: 0, cartography: 0, linguistics: 0,
 }
 
+const NPC_START_LOCATIONS: Partial<Record<NPCId, LocationId>> = {
+  maren:  'keepers_cottage',
+  vael:   'cliffside',
+  silas:  'harbor',
+  petra:  'ruins',
+  tobias: 'mill',
+  elara:  'harbor',
+}
+
 const DEFAULT_NPC_STATES: Record<NPCId, INPCState> = Object.fromEntries(
   (Object.keys(DEFAULT_RESONANCE) as NPCId[]).map(id => [id, {
     id,
@@ -21,7 +29,7 @@ const DEFAULT_NPC_STATES: Record<NPCId, INPCState> = Object.fromEntries(
     revealedFacts: new Set<string>(),
     lastInteractionLoop: 0,
     attitude: 'neutral' as const,
-    currentLocation: null,
+    currentLocation: NPC_START_LOCATIONS[id] ?? null,
   }])
 ) as unknown as Record<NPCId, INPCState>
 

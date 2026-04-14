@@ -29,6 +29,66 @@
         "tier2": "I saw what happened to the last three. I stayed quiet.",
         "tier3": "There are things in this harbour older than the lighthouse."
       }
+    },
+    "petra": {
+      "name": "Petra",
+      "title": "The Apothecary",
+      "greeting": {
+        "tier0": "The herbs don't grow right here. Nothing does.",
+        "tier1": "Three patients this week with the same symptoms. They all dream of the lighthouse.",
+        "tier2": "The sickness isn't spreading. It's remembering.",
+        "tier3": "I've been cataloguing the symptoms across loops. You wouldn't believe how consistent they are."
+      }
+    },
+    "tobias": {
+      "name": "Tobias",
+      "title": "The Blacksmith",
+      "greeting": {
+        "tier0": "Busy. Come back later.",
+        "tier1": "Someone's been ordering custom ironwork. Won't say what for.",
+        "tier2": "Found old blueprints in the bottom of a new order. They match the mechanism room.",
+        "tier3": "Whoever built the original mechanism — they knew it would need to be remade. They left instructions."
+      }
+    },
+    "elara": {
+      "name": "Elara",
+      "title": "Fisherman's Daughter",
+      "greeting": {
+        "tier0": "I don't talk to strangers.",
+        "tier1": "My father went to the tidal caves three weeks ago. He hasn't come back.",
+        "tier2": "I've been watching her. The one who walks into the sea. She feeds from the beam.",
+        "tier3": "My father knew about Vael. He left me a note. I think he knew he wouldn't return."
+      }
+    },
+    "petra": {
+      "name": "Petra",
+      "title": "The Apothecary",
+      "greeting": {
+        "tier0": "The herbs don't grow right here. Nothing does.",
+        "tier1": "Three patients this week with the same symptoms. They all dream of the lighthouse.",
+        "tier2": "The sickness isn't spreading. It's remembering.",
+        "tier3": "I've been cataloguing the symptoms across loops. You wouldn't believe how consistent they are."
+      }
+    },
+    "tobias": {
+      "name": "Tobias",
+      "title": "The Blacksmith",
+      "greeting": {
+        "tier0": "Busy. Come back later.",
+        "tier1": "Someone's been ordering custom ironwork. Won't say what for.",
+        "tier2": "Found old blueprints in the bottom of a new order. They match the mechanism room.",
+        "tier3": "Whoever built the original mechanism — they knew it would need to be remade. They left instructions."
+      }
+    },
+    "elara": {
+      "name": "Elara",
+      "title": "Fisherman's Daughter",
+      "greeting": {
+        "tier0": "I don't talk to strangers.",
+        "tier1": "My father went to the tidal caves three weeks ago. He hasn't come back.",
+        "tier2": "I've been watching her. The one who walks into the sea. She feeds from the beam.",
+        "tier3": "My father knew about Vael. He left me a note. I think he knew he wouldn't return."
+      }
     }
   },
   "choice": {

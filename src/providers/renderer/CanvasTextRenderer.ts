@@ -1,5 +1,5 @@
 import type { IRenderer, RenderContext } from '@/interfaces/index.js'
-import type { IGameState } from '@/interfaces/index.js'
+import type { IGameState, INPCState, NPCId } from '@/interfaces/index.js'
 import type { GameAction } from '@/engine/InputHandler.js'
 import { getAdjacentLocations } from '@/data/locations/phase1Locations.js'
 
@@ -274,33 +274,39 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = this.colors.textPrimary
     this.wrapText(this.locationDesc(locId), x, y + 50, w, 18)
 
-    if (locId === 'keepers_cottage') {
-      this.renderNPCPresence(state, x, y + 130, w)
-    }
+    this.renderNPCPresence(state, x, y + 130, w)
   }
 
   private renderNPCPresence(state: IGameState, x: number, y: number, _w: number): void {
     const { ctx } = this
+    const locId = state.player.currentLocation
+    const present: Array<[string, INPCState]> = Object.entries(state.npcStates).filter(
+      ([, ns]) => ns.currentLocation === locId && ns.isAlive
+    ) as Array<[string, INPCState]>
+    if (present.length === 0) return
+
     this.setFont(11)
     ctx.fillStyle = this.colors.textDim
     ctx.textAlign = 'left'
     ctx.fillText('PRESENT', x, y)
 
-    const npcY = y + 20
-    ctx.fillStyle = this.colors.bgHighlight
-    ctx.fillRect(x, npcY, 180, 36)
-    ctx.strokeStyle = this.colors.borderDim
-    ctx.strokeRect(x, npcY, 180, 36)
+    present.forEach(([npcId, ns], i) => {
+      const npcY = y + 20 + i * 44
+      ctx.fillStyle = this.colors.bgHighlight
+      ctx.fillRect(x, npcY, 180, 36)
+      ctx.strokeStyle = this.colors.borderDim
+      ctx.strokeRect(x, npcY, 180, 36)
 
-    this.setFont(12)
-    ctx.fillStyle = this.colors.textPrimary
-    ctx.textAlign = 'left'
-    ctx.fillText('Maren  ·  Archivist', x + 10, npcY + 15)
-    this.setFont(9)
-    ctx.fillStyle = this.colors.textDim
-    ctx.fillText(`resonance ${state.player.resonance.maren ?? 0}  ·  tier ${state.npcStates.maren?.dialogueTier ?? 0}`, x + 10, npcY + 28)
+      this.setFont(12)
+      ctx.fillStyle = this.colors.textPrimary
+      ctx.textAlign = 'left'
+      ctx.fillText(npcId, x + 10, npcY + 15)
+      this.setFont(9)
+      ctx.fillStyle = this.colors.textDim
+      ctx.fillText(`resonance ${state.player.resonance[npcId as keyof typeof state.player.resonance] ?? 0}  ·  tier ${ns.dialogueTier}`, x + 10, npcY + 28)
 
-    this.addClickRegion(x, npcY, 180, 36, { type: 'interact', npcId: 'maren' }, 'Talk to Maren')
+      this.addClickRegion(x, npcY, 180, 36, { type: 'interact', npcId: npcId as NPCId }, `Talk to ${npcId}`)
+    })
   }
 
   private renderActionPanel(state: IGameState, x: number, y: number, w: number, h: number): void {

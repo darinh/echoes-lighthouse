@@ -13,6 +13,8 @@ export const MAREN_NPC = {
   nameKey: 'npc.maren.name',
   titleKey: 'npc.maren.title',
   defaultLocation: 'keepers_cottage',
+  defaultAttitude: 'neutral' as const,
+  schedule: {} as const,
 
   /** Resonance threshold needed to unlock each dialogue tier. */
   tierThresholds: [0, 3, 7, 15, 25, 40, 60, 80, 100, 130, 170] as const,
