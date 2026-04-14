@@ -1,7 +1,15 @@
 {
   "name": "echoes-lighthouse",
-  "version": "0.1.0",
-  "description": "Echoes of the Lighthouse — narrative mystery roguelite",
+  "version": "1.0.0",
+  "description": "Echoes of the Lighthouse \u2014 A narrative mystery roguelite",
+  "homepage": "https://darinh.github.io/echoes-lighthouse",
+  "keywords": [
+    "game",
+    "narrative",
+    "roguelite",
+    "lighthouse",
+    "mystery"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,7 +19,8 @@
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage --passWithNoTests",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "build:single": "vite build && node scripts/bundle-single-file.mjs"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
