@@ -63,6 +63,10 @@ export class GameEngine {
     return this.state
   }
 
+  loadState(state: IGameState): void {
+    this.state = state
+  }
+
   /**
    * Handle a player action. Actions come from InputHandler (keyboard/click)
    * or from rendered canvas hit-regions.
