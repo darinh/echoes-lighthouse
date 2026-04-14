@@ -95,7 +95,7 @@ export class GameEngine {
       case 'move':
         if (this.movement) {
           const wasDiscovered = this.state.player.discoveredLocations.has(action.target)
-          this.state = this.movement.moveTo(this.state, action.target)
+          this.state = { ...this.movement.moveTo(this.state, action.target), lastExaminedKey: null }
           if (!wasDiscovered) {
             const exploreEntry: IJournalEntry = {
               id: `discover.${action.target}`,
@@ -133,6 +133,7 @@ export class GameEngine {
         this.state = {
           ...this.state,
           worldFlags: newFlags,
+          lastExaminedKey: item.textKey,
           player: {
             ...this.state.player,
             journalEntries: [...this.state.player.journalEntries, examineEntry],

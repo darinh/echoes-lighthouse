@@ -98,6 +98,7 @@ export interface IGameState {
   readonly worldFlags: ReadonlySet<string>
   readonly saveVersion: number
   readonly endingId: string | null
+  readonly lastExaminedKey: string | null
   readonly nightDangerLevel: number
   readonly pendingVisions: ReadonlyArray<string>
   readonly priorPhase: GamePhase | null

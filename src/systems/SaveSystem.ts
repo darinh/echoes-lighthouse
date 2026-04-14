@@ -194,6 +194,7 @@ export class SaveSystem implements ISystem {
       activePanel: 'none',
       worldFlags: new Set<string>(),
       endingId: null,
+      lastExaminedKey: null,
       nightDangerLevel: 0,
       pendingVisions: [],
       priorPhase: null,

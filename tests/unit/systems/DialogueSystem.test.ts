@@ -66,6 +66,7 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     worldFlags: new Set<string>(),
     activePanel: 'none',
     endingId: null,
+    lastExaminedKey: null,
     nightDangerLevel: 0,
     pendingVisions: [],
     priorPhase: null,
