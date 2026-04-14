@@ -1,4 +1,4 @@
-import type { IRenderer, RenderContext } from '@/interfaces/index.js'
+import type { IRenderer, RenderContext, II18n } from '@/interfaces/index.js'
 import type { IGameState, INPCState, NPCId } from '@/interfaces/index.js'
 import type { GameAction } from '@/engine/InputHandler.js'
 import { getAdjacentLocations } from '@/data/locations/phase1Locations.js'
@@ -30,6 +30,10 @@ export class CanvasTextRenderer implements IRenderer {
   private _clearSaveConfirmPending = false
   private _currentActivePanel: string = 'none'
   private _visionFrame = 0
+  private _i18n: II18n | null = null
+
+  setI18n(i18n: II18n): void { this._i18n = i18n }
+  private t(key: string): string { return this._i18n ? this._i18n.t(key) : key }
 
   private readonly colors = {
     bg:           '#0a0a0f',
@@ -522,7 +526,7 @@ export class CanvasTextRenderer implements IRenderer {
 
     this.setFont(13)
     ctx.fillStyle = this.colors.textPrimary
-    this.wrapText(`[${dlg.speakerTextKey}]`, x, y + 48, w, 20)
+    this.wrapText(this.t(dlg.speakerTextKey), x, y + 48, w, 20)
 
     let choiceY = y + 110
     for (const choice of dlg.availableChoices) {
@@ -532,7 +536,7 @@ export class CanvasTextRenderer implements IRenderer {
       this.setFont(11)
       ctx.fillStyle = choice.isAvailable ? this.colors.textPrimary : this.colors.textFaint
       ctx.textAlign = 'left'
-      ctx.fillText(`▷  [${choice.textKey}]`, x + 12, choiceY + 14)
+      ctx.fillText(`▷  ${this.t(choice.textKey)}`, x + 12, choiceY + 14)
       if (choice.isAvailable) {
         this.addClickRegion(x, choiceY, w, btnH, { type: 'dialogue.choice', choiceId: choice.id }, choice.textKey)
       }
