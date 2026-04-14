@@ -23,6 +23,13 @@ export type GameEventType =
   | 'npc.dialogue.closed'
   | 'npc.resonance.changed'
   | 'npc.attitude.changed'
+  | 'npc.trust.gained'
+  | 'npc.trust.lost'
+  // Dialogue lifecycle
+  | 'dialogue.start'
+  | 'dialogue.choice.selected'
+  | 'dialogue.close'
+  | 'npc.tier.unlocked'
   // World
   | 'location.entered'
   | 'location.discovered'
@@ -33,6 +40,12 @@ export type GameEventType =
   | 'phase.changed'
   | 'player.died'
   | 'day.timer.warning'  // 20% time remaining
+  // Lantern
+  | 'lantern.refilled'
+  | 'lighthouse.lit'
+  | 'ending.triggered'
+  // Time
+  | 'time.tick'
   // Moral
   | 'moral.choice.made'
   // System
@@ -40,7 +53,16 @@ export type GameEventType =
   | 'game.loaded'
   | 'audio.unlock'
   | 'locale.changed'
+  | 'audio.volume.changed'
+  | 'save.requested'
+  | 'save.cleared'
+  | 'panel.opened'
+  | 'panel.closed'
   | 'renderer.resized'
+  | 'loop.dawn'
+  | 'night.danger.escalate'
+  | 'vision.started'
+  | 'vision.completed'
 
 export interface IGameEvent<T extends Record<string, unknown> = Record<string, unknown>> {
   readonly type: GameEventType
