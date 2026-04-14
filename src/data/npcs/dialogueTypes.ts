@@ -1,37 +1,36 @@
-export interface DialogueChoice {
-  id: string
-  textKey: string
-  nextNodeId?: string
-  insightGain?: number
-  trustGain?: number
-  trustLoss?: number
-  moralWeight?: number
-  requiresTier?: number
-  requiresInsight?: number
-  requiresSealedInsight?: string
-  requiresArchiveDomain?: string | { domain: string; level: number }
-  worldFlagSet?: string
-  worldFlagRequired?: string
-  questTrigger?: string
+import type { ArchiveDomain, InsightCardId } from '@/interfaces/types.js'
+
+export interface NPCDialogueChoice {
+  readonly id: string
+  readonly textKey: string
+  readonly nextNodeId?: string
+  readonly requiresInsight?: number
+  readonly requiresTier?: number
+  readonly requiresArchiveDomain?: { domain: ArchiveDomain; level: number }
+  readonly requiresSealedInsight?: InsightCardId
+  readonly requiresQuestFlag?: string
+  readonly insightGain?: number
+  readonly trustGain?: number
+  readonly trustLoss?: number
+  readonly moralWeight?: number
+  readonly questTrigger?: string
+  readonly worldFlagSet?: string
+  readonly emitEvent?: string
 }
 
-export interface DialogueNode {
-  speakerKey: string
-  choices: DialogueChoice[]
-}
-
-export interface NPCSchedule {
-  [phase: string]: string
+export interface NPCDialogueNode {
+  readonly speakerKey: string
+  readonly choices: ReadonlyArray<NPCDialogueChoice>
 }
 
 export interface NPCFullData {
-  id: string
-  nameKey: string
-  titleKey: string
-  defaultLocation: string
-  defaultAttitude: string
-  schedule: NPCSchedule
-  tierThresholds: number[]
-  greetingNodes: string[]
-  nodes: Record<string, DialogueNode>
+  readonly id: string
+  readonly nameKey: string
+  readonly titleKey: string
+  readonly defaultLocation: string
+  readonly defaultAttitude: string
+  readonly schedule: Record<string, string>
+  readonly tierThresholds: ReadonlyArray<number>
+  readonly greetingNodes: ReadonlyArray<string>
+  readonly nodes: Readonly<Record<string, NPCDialogueNode>>
 }

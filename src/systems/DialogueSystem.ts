@@ -1,187 +1,237 @@
-import type { ISystem } from '@/interfaces/ISystem.js'
-import type { IGameState, IDialogueState, IDialogueChoice } from '@/interfaces/IGameState.js'
-import type { IGameEvent, IEventBus } from '@/interfaces/IEventBus.js'
-import type { NPCId, InsightCardId } from '@/interfaces/types.js'
-import type { NPCFullData, DialogueChoice as NPCDialogueChoice } from '@/data/npcs/dialogueTypes.js'
-import { MAREN_NPC }  from '@/data/npcs/maren.js'
-import { VAEL_NPC }   from '@/data/npcs/vael.js'
-import { SILAS_NPC }  from '@/data/npcs/silas.js'
-import { PETRA_NPC }  from '@/data/npcs/petra.js'
+import type { ISystem, IEventBus } from '@/interfaces/index.js'
+import type { IGameState, IDialogueChoice } from '@/interfaces/IGameState.js'
+import type { IGameEvent } from '@/interfaces/IEventBus.js'
+import type { NPCId } from '@/interfaces/types.js'
+import type { NPCFullData, NPCDialogueChoice } from '@/data/npcs/dialogueTypes.js'
+import { MAREN_NPC } from '@/data/npcs/maren.js'
+import { VAEL_NPC } from '@/data/npcs/vael.js'
+import { SILAS_NPC } from '@/data/npcs/silas.js'
+import { PETRA_NPC } from '@/data/npcs/petra.js'
 import { TOBIAS_NPC } from '@/data/npcs/tobias.js'
-import { ELARA_NPC }  from '@/data/npcs/elara.js'
+import { ELARA_NPC } from '@/data/npcs/elara.js'
 
-const NPC_REGISTRY: Record<string, NPCFullData> = {
-  maren:  MAREN_NPC  as unknown as NPCFullData,
-  vael:   VAEL_NPC   as unknown as NPCFullData,
-  silas:  SILAS_NPC  as unknown as NPCFullData,
-  petra:  PETRA_NPC  as unknown as NPCFullData,
-  tobias: TOBIAS_NPC as unknown as NPCFullData,
-  elara:  ELARA_NPC  as unknown as NPCFullData,
-}
-
-/**
- * DialogueSystem — Manages NPC dialogue: opening, choice selection, closing.
- * See docs/gdd/06-quest-dialogue.md for the full dialogue specification.
- */
 export class DialogueSystem implements ISystem {
   readonly name = 'DialogueSystem'
+  private readonly npcRegistry: Partial<Record<NPCId, NPCFullData>>
 
-  constructor(private readonly eventBus: IEventBus) {}
+  constructor(private readonly eventBus: IEventBus) {
+    this.npcRegistry = {
+      maren: MAREN_NPC,
+      vael: VAEL_NPC,
+      silas: SILAS_NPC,
+      petra: PETRA_NPC,
+      tobias: TOBIAS_NPC,
+      elara: ELARA_NPC,
+    }
+  }
 
-  init(state: IGameState): IGameState { return state }
+  init(state: IGameState): IGameState {
+    return state
+  }
 
-  update(state: IGameState, _deltaMs: number): IGameState { return state }
+  update(state: IGameState, _deltaMs: number): IGameState {
+    return state
+  }
 
   onEvent(event: IGameEvent, state: IGameState): IGameState {
     switch (event.type) {
-      case 'dialogue.start':           return this.handleDialogueStart(event, state)
-      case 'dialogue.choice.selected': return this.handleChoiceSelected(event, state)
-      case 'dialogue.close':           return this.handleDialogueClose(event, state)
-      default: return state
+      case 'dialogue.start':
+        return this.handleDialogueStart(event.payload as { npcId: NPCId }, state)
+      case 'dialogue.choice.selected':
+        return this.handleChoiceSelected(event.payload as { choiceId: string }, state)
+      case 'dialogue.close':
+        return { ...state, activeDialogue: null }
+      default:
+        return state
     }
   }
 
-  // ─── Handlers ────────────────────────────────────────────────────────────
-
-  private handleDialogueStart(event: IGameEvent, state: IGameState): IGameState {
-    const { npcId } = event.payload as { npcId: NPCId }
-    const npc = NPC_REGISTRY[npcId]
-    if (!npc) return state
+  private handleDialogueStart({ npcId }: { npcId: NPCId }, state: IGameState): IGameState {
+    const npcData = this.npcRegistry[npcId]
+    if (!npcData) return state
 
     const npcState = state.npcStates[npcId]
-    const tier = npcState?.dialogueTier ?? 0
-    const greetingNodeId = npc.greetingNodes[Math.min(tier, npc.greetingNodes.length - 1)]
-    const node = npc.nodes[greetingNodeId]
+    if (!npcState) return state
+
+    const tier = npcState.dialogueTier
+    const greetingNodeId = npcData.greetingNodes[Math.min(tier, npcData.greetingNodes.length - 1)]
+    const node = npcData.nodes[greetingNodeId]
     if (!node) return state
 
-    const availableChoices = this.buildChoices(node.choices, npcId, state)
-    const dialogueState: IDialogueState = {
-      npcId,
-      currentNodeId: greetingNodeId,
-      speakerTextKey: node.speakerKey,
-      availableChoices,
-      isActive: true,
+    const resolvedChoices = this.resolveChoices(node.choices, state, npcId)
+
+    const isFirstTime = !npcState.revealedFacts.has(greetingNodeId)
+    const updatedRevealedFacts = isFirstTime
+      ? new Set([...npcState.revealedFacts, greetingNodeId])
+      : npcState.revealedFacts
+
+    let newState: IGameState = {
+      ...state,
+      npcStates: {
+        ...state.npcStates,
+        [npcId]: { ...npcState, revealedFacts: updatedRevealedFacts },
+      },
+      activeDialogue: {
+        npcId,
+        currentNodeId: greetingNodeId,
+        speakerTextKey: node.speakerKey,
+        availableChoices: resolvedChoices,
+        isActive: true,
+      },
     }
 
     this.eventBus.emit('npc.dialogue.opened', { npcId })
-    return { ...state, activeDialogue: dialogueState }
+
+    if (isFirstTime) {
+      newState = {
+        ...newState,
+        player: { ...newState.player, insight: newState.player.insight + 3 },
+      }
+      this.eventBus.emit('insight.gained', { amount: 3 })
+    }
+
+    return newState
   }
 
-  private handleChoiceSelected(event: IGameEvent, state: IGameState): IGameState {
-    const { choiceId } = event.payload as { choiceId: string }
+  private handleChoiceSelected({ choiceId }: { choiceId: string }, state: IGameState): IGameState {
     if (!state.activeDialogue) return state
 
     const { npcId, currentNodeId } = state.activeDialogue
-    const npc = NPC_REGISTRY[npcId]
-    if (!npc) return state
+    const npcData = this.npcRegistry[npcId]
+    if (!npcData) return state
 
-    const node = npc.nodes[currentNodeId]
+    const node = npcData.nodes[currentNodeId]
     if (!node) return state
 
-    const choice = node.choices.find(c => c.id === choiceId)
+    const choice = node.choices.find((c: NPCDialogueChoice) => c.id === choiceId)
     if (!choice) return state
 
-    let newState = state
+    const npcState = state.npcStates[npcId]
+    let player = { ...state.player }
+    let worldFlags = state.worldFlags
+    const updatedRevealedFacts = new Set([...(npcState?.revealedFacts ?? []), choiceId])
 
     if (choice.insightGain) {
-      newState = {
-        ...newState,
-        player: { ...newState.player, insight: Math.min(999, newState.player.insight + choice.insightGain) },
-      }
+      player = { ...player, insight: player.insight + choice.insightGain }
       this.eventBus.emit('insight.gained', { amount: choice.insightGain })
     }
 
     if (choice.trustGain) {
-      const newTrust = { ...newState.player.trust, [npcId]: (newState.player.trust[npcId] ?? 0) + choice.trustGain }
-      newState = { ...newState, player: { ...newState.player, trust: newTrust } }
+      const currentTrust = player.trust[npcId] ?? 0
+      player = {
+        ...player,
+        trust: { ...player.trust, [npcId]: currentTrust + choice.trustGain },
+      }
       this.eventBus.emit('npc.trust.gained', { npcId, amount: choice.trustGain })
     }
 
     if (choice.trustLoss) {
-      const newTrust = {
-        ...newState.player.trust,
-        [npcId]: Math.max(0, (newState.player.trust[npcId] ?? 0) - choice.trustLoss),
+      const currentTrust = player.trust[npcId] ?? 0
+      player = {
+        ...player,
+        trust: { ...player.trust, [npcId]: currentTrust - choice.trustLoss },
       }
-      newState = { ...newState, player: { ...newState.player, trust: newTrust } }
       this.eventBus.emit('npc.trust.lost', { npcId, amount: choice.trustLoss })
     }
 
+    if (choice.moralWeight) {
+      player = { ...player, moralWeight: player.moralWeight + choice.moralWeight }
+      this.eventBus.emit('moral.choice.made', { weight: choice.moralWeight })
+    }
+
     if (choice.worldFlagSet) {
-      const newFlags = new Set(newState.worldFlags)
-      newFlags.add(choice.worldFlagSet)
-      newState = { ...newState, worldFlags: newFlags }
+      worldFlags = new Set([...worldFlags, choice.worldFlagSet])
     }
 
     if (choice.questTrigger) {
-      const newQuests = new Set(newState.activeQuests)
-      newQuests.add(choice.questTrigger)
-      newState = { ...newState, activeQuests: newQuests }
       this.eventBus.emit('quest.started', { questId: choice.questTrigger })
     }
 
-    this.eventBus.emit('npc.dialogue.choice.made', { npcId, choiceId })
+    this.eventBus.emit('npc.dialogue.choice.made', {
+      npcId,
+      choiceId,
+      nodeId: currentNodeId,
+    })
+
+    let newState: IGameState = {
+      ...state,
+      player,
+      worldFlags,
+      npcStates: {
+        ...state.npcStates,
+        [npcId]: { ...npcState, revealedFacts: updatedRevealedFacts },
+      },
+    }
 
     if (choice.nextNodeId) {
-      const nextNode = npc.nodes[choice.nextNodeId]
+      const nextNode = npcData.nodes[choice.nextNodeId]
       if (nextNode) {
-        const availableChoices = this.buildChoices(nextNode.choices, npcId, newState)
-        return {
+        const nextChoices = this.resolveChoices(nextNode.choices, newState, npcId)
+        newState = {
           ...newState,
           activeDialogue: {
             npcId,
             currentNodeId: choice.nextNodeId,
             speakerTextKey: nextNode.speakerKey,
-            availableChoices,
+            availableChoices: nextChoices,
             isActive: true,
           },
         }
+      } else {
+        newState = { ...newState, activeDialogue: null }
+        this.eventBus.emit('npc.dialogue.closed', { npcId })
       }
+    } else {
+      newState = { ...newState, activeDialogue: null }
+      this.eventBus.emit('npc.dialogue.closed', { npcId })
     }
 
-    // No nextNodeId or missing node → close dialogue
-    this.eventBus.emit('npc.dialogue.closed', { npcId })
-    return { ...newState, activeDialogue: null }
+    return newState
   }
 
-  private handleDialogueClose(_event: IGameEvent, state: IGameState): IGameState {
-    const npcId = state.activeDialogue?.npcId
-    this.eventBus.emit('npc.dialogue.closed', { npcId: npcId ?? '' })
-    return { ...state, activeDialogue: null }
-  }
-
-  // ─── Helpers ─────────────────────────────────────────────────────────────
-
-  private buildChoices(
-    choices: readonly NPCDialogueChoice[],
-    npcId: NPCId,
+  private resolveChoices(
+    choices: ReadonlyArray<NPCDialogueChoice>,
     state: IGameState,
+    npcId: NPCId,
   ): IDialogueChoice[] {
-    const npcState = state.npcStates[npcId]
-
-    return choices.map(c => {
+    return choices.map((choice: NPCDialogueChoice) => {
       let isAvailable = true
 
-      if (c.requiresTier !== undefined) {
-        isAvailable = isAvailable && (npcState?.dialogueTier ?? 0) >= c.requiresTier
+      if (choice.requiresInsight !== undefined) {
+        const total = state.player.insight + state.player.insightBanked
+        if (total < choice.requiresInsight) isAvailable = false
       }
-      if (c.requiresInsight !== undefined) {
-        isAvailable = isAvailable && state.player.insight >= c.requiresInsight
+
+      if (choice.requiresTier !== undefined) {
+        if ((state.npcStates[npcId]?.dialogueTier ?? 0) < choice.requiresTier) isAvailable = false
       }
-      if (c.worldFlagRequired) {
-        isAvailable = isAvailable && state.worldFlags.has(c.worldFlagRequired)
+
+      if (choice.requiresArchiveDomain !== undefined) {
+        const { domain, level } = choice.requiresArchiveDomain
+        const pages = (state.player.archiveMastery as Record<string, number>)[domain] ?? 0
+        if (this.archiveMasteryLevel(pages) < level) isAvailable = false
       }
-      if (c.requiresSealedInsight) {
-        isAvailable = isAvailable && state.player.sealedInsights.has(c.requiresSealedInsight as InsightCardId)
+
+      if (choice.requiresSealedInsight !== undefined) {
+        if (!state.player.sealedInsights.has(choice.requiresSealedInsight)) isAvailable = false
+      }
+
+      if (choice.requiresQuestFlag !== undefined) {
+        if (!state.worldFlags.has(choice.requiresQuestFlag)) isAvailable = false
       }
 
       return {
-        id: c.id,
-        textKey: c.textKey,
-        requiresInsight: c.requiresInsight,
-        requiresResonance: c.requiresTier,
-        requiresSealedInsight: c.requiresSealedInsight as InsightCardId | undefined,
+        id: choice.id,
+        textKey: choice.textKey,
         isAvailable,
-      } satisfies IDialogueChoice
+      }
     })
+  }
+
+  private archiveMasteryLevel(pages: number): number {
+    if (pages >= 10) return 3
+    if (pages >= 6) return 2
+    if (pages >= 3) return 1
+    return 0
   }
 }
