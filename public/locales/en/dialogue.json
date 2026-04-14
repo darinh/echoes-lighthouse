@@ -32,6 +32,11 @@
     }
   },
   "choice": {
+    "ask_lighthouse":  "Tell me about the lighthouse.",
+    "ask_archive":     "What does the archive hold?",
+    "ask_keeper":      "What happened to the previous Keeper?",
+    "ask_echo":        "I've seen echoes here. You know what they are.",
+    "leave":           "I should go.",
     "ask_about":       "Ask about {subject}",
     "press_harder":    "Press harder",
     "let_it_go":       "Let it go",
