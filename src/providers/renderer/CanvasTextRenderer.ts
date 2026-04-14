@@ -71,15 +71,15 @@ export class CanvasTextRenderer implements IRenderer {
   }
 
   private get basePx(): number {
-    return Math.max(10, Math.min(this.width, this.height) / 38)
+    return Math.max(10, Math.min(Math.min(this.width, this.height) / 38, 22))
   }
 
   private get layout() {
-    const m = Math.round(this.basePx * 1.2)
+    const m = Math.round(this.basePx * 1.5)
     return {
-      hudHeight:    this.isPortrait ? Math.round(this.basePx * 5)   : Math.round(this.basePx * 5.5),
+      hudHeight:    this.isPortrait ? this.lh(11) * 5   : this.lh(11) * 5.5,
       actionWidth:  this.isPortrait ? 1.0  : 0.22,
-      actionHeight: this.isPortrait ? Math.round(this.basePx * 14) : 0,
+      actionHeight: this.isPortrait ? this.lh(11) * 7 : 0,
       margin: m,
     }
   }
@@ -413,48 +413,48 @@ export class CanvasTextRenderer implements IRenderer {
     this.setFont(16, 'bold')
     ctx.fillStyle = this.colors.accent
     ctx.textAlign = 'left'
-    ctx.fillText(this.locationName(locId), x, y + 20)
+    ctx.fillText(this.locationName(locId), x, y + this.lh(16))
 
     ctx.fillStyle = this.colors.borderDim
-    ctx.fillRect(x, y + 28, w, 1)
+    ctx.fillRect(x, y + this.lh(16) + 4, w, 1)
 
     // If an examine was just triggered, show its flavor text prominently
     if (state.lastExaminedKey) {
       this.setFont(11)
       ctx.fillStyle = this.colors.accentGold
       ctx.textAlign = 'left'
-      ctx.fillText('◈ DISCOVERY', x, y + 52)
+      ctx.fillText('◈ DISCOVERY', x, y + this.lh(16) + this.lh(11) + 4)
 
       ctx.fillStyle = this.colors.borderBright
-      ctx.fillRect(x, y + 62, w, 1)
+      ctx.fillRect(x, y + this.lh(16) + this.lh(11) * 2 + 4, w, 1)
 
       this.setFont(12)
       ctx.fillStyle = this.colors.textPrimary
       const examineText = this.t(state.lastExaminedKey)
-      this.wrapText(examineText, x, y + 74, w, 20)
+      this.wrapText(examineText, x, y + this.lh(16) + this.lh(11) * 2 + this.lh(12), w, this.lh(12))
 
       ctx.fillStyle = this.colors.borderDim
-      ctx.fillRect(x, y + 148, w, 1)
+      ctx.fillRect(x, y + this.lh(16) + this.lh(11) * 2 + this.lh(12) * 5, w, 1)
 
       this.setFont(10)
       ctx.fillStyle = this.colors.textFaint
       ctx.textAlign = 'left'
-      ctx.fillText('(move to continue)', x, y + 158)
+      ctx.fillText('(move to continue)', x, y + this.lh(16) + this.lh(11) * 2 + this.lh(12) * 5 + this.lh(10))
     } else {
       this.setFont(12)
       ctx.fillStyle = this.colors.textPrimary
-      this.wrapText(this.locationDesc(locId), x, y + 50, w, 18)
+      this.wrapText(this.locationDesc(locId), x, y + this.lh(16) * 2, w, this.lh(12))
     }
 
-    const contentOffsetY = state.lastExaminedKey ? 175 : 130
+    const contentOffsetY = state.lastExaminedKey ? this.lh(16) + this.lh(11) * 2 + this.lh(12) * 6 + this.lh(10) : this.lh(16) * 5
     const npcH = this.renderNPCPresence(state, x, y + contentOffsetY, w)
     const examineH = this.renderExamineItems(state, x, y + contentOffsetY + npcH, w)
 
     if (state.player.currentLocation === 'archive_basement') {
-      this.renderArchiveDesk(state, x, y + 130 + npcH + examineH, w)
+      this.renderArchiveDesk(state, x, y + this.lh(16) * 5 + npcH + examineH, w)
     }
 
-    this.renderTutorialHints(state, x, y + h - 72, w)
+    this.renderTutorialHints(state, x, y + h - this.lh(11) * 4, w)
   }
 
   private renderNPCPresence(state: IGameState, x: number, y: number, _w: number): number {
@@ -820,16 +820,16 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.textAlign = 'left'
     const rawDisplayName = this.t(`npc.${dlg.npcId}.name`)
     const speakerName = (rawDisplayName === `npc.${dlg.npcId}.name`) ? dlg.npcId : rawDisplayName
-    ctx.fillText(speakerName.toUpperCase(), x, y + 16)
+    ctx.fillText(speakerName.toUpperCase(), x, y + this.lh(14))
 
     ctx.fillStyle = this.colors.borderBright
-    ctx.fillRect(x, y + 24, w, 1)
+    ctx.fillRect(x, y + this.lh(14) + 6, w, 1)
 
     this.setFont(13)
     ctx.fillStyle = this.colors.textPrimary
-    this.wrapText(this.t(dlg.speakerTextKey), x, y + 48, w, 20)
+    this.wrapText(this.t(dlg.speakerTextKey), x, y + this.lh(14) + this.lh(13) + 6, w, this.lh(13))
 
-    let choiceY = y + 110
+    let choiceY = y + this.lh(14) + this.lh(13) * 4 + 6
     for (const choice of dlg.availableChoices) {
       const btnH = 32
       ctx.fillStyle = choice.isAvailable ? this.colors.bgHighlight : this.colors.bgPanel
@@ -889,25 +889,25 @@ export class CanvasTextRenderer implements IRenderer {
     this.setFont(14, 'bold')
     ctx.fillStyle = this.colors.accent
     ctx.textAlign = 'center'
-    ctx.fillText("VAEL'S REST — NIGHT", cx, contentY + 20)
+    ctx.fillText("VAEL'S REST — NIGHT", cx, contentY + this.lh(14))
 
     this.setFont(11)
     ctx.fillStyle = this.colors.accentGold
-    ctx.fillText('◉  Lighthouse Lit', cx, contentY + 44)
+    ctx.fillText('◉  Lighthouse Lit', cx, contentY + this.lh(14) + this.lh(11))
 
     this.setFont(12)
     ctx.fillStyle = this.colors.textPrimary
-    ctx.fillText('The beacon turns slowly. The waters are quiet.', cx, contentY + 76)
+    ctx.fillText('The beacon turns slowly. The waters are quiet.', cx, contentY + this.lh(14) + this.lh(11) + this.lh(12) * 2)
     ctx.fillStyle = this.colors.textDim
-    ctx.fillText('Something moves beneath the surface — but keeps its distance.', cx, contentY + 96)
+    ctx.fillText('Something moves beneath the surface — but keeps its distance.', cx, contentY + this.lh(14) + this.lh(11) + this.lh(12) * 3)
 
-    const barY = contentY + 128
+    const barY = contentY + this.lh(14) + this.lh(11) + this.lh(12) * 4 + 4
     this.setFont(10)
     ctx.fillStyle = this.colors.textDim
     ctx.textAlign = 'center'
     ctx.fillText(`◈ ${state.player.insight} INSIGHT  ·  STA ${state.player.stamina}%  ·  LGT ${state.player.lightReserves}%`, cx, barY)
 
-    const btnY = contentY + 160
+    const btnY = contentY + this.lh(14) + this.lh(11) + this.lh(12) * 5 + 4
     const btnW = Math.min(180, width * 0.3)
     const gap = 20
     const totalW = btnW * 2 + gap
@@ -941,14 +941,14 @@ export class CanvasTextRenderer implements IRenderer {
 
     this.setFont(12)
     ctx.fillStyle = this.colors.textPrimary
-    ctx.fillText('The darkness is complete. The lighthouse is cold.', cx, contentY + 32)
+    ctx.fillText('The darkness is complete. The lighthouse is cold.', cx, contentY + this.lh(14) + this.lh(12))
     ctx.fillStyle = this.colors.textDim
-    ctx.fillText('Something stirs beneath the water.', cx, contentY + 54)
+    ctx.fillText('Something stirs beneath the water.', cx, contentY + this.lh(14) + this.lh(12) * 2)
 
     const dangerFrac = state.nightDangerLevel / 100
     const barW = Math.min(300, width * 0.5)
     const barX = cx - barW / 2
-    const barY = contentY + 80
+    const barY = contentY + this.lh(14) + this.lh(12) * 3 + 4
 
     this.setFont(9)
     ctx.fillStyle = this.colors.danger
@@ -1048,8 +1048,8 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = this.colors.textPrimary
     let lineY = height * 0.38
     for (const line of vision.lines) {
-      this.wrapText(line, cx - Math.min(300, width * 0.4), lineY, Math.min(600, width * 0.8), 22)
-      lineY += 28
+      this.wrapText(line, cx - Math.min(300, width * 0.4), lineY, Math.min(600, width * 0.8), this.lh(12))
+      lineY += this.lh(12)
     }
 
     if (this._visionFrame > 60) {
@@ -1102,7 +1102,7 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = '#e8dfc0'
     const textX = cx - Math.min(280, width * 0.38)
     const textW = Math.min(560, width * 0.76)
-    this.wrapText(text, textX, height * 0.36, textW, 22)
+    this.wrapText(text, textX, height * 0.36, textW, this.lh(12))
 
     // Dismiss prompt — appears after brief fade
     if (this._visionFrame > 60) {
@@ -1140,13 +1140,13 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = this.colors.textFaint
     ctx.textAlign = 'center'
     ctx.fillText(`Loop #${state.player.loopCount}`, cx, y)
-    y += 28
+    y += this.lh(10)
 
     // Death title
     this.setFont(18, 'bold')
     ctx.fillStyle = this.colors.danger
     ctx.fillText(this.t('death.title'), cx, y)
-    y += 36
+    y += this.lh(18)
 
     // Cause of death
     if (state.deathCause) {
@@ -1154,13 +1154,13 @@ export class CanvasTextRenderer implements IRenderer {
       ctx.fillStyle = this.colors.textPrimary
       ctx.font = `italic ${ctx.font}`
       ctx.fillText(this.t(state.deathCause), cx, y)
-      y += 28
+      y += this.lh(12)
     }
 
     // Divider
     ctx.fillStyle = this.colors.borderDim
     ctx.fillRect(panelX + m * 2, y, panelW - m * 4, 1)
-    y += 20
+    y += this.lh(10)
 
     // Last journal memory
     const lastEntry = state.player.journalEntries[state.player.journalEntries.length - 1]
@@ -1169,19 +1169,19 @@ export class CanvasTextRenderer implements IRenderer {
       ctx.fillStyle = this.colors.textFaint
       ctx.textAlign = 'center'
       ctx.fillText('LAST MEMORY', cx, y)
-      y += 16
+      y += this.lh(9)
       this.setFont(10)
       ctx.fillStyle = this.colors.textDim
       ctx.font = `italic ${ctx.font}`
       const memoryText = this.t(lastEntry.textKey)
-      this.wrapText(memoryText.length > 160 ? memoryText.slice(0, 157) + '…' : memoryText, panelX + m, y, panelW - m * 2, 16)
-      y += 48
+      this.wrapText(memoryText.length > 160 ? memoryText.slice(0, 157) + '…' : memoryText, panelX + m, y, panelW - m * 2, this.lh(10))
+      y += this.lh(10) * 3
     }
 
     // Divider
     ctx.fillStyle = this.colors.borderDim
     ctx.fillRect(panelX + m * 2, y, panelW - m * 4, 1)
-    y += 20
+    y += this.lh(10)
 
     // Tagline
     this.setFont(11)
@@ -1189,7 +1189,7 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.textAlign = 'center'
     ctx.font = `italic ${ctx.font}`
     ctx.fillText(this.t('death.tagline'), cx, y)
-    y += 40
+    y += this.lh(11) * 2
 
     // Restart prompt
     const btnW = Math.min(200, panelW - m * 4)
@@ -1237,14 +1237,14 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.lineWidth = 1
     ctx.strokeRect(panelX, panelY, panelW, height - m * 4)
 
-    const titleSectionH = 70
+    const titleSectionH = this.lh(20) + this.lh(11)
     ctx.fillStyle = this.colors.borderDim
     ctx.fillRect(panelX, panelY + titleSectionH, panelW, 1)
 
     this.setFont(20, 'bold')
     ctx.fillStyle = this.colors.accentGold
     ctx.textAlign = 'center'
-    ctx.fillText(title, cx, panelY + 36)
+    ctx.fillText(title, cx, panelY + this.lh(20))
 
     panelY += titleSectionH + 14
 
@@ -1253,10 +1253,10 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = this.colors.textPrimary
     ctx.textAlign = 'left'
     let textY = panelY + 8
-    this.wrapText(bodyText, panelX + m, textY, panelW - m * 2, 18)
+    this.wrapText(bodyText, panelX + m, textY, panelW - m * 2, this.lh(11))
     // Estimate lines for spacing (rough: 60 chars per line)
     const estimatedLines = Math.ceil(bodyText.length / 60)
-    textY += estimatedLines * 20 + 16
+    textY += estimatedLines * this.lh(11) + this.lh(11)
 
     const statsY = textY + 8
     ctx.fillStyle = this.colors.borderDim
@@ -1265,16 +1265,16 @@ export class CanvasTextRenderer implements IRenderer {
     this.setFont(9)
     ctx.fillStyle = this.colors.textDim
     ctx.textAlign = 'left'
-    ctx.fillText('JOURNAL COMPLETION', panelX + m, statsY + 12)
+    ctx.fillText('JOURNAL COMPLETION', panelX + m, statsY + this.lh(9))
     this.setFont(16, 'bold')
     ctx.fillStyle = this.colors.accentGold
-    ctx.fillText(`${journalPct}%`, panelX + m, statsY + 32)
+    ctx.fillText(`${journalPct}%`, panelX + m, statsY + this.lh(9) + this.lh(16))
 
     this.setFont(10)
     ctx.fillStyle = this.colors.textDim
-    ctx.fillText(`Completed in ${state.player.loopCount} loop${state.player.loopCount !== 1 ? 's' : ''}   ·   Moral weight: ${state.player.moralWeight}`, panelX + m, statsY + 54)
+    ctx.fillText(`Completed in ${state.player.loopCount} loop${state.player.loopCount !== 1 ? 's' : ''}   ·   Moral weight: ${state.player.moralWeight}`, panelX + m, statsY + this.lh(9) + this.lh(16) + this.lh(10))
 
-    const btnY = statsY + 76
+    const btnY = statsY + this.lh(9) + this.lh(16) + this.lh(10) + this.lh(10)
     const btnW = Math.min(140, (panelW - m * 3) / 2)
     ctx.fillStyle = this.colors.borderDim
     ctx.fillRect(panelX, btnY - 12, panelW, 1)
@@ -1409,6 +1409,11 @@ export class CanvasTextRenderer implements IRenderer {
   private setFont(size: number, weight = ''): void {
     const scaled = Math.round(size * this.basePx / 11)
     this.ctx.font = `${weight ? weight + ' ' : ''}${scaled}px monospace`
+  }
+
+  /** Returns the actual pixel line height for a given font size step. */
+  private lh(size: number, multiplier = 1.4): number {
+    return Math.round(size * this.basePx / 11 * multiplier)
   }
 
   private addClickRegion(x: number, y: number, w: number, h: number, action: GameAction, label: string): void {
@@ -1601,7 +1606,7 @@ export class CanvasTextRenderer implements IRenderer {
         this.setFont(10)
         ctx.fillStyle = this.colors.textDim
         const desc = this.t(quest.descriptionKey)
-        this.wrapText(desc, contentX + 12, y + 12, contentW - 12, 14)
+        this.wrapText(desc, contentX + 12, y + 12, contentW - 12, this.lh(10))
         y += lineH * 2.2
 
         for (const step of quest.steps) {
@@ -1667,7 +1672,7 @@ export class CanvasTextRenderer implements IRenderer {
         this.setFont(11)
         ctx.fillStyle = this.colors.textPrimary
         const text = this.t(entry.textKey)
-        this.wrapText(text, contentX, y + 12, contentW, 16)
+        this.wrapText(text, contentX, y + 12, contentW, this.lh(11))
         y += lineH * 3.5
       }
     }
@@ -1806,8 +1811,8 @@ export class CanvasTextRenderer implements IRenderer {
           if (bodyResolved) {
             ctx.fillStyle = this.colors.textDim
             const bodyLines = this.wrapTextCount(body, panelW - m * 2 - 12)
-            this.wrapText(body, contentX + 12, y, panelW - m * 2 - 12, 15)
-            y += bodyLines * 15 + 6
+            this.wrapText(body, contentX + 12, y, panelW - m * 2 - 12, this.lh(11))
+            y += bodyLines * this.lh(11) + 6
           } else {
             ctx.fillStyle = this.colors.textFaint
             ctx.fillText('No entry recorded.', contentX + 12, y + 12)
