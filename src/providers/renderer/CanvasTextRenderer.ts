@@ -26,6 +26,11 @@ export class CanvasTextRenderer implements IRenderer {
   private onAction: ((action: GameAction) => void) | null = null
   private resizeDebounceTimer: ReturnType<typeof setTimeout> | null = null
   private _journalScrollOffset = 0
+  private _actionScrollX = 0
+  private _touchStartX = 0
+  private _touchStartY = 0
+  private _actionPanelY = 0
+  private _actionPanelH = 0
   private _selectedDomain: import('@/interfaces/types.js').ArchiveDomain | null = null
   private _clearSaveConfirmPending = false
   private _currentActivePanel: string = 'none'
@@ -34,6 +39,7 @@ export class CanvasTextRenderer implements IRenderer {
 
   setI18n(i18n: II18n): void { this._i18n = i18n }
   private t(key: string): string { return this._i18n ? this._i18n.t(key) : key }
+  private _prevLocation = ''
 
   private readonly colors = {
     bg:           '#0a0a0f',
@@ -79,6 +85,13 @@ export class CanvasTextRenderer implements IRenderer {
     this.ctx = ctx
     this.scale = window.devicePixelRatio || 1
     canvas.addEventListener('click', (e: MouseEvent) => this.handleClick(e))
+    canvas.addEventListener('touchstart', (e: TouchEvent) => {
+      const touch = e.touches[0]
+      if (!touch) return
+      const rect = this.canvas.getBoundingClientRect()
+      this._touchStartX = touch.clientX - rect.left
+      this._touchStartY = touch.clientY - rect.top
+    }, { passive: true })
     canvas.addEventListener('touchend', (e: TouchEvent) => {
       e.preventDefault()
       const touch = e.changedTouches[0]
@@ -86,6 +99,14 @@ export class CanvasTextRenderer implements IRenderer {
       const rect = this.canvas.getBoundingClientRect()
       const mx = touch.clientX - rect.left
       const my = touch.clientY - rect.top
+      const dx = mx - this._touchStartX
+      const dy = my - this._touchStartY
+      // Horizontal swipe on action panel → scroll, don't fire action
+      const inActionPanel = my >= this._actionPanelY && my <= this._actionPanelY + this._actionPanelH
+      if (inActionPanel && Math.abs(dx) > 20 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        this._actionScrollX = Math.max(0, this._actionScrollX - dx)
+        return
+      }
       if (!this.onAction) return
       for (const region of this.clickRegions) {
         if (mx >= region.x && mx <= region.x + region.w && my >= region.y && my <= region.y + region.h) {
@@ -126,6 +147,11 @@ export class CanvasTextRenderer implements IRenderer {
     const { ctx, width, height } = this
     this.clickRegions = []
     this._currentActivePanel = state.activePanel
+    // Reset action scroll when player moves to a new location
+    if (state.player.currentLocation !== this._prevLocation) {
+      this._actionScrollX = 0
+      this._prevLocation = state.player.currentLocation
+    }
     ctx.clearRect(0, 0, width, height)
     ctx.fillStyle = this.colors.bg
     ctx.fillRect(0, 0, width, height)
@@ -469,6 +495,10 @@ export class CanvasTextRenderer implements IRenderer {
     const { ctx } = this
     const m = this.layout.margin
 
+    // Record panel bounds for swipe detection
+    this._actionPanelY = y
+    this._actionPanelH = h
+
     ctx.fillStyle = this.colors.bgPanel
     ctx.fillRect(x, y, w, h)
     ctx.fillStyle = this.colors.borderDim
@@ -492,23 +522,59 @@ export class CanvasTextRenderer implements IRenderer {
         }] : []),
     ]
 
-    const minBtnW = Math.round(w / (allActions.length + 0.5))
+    // Fixed button width: min 80px, enough for label
+    this.setFont(11)
     const btnH = Math.max(44, Math.round(h * 0.72))
     const btnY = y + Math.round((h - btnH) / 2)
+    const btnW = Math.max(80, Math.round(w / Math.min(allActions.length, 4)))
+    const totalW = allActions.length * (btnW + 4)
+
+    // Clamp scroll offset
+    this._actionScrollX = Math.max(0, Math.min(this._actionScrollX, Math.max(0, totalW - w + m * 2)))
+
+    // Clip to panel area so buttons don't bleed outside
+    ctx.save()
+    ctx.beginPath()
+    ctx.rect(x, y + 1, w, h - 1)
+    ctx.clip()
+
+    // Translate for scroll
+    ctx.translate(-this._actionScrollX, 0)
 
     let btnX = x + m
     for (const item of allActions) {
-      const btnW = Math.max(minBtnW, ctx.measureText(item.label).width + m * 3)
+      const bw = btnW
+      // Register click region adjusted for scroll offset
       ctx.fillStyle = this.colors.bgHighlight
-      ctx.fillRect(btnX, btnY, btnW - 4, btnH)
+      ctx.fillRect(btnX, btnY, bw - 4, btnH)
       ctx.strokeStyle = this.colors.borderDim
-      ctx.strokeRect(btnX, btnY, btnW - 4, btnH)
-      this.setFont(11)
+      ctx.strokeRect(btnX, btnY, bw - 4, btnH)
       ctx.fillStyle = item.color
       ctx.textAlign = 'center'
-      ctx.fillText(item.label, btnX + (btnW - 4) / 2, btnY + btnH / 2 + Math.round(this.basePx * 0.4))
-      this.addClickRegion(btnX, btnY, btnW - 4, btnH, item.action, item.label)
-      btnX += btnW
+      ctx.fillText(item.label, btnX + (bw - 4) / 2, btnY + btnH / 2 + Math.round(this.basePx * 0.4))
+      // Click region must be in real (unscrolled) canvas coordinates
+      this.addClickRegion(
+        btnX - this._actionScrollX, btnY, bw - 4, btnH,
+        item.action, item.label
+      )
+      btnX += btnW + 4
+    }
+
+    ctx.restore()
+
+    // Scroll indicators
+    const canScrollLeft  = this._actionScrollX > 0
+    const canScrollRight = this._actionScrollX < totalW - w + m * 2
+    const arrowY = y + h / 2
+    this.setFont(14)
+    ctx.textAlign = 'center'
+    if (canScrollLeft) {
+      ctx.fillStyle = this.colors.textPrimary
+      ctx.fillText('◀', x + 10, arrowY + 5)
+    }
+    if (canScrollRight) {
+      ctx.fillStyle = this.colors.textPrimary
+      ctx.fillText('▶', x + w - 10, arrowY + 5)
     }
   }
 
