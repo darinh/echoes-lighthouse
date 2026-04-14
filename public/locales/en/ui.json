@@ -108,11 +108,11 @@
   },
   "tutorial": {
     "hint": {
-      "move":         "↑↓ or click to move",
-      "move_touch":   "Tap a location to move",
-      "npc":          "Talk to NPCs you encounter",
-      "examine":      "Examine items to gain insight",
-      "goal":         "Reach the lighthouse before nightfall"
+      "move": "↑↓ or click to move",
+      "move_touch": "Tap a location to move",
+      "npc": "Talk to NPCs you encounter",
+      "examine": "Examine items to gain insight",
+      "goal": "Reach the lighthouse before nightfall"
     }
   },
   "settings": {
@@ -142,6 +142,53 @@
     "transcendence": {
       "title": "Transcendence",
       "text": "All seven truths cohere. You see the lighthouse for what it is: a lock, a key, and a door. You step through. The island watches you go with something like relief."
+    }
+  },
+  "npc": {
+    "maren": {
+      "name": "Maren"
+    },
+    "vael": {
+      "name": "Vael"
+    },
+    "silas": {
+      "name": "Silas"
+    },
+    "petra": {
+      "name": "Petra"
+    },
+    "tobias": {
+      "name": "Tobias"
+    },
+    "elara": {
+      "name": "Elara"
+    },
+    "corvin": {
+      "name": "Corvin"
+    },
+    "aldric": {
+      "name": "Aldric"
+    },
+    "isolde": {
+      "name": "Isolde"
+    },
+    "brynn": {
+      "name": "Brynn"
+    },
+    "fenn": {
+      "name": "Fenn"
+    },
+    "keeper_petra": {
+      "name": "Keeper Petra"
+    },
+    "keeper_tobias": {
+      "name": "Keeper Tobias"
+    },
+    "the_warden": {
+      "name": "The Warden"
+    },
+    "mirror_keeper": {
+      "name": "The Mirror Keeper"
     }
   }
 }
