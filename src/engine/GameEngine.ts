@@ -140,6 +140,8 @@ export class GameEngine {
         }
         this.eventBus.emit('insight.gained', { amount: item.insight })
         this.applyEvent('insight.gained', { amount: item.insight })
+        this.eventBus.emit('archive.page.found', { domain: item.domain })
+        this.applyEvent('archive.page.found', { domain: item.domain })
         this.eventBus.emit('examine.completed', { itemId, locationId, insight: item.insight })
         break
       }

@@ -13,6 +13,7 @@ export interface DialogueChoice {
   worldFlagSet?: string
   worldFlagRequired?: string
   questTrigger?: string
+  questStart?: string
 }
 
 export interface DialogueNode {

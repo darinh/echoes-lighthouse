@@ -63,7 +63,7 @@ export const MAREN_NPC: NPCFullData = {
     'maren.greeting.tier2': {
       speakerKey: 'npc.maren.greeting.tier2',
       choices: [
-        { id: 'ask.unusual', textKey: 'dialogue.choice.ask_unusual', nextNodeId: 'maren.ledger.overwritten', insightGain: 10, trustGain: 4 },
+        { id: 'ask.unusual', textKey: 'dialogue.choice.ask_unusual', nextNodeId: 'maren.ledger.overwritten', insightGain: 10, trustGain: 4, questStart: 'archivist_bargain' },
         { id: 'ask.echo', textKey: 'dialogue.choice.ask_echo', nextNodeId: 'maren.echo.denial', insightGain: 8, moralWeight: 1 },
         { id: 'ask.keeper', textKey: 'dialogue.choice.ask_keeper', nextNodeId: 'maren.keeper.departure' },
         { id: 'leave', textKey: 'dialogue.choice.leave' },

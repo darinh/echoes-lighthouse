@@ -33,7 +33,7 @@ export const SILAS_NPC: NPCFullData = {
     'silas.greeting.tier1': {
       speakerKey: 'npc.silas.greeting.tier1',
       choices: [
-        { id: 'ask.keeper.departure', textKey: 'dialogue.choice.ask_keeper', nextNodeId: 'silas.keeper.hurry', insightGain: 8, trustGain: 2 },
+        { id: 'ask.keeper.departure', textKey: 'dialogue.choice.ask_keeper', nextNodeId: 'silas.keeper.hurry', insightGain: 8, trustGain: 2, questStart: 'harbor_silence' },
         { id: 'ask.ferry', textKey: 'dialogue.choice.ask_ferry', nextNodeId: 'silas.ferry.schedule' },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],

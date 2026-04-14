@@ -5,6 +5,7 @@ import { getAdjacentLocations } from '@/data/locations/phase1Locations.js'
 import { CODEX_PAGES } from '@/data/codex/pages.js'
 import { EXAMINE_DATA } from '@/data/locations/examineData.js'
 import { INSIGHT_CARDS } from '@/data/insights/cards.js'
+import { QUEST_REGISTRY } from '@/data/quests/index.js'
 
 /** A hit-testable clickable region drawn on the canvas. */
 interface ClickRegion {
@@ -1275,24 +1276,69 @@ export class CanvasTextRenderer implements IRenderer {
 
     this.setFont(10, 'bold')
     ctx.fillStyle = this.colors.textDim
-    ctx.fillText('ACTIVE THREADS', contentX, y + 14)
+    ctx.fillText('ACTIVE QUESTS', contentX, y + 14)
     y += 20
     ctx.fillStyle = this.colors.borderDim
     ctx.fillRect(contentX, y, contentW, 1)
     y += lineH
 
-    const threads = Array.from(state.player.activeJournalThreads)
-    if (threads.length === 0) {
+    const activeQuestIds = Array.from(state.activeQuests)
+    if (activeQuestIds.length === 0) {
       this.setFont(11)
       ctx.fillStyle = this.colors.textFaint
-      ctx.fillText('(no active threads)', contentX, y + 12)
+      ctx.fillText('(no active quests)', contentX, y + 12)
       y += lineH
     } else {
-      for (const threadId of threads) {
-        this.setFont(12)
+      for (const questId of activeQuestIds) {
+        const quest = QUEST_REGISTRY[questId]
+        if (!quest) continue
+
+        this.setFont(12, 'bold')
         ctx.fillStyle = this.colors.accent
-        ctx.fillText(`▶ ${threadId}`, contentX, y + 14)
+        ctx.fillText(`◉ ${this.t(quest.titleKey)}`, contentX, y + 14)
         y += lineH * 1.2
+
+        this.setFont(10)
+        ctx.fillStyle = this.colors.textDim
+        const desc = this.t(quest.descriptionKey)
+        this.wrapText(desc, contentX + 12, y + 12, contentW - 12, 14)
+        y += lineH * 2.2
+
+        for (const step of quest.steps) {
+          this.setFont(11)
+          ctx.fillStyle = this.colors.textPrimary
+          ctx.fillText(`  □ ${this.t(step.descriptionKey)}`, contentX, y + 12)
+          y += lineH
+        }
+
+        y += lineH * 0.4
+      }
+    }
+
+    y += lineH * 0.5
+
+    this.setFont(10, 'bold')
+    ctx.fillStyle = this.colors.textDim
+    ctx.fillText('COMPLETED QUESTS', contentX, y + 14)
+    y += 20
+    ctx.fillStyle = this.colors.borderDim
+    ctx.fillRect(contentX, y, contentW, 1)
+    y += lineH
+
+    const completedQuestIds = Array.from(state.completedQuests)
+    if (completedQuestIds.length === 0) {
+      this.setFont(11)
+      ctx.fillStyle = this.colors.textFaint
+      ctx.fillText('(none yet)', contentX, y + 12)
+      y += lineH
+    } else {
+      for (const questId of completedQuestIds) {
+        const quest = QUEST_REGISTRY[questId]
+        const title = quest ? this.t(quest.titleKey) : questId
+        this.setFont(11)
+        ctx.fillStyle = this.colors.accentGold
+        ctx.fillText(`✓ ${title}`, contentX, y + 12)
+        y += lineH
       }
     }
 
@@ -1386,7 +1432,7 @@ export class CanvasTextRenderer implements IRenderer {
 
     for (const domain of domains) {
       const count = state.player.archiveMastery[domain] ?? 0
-      const label = domain.toUpperCase().slice(0, 11).padEnd(11)
+      const label = (domain.charAt(0).toUpperCase() + domain.slice(1)).padEnd(11)
       const masteryLabel = count >= 10 ? 'MASTER' : count >= 6 ? 'Adept' : count >= 3 ? 'Novice' : ''
       const fillFrac = Math.min(1, count / 10)
 
