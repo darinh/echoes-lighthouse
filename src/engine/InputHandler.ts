@@ -42,6 +42,11 @@ export class InputHandler {
       () => this.eventBus.emit('audio.unlock', {}),
       { signal, once: true },
     )
+    this.canvas.addEventListener(
+      'touchstart',
+      () => this.eventBus.emit('audio.unlock', {}),
+      { signal, once: true, passive: true },
+    )
 
     // Keyboard shortcuts
     window.addEventListener('keydown', (e: KeyboardEvent) => this.handleKey(e), { signal })

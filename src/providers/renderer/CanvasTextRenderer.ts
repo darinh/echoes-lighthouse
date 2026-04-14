@@ -43,10 +43,22 @@ export class CanvasTextRenderer implements IRenderer {
     timerCrit:    '#cc4444',
   }
 
-  private readonly layout = {
-    hudHeight: 64,
-    actionWidth: 0.22,
-    margin: 16,
+  private get isPortrait(): boolean {
+    return this.height > this.width
+  }
+
+  private get basePx(): number {
+    return Math.max(10, Math.min(this.width, this.height) / 38)
+  }
+
+  private get layout() {
+    const m = Math.round(this.basePx * 1.2)
+    return {
+      hudHeight:    this.isPortrait ? Math.round(this.basePx * 5)   : Math.round(this.basePx * 5.5),
+      actionWidth:  this.isPortrait ? 1.0  : 0.22,
+      actionHeight: this.isPortrait ? Math.round(this.basePx * 14) : 0,
+      margin: m,
+    }
   }
 
   init(canvas: HTMLCanvasElement): void {
@@ -56,6 +68,21 @@ export class CanvasTextRenderer implements IRenderer {
     this.ctx = ctx
     this.scale = window.devicePixelRatio || 1
     canvas.addEventListener('click', (e: MouseEvent) => this.handleClick(e))
+    canvas.addEventListener('touchend', (e: TouchEvent) => {
+      e.preventDefault()
+      const touch = e.changedTouches[0]
+      if (!touch) return
+      const rect = this.canvas.getBoundingClientRect()
+      const mx = touch.clientX - rect.left
+      const my = touch.clientY - rect.top
+      if (!this.onAction) return
+      for (const region of this.clickRegions) {
+        if (mx >= region.x && mx <= region.x + region.w && my >= region.y && my <= region.y + region.h) {
+          this.onAction(region.action)
+          return
+        }
+      }
+    }, { passive: false })
   }
 
   setActionHandler(handler: (action: GameAction) => void): void {
@@ -127,22 +154,36 @@ export class CanvasTextRenderer implements IRenderer {
   }
 
   private renderDay(state: IGameState): void {
-    const { width } = this
-    const { hudHeight, actionWidth, margin } = this.layout
-    const actionPanelW = Math.floor(width * actionWidth)
-    const mainW = width - actionPanelW
-    const contentY = hudHeight + 1
-    const contentH = this.height - contentY
+    const { width, height } = this
+    const { hudHeight, margin } = this.layout
 
     this.renderHUD(state, 0, 0, width, hudHeight)
 
-    if (state.activeDialogue?.isActive) {
-      this.renderDialogue(state, margin, contentY + margin, mainW - margin * 2, contentH - margin * 2)
-    } else {
-      this.renderLocationPanel(state, margin, contentY + margin, mainW - margin * 2, contentH - margin * 2)
-    }
+    if (this.isPortrait) {
+      const actionH = this.layout.actionHeight
+      const contentY = hudHeight + 1
+      const contentH = height - contentY - actionH
 
-    this.renderActionPanel(state, mainW, contentY, actionPanelW, contentH)
+      if (state.activeDialogue?.isActive) {
+        this.renderDialogue(state, margin, contentY + margin, width - margin * 2, contentH - margin * 2)
+      } else {
+        this.renderLocationPanel(state, margin, contentY + margin, width - margin * 2, contentH - margin * 2)
+      }
+
+      this.renderActionPanelPortrait(state, 0, height - actionH, width, actionH)
+    } else {
+      const actionPanelW = Math.floor(width * this.layout.actionWidth)
+      const mainW = width - actionPanelW
+      const contentY = hudHeight + 1
+      const contentH = height - contentY
+
+      if (state.activeDialogue?.isActive) {
+        this.renderDialogue(state, margin, contentY + margin, mainW - margin * 2, contentH - margin * 2)
+      } else {
+        this.renderLocationPanel(state, margin, contentY + margin, mainW - margin * 2, contentH - margin * 2)
+      }
+      this.renderActionPanel(state, mainW, contentY, actionPanelW, contentH)
+    }
   }
 
   private renderHUD(state: IGameState, x: number, y: number, w: number, h: number): void {
@@ -154,6 +195,31 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillRect(x, y, w, h)
     ctx.fillStyle = this.colors.borderDim
     ctx.fillRect(x, y + h - 1, w, 1)
+
+    if (this.isPortrait) {
+      // Compact single-row HUD for portrait
+      this.setFont(9)
+      ctx.fillStyle = this.colors.textDim
+      ctx.textAlign = 'left'
+      ctx.fillText(`LOOP ${player.loopCount}`, x + m, y + h * 0.65)
+
+      this.setFont(10)
+      ctx.fillStyle = this.colors.danger
+      ctx.fillText('♥'.repeat(player.hearts) + '♡'.repeat(Math.max(0, 3 - player.hearts)), x + m + 60, y + h * 0.65)
+
+      const timerW = Math.round(w * 0.3)
+      const timerX = x + w - timerW - m
+      const timerColor =
+        dayTimeRemaining > 0.4 ? this.colors.timerFull :
+        dayTimeRemaining > 0.2 ? this.colors.timerWarn :
+        this.colors.timerCrit
+      this.renderStatBar(timerX, y + Math.round(h * 0.35), timerW, 6, dayTimeRemaining, timerColor)
+      this.setFont(9)
+      ctx.fillStyle = this.colors.textDim
+      ctx.textAlign = 'right'
+      ctx.fillText(this.locationName(state.player.currentLocation), timerX - m, y + h * 0.65)
+      return
+    }
 
     this.setFont(10)
     ctx.fillStyle = this.colors.textDim
@@ -288,6 +354,45 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = this.colors.textFaint
     ctx.textAlign = 'left'
     ctx.fillText('J — journal  ·  I — insight', x + m, y + h - 16)
+  }
+
+  private renderActionPanelPortrait(state: IGameState, x: number, y: number, w: number, h: number): void {
+    const { ctx } = this
+    const m = this.layout.margin
+
+    ctx.fillStyle = this.colors.bgPanel
+    ctx.fillRect(x, y, w, h)
+    ctx.fillStyle = this.colors.borderDim
+    ctx.fillRect(x, y, w, 1)
+
+    const adjacent = getAdjacentLocations(state.player.currentLocation)
+    const allActions: Array<{ label: string; action: GameAction; color: string }> = [
+      ...adjacent.map(loc => ({
+        label: this.locationName(loc.id),
+        action: { type: 'move', target: loc.id } as GameAction,
+        color: state.player.discoveredLocations.has(loc.id) ? this.colors.textPrimary : this.colors.accentGold,
+      })),
+      { label: 'WAIT', action: { type: 'pause.toggle' } as GameAction, color: this.colors.textDim },
+    ]
+
+    const minBtnW = Math.round(w / (allActions.length + 0.5))
+    const btnH = Math.max(44, Math.round(h * 0.72))
+    const btnY = y + Math.round((h - btnH) / 2)
+
+    let btnX = x + m
+    for (const item of allActions) {
+      const btnW = Math.max(minBtnW, ctx.measureText(item.label).width + m * 3)
+      ctx.fillStyle = this.colors.bgHighlight
+      ctx.fillRect(btnX, btnY, btnW - 4, btnH)
+      ctx.strokeStyle = this.colors.borderDim
+      ctx.strokeRect(btnX, btnY, btnW - 4, btnH)
+      this.setFont(11)
+      ctx.fillStyle = item.color
+      ctx.textAlign = 'center'
+      ctx.fillText(item.label, btnX + (btnW - 4) / 2, btnY + btnH / 2 + Math.round(this.basePx * 0.4))
+      this.addClickRegion(btnX, btnY, btnW - 4, btnH, item.action, item.label)
+      btnX += btnW
+    }
   }
 
   private renderDialogue(state: IGameState, x: number, y: number, w: number, _h: number): void {
@@ -464,7 +569,8 @@ export class CanvasTextRenderer implements IRenderer {
   }
 
   private setFont(size: number, weight = ''): void {
-    this.ctx.font = `${weight ? weight + ' ' : ''}${size}px monospace`
+    const scaled = Math.round(size * this.basePx / 11)
+    this.ctx.font = `${weight ? weight + ' ' : ''}${scaled}px monospace`
   }
 
   private addClickRegion(x: number, y: number, w: number, h: number, action: GameAction, label: string): void {
