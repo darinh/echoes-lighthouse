@@ -24,6 +24,7 @@ export class CanvasTextRenderer implements IRenderer {
   private scale = 1
   private clickRegions: ClickRegion[] = []
   private onAction: ((action: GameAction) => void) | null = null
+  private resizeDebounceTimer: ReturnType<typeof setTimeout> | null = null
   private _journalScrollOffset = 0
   private _selectedDomain: import('@/interfaces/types.js').ArchiveDomain | null = null
   private _clearSaveConfirmPending = false
@@ -101,6 +102,13 @@ export class CanvasTextRenderer implements IRenderer {
   }
 
   resize(width: number, height: number): void {
+    if (this.resizeDebounceTimer) clearTimeout(this.resizeDebounceTimer)
+    this.resizeDebounceTimer = setTimeout(() => {
+      this._doResize(width, height)
+    }, 50)
+  }
+
+  private _doResize(width: number, height: number): void {
     this.width = width
     this.height = height
     this.canvas.width = width * this.scale
@@ -137,6 +145,7 @@ export class CanvasTextRenderer implements IRenderer {
         case 'settings': this.renderSettings(state); break
       }
     }
+    this.updateAriaLabel(state)
   }
 
   getContext(): RenderContext {
@@ -146,6 +155,7 @@ export class CanvasTextRenderer implements IRenderer {
   private renderTitle(_state: IGameState): void {
     const { ctx, width, height } = this
     const cx = width / 2
+    const now = Date.now()
 
     const grad = ctx.createRadialGradient(cx, height * 0.4, 0, cx, height * 0.4, height * 0.7)
     grad.addColorStop(0, '#0f1020')
@@ -153,25 +163,77 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = grad
     ctx.fillRect(0, 0, width, height)
 
-    this.drawLighthouseIcon(cx, height * 0.28, 60)
+    // Animated ASCII lighthouse — stars pulse in and out
+    const starPulse = 0.4 + 0.6 * Math.abs(Math.sin(now * 0.003))
+    const asciiLines: { text: string; pulse: boolean }[] = [
+      { text: `         *        *`,        pulse: true  },
+      { text: `       *   *    *   *`,      pulse: true  },
+      { text: `      *     ****     *`,     pulse: false },
+      { text: `       *   *    *   *`,      pulse: true  },
+      { text: `         * *    * *`,        pulse: true  },
+      { text: `           |    |`,           pulse: false },
+      { text: `           |    |`,           pulse: false },
+    ]
 
+    const lineH = Math.round(this.basePx * 1.4)
+    const asciiStartY = height * 0.14
+    ctx.textAlign = 'center'
+    this.setFont(10)
+    for (let i = 0; i < asciiLines.length; i++) {
+      const { text, pulse } = asciiLines[i]
+      if (pulse) {
+        ctx.fillStyle = `rgba(212,170,68,${starPulse})`
+      } else {
+        ctx.fillStyle = this.colors.accent
+      }
+      ctx.fillText(text, cx, asciiStartY + i * lineH)
+    }
+
+    // Lighthouse body
+    const bodyY = asciiStartY + asciiLines.length * lineH
+    const bodyLines = [
+      `          /|    |\\`,
+      `         / |    | \\`,
+      `        /  |    |  \\`,
+      `\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a`,
+    ]
+    ctx.fillStyle = this.colors.accent
+    for (let i = 0; i < bodyLines.length; i++) {
+      ctx.fillText(bodyLines[i], cx, bodyY + i * lineH)
+    }
+
+    // Title
     this.setFont(28, 'bold')
     ctx.fillStyle = this.colors.accent
     ctx.textAlign = 'center'
-    ctx.fillText('ECHOES OF THE LIGHTHOUSE', cx, height * 0.46)
+    ctx.fillText('ECHOES OF THE LIGHTHOUSE', cx, height * 0.57)
 
     this.setFont(11)
     ctx.fillStyle = this.colors.textDim
-    ctx.fillText('a narrative mystery · roguelite · canvas text edition', cx, height * 0.46 + 28)
+    ctx.fillText('a narrative mystery \u00b7 roguelite \u00b7 canvas text edition', cx, height * 0.57 + 24)
 
-    const pulse = 0.6 + 0.4 * Math.abs(Math.sin(Date.now() / 900))
+    // Tagline
+    this.setFont(10)
+    ctx.fillStyle = this.colors.textDim
+    ctx.fillText('KEEP THE LIGHT BURNING', cx, height * 0.68)
+
+    // Prompt (pulsing)
+    const pulse = 0.6 + 0.4 * Math.abs(Math.sin(now / 900))
     ctx.fillStyle = `rgba(68,136,204,${pulse})`
     this.setFont(13)
-    ctx.fillText('▶  press enter or click to begin', cx, height * 0.62)
+    ctx.fillText('[ PRESS ENTER OR CLICK ]', cx, height * 0.76)
 
+    // Quote
     this.setFont(9)
     ctx.fillStyle = this.colors.textFaint
-    ctx.fillText('v0.1.0-alpha', cx, height - 20)
+    ctx.fillText('"Do not let it go dark."  \u2014 H.V.', cx, height * 0.84)
+
+    // Version \u2014 bottom right
+    const version = (import.meta as { env?: Record<string, string> }).env?.VITE_APP_VERSION ?? '1.0.0'
+    ctx.fillStyle = this.colors.textFaint
+    ctx.textAlign = 'right'
+    ctx.fillText(`v${version}`, width - 16, height - 12)
+    ctx.textAlign = 'center'
   }
 
   private renderDay(state: IGameState): void {
@@ -850,28 +912,6 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillText(label, x + w / 2, y + h / 2 + 4)
   }
 
-  private drawLighthouseIcon(cx: number, cy: number, size: number): void {
-    const { ctx } = this
-    ctx.lineWidth = 2
-    ctx.strokeStyle = this.colors.accent
-    ctx.beginPath()
-    ctx.moveTo(cx - size * 0.15, cy + size * 0.5)
-    ctx.lineTo(cx - size * 0.1, cy - size * 0.1)
-    ctx.lineTo(cx + size * 0.1, cy - size * 0.1)
-    ctx.lineTo(cx + size * 0.15, cy + size * 0.5)
-    ctx.stroke()
-    ctx.strokeStyle = this.colors.accentGold
-    ctx.strokeRect(cx - size * 0.12, cy - size * 0.3, size * 0.24, size * 0.2)
-    const beamAlpha = 0.4 + 0.4 * Math.abs(Math.sin(Date.now() / 600))
-    ctx.fillStyle = `rgba(212,170,68,${beamAlpha})`
-    ctx.beginPath()
-    ctx.moveTo(cx, cy - size * 0.2)
-    ctx.lineTo(cx - size * 0.5, cy - size * 0.7)
-    ctx.lineTo(cx + size * 0.5, cy - size * 0.7)
-    ctx.closePath()
-    ctx.fill()
-    ctx.lineWidth = 1
-  }
 
   private wrapText(text: string, x: number, y: number, maxW: number, lineH: number): void {
     const { ctx } = this
@@ -1347,4 +1387,16 @@ export class CanvasTextRenderer implements IRenderer {
     this.renderActionButton(contentX + btnW + 16, y, btnW, btnH, clearLabel, clearColor)
     this.addClickRegion(contentX + btnW + 16, y, btnW, btnH, { type: 'save.clear' } as unknown as GameAction, 'Clear Save')
   }
+
+  private updateAriaLabel(state: IGameState): void {
+    if (!this.canvas || typeof this.canvas.setAttribute !== 'function') return
+    const phase = state.phase
+    const loc = state.player.currentLocation.replace(/_/g, ' ')
+    const insight = state.player.insight
+    const loopCount = state.player.loopCount
+    this.canvas.setAttribute('aria-label',
+      `Echoes of the Lighthouse. Phase: ${phase}. Location: ${loc}. Insight: ${insight}. Loop ${loopCount}.`
+    )
+  }
+
 }

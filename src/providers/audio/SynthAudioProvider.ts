@@ -20,7 +20,7 @@ interface PhaseAmbientConfig {
 }
 
 /**
- * SynthAudioProvider - All audio synthesised via Web Audio API.
+ * SynthAudioProvider -- All audio synthesised via Web Audio API.
  * Zero audio files. All sounds are mathematical constructions.
  * See docs/gdd/08-audio-design.md for full parameter specifications.
  */
@@ -107,6 +107,8 @@ export class SynthAudioProvider implements IAudioProvider {
 
   isUnlocked(): boolean { return this.unlocked }
 
+  // Noise buffer
+
   private createNoiseSource(): AudioBufferSourceNode {
     const ctx = this.ctx!
     const bufferSize = ctx.sampleRate * 2
@@ -121,6 +123,8 @@ export class SynthAudioProvider implements IAudioProvider {
     return source
   }
 
+  // Reverb via delay feedback
+
   private createSimpleReverb(delayTime = 0.1, feedback = 0.3): [DelayNode, GainNode] {
     const ctx = this.ctx!
     const delay = ctx.createDelay(1.0)
@@ -131,6 +135,8 @@ export class SynthAudioProvider implements IAudioProvider {
     feedbackGain.connect(delay)
     return [delay, feedbackGain]
   }
+
+  // Ambient layer management
 
   private startAmbientLayer(id: string, config: AmbientLayerConfig): void {
     const ctx = this.ctx!
@@ -202,6 +208,7 @@ export class SynthAudioProvider implements IAudioProvider {
     }
 
     gainNode.gain.setTargetAtTime(config.gain, ctx.currentTime, 2 / 3)
+
     this.ambientLayers.set(id, nodes)
   }
 
@@ -261,6 +268,8 @@ export class SynthAudioProvider implements IAudioProvider {
     }
   }
 
+  // Threat level modulation
+
   private applyThreatModulation(level: number): void {
     if (!this.ctx || this.currentPhase !== 'night_dark') return
     const t = this.ctx.currentTime
@@ -298,12 +307,14 @@ export class SynthAudioProvider implements IAudioProvider {
     setTimeout(() => { try { gainNode.disconnect() } catch { /* */ } }, durationMs + 100)
   }
 
+  // Envelope helper
+
   private applyEnvelope(
     gainNode: GainNode, startTime: number,
     attackMs: number, decayMs: number, sustainLevel: number,
     releaseMs: number, durationMs: number, peakGain: number,
   ): void {
-    const t   = startTime
+    const t = startTime
     const a   = attackMs  / 1000
     const d   = decayMs   / 1000
     const r   = releaseMs / 1000
@@ -342,6 +353,8 @@ export class SynthAudioProvider implements IAudioProvider {
     osc.stop(startTime + durationMs / 1000 + 0.05)
     return [osc, gainNode]
   }
+
+  // Sound builders
 
   private buildSound(soundId: string): AudioNode[] | null {
     if (!this.ctx) return null
@@ -460,6 +473,8 @@ export class SynthAudioProvider implements IAudioProvider {
         return null
     }
   }
+
+  // Public API
 
   play(soundId: string, _options?: PlayOptions): void {
     if (!this.ctx || !this.unlocked) return
