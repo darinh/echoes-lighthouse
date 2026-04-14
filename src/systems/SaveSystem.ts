@@ -182,6 +182,20 @@ export class SaveSystem implements ISystem {
         currentLocation: snapshot.player.currentLocation as IGameState['player']['currentLocation'],
       },
       npcStates: npcStates as unknown as IGameState['npcStates'],
+      activePanel: 'none',
+      worldFlags: new Set<string>(),
+      endingId: null,
+      nightDangerLevel: 0,
+      pendingVisions: [],
+      priorPhase: null,
+      lighthouseLitThisLoop: false,
+      settings: {
+        masterVolume: 0.8,
+        ambientVolume: 0.8,
+        uiVolume: 0.8,
+        narrativeVolume: 0.8,
+        locale: snapshot.locale,
+      },
     }
   }
 }

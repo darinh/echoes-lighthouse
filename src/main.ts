@@ -12,6 +12,9 @@ import {
   InsightBankingSystem,
   StaminaSystem,
   SaveSystem,
+  NightSystem,
+  EndingSystem,
+  VisionSystem,
 } from '@/systems/index.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
 
@@ -45,6 +48,9 @@ async function boot(): Promise<void> {
   engine.registerSystem(new InsightBankingSystem(eventBus))
   engine.registerSystem(new StaminaSystem(eventBus))
   engine.registerSystem(new SaveSystem(eventBus))
+  engine.registerSystem(new NightSystem(eventBus))
+  engine.registerSystem(new EndingSystem(eventBus))
+  engine.registerSystem(new VisionSystem(eventBus))
 
   setProgress(80, 'Preparing world...')
   const canvas = document.getElementById('game-canvas') as HTMLCanvasElement

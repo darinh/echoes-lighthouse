@@ -59,6 +59,14 @@ export type GameEventType =
   | 'audio.unlock'
   | 'locale.changed'
   | 'renderer.resized'
+  | 'lighthouse.lit'
+  | 'loop.dawn'
+  | 'night.danger.escalate'
+  | 'ending.triggered'
+  | 'vision.started'
+  | 'vision.completed'
+  | 'save.requested'
+  | 'save.cleared'
 
 export interface IGameEvent<T extends Record<string, unknown> = Record<string, unknown>> {
   readonly type: GameEventType

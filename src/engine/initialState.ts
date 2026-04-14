@@ -69,6 +69,20 @@ export function createInitialState(): IGameState {
     completedQuests: new Set(),
     locale: 'en',
     isPaused: false,
+    activePanel: 'none',
+    worldFlags: new Set<string>(),
     saveVersion: 1,
+    endingId: null,
+    nightDangerLevel: 0,
+    pendingVisions: [],
+    priorPhase: null,
+    lighthouseLitThisLoop: false,
+    settings: {
+      masterVolume: 0.8,
+      ambientVolume: 0.8,
+      uiVolume: 0.8,
+      narrativeVolume: 0.8,
+      locale: 'en',
+    },
   }
 }

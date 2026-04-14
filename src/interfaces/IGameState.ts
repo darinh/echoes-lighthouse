@@ -85,5 +85,19 @@ export interface IGameState {
   readonly completedQuests: ReadonlySet<string>
   readonly locale: string
   readonly isPaused: boolean
+  readonly activePanel: 'none' | 'journal' | 'codex' | 'map' | 'settings'
+  readonly worldFlags: ReadonlySet<string>
   readonly saveVersion: number
+  readonly endingId: string | null
+  readonly nightDangerLevel: number
+  readonly pendingVisions: ReadonlyArray<string>
+  readonly priorPhase: GamePhase | null
+  readonly lighthouseLitThisLoop: boolean
+  readonly settings: {
+    readonly masterVolume: number
+    readonly ambientVolume: number
+    readonly uiVolume: number
+    readonly narrativeVolume: number
+    readonly locale: string
+  }
 }
