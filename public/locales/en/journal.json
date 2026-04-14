@@ -30,5 +30,33 @@
       "name":    "The Chapel Symbol",
       "summary": "The symbol above the chapel door is not a religious icon. It is a containment mark."
     }
+  },
+  "quest": {
+    "light_source_truth": {
+      "title": "The Beam Does Not Warn. It Calls.",
+      "description": "Something unnatural feeds on the lighthouse beam. Find out what.",
+      "step": {
+        "visit_cliffside": "Go to the cliffside.",
+        "talk_to_vael": "Find the one who walks in the water.",
+        "examine_tidal_caves": "Enter the tidal caves."
+      }
+    },
+    "archivist_bargain": {
+      "title": "What the Archive Remembers",
+      "description": "Maren wants archive pages. The question is what she'll give in return.",
+      "step": {
+        "find_archive_page": "Find a page in the archive basement.",
+        "return_to_maren": "Return to Maren with what you found."
+      }
+    },
+    "harbor_silence": {
+      "title": "Why the Ships Don't Come",
+      "description": "The harbour has been closed for months. Silas knows more than he admits.",
+      "step": {
+        "examine_harbor": "Examine the harbour boats.",
+        "talk_to_elara": "Find someone else who knows about the harbour.",
+        "confront_silas": "Confront Silas with what you've learned."
+      }
+    }
   }
 }

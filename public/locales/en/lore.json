@@ -20,11 +20,125 @@
     "ruins": {
       "enter": "Older than the village. Older, perhaps, than the island itself. The stones don't fit together right.",
       "examine_stones":  "Maritime runes. But they predate any known maritime civilisation."
+    },
+    "mechanism_room": {
+      "enter": "Gears the size of millstones. Whatever drove them once, it wasn't wind or water."
+    },
+    "chapel": {
+      "enter": "St. Maret's Chapel. The doors are never locked. Someone has been lighting candles."
+    },
+    "mill": {
+      "enter": "The old mill creaks in a wind that isn't there. The wheel hasn't turned in years."
+    },
+    "forest_path": {
+      "enter": "The treeline begins here. Strange how the path seems different every time you walk it."
+    },
+    "cliffside": {
+      "enter": "The cliff edge drops sharply to the cove below. At certain hours, something moves in the water."
+    },
+    "archive_basement": {
+      "enter": "Row upon row of stone shelves. Whatever is catalogued here predates the village by centuries."
+    },
+    "tidal_caves": {
+      "enter": "The tide retreats to reveal caves no one has mapped. The walls are covered in writing."
+    },
+    "mechanism_room": {
+      "enter": "Gears the size of millstones. Whatever drove them once, it wasn't wind or water."
+    },
+    "chapel": {
+      "enter": "St. Maret's Chapel. The doors are never locked. Someone has been lighting candles."
+    },
+    "mill": {
+      "enter": "The old mill creaks in a wind that isn't there. The wheel hasn't turned in years."
+    },
+    "forest_path": {
+      "enter": "The treeline begins here. Strange how the path seems different every time you walk it."
+    },
+    "cliffside": {
+      "enter": "The cliff edge drops sharply to the cove below. At certain hours, something moves in the water."
+    },
+    "archive_basement": {
+      "enter": "Row upon row of stone shelves. Whatever is catalogued here predates the village by centuries."
+    },
+    "tidal_caves": {
+      "enter": "The tide retreats to reveal caves no one has mapped. The walls are covered in writing."
     }
   },
   "vision": {
     "loop5":  "You see the lighthouse as it was. Full of light. Full of people. They were not afraid then.",
     "loop10": "A Keeper — not you — walks toward the mechanism room. She does not come back out.",
     "loop15": "The thing beneath the island has a face. You have seen it before. In your reflection."
+  },
+  "codex": {
+    "history_01": { "title": "The First Keeper", "body": "Fragmentary records of the lighthouse's first appointed keeper, whose name has been struck from the official register." },
+    "history_02": { "title": "Founding Charter", "body": "A partial transcription of the island's founding charter. Several clauses have been deliberately obscured." },
+    "history_03": { "title": "The Great Storm", "body": "Accounts of the storm of 1743 diverge significantly. Some speak of a light that never went out." },
+    "history_04": { "title": "The Survey", "body": "An old surveyor's report noting geological anomalies beneath the ruins that do not appear in the final submitted version." },
+    "history_05": { "title": "Keeper's Log: Year One", "body": "The first keeper wrote with pride. By year's end the handwriting had changed." },
+    "history_06": { "title": "The Rotation", "body": "Lighthouse keepers were meant to rotate every three years. Records show some stayed considerably longer." },
+    "history_07": { "title": "Last Official Correspondence", "body": "The final letter to the mainland authority. It was never answered." },
+    "history_08": { "title": "The Parish Record", "body": "Births and deaths recorded by the chapel. The death entries stop abruptly in a particular year." },
+    "history_09": { "title": "The Annexe", "body": "A small room behind the chapel altar is not on any official plan of the building." },
+    "history_10": { "title": "Oral Histories", "body": "Three contradictory accounts of what happened when the last Keeper disappeared. All three are probably true." },
+    "occult_01": { "title": "The Binding Marks", "body": "The symbols carved into the ruins predate any known written language. They share structural features with musical notation." },
+    "occult_02": { "title": "Resonance Theory", "body": "Whoever carved these marks understood something about sound, light, and attention that we do not." },
+    "occult_03": { "title": "The Loop Index", "body": "A set of tally marks at the ruins that no one has been able to explain. The count is very high." },
+    "occult_04": { "title": "The Old Name", "body": "The entity beneath has a name in the old script. It roughly translates as 'the one that remembers the drowned.'" },
+    "occult_05": { "title": "The Cliff Vigil", "body": "Someone has been keeping watch from the cliffside for a very long time. The worn stone suggests decades." },
+    "occult_06": { "title": "The Feeding Pattern", "body": "The entity does not sleep. It simply waits for the beam to align." },
+    "occult_07": { "title": "Echo Residue", "body": "Echoes of prior keepers concentrate near the cliff edge. The resonance is measurable if you know what to measure." },
+    "occult_08": { "title": "The Tide Script", "body": "The writing on the cave walls is rewritten by the tides. Something underneath keeps restoring it." },
+    "occult_09": { "title": "The Deep Chamber", "body": "Behind the main cave there is a chamber that only opens under specific tidal conditions." },
+    "occult_10": { "title": "The Final Binding", "body": "The original binding required three keepers. The seal has never been properly completed." },
+    "maritime_01": { "title": "Shipping Manifests", "body": "The last recorded arrival was seventeen months ago. The manifest lists cargo that was never offloaded." },
+    "maritime_02": { "title": "The Harbour Depth", "body": "The harbour was dredged three times in the last century. Each time they found something and stopped." },
+    "maritime_03": { "title": "Navigation Anomalies", "body": "Compasses behave strangely within half a league of the island. The lighthouse beam does not correct for this." },
+    "maritime_04": { "title": "The Wrecks", "body": "Twelve wrecks are on record. Local lore suggests there are forty more that were never reported." },
+    "maritime_05": { "title": "The Harbormaster's Book", "body": "Silas maintains meticulous records. The three-month gap is filled with a single word, repeated." },
+    "maritime_06": { "title": "Cave Tidal Charts", "body": "Handmade charts of tidal patterns in the caves. More precise than anything the Navy has produced." },
+    "maritime_07": { "title": "The Swimmer's Path", "body": "A series of markers leads from the cave entrance toward deeper water. They were not made by human hands." },
+    "maritime_08": { "title": "Bioluminescence Log", "body": "Notes on unusual light emissions from the cave water. The pattern matches the lighthouse beam exactly." },
+    "maritime_09": { "title": "The Current", "body": "There is a persistent current that runs from the tidal caves toward open water. It flows uphill in places." },
+    "maritime_10": { "title": "The Missing Boats", "body": "Three fishing boats are known to have entered the caves voluntarily. None returned." },
+    "ecology_01": { "title": "The Forest Edge", "body": "The treeline has moved. Old maps show the forest beginning half a mile further from the lighthouse." },
+    "ecology_02": { "title": "Fungal Network", "body": "The root network beneath the forest path is unlike anything documented. It pulses." },
+    "ecology_03": { "title": "The Boundary Plants", "body": "Certain plants grow only at the exact perimeter of the lighthouse beam's reach. Nowhere else." },
+    "ecology_04": { "title": "Animal Behaviour", "body": "No birds nest within the beam's range. Those that fly through it do not fly straight afterward." },
+    "ecology_05": { "title": "The Path Changes", "body": "The forest path reroutes itself. Locals accept this as normal. It is not normal." },
+    "ecology_06": { "title": "Cliff Flora", "body": "The plants growing from the cliff face have no known species classification. They flower at night." },
+    "ecology_07": { "title": "The Lichen", "body": "A specific lichen pattern covers the south face of the cliff. Under magnification it resolves into text." },
+    "ecology_08": { "title": "Sea Life Concentration", "body": "Marine life clusters beneath the cliff in numbers that shouldn't be sustainable. They are not feeding." },
+    "ecology_09": { "title": "The Mill Mold", "body": "A species of mold is consuming the mill's timbers. It has the structural properties of bone." },
+    "ecology_10": { "title": "Grain Mutations", "body": "The grain stored in the mill has been growing. In the dark. Without soil." },
+    "alchemy_01": { "title": "The Preparation", "body": "A formula for a compound that, when burned, produces a light visible only to those who have died and returned." },
+    "alchemy_02": { "title": "Memory Distillation", "body": "Notes on extracting the residue of repeated experiences. The process requires a loop to be in progress." },
+    "alchemy_03": { "title": "The Anchor Compound", "body": "A substance described as capable of anchoring an echo to a specific location. Ingredients: one is a person." },
+    "alchemy_04": { "title": "Resonance Amplifiers", "body": "Small objects that increase the sympathetic resonance between two beings. The Archivist has several." },
+    "alchemy_05": { "title": "Chapel Herbs", "body": "Several unusual herbs grow in the chapel garden. They are not native to this climate. They were planted deliberately." },
+    "alchemy_06": { "title": "The Candle Formula", "body": "The candles in the chapel are not ordinary wax. The smoke carries encoded information." },
+    "alchemy_07": { "title": "Sacramental Chemistry", "body": "The original chapel rites were pharmaceutical as well as spiritual. The two were not distinguished." },
+    "alchemy_08": { "title": "The Suppressor", "body": "A compound that prevents loop-memory from surfacing. Someone has been adding it to the village water supply." },
+    "alchemy_09": { "title": "Antidote Notes", "body": "Incomplete notes on reversing the suppressor compound. The last page is missing." },
+    "alchemy_10": { "title": "The Final Reagent", "body": "The one ingredient that cannot be synthesised. It must be freely given." },
+    "cartography_01": { "title": "The True Map", "body": "A map of the island that shows locations which do not appear to exist. Several are marked as dangerous." },
+    "cartography_02": { "title": "Sightline Analysis", "body": "The lighthouse was positioned to create specific sightlines to every significant location on the island." },
+    "cartography_03": { "title": "The Beam's Reach", "body": "A precise calculation of the lighthouse beam's maximum reach under various atmospheric conditions." },
+    "cartography_04": { "title": "Underground Map", "body": "A partial map of what lies beneath the island. The lower levels are marked with a symbol meaning do not continue." },
+    "cartography_05": { "title": "The Cliff Survey", "body": "A survey of the cliff face noting entry points. Several are accessible only at specific phases of the tide." },
+    "cartography_06": { "title": "The Offshore Markers", "body": "Submerged markers at specific distances from the cliff. Their purpose is not navigational." },
+    "cartography_07": { "title": "The Dead Zone", "body": "A region of sea between the cliff and the nearest shipping lane where instruments fail completely." },
+    "cartography_08": { "title": "Village Original Plan", "body": "The original plan of the village differs from what was built. The deviations are not random." },
+    "cartography_09": { "title": "The Routes", "body": "A map of paths through the village and island with markings showing which are safe at which times." },
+    "cartography_10": { "title": "Overlay Analysis", "body": "When all known maps are overlaid, a pattern emerges in the white space between them." },
+    "linguistics_01": { "title": "Pre-Settlement Script", "body": "A script predating the settlement of the island by at least four centuries. It uses the lighthouse as a reference point." },
+    "linguistics_02": { "title": "The Archive Catalogue", "body": "A catalogue of what the archive once contained. Most items are listed as removed or destroyed." },
+    "linguistics_03": { "title": "Translation Notes", "body": "Maren's personal translation notes. The margin comments are more revealing than the translations." },
+    "linguistics_04": { "title": "The Cipher", "body": "A cipher used in the more sensitive archive documents. The key is a number that changes each loop." },
+    "linguistics_05": { "title": "Comparative Glossary", "body": "A glossary comparing the old script to modern terms. The word for keeper and the word for sacrifice are the same." },
+    "linguistics_06": { "title": "Ruin Inscription A", "body": "The longest continuous inscription at the ruins. It appears to be instructions, written in the imperative." },
+    "linguistics_07": { "title": "Ruin Inscription B", "body": "A shorter inscription, written in a different hand. It is a response to Inscription A. It says no." },
+    "linguistics_08": { "title": "The Name Tablets", "body": "Stone tablets listing names. Some names appear on multiple tablets, in different hands, separated by what appear to be centuries." },
+    "linguistics_09": { "title": "Chapel Marginalia", "body": "Tiny writing in the margins of the chapel's record books. It is written by someone with access to the old script." },
+    "linguistics_10": { "title": "The Repeating Phrase", "body": "A phrase that appears in every document in the archive, in every language and script. It means approximately: it is not finished." }
   }
 }

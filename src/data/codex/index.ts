@@ -1,6 +1,8 @@
-// Lazy-loaded codex/archive data chunk.
-// 7 domains × 10 pages = 70 collectible codex entries.
-export async function loadCodexData(): Promise<Record<string, unknown>> {
-  // TODO: implement per docs/gdd/04-systems-design.md §1.2 Archive Mastery
-  return {}
+import type { CodexPage } from './pages.js'
+import { CODEX_PAGES } from './pages.js'
+
+export async function loadCodexData(): Promise<Record<string, CodexPage>> {
+  return Object.fromEntries(CODEX_PAGES.map(p => [p.id, p]))
 }
+
+export type { CodexPage } from './pages.js'
