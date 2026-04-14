@@ -78,6 +78,18 @@
     "threshold_call": {
       "title": "◈  VISION: THE DOOR BELOW  ◈",
       "text": "The mechanism beneath the lighthouse is a door. It has been waiting. Not for the right key or the correct keeper — it has been waiting for someone willing. The question was never whether the door opens. The door opens. The question is what you choose to do when it does, and what comes through in the moment of your choosing."
+    },
+    "lighthouse_ignition": {
+      "title": "Ignition",
+      "text": "The mechanism responds. Ancient gears turn for the first time in decades. The light fractures through crystal lenses — not white, but amber, like trapped sunlight from another age."
+    },
+    "keeper_echo": {
+      "title": "The Echo",
+      "text": "A figure stands beside you — translucent, wearing your face but older. \"You understand now,\" it says. \"Every keeper who came before left something behind. So will you.\""
+    },
+    "final_resonance": {
+      "title": "Resonance",
+      "text": "The beam sweeps the water. Something vast stirs beneath. You feel the island shudder, grateful and afraid."
     }
   },
   "codex": {

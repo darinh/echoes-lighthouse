@@ -2,12 +2,15 @@ import type { ISystem, IGameState, IGameEvent, IEventBus } from '@/interfaces/in
 
 /**
  * NightSystem — Tracks danger level during night_dark phase.
- * At 100, emits player.died.
+ * When danger reaches 100, transitions to death phase with cause.
  */
 export class NightSystem implements ISystem {
   readonly name = 'NightSystem'
 
-  constructor(private readonly eventBus: IEventBus) {}
+  constructor(private readonly eventBus: IEventBus) {
+    // eventBus reserved for future danger events
+    void this.eventBus
+  }
 
   init(state: IGameState): IGameState { return state }
   update(state: IGameState, _deltaMs: number): IGameState { return state }
@@ -27,7 +30,7 @@ export class NightSystem implements ISystem {
   private handleDangerEscalate(state: IGameState): IGameState {
     const newLevel = Math.min(100, state.nightDangerLevel + 10)
     if (newLevel >= 100) {
-      this.eventBus.emit('player.died', {})
+      return { ...state, nightDangerLevel: 100, phase: 'death', deathCause: 'death.night_danger' }
     }
     return { ...state, nightDangerLevel: newLevel }
   }

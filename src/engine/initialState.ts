@@ -79,6 +79,7 @@ export function createInitialState(): IGameState {
     pendingVisions: [],
     priorPhase: null,
     lighthouseLitThisLoop: false,
+    deathCause: null,
     settings: {
       masterVolume: 0.8,
       ambientVolume: 0.8,

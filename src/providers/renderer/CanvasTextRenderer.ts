@@ -166,6 +166,7 @@ export class CanvasTextRenderer implements IRenderer {
       case 'dusk':       this.renderDay(state);   break
       case 'night_safe': this.renderNightSafe(state); break
       case 'night_dark': this.renderNightDark(state); break
+      case 'death':      this.renderDeath(state); break
       case 'vision':     this.renderVision(state); break
       case 'ending':     this.renderEnding(state); break
     }
@@ -672,6 +673,12 @@ export class CanvasTextRenderer implements IRenderer {
       btnY += 40
     }
 
+    if (state.player.currentLocation === 'village_inn') {
+      this.renderActionButton(x + m, btnY, w - m * 2, 32, '◈ REST', this.colors.safe)
+      this.addClickRegion(x + m, btnY, w - m * 2, 32, { type: 'rest' }, 'Rest at the inn')
+      btnY += 40
+    }
+
     this.setFont(9)
     ctx.fillStyle = this.colors.textFaint
     ctx.textAlign = 'left'
@@ -706,6 +713,12 @@ export class CanvasTextRenderer implements IRenderer {
           action: { type: 'light.lighthouse' } as GameAction,
           color: (state.player.lightReserves >= 30 && state.player.stamina >= 20) ?
             this.colors.accentWarm : this.colors.textFaint,
+        }] : []),
+      ...(state.player.currentLocation === 'village_inn' ?
+        [{
+          label: '◈ REST',
+          action: { type: 'rest' } as GameAction,
+          color: this.colors.safe,
         }] : []),
     ]
 
@@ -1073,6 +1086,82 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.globalAlpha = 1
   }
 
+  private renderDeath(state: IGameState): void {
+    const { ctx, width, height } = this
+    const cx = width / 2
+    const m = this.layout.margin
+
+    ctx.fillStyle = '#070508'
+    ctx.fillRect(0, 0, width, height)
+
+    const panelW = Math.min(560, width - m * 4)
+    const panelX = cx - panelW / 2
+    let y = height * 0.18
+
+    // Loop count
+    this.setFont(10)
+    ctx.fillStyle = this.colors.textFaint
+    ctx.textAlign = 'center'
+    ctx.fillText(`Loop #${state.player.loopCount}`, cx, y)
+    y += 28
+
+    // Death title
+    this.setFont(18, 'bold')
+    ctx.fillStyle = this.colors.danger
+    ctx.fillText(this.t('death.title'), cx, y)
+    y += 36
+
+    // Cause of death
+    if (state.deathCause) {
+      this.setFont(12)
+      ctx.fillStyle = this.colors.textPrimary
+      ctx.font = `italic ${ctx.font}`
+      ctx.fillText(this.t(state.deathCause), cx, y)
+      y += 28
+    }
+
+    // Divider
+    ctx.fillStyle = this.colors.borderDim
+    ctx.fillRect(panelX + m * 2, y, panelW - m * 4, 1)
+    y += 20
+
+    // Last journal memory
+    const lastEntry = state.player.journalEntries[state.player.journalEntries.length - 1]
+    if (lastEntry) {
+      this.setFont(9)
+      ctx.fillStyle = this.colors.textFaint
+      ctx.textAlign = 'center'
+      ctx.fillText('LAST MEMORY', cx, y)
+      y += 16
+      this.setFont(10)
+      ctx.fillStyle = this.colors.textDim
+      ctx.font = `italic ${ctx.font}`
+      const memoryText = this.t(lastEntry.textKey)
+      this.wrapText(memoryText.length > 160 ? memoryText.slice(0, 157) + '…' : memoryText, panelX + m, y, panelW - m * 2, 16)
+      y += 48
+    }
+
+    // Divider
+    ctx.fillStyle = this.colors.borderDim
+    ctx.fillRect(panelX + m * 2, y, panelW - m * 4, 1)
+    y += 20
+
+    // Tagline
+    this.setFont(11)
+    ctx.fillStyle = this.colors.accentGold
+    ctx.textAlign = 'center'
+    ctx.font = `italic ${ctx.font}`
+    ctx.fillText(this.t('death.tagline'), cx, y)
+    y += 40
+
+    // Restart prompt
+    const btnW = Math.min(200, panelW - m * 4)
+    const btnH = 40
+    const btnX = cx - btnW / 2
+    this.renderActionButton(btnX, y, btnW, btnH, `▶ ${this.t('death.continue').toUpperCase()}`, this.colors.accent)
+    this.addClickRegion(btnX, y, btnW, btnH, { type: 'start.game' }, 'Wake again')
+  }
+
   private renderEnding(state: IGameState): void {
     const { ctx, width, height } = this
     const cx = width / 2
@@ -1082,60 +1171,24 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillRect(0, 0, width, height)
 
     const endingId = state.endingId ?? 'liberation'
-    const endings: Record<string, { title: string; subtitle: string; epilogue: string[] }> = {
-      liberation: {
-        title: 'LIBERATION',
-        subtitle: 'The sea is silent for the first time in a hundred years.',
-        epilogue: [
-          "Maren closed the archive for the last time. The records were complete.",
-          "Silas watched the fog lift from the harbor — truly lift — for the first time he could remember.",
-          "Vael's echo faded like breath on cold glass. It said nothing. It was enough.",
-          "The lighthouse still burns. It no longer needs to."
-        ]
-      },
-      keepers_peace: {
-        title: "THE KEEPER'S PEACE",
-        subtitle: 'Every light has its shadow. Every shadow, its light.',
-        epilogue: [
-          "Maren closed the archive for the last time. The records were complete.",
-          "Silas never spoke of what he saw. Some silences are their own forgiveness.",
-          "Vael remained. Not trapped — present. There is a difference, in the end.",
-          "The lighthouse burns still. It always will."
-        ]
-      },
-      sacrifice: {
-        title: 'THE SACRIFICE',
-        subtitle: 'Some bindings cannot be broken. They can only be... chosen.',
-        epilogue: [
-          "The keeper's name was not recorded. That was their choice.",
-          "Maren found the final page blank. She left it that way.",
-          "Silas saw the light that night and did not ask questions. He was grateful for that.",
-          "The island keeps its bargains. It always has."
-        ]
-      },
-      corruption: {
-        title: 'CORRUPTION',
-        subtitle: 'The island remembers everything. Now so do you. Forever.',
-        epilogue: [
-          "You remember now. All of it. Every loop, every face, every name.",
-          "Maren found the archive changed. She did not understand what she read.",
-          "Silas locked the harbor and did not say why. He could not explain the fear.",
-          "The lighthouse beam moves faster now. It knows where to look."
-        ]
-      },
-      transcendence: {
-        title: 'TRANSCENDENCE',
-        subtitle: 'What was divided becomes whole. What was bound becomes everything.',
-        epilogue: [
-          "Vael and the keeper became something without a name in any of Maren's books.",
-          "The island exhaled. The tidal caves fell silent for the first time in a century.",
-          "Silas saw the light on the horizon and felt, without knowing why, that he was forgiven.",
-          "What was divided became whole. The lighthouse still burns — but it answers to no one now."
-        ]
-      }
-    }
 
-    const ending = endings[endingId] ?? endings['liberation']
+    // Prefer i18n-driven content; fall back to hardcoded epilogues
+    const i18nTitle = this.t(`ending.${endingId}.title`)
+    const i18nText  = this.t(`ending.${endingId}.text`)
+    const hasI18n   = i18nTitle !== `ending.${endingId}.title`
+
+    const fallbackEpilogues: Record<string, { title: string; text: string }> = {
+      liberation:   { title: 'LIBERATION',        text: "Maren closed the archive for the last time. The records were complete. Silas watched the fog lift from the harbor — truly lift — for the first time he could remember. The lighthouse still burns. It no longer needs to." },
+      keepers_peace:{ title: "THE KEEPER'S PEACE", text: "Vael remained. Not trapped — present. There is a difference, in the end. The lighthouse burns still. It always will." },
+      sacrifice:    { title: 'THE SACRIFICE',      text: "The keeper's name was not recorded. That was their choice. The island keeps its bargains. It always has." },
+      corruption:   { title: 'CORRUPTION',         text: "You remember now. All of it. Every loop, every face, every name. The lighthouse beam moves faster now. It knows where to look." },
+      transcendence:{ title: 'TRANSCENDENCE',      text: "What was divided became whole. The lighthouse still burns — but it answers to no one now." },
+    }
+    const fallback = fallbackEpilogues[endingId] ?? fallbackEpilogues['liberation']
+
+    const title = hasI18n ? i18nTitle.toUpperCase() : fallback.title
+    const bodyText = hasI18n ? i18nText : fallback.text
+
     const sealedCount = state.player.sealedInsights.size
     const journalPct = Math.round(Math.min(100, (sealedCount / 7) * 100))
 
@@ -1147,35 +1200,28 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.lineWidth = 1
     ctx.strokeRect(panelX, panelY, panelW, height - m * 4)
 
-    const titleSectionH = 90
+    const titleSectionH = 70
     ctx.fillStyle = this.colors.borderDim
     ctx.fillRect(panelX, panelY + titleSectionH, panelW, 1)
 
     this.setFont(20, 'bold')
     ctx.fillStyle = this.colors.accentGold
     ctx.textAlign = 'center'
-    ctx.fillText(ending.title, cx, panelY + 36)
-
-    this.setFont(11)
-    ctx.fillStyle = this.colors.textPrimary
-    ctx.font = `italic ${ctx.font}`
-    ctx.fillText(`"${ending.subtitle}"`, cx, panelY + 60)
+    ctx.fillText(title, cx, panelY + 36)
 
     panelY += titleSectionH + 14
-    this.setFont(9)
-    ctx.fillStyle = this.colors.textDim
-    ctx.textAlign = 'left'
-    ctx.fillText('EPILOGUE', panelX + m, panelY)
 
+    // Body text (wrapped)
     this.setFont(11)
     ctx.fillStyle = this.colors.textPrimary
-    let textY = panelY + 22
-    for (const line of ending.epilogue) {
-      this.wrapText(line, panelX + m, textY, panelW - m * 2, 18)
-      textY += 24
-    }
+    ctx.textAlign = 'left'
+    let textY = panelY + 8
+    this.wrapText(bodyText, panelX + m, textY, panelW - m * 2, 18)
+    // Estimate lines for spacing (rough: 60 chars per line)
+    const estimatedLines = Math.ceil(bodyText.length / 60)
+    textY += estimatedLines * 20 + 16
 
-    const statsY = textY + 16
+    const statsY = textY + 8
     ctx.fillStyle = this.colors.borderDim
     ctx.fillRect(panelX, statsY - 8, panelW, 1)
 
@@ -1189,7 +1235,7 @@ export class CanvasTextRenderer implements IRenderer {
 
     this.setFont(10)
     ctx.fillStyle = this.colors.textDim
-    ctx.fillText(`LOOPS: ${state.player.loopCount}   MORAL WEIGHT: ${state.player.moralWeight}`, panelX + m, statsY + 54)
+    ctx.fillText(`Completed in ${state.player.loopCount} loop${state.player.loopCount !== 1 ? 's' : ''}   ·   Moral weight: ${state.player.moralWeight}`, panelX + m, statsY + 54)
 
     const btnY = statsY + 76
     const btnW = Math.min(140, (panelW - m * 3) / 2)

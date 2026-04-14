@@ -47,10 +47,11 @@ describe('NightSystem', () => {
     expect(state.nightDangerLevel).toBe(100)
   })
 
-  it('emits player.died when danger reaches 100', () => {
+  it('transitions to death phase when danger reaches 100', () => {
     const state = { ...createInitialState(), nightDangerLevel: 90 }
-    system.onEvent(makeEvent('night.danger.escalate'), state)
-    expect(diedEmitted).toBe(true)
+    const result = system.onEvent(makeEvent('night.danger.escalate'), state)
+    expect(result.phase).toBe('death')
+    expect(result.deathCause).toBe('death.night_danger')
   })
 
   it('does not emit player.died below 100', () => {
