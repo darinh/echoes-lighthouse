@@ -18,7 +18,7 @@ export class GameEngine {
   constructor(
     private readonly eventBus: IEventBus,
     private readonly renderer: IRenderer,
-    private readonly audio: IAudioProvider,
+    private readonly _audio: IAudioProvider,
   ) {
     this.state = createInitialState()
   }
