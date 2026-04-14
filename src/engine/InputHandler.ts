@@ -9,6 +9,16 @@ export type GameAction =
   | { type: 'dialogue.close' }
   | { type: 'start.game' }
   | { type: 'pause.toggle' }
+  | { type: 'panel.toggle'; panel: 'journal' | 'codex' | 'map' | 'settings' }
+  | { type: 'insight.bank' }
+  | { type: 'save.now' }
+  | { type: 'save.clear.confirmed' }
+  | { type: 'light.lighthouse' }
+  | { type: 'loop.dawn' }
+  | { type: 'vision.continue' }
+  | { type: 'night.hide' }
+  | { type: 'player.accept.death' }
+  | { type: 'main.menu' }
 
 export type ActionHandler = (action: GameAction) => void
 
