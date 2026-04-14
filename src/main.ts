@@ -7,13 +7,13 @@ import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSy
 import { MovementSystem } from '@/world/MovementSystem.js'
 
 async function boot(): Promise<void> {
-  const loadingEl = document.getElementById('loading')!
-  const statusEl  = document.getElementById('loading-status')!
-  const barFill   = document.getElementById('loading-bar-fill')!
+  const loadingEl = document.getElementById('loading')
+  const statusEl  = document.getElementById('loading-status')
+  const barFill   = document.getElementById('loading-bar-fill')
 
   const setProgress = (pct: number, label: string) => {
-    barFill.style.width = `${pct}%`
-    statusEl.textContent = label
+    if (barFill) barFill.style.width = `${pct}%`
+    if (statusEl) statusEl.textContent = label
   }
 
   setProgress(10, 'Loading language...')
@@ -62,8 +62,10 @@ async function boot(): Promise<void> {
   await engine.start(canvas)
 
   // Fade out loading screen
-  loadingEl.classList.add('hidden')
-  setTimeout(() => { loadingEl.style.display = 'none' }, 600)
+  if (loadingEl) {
+    loadingEl.classList.add('hidden')
+    setTimeout(() => { loadingEl.style.display = 'none' }, 600)
+  }
 }
 
 boot().catch(err => {
