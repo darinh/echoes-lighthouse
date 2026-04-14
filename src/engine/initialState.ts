@@ -1,10 +1,18 @@
 import type { IGameState, IPlayerState, INPCState, NPCId, LocationId } from '@/interfaces/index.js'
 
-const DEFAULT_RESONANCE = Object.fromEntries([
+const NPC_IDS: NPCId[] = [
   'maren','vael','silas','petra','tobias','elara','corvin',
   'aldric','isolde','brynn','fenn','keeper_petra','keeper_tobias',
   'the_warden','mirror_keeper',
-].map(id => [id, 0])) as Record<NPCId, number>
+]
+
+const DEFAULT_RESONANCE = Object.fromEntries(
+  NPC_IDS.map(id => [id, 0])
+) as Record<NPCId, number>
+
+const DEFAULT_TRUST = Object.fromEntries(
+  NPC_IDS.map(id => [id, 0])
+) as Record<NPCId, number>
 
 const DEFAULT_ARCHIVE_MASTERY = {
   history: 0, occult: 0, maritime: 0,
@@ -21,7 +29,7 @@ const NPC_START_LOCATIONS: Partial<Record<NPCId, LocationId>> = {
 }
 
 const DEFAULT_NPC_STATES: Record<NPCId, INPCState> = Object.fromEntries(
-  (Object.keys(DEFAULT_RESONANCE) as NPCId[]).map(id => [id, {
+  NPC_IDS.map(id => [id, {
     id,
     resonance: 0,
     isAlive: true,
@@ -40,6 +48,7 @@ const DEFAULT_PLAYER: IPlayerState = {
   insight: 0,
   insightBanked: 0,
   resonance: DEFAULT_RESONANCE,
+  trust: DEFAULT_TRUST,
   archiveMastery: DEFAULT_ARCHIVE_MASTERY,
   loopCount: 0,
   moralWeight: 0,
@@ -56,7 +65,10 @@ export function createInitialState(): IGameState {
     player: DEFAULT_PLAYER,
     npcStates: DEFAULT_NPC_STATES,
     activeDialogue: null,
+    activeQuests: new Set(),
+    completedQuests: new Set(),
     locale: 'en',
     isPaused: false,
+    saveVersion: 1,
   }
 }

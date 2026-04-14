@@ -59,8 +59,9 @@ export interface IPlayerState {
   // Persistent across loops
   readonly insight: number                                        // 0–999
   readonly insightBanked: number                                  // banked at archive desk
-  readonly resonance: Readonly<Record<NPCId, number>>             // 0–10 per NPC
-  readonly archiveMastery: Readonly<Record<ArchiveDomain, number>> // 0–10 per domain
+  readonly resonance: Readonly<Record<NPCId, number>>             // 0–10 per NPC (tier)
+  readonly trust: Readonly<Record<NPCId, number>>                 // 0–200+ per NPC (raw trust currency)
+  readonly archiveMastery: Readonly<Record<ArchiveDomain, number>> // page counts per domain
   readonly loopCount: number
   readonly moralWeight: number
   readonly discoveredLocations: ReadonlySet<LocationId>
@@ -80,6 +81,9 @@ export interface IGameState {
   readonly player: IPlayerState
   readonly npcStates: Readonly<Record<NPCId, INPCState>>
   readonly activeDialogue: IDialogueState | null
+  readonly activeQuests: ReadonlySet<string>
+  readonly completedQuests: ReadonlySet<string>
   readonly locale: string
   readonly isPaused: boolean
+  readonly saveVersion: number
 }

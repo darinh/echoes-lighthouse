@@ -43,6 +43,82 @@ describe('[GDD §1.2] KnowledgeSystem — Insight economy', () => {
     })
   })
 
+  describe('daily insight cap', () => {
+    it('gains up to 150 at full rate in one loop', () => {
+      const next = system.onEvent(makeEvent('insight.gained', { amount: 150 }), state)
+      expect(next.player.insight).toBe(150)
+    })
+
+    it('applies 40% multiplier to insight beyond the 150 cap', () => {
+      // Gain 150 (at cap), then gain 100 more (should yield 40 effective)
+      let s = system.onEvent(makeEvent('insight.gained', { amount: 150 }), state)
+      s = system.onEvent(makeEvent('insight.gained', { amount: 100 }), s)
+      // 150 + round(100 * 0.4) = 150 + 40 = 190
+      expect(s.player.insight).toBe(190)
+    })
+
+    it('resets the daily cap on loop.started', () => {
+      let s = system.onEvent(makeEvent('insight.gained', { amount: 150 }), state)
+      s = system.onEvent(makeEvent('loop.started', { loopCount: 2 }), s)
+      // After reset, full rate resumes
+      s = system.onEvent(makeEvent('insight.gained', { amount: 50 }), s)
+      expect(s.player.insight).toBe(200)
+    })
+  })
+
+  describe('archive.page.found', () => {
+    it('increments archiveMastery page count for the domain', () => {
+      const next = system.onEvent(makeEvent('archive.page.found', { domain: 'history', pageId: 'p1' }), state)
+      expect(next.player.archiveMastery['history']).toBe(1)
+    })
+
+    it('emits archive.domain.unlocked at novice threshold (3 pages)', () => {
+      const events: unknown[] = []
+      bus.on('archive.domain.unlocked', e => events.push(e))
+      let s = state
+      for (let i = 0; i < 3; i++) {
+        s = system.onEvent(makeEvent('archive.page.found', { domain: 'occult', pageId: `p${i}` }), s)
+      }
+      expect(events).toHaveLength(1)
+    })
+
+    it('emits archive.domain.unlocked at adept threshold (6 pages)', () => {
+      const events: unknown[] = []
+      bus.on('archive.domain.unlocked', e => events.push(e))
+      let s = state
+      for (let i = 0; i < 6; i++) {
+        s = system.onEvent(makeEvent('archive.page.found', { domain: 'maritime', pageId: `p${i}` }), s)
+      }
+      // Should have fired for novice (3) and adept (6)
+      expect(events).toHaveLength(2)
+    })
+
+    it('emits archive.domain.unlocked at master threshold (10 pages)', () => {
+      const events: unknown[] = []
+      bus.on('archive.domain.unlocked', e => events.push(e))
+      let s = state
+      for (let i = 0; i < 10; i++) {
+        s = system.onEvent(makeEvent('archive.page.found', { domain: 'alchemy', pageId: `p${i}` }), s)
+      }
+      expect(events).toHaveLength(3)
+    })
+  })
+
+  describe('location.entered — discovery insight', () => {
+    it('awards insight when a new location is discovered', () => {
+      const next = system.onEvent(makeEvent('location.entered', { locationId: 'harbor' }), state)
+      expect(next.player.discoveredLocations.has('harbor')).toBe(true)
+      expect(next.player.insight).toBeGreaterThan(0)
+    })
+
+    it('does not award insight for already-discovered locations', () => {
+      let s = system.onEvent(makeEvent('location.entered', { locationId: 'harbor' }), state)
+      const insightAfterFirst = s.player.insight
+      s = system.onEvent(makeEvent('location.entered', { locationId: 'harbor' }), s)
+      expect(s.player.insight).toBe(insightAfterFirst)
+    })
+  })
+
   describe('unaffected by unrelated events', () => {
     it('returns state unchanged for non-insight events', () => {
       const next = system.onEvent(makeEvent('quest.started', { questId: 'x' }), state)

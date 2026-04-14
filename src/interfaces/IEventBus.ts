@@ -11,28 +11,46 @@ export type GameEventType =
   | 'insight.banked'
   | 'insight.card.formed'
   | 'insight.card.sealed'
+  | 'insight.card.requirements.met'
   | 'archive.page.found'
+  | 'archive.domain.unlocked'
   // Quests
   | 'quest.started'
   | 'quest.updated'
   | 'quest.completed'
   | 'quest.failed'
+  | 'quest.step.completed'
+  | 'journal.thread.failed'
   // NPCs
   | 'npc.dialogue.opened'
   | 'npc.dialogue.choice.made'
   | 'npc.dialogue.closed'
   | 'npc.resonance.changed'
   | 'npc.attitude.changed'
+  | 'npc.trust.gained'
+  | 'npc.trust.lost'
+  | 'npc.tier.unlocked'
   // World
   | 'location.entered'
   | 'location.discovered'
+  | 'location.moved'
   | 'player.moved'
   // Loop
   | 'loop.started'
   | 'loop.ended'
+  | 'loop.reset'
   | 'phase.changed'
   | 'player.died'
+  | 'player.rested'
+  | 'player.exhausted'
+  | 'player.stamina.low'
+  | 'player.light.out'
   | 'day.timer.warning'  // 20% time remaining
+  // Lantern
+  | 'lantern.refilled'
+  | 'lighthouse.lit'
+  // Time
+  | 'time.tick'
   // Moral
   | 'moral.choice.made'
   // System
