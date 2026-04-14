@@ -17,12 +17,13 @@ async function boot(): Promise<void> {
   }
 
   setProgress(10, 'Loading language...')
-  // i18n loaded globally; will be injected into systems in Phase 2
-  await new I18nService().setLocale('en')
+  const i18n = new I18nService()
+  await i18n.setLocale('en')
 
   setProgress(30, 'Initialising systems...')
   const audio    = new SynthAudioProvider()
   const renderer = new CanvasTextRenderer()
+  renderer.setI18n(i18n)
   const eventBus = new EventBus()
   const engine   = new GameEngine(eventBus, renderer, audio)
   const movement = new MovementSystem(eventBus)
