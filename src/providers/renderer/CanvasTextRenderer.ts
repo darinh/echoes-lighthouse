@@ -4,6 +4,7 @@ import type { GameAction } from '@/engine/InputHandler.js'
 import { getAdjacentLocations } from '@/data/locations/phase1Locations.js'
 import { CODEX_PAGES } from '@/data/codex/pages.js'
 import { EXAMINE_DATA } from '@/data/locations/examineData.js'
+import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 
 /** A hit-testable clickable region drawn on the canvas. */
 interface ClickRegion {
@@ -389,7 +390,11 @@ export class CanvasTextRenderer implements IRenderer {
     this.wrapText(this.locationDesc(locId), x, y + 50, w, 18)
 
     const npcH = this.renderNPCPresence(state, x, y + 130, w)
-    this.renderExamineItems(state, x, y + 130 + npcH, w)
+    const examineH = this.renderExamineItems(state, x, y + 130 + npcH, w)
+
+    if (state.player.currentLocation === 'archive_basement') {
+      this.renderArchiveDesk(state, x, y + 130 + npcH + examineH, w)
+    }
   }
 
   private renderNPCPresence(state: IGameState, x: number, y: number, _w: number): number {
@@ -437,11 +442,11 @@ export class CanvasTextRenderer implements IRenderer {
     return 20 + present.length * 44 + 12
   }
 
-  private renderExamineItems(state: IGameState, x: number, y: number, w: number): void {
+  private renderExamineItems(state: IGameState, x: number, y: number, w: number): number {
     const { ctx } = this
     const locId = state.player.currentLocation
     const items = EXAMINE_DATA[locId]
-    if (!items || items.length === 0) return
+    if (!items || items.length === 0) return 0
 
     this.setFont(11)
     ctx.fillStyle = this.colors.textDim
@@ -470,6 +475,101 @@ export class CanvasTextRenderer implements IRenderer {
       }
 
       btnY += btnH + 4
+    }
+
+    return 16 + items.length * (28 + 4) + 12
+  }
+
+  private renderArchiveDesk(state: IGameState, x: number, y: number, w: number): void {
+    const { ctx } = this
+    const { player } = state
+
+    // Section divider + header
+    ctx.fillStyle = this.colors.borderDim
+    ctx.fillRect(x, y + 8, w, 1)
+
+    this.setFont(11, 'bold')
+    ctx.fillStyle = this.colors.accent
+    ctx.textAlign = 'left'
+    ctx.fillText('◆ ARCHIVE DESK', x, y + 24)
+
+    ctx.fillStyle = this.colors.borderDim
+    ctx.fillRect(x, y + 30, w, 1)
+
+    // Banked / current insight stats
+    this.setFont(11)
+    ctx.fillStyle = this.colors.textPrimary
+    ctx.fillText(`Banked: ${player.insightBanked}  |  Current: ${player.insight}`, x, y + 48)
+
+    // BANK INSIGHT button
+    const bankBtnY = y + 58
+    const bankBtnW = 140
+    const bankBtnH = 28
+    const canBank = player.insight > 0
+    ctx.fillStyle = canBank ? this.colors.bgHighlight : this.colors.bgPanel
+    ctx.fillRect(x, bankBtnY, bankBtnW, bankBtnH)
+    ctx.strokeStyle = canBank ? this.colors.borderBright : this.colors.borderDim
+    ctx.strokeRect(x, bankBtnY, bankBtnW, bankBtnH)
+    this.setFont(10)
+    ctx.fillStyle = canBank ? this.colors.textPrimary : this.colors.textDim
+    ctx.textAlign = 'center'
+    ctx.fillText('[BANK INSIGHT]', x + bankBtnW / 2, bankBtnY + 18)
+    ctx.textAlign = 'left'
+    if (canBank) {
+      this.addClickRegion(x, bankBtnY, bankBtnW, bankBtnH, { type: 'insight.bank' }, 'Bank current insight')
+    }
+
+    // Sealable cards section header
+    let cardY = bankBtnY + bankBtnH + 18
+    this.setFont(11)
+    ctx.fillStyle = this.colors.textDim
+    ctx.textAlign = 'left'
+    ctx.fillText('SEALABLE KNOWLEDGE:', x, cardY)
+    cardY += 16
+
+    for (const card of INSIGHT_CARDS) {
+      const sealed = player.sealedInsights.has(card.id)
+      const flagMet = !card.worldFlagRequired || state.worldFlags.has(card.worldFlagRequired)
+      const affordable = player.insightBanked >= card.cost
+      const canSeal = !sealed && flagMet && affordable
+
+      const btnH = 34
+      const btnW = w
+
+      ctx.fillStyle = sealed ? this.colors.bgPanel : canSeal ? this.colors.bgHighlight : this.colors.bgPanel
+      ctx.fillRect(x, cardY, btnW, btnH)
+      ctx.strokeStyle = sealed ? this.colors.borderDim : flagMet ? (affordable ? this.colors.borderBright : this.colors.borderDim) : this.colors.borderDim
+      ctx.strokeRect(x, cardY, btnW, btnH)
+
+      const title = this.t(card.titleKey)
+      const sealLabel = sealed ? '✓ SEALED' : `SEAL — ${card.cost}`
+
+      this.setFont(10)
+      ctx.fillStyle = sealed ? this.colors.textDim : flagMet ? this.colors.textPrimary : this.colors.textDim
+      ctx.textAlign = 'left'
+      ctx.fillText(`◈ ${title}`, x + 8, cardY + 14)
+
+      this.setFont(9)
+      ctx.fillStyle = sealed ? this.colors.textDim : affordable && flagMet ? this.colors.accent : this.colors.textDim
+      ctx.textAlign = 'right'
+      ctx.fillText(`[${sealLabel}]`, x + btnW - 8, cardY + 14)
+      ctx.textAlign = 'left'
+
+      if (!sealed && !flagMet && card.worldFlagRequired) {
+        this.setFont(8)
+        ctx.fillStyle = this.colors.textDim
+        ctx.fillText('  requires: examine first', x + 8, cardY + 26)
+      } else if (!sealed && !affordable) {
+        this.setFont(8)
+        ctx.fillStyle = this.colors.textDim
+        ctx.fillText(`  need ${card.cost - player.insightBanked} more banked insight`, x + 8, cardY + 26)
+      }
+
+      if (canSeal) {
+        this.addClickRegion(x, cardY, btnW, btnH, { type: 'seal.insight', cardId: card.id }, `Seal: ${title}`)
+      }
+
+      cardY += btnH + 4
     }
   }
 

@@ -467,5 +467,35 @@
         "text": "The trapdoor leads down to a small chamber containing nothing except a chair, a burned-out candle, and scratched into the floor: the same loop-count you are currently on."
       }
     }
+  },
+  "insight": {
+    "vael_origin": {
+      "title": "The Vael's True Nature",
+      "desc": "Not a monster. An ancient intelligence, wrongly imprisoned within the mechanism a century ago by keepers who feared what they did not understand."
+    },
+    "mechanism_purpose": {
+      "title": "The Mechanism's Purpose",
+      "desc": "The lighthouse does not merely guide ships. The mechanism beneath it is a binding engine — it exists to trap, not illuminate."
+    },
+    "light_source_truth": {
+      "title": "The Light's Source",
+      "desc": "The lighthouse burns on no oil, no gas. It feeds on something else entirely. The lens inscription names it: 'borrowed life.'"
+    },
+    "keeper_betrayal": {
+      "title": "The Keeper's Fate",
+      "desc": "The previous Keeper discovered the truth and tried to leave. They never reached the mainland. The last log entry is dated three weeks before anyone reported them missing."
+    },
+    "spirit_binding": {
+      "title": "The Binding Ritual",
+      "desc": "The runes in the mechanism room are not decorative. They are a cage. Whoever conducted the original binding knew exactly what they were doing — and chose to do it anyway."
+    },
+    "island_history": {
+      "title": "What This Island Was",
+      "desc": "Before the lighthouse, before the village, there was a place of convergence. The Vael was not summoned here — it was born here. The island was built around it."
+    },
+    "final_signal": {
+      "title": "The Final Transmission",
+      "desc": "On the night the mechanism fails completely, the lighthouse sends one last signal. Not to ships. To something much further away. You have seen it. You cannot unsee it."
+    }
   }
 }

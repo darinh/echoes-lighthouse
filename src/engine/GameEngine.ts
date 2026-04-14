@@ -6,6 +6,7 @@ import type { LocationId } from '@/interfaces/types.js'
 import { createInitialState } from './initialState.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
 import { EXAMINE_DATA } from '@/data/locations/examineData.js'
+import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 
 /**
  * GameEngine — Owns game state, coordinates systems, drives the render loop.
@@ -161,6 +162,27 @@ export class GameEngine {
       case 'pause.toggle':
         this.state = { ...this.state, isPaused: !this.state.isPaused }
         break
+
+      case 'insight.bank':
+        if (this.state.player.insight > 0) {
+          this.applyEvent('insight.banked', { amount: this.state.player.insight })
+          this.eventBus.emit('insight.banked', { amount: this.state.player.insight })
+        }
+        break
+
+      case 'seal.insight': {
+        const sealAction = action as { type: 'seal.insight'; cardId: string }
+        const card = INSIGHT_CARDS.find(c => c.id === sealAction.cardId)
+        if (
+          card &&
+          this.state.player.insightBanked >= card.cost &&
+          !this.state.player.sealedInsights.has(sealAction.cardId)
+        ) {
+          this.applyEvent('insight.card.sealed', { cardId: sealAction.cardId })
+          this.eventBus.emit('insight.card.sealed', { cardId: sealAction.cardId })
+        }
+        break
+      }
     }
   }
 
