@@ -11,6 +11,7 @@ export type GameAction =
   | { type: 'pause.toggle' }
   | { type: 'panel.toggle'; panel: 'journal' | 'codex' | 'map' | 'settings' }
   | { type: 'insight.bank' }
+  | { type: 'seal.insight'; cardId: string }
   | { type: 'save.now' }
   | { type: 'save.clear.confirmed' }
   | { type: 'light.lighthouse' }

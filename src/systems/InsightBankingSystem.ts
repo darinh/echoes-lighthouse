@@ -1,11 +1,13 @@
 import type { ISystem, IGameState, IGameEvent, IEventBus } from '@/interfaces/index.js'
+import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 
 /**
  * InsightBankingSystem — Manages the "bank insight at the Archive Desk" mechanic.
  *
- * - `insight.banked`: move player.insight → player.insightBanked
- * - `player.died`: reset player.insight to 0 (banked survives)
- * - `loop.started`: restore banked insight to player.insight
+ * - `insight.banked`:    move player.insight → player.insightBanked
+ * - `insight.card.sealed`: deduct cost from insightBanked, add card to sealedInsights
+ * - `player.died`:       reset player.insight to 0 (banked survives)
+ * - `loop.started`:      restore banked insight to player.insight
  */
 export class InsightBankingSystem implements ISystem {
   readonly name = 'InsightBankingSystem'
@@ -17,10 +19,11 @@ export class InsightBankingSystem implements ISystem {
 
   onEvent(event: IGameEvent, state: IGameState): IGameState {
     switch (event.type) {
-      case 'insight.banked':  return this.handleBanked(event, state)
-      case 'player.died':     return this.handleDeath(state)
-      case 'loop.started':    return this.handleLoopStarted(state)
-      default:                return state
+      case 'insight.banked':    return this.handleBanked(event, state)
+      case 'insight.card.sealed': return this.handleCardSealed(event, state)
+      case 'player.died':       return this.handleDeath(state)
+      case 'loop.started':      return this.handleLoopStarted(state)
+      default:                  return state
     }
   }
 
@@ -35,6 +38,19 @@ export class InsightBankingSystem implements ISystem {
         insight: state.player.insight - toBank,
         insightBanked: state.player.insightBanked + toBank,
       },
+    }
+  }
+
+  private handleCardSealed(event: IGameEvent, state: IGameState): IGameState {
+    const { cardId } = event.payload as { cardId: string }
+    const card = INSIGHT_CARDS.find(c => c.id === cardId)
+    if (!card) return state
+    const newBanked = Math.max(0, state.player.insightBanked - card.cost)
+    const newSealed = new Set(state.player.sealedInsights)
+    newSealed.add(cardId)
+    return {
+      ...state,
+      player: { ...state.player, insightBanked: newBanked, sealedInsights: newSealed },
     }
   }
 
