@@ -7,7 +7,51 @@
         "tier0": "You're the new Keeper? The last one left quite a mess.",
         "tier1": "I've been expecting someone to come asking questions.",
         "tier2": "You've been here before. I can see it in your eyes.",
-        "tier3": "You remember more than you should. That's dangerous."
+        "tier3": "You remember more than you should. That's dangerous.",
+        "tier4": "My father mentioned someone like you, in his final letters.",
+        "tier5": "I need to tell you something. Something I've kept for seventeen loops.",
+        "tier6": "You already know, don't you. You found the sealed record."
+      },
+      "lighthouse": {
+        "lore": "The lighthouse was built before the village. The mechanism inside predates any living memory."
+      },
+      "archive": {
+        "lore": "The archive holds three hundred years of logs. Most of them. Some pages went missing before I arrived.",
+        "deeper": "Below the public shelves, there are locked cases. I have a key. I've chosen not to use it."
+      },
+      "keeper": {
+        "departure": "He left on a Tuesday. Didn't pack. Didn't say goodbye. The light stayed on for three more days before anyone noticed."
+      },
+      "history": {
+        "gaps": "The records from forty years ago have deliberate gaps. Someone removed pages \u2014 carefully, with scissors, not tearing."
+      },
+      "records": {
+        "curated": "Whoever curated this archive was very selective about what future keepers would find."
+      },
+      "ledger": {
+        "overwritten": "The supply ledger has entries in two different hands. The original is partially legible beneath the correction.",
+        "deflect": "I've said more than I should. Please \u2014 don't ask again."
+      },
+      "echo": {
+        "denial": "I don't know what an Echo is. I've heard the word. I try not to think about it."
+      },
+      "father": {
+        "mention": "My father was the archivist before me. He died when I was twelve. The official record says fever.",
+        "deflect": "I'm sorry. I can't discuss this today.",
+        "letters": "He left me letters. Nineteen of them. Sealed, dated, to be opened when I reached certain ages. The last three... I haven't opened yet.",
+        "strange": "My father knew something was wrong with the loops years before I understood what loops were.",
+        "irreversible": "He wrote: 'When it comes, it will not look like danger. It will look like relief.'"
+      },
+      "mechanism": {
+        "lore": "The mechanism requires specific components to operate. My father documented three of them. I've only ever seen two."
+      },
+      "confession": {
+        "burned": "I burned seventeen pages from the archive. Twelve years ago. I was afraid of what they described.",
+        "mechanism": "The pages described a mechanism beneath the lighthouse that consumes something from the keeper with each lighting.",
+        "unknown": "What it consumes \u2014 my father called it 'persistence.' I don't know exactly what that means. I'm afraid I do."
+      },
+      "full": {
+        "confession": "The keeper's betrayal isn't what you think. Elias didn't fail the light. He chose to be the light. The mechanism needed a permanent host. He volunteered."
       }
     },
     "vael": {
@@ -17,7 +61,32 @@
         "tier0": "...",
         "tier1": "You can hear me. The others couldn't.",
         "tier2": "I've been in this loop longer than you know.",
-        "tier3": "I am what you become if you fail. Listen carefully."
+        "tier3": "I am what you become if you fail. Listen carefully.",
+        "tier4": "I was the Keeper before the Keeper before the Keeper before you.",
+        "tier5": "I've been waiting for someone willing to make a bargain."
+      },
+      "light": {
+        "hunger": "The lighthouse doesn't need oil. It needs something that burns more slowly: conviction."
+      },
+      "echo": {
+        "nature": "An Echo is what remains when a Keeper chooses the light over continuation. I made that choice. I don't regret it. Much."
+      },
+      "mechanism": {
+        "reset": "Every time the loop resets, the mechanism absorbs a little more of whoever lit it last. Eventually there's nothing left but the light."
+      },
+      "keeper": {
+        "confession": "The keeper before me was Elias. He told me what the mechanism required. I didn't believe him until my third loop."
+      },
+      "binding": {
+        "nature": "I'm not haunting this place. I'm woven into it. The lighthouse uses my memory as fuel on nights when no living keeper is present.",
+        "eternal": "How long? I've lost count. The mechanism measures time differently. I may have been bound since the lighthouse's first lighting."
+      },
+      "help": {
+        "offer": "Your help would cost you. Not money. The mechanism takes something more specific than that."
+      },
+      "bargain": {
+        "terms": "I'll tell you how to break the loop permanently. In exchange, you agree to let me pass through you once \u2014 just the memory of standing in the light. One moment. Then I'll be gone.",
+        "refused": "Then the loop continues. I'll still be here next time. I have patience. I have nothing but patience."
       }
     },
     "silas": {
@@ -27,7 +96,34 @@
         "tier0": "Harbour's closed. Storm season.",
         "tier1": "What is it you actually want, Keeper?",
         "tier2": "I saw what happened to the last three. I stayed quiet.",
-        "tier3": "There are things in this harbour older than the lighthouse."
+        "tier3": "There are things in this harbour older than the lighthouse.",
+        "tier4": "I've been trying to forget what I found in the maintenance locker for twelve years.",
+        "tier5": "You want the full account? Fine. But you won't like it."
+      },
+      "ferry": {
+        "schedule": "Ferry runs Tuesdays and Fridays. When the weather's right. Which it hasn't been."
+      },
+      "lighthouse": {
+        "brush": "Not my concern. Not my building."
+      },
+      "keeper": {
+        "hurry": "He came through the harbour before dawn. Moving fast. Looked like a man who'd decided something.",
+        "inconsistency": "He had no baggage. No ticket. I checked. He was on the manifest but no one saw him board."
+      },
+      "timeline": {
+        "pressure": "The dates don't add up. I know that. I've known that for years. Some things are better left not adding up."
+      },
+      "coverup": {
+        "admit": "Yes. There was a coverup. I was part of it. I'm not proud of it."
+      },
+      "harbor": {
+        "discovery": "Three months before the keeper disappeared, I found a body in the maintenance locker. It matched the description of a keeper from forty years prior. The body was fresh."
+      },
+      "mechanism": {
+        "harbor": "The mechanism room connects to a maintenance shaft that runs under the harbor wall. I sealed it. Someone has been unsealing it."
+      },
+      "full": {
+        "truth": "The commission that built the lighthouse knew what it required. They built the mechanism to be fed, not operated. Every keeper since has been a sacrifice who didn't know they were volunteering."
       }
     },
     "petra": {
@@ -37,7 +133,31 @@
         "tier0": "The herbs don't grow right here. Nothing does.",
         "tier1": "Three patients this week with the same symptoms. They all dream of the lighthouse.",
         "tier2": "The sickness isn't spreading. It's remembering.",
-        "tier3": "I've been cataloguing the symptoms across loops. You wouldn't believe how consistent they are."
+        "tier3": "I've been cataloguing the symptoms across loops. You wouldn't believe how consistent they are.",
+        "tier4": "My family has lived here for six generations. We were all asked to forget the same thing.",
+        "tier5": "Take this. Keep it safe. It will let you see what the mechanism room actually contains."
+      },
+      "remedies": {
+        "offer": "Valerian for sleep. Hawthorn for the cold that doesn't leave. Neither will fix what's actually wrong with people here."
+      },
+      "island": {
+        "intro": "The island has been inhabited for three hundred years. The lighthouse was built in the first decade. The sickness started in the second.",
+        "gossip": "The elders say the light keeps the dark things away. The young ones say the light is the dark thing."
+      },
+      "keepers": {
+        "pattern": "Every keeper before you died or disappeared within two years. The pattern is so consistent it must be structural."
+      },
+      "archive": {
+        "hints": "The archive has a basement level that isn't on any official plans. I know because my grandmother helped build it."
+      },
+      "memory": {
+        "medicine": "Someone needed to forget something. I can make medicines that suppress specific memories. My family has been making them for generations, on request, for people I am not permitted to name."
+      },
+      "family": {
+        "silenced": "Three members of my family have been paid to stay silent about the lighthouse mechanism. I am the fourth. I have not yet been paid."
+      },
+      "vial": {
+        "gift": "This vial contains the antidote to what my family has been administering. Drink it in the mechanism room. You'll see what was hidden."
       }
     },
     "tobias": {
@@ -47,62 +167,115 @@
         "tier0": "Busy. Come back later.",
         "tier1": "Someone's been ordering custom ironwork. Won't say what for.",
         "tier2": "Found old blueprints in the bottom of a new order. They match the mechanism room.",
-        "tier3": "Whoever built the original mechanism — they knew it would need to be remade. They left instructions."
+        "tier3": "Whoever built the original mechanism \u2014 they knew it would need to be remade. They left instructions.",
+        "tier4": "I kept one of the gears. Figured someone would need it eventually.",
+        "tier5": "You want to know who commissioned the replacement parts? Fine. But it implicates someone you trust."
+      },
+      "work": {
+        "description": "Ironwork, mostly. The island's machinery is old. Someone has to maintain it."
+      },
+      "lighthouse": {
+        "brush": "I did some work up there once. Didn't go back."
+      },
+      "gears": {
+        "commission": "Custom gear order, intricate tolerances. Matches nothing I've made for any normal purpose.",
+        "misfit": "The gears I made didn't fit anything standard. But they fit the mechanism room drawings precisely."
+      },
+      "paid": {
+        "silence": "I was asked to forget the commission. Paid well for it. The coins had old minting dates. I still have three of them."
+      },
+      "gear": {
+        "offer": "Here. Take it. The original gear, the one that was replaced. Maybe it means something to someone who knows what they're looking for.",
+        "received": "Don't tell anyone I gave you that. The people who paid for the replacement work are still watching."
+      },
+      "commissioner": {
+        "silas": "The harbormaster. Silas. He placed the order, paid in old coin, and told me that what I made would save the island. I believed him. I'm less sure now."
       }
     },
     "elara": {
       "name": "Elara",
-      "title": "Fisherman's Daughter",
+      "title": "The Fisher's Daughter",
       "greeting": {
-        "tier0": "I don't talk to strangers.",
-        "tier1": "My father went to the tidal caves three weeks ago. He hasn't come back.",
-        "tier2": "I've been watching her. The one who walks into the sea. She feeds from the beam.",
-        "tier3": "My father knew about Vael. He left me a note. I think he knew he wouldn't return."
-      }
-    },
-    "petra": {
-      "name": "Petra",
-      "title": "The Apothecary",
-      "greeting": {
-        "tier0": "The herbs don't grow right here. Nothing does.",
-        "tier1": "Three patients this week with the same symptoms. They all dream of the lighthouse.",
-        "tier2": "The sickness isn't spreading. It's remembering.",
-        "tier3": "I've been cataloguing the symptoms across loops. You wouldn't believe how consistent they are."
-      }
-    },
-    "tobias": {
-      "name": "Tobias",
-      "title": "The Blacksmith",
-      "greeting": {
-        "tier0": "Busy. Come back later.",
-        "tier1": "Someone's been ordering custom ironwork. Won't say what for.",
-        "tier2": "Found old blueprints in the bottom of a new order. They match the mechanism room.",
-        "tier3": "Whoever built the original mechanism — they knew it would need to be remade. They left instructions."
-      }
-    },
-    "elara": {
-      "name": "Elara",
-      "title": "Fisherman's Daughter",
-      "greeting": {
-        "tier0": "I don't talk to strangers.",
-        "tier1": "My father went to the tidal caves three weeks ago. He hasn't come back.",
-        "tier2": "I've been watching her. The one who walks into the sea. She feeds from the beam.",
-        "tier3": "My father knew about Vael. He left me a note. I think he knew he wouldn't return."
+        "tier0": "I'm just watching the water. Don't mind me.",
+        "tier1": "My father saw something in the water before he disappeared. I've been trying to find it again.",
+        "tier2": "The light patterns on the water change before the loop resets. I've been charting them.",
+        "tier3": "I know what I've been seeing. I just don't know if it's an animal or something else.",
+        "tier4": "The light in the water isn't reflected from above. It's generated from below.",
+        "tier5": "The thing in the water isn't hungry. It's signaling. I figured out what it's saying."
+      },
+      "mainland": {
+        "chat": "I came here from the mainland to find my father. He took a posting here and stopped writing. That was eight months ago."
+      },
+      "water": {
+        "creature": "Something lives in the deep channel under the harbor. Bioluminescent. Follows specific patterns."
+      },
+      "feeding": {
+        "pattern": "It surfaces every night precisely at the moment the lighthouse goes dark. Not to feed. To witness."
+      },
+      "notebook": {
+        "share": "Here \u2014 my observation notes. Every surfacing event for the past two months. The timestamps will mean something to you if you know what to look for."
+      },
+      "notes": {
+        "received": "The gaps in my notes correspond to the loop resets. I didn't understand that until I showed them to you."
+      },
+      "beam": {
+        "diagram": "Look \u2014 the bioluminescent pattern mirrors the lighthouse beam exactly. But it predates the lighthouse by geological time scales. The lighthouse was built to answer a signal that already existed."
+      },
+      "vael": {
+        "communication": "The light in the water is Vael. Or \u2014 the part of Vael that isn't bound to the lighthouse. They're communicating with themselves. Across the binding."
       }
     }
   },
-  "choice": {
-    "ask_lighthouse":  "Tell me about the lighthouse.",
-    "ask_archive":     "What does the archive hold?",
-    "ask_keeper":      "What happened to the previous Keeper?",
-    "ask_echo":        "I've seen echoes here. You know what they are.",
-    "leave":           "I should go.",
-    "ask_about":       "Ask about {subject}",
-    "press_harder":    "Press harder",
-    "let_it_go":       "Let it go",
-    "offer_help":      "Offer to help",
-    "demand_truth":    "Demand the truth",
-    "lie":             "Lie",
-    "stay_silent":     "Say nothing"
+  "dialogue": {
+    "choice": {
+      "ask_lighthouse": "Ask about the lighthouse",
+      "ask_archive": "Ask about the archive",
+      "ask_archive_deeper": "Ask about the restricted section",
+      "ask_archive_pages": "Ask about archive pages",
+      "ask_keeper": "Ask about the last keeper",
+      "ask_history": "Ask about the history gaps",
+      "ask_echo": "Ask about the Echo",
+      "ask_unusual": "Ask about anything unusual",
+      "ask_father": "Ask about her father",
+      "ask_father_direct": "Ask what her father knew",
+      "ask_mechanism": "Ask about the mechanism",
+      "ask_former_keeper": "Ask about the former keeper",
+      "ask_binding": "Ask about the binding",
+      "ask_how_bound": "Ask how the binding works",
+      "ask_what_irreversible": "Ask what couldn't be undone",
+      "ask_what_was_on_them": "Ask what the pages said",
+      "ask_what_was_coming": "Ask what was coming",
+      "ask_who_removed": "Ask who removed the records",
+      "ask_who_needed_to_forget": "Ask who needed to forget",
+      "ask_silenced": "Ask who was silenced",
+      "ask_ferry": "Ask about the ferry",
+      "ask_mainland": "Ask about the mainland",
+      "ask_island": "Ask about the island",
+      "ask_island_memory": "Ask about island memories",
+      "ask_remedies": "Ask about remedies",
+      "ask_water_creature": "Ask what's in the water",
+      "ask_feeding_pattern": "Ask about the feeding pattern",
+      "ask_notebook": "Ask to see the notebook",
+      "ask_beam_diagram": "Ask about the beam diagram",
+      "ask_vael_signal": "Ask about the underwater signal",
+      "ask_work": "Ask about the work",
+      "ask_gears": "Ask about the custom gears",
+      "ask_gears_fit": "Ask what the gears fit",
+      "ask_gear_kept": "Ask about the gear kept back",
+      "ask_commissioner": "Ask who commissioned the work",
+      "ask_what_happened": "Ask what happened",
+      "press_harder": "Press for more",
+      "let_it_go": "Let it go",
+      "listen": "Listen",
+      "react_shock": "React with shock",
+      "confront_betrayal": "Confront her with what you know",
+      "confront_coverup": "Confront him about the coverup",
+      "demand_truth": "Demand the full truth",
+      "offer_help": "Offer to help",
+      "accept_bargain": "Accept the bargain",
+      "refuse_bargain": "Refuse the bargain",
+      "accept_gift": "Accept",
+      "leave": "Leave"
+    }
   }
 }
