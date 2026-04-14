@@ -44,6 +44,9 @@ export const MAREN_NPC: NPCFullData = {
         { id: 'ask.history', textKey: 'dialogue.choice.ask_history', nextNodeId: 'maren.history.gaps', insightGain: 8, trustGain: 3 },
         { id: 'ask.archive', textKey: 'dialogue.choice.ask_archive', nextNodeId: 'maren.archive.lore', insightGain: 5 },
         { id: 'ask.keeper', textKey: 'dialogue.choice.ask_keeper', nextNodeId: 'maren.keeper.departure', insightGain: 5 },
+        { id: 'ask.prev_keeper', textKey: 'dialogue.choice.ask_prev_keeper', nextNodeId: 'maren.prev.keeper.reveal', insightGain: 8, trustGain: 3, worldFlagSet: 'maren_keeper_betrayal_known' },
+        { id: 'ask.mechanism.purpose', textKey: 'dialogue.choice.ask_mechanism', nextNodeId: 'maren.mechanism.purpose', insightGain: 6 },
+        { id: 'ask.her_role', textKey: 'dialogue.choice.ask_her_role', nextNodeId: 'maren.her.role', insightGain: 8, trustGain: 2 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -56,6 +59,45 @@ export const MAREN_NPC: NPCFullData = {
     },
     'maren.records.curated': {
       speakerKey: 'npc.maren.records.curated',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'maren.prev.keeper.reveal': {
+      speakerKey: 'npc.maren.prev.keeper.reveal',
+      choices: [
+        { id: 'ask.what_keeper_chose', textKey: 'dialogue.choice.ask_what_irreversible', nextNodeId: 'maren.keeper.chose', insightGain: 10, trustGain: 3 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'maren.keeper.chose': {
+      speakerKey: 'npc.maren.keeper.chose',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'maren.mechanism.purpose': {
+      speakerKey: 'npc.maren.mechanism.purpose',
+      choices: [
+        { id: 'ask.what_it_opens', textKey: 'dialogue.choice.ask_what_was_coming', nextNodeId: 'maren.mechanism.what_opens', insightGain: 8, trustGain: 2 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'maren.mechanism.what_opens': {
+      speakerKey: 'npc.maren.mechanism.what_opens',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'maren.her.role': {
+      speakerKey: 'npc.maren.her_role',
+      choices: [
+        { id: 'ask.she_remember', textKey: 'dialogue.choice.press_harder', nextNodeId: 'maren.her.role.forget', insightGain: 10, trustGain: 4, moralWeight: 1 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'maren.her.role.forget': {
+      speakerKey: 'npc.maren.her_role_forget',
       choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],

@@ -5,7 +5,7 @@
       "title": "The Archivist",
       "greeting": {
         "tier0": "You're the new Keeper? The last one left quite a mess.",
-        "tier1": "I've been expecting someone to come asking questions.",
+        "tier1": "You've survived longer than most. Ask what you really want to know.",
         "tier2": "You've been here before. I can see it in your eyes.",
         "tier3": "You remember more than you should. That's dangerous.",
         "tier4": "My father mentioned someone like you, in his final letters.",
@@ -20,17 +20,18 @@
         "deeper": "Below the public shelves, there are locked cases. I have a key. I've chosen not to use it."
       },
       "keeper": {
-        "departure": "He left on a Tuesday. Didn't pack. Didn't say goodbye. The light stayed on for three more days before anyone noticed."
+        "departure": "He left on a Tuesday. Didn't pack. Didn't say goodbye. The light stayed on for three more days before anyone noticed.",
+        "chose": "He understood what it costs better than any of us. He called it a fair exchange. I've spent seventeen years deciding whether I agree."
       },
       "history": {
-        "gaps": "The records from forty years ago have deliberate gaps. Someone removed pages \u2014 carefully, with scissors, not tearing."
+        "gaps": "The records from forty years ago have deliberate gaps. Someone removed pages — carefully, with scissors, not tearing."
       },
       "records": {
         "curated": "Whoever curated this archive was very selective about what future keepers would find."
       },
       "ledger": {
         "overwritten": "The supply ledger has entries in two different hands. The original is partially legible beneath the correction.",
-        "deflect": "I've said more than I should. Please \u2014 don't ask again."
+        "deflect": "I've said more than I should. Please — don't ask again."
       },
       "echo": {
         "denial": "I don't know what an Echo is. I've heard the word. I try not to think about it."
@@ -43,24 +44,33 @@
         "irreversible": "He wrote: 'When it comes, it will not look like danger. It will look like relief.'"
       },
       "mechanism": {
-        "lore": "The mechanism requires specific components to operate. My father documented three of them. I've only ever seen two."
+        "lore": "The mechanism requires specific components to operate. My father documented three of them. I've only ever seen two.",
+        "purpose": "The mechanism underneath the lighthouse is not the mechanism. That is the visible part. What it operates — what it opens or closes — I have never been able to determine. My father knew. He wrote it down once and then rewrote the entry so it couldn't be read.",
+        "what_opens": "I think it opens the boundary. Between the loop and whatever is outside the loop. What comes through when it opens — that is the question my father died without answering."
       },
       "confession": {
         "burned": "I burned seventeen pages from the archive. Twelve years ago. I was afraid of what they described.",
         "mechanism": "The pages described a mechanism beneath the lighthouse that consumes something from the keeper with each lighting.",
-        "unknown": "What it consumes \u2014 my father called it 'persistence.' I don't know exactly what that means. I'm afraid I do."
+        "unknown": "What it consumes — my father called it 'persistence.' I don't know exactly what that means. I'm afraid I do."
       },
       "full": {
         "confession": "The keeper's betrayal isn't what you think. Elias didn't fail the light. He chose to be the light. The mechanism needed a permanent host. He volunteered."
-      }
+      },
+      "prev": {
+        "keeper": {
+          "reveal": "Elias — the keeper before the keeper before you — didn't leave. He chose to stay in a way the records won't describe. The mechanism needed something permanent. He provided it."
+        }
+      },
+      "her_role": "I've been here before. Not in memory — I don't remember it the way you remember things. But the archive has my annotations in handwriting I don't recognise as mine, dated twelve years before I was born.",
+      "her_role_forget": "Whatever I knew in that previous iteration, the suppressor took it. I'm starting from less than zero. You may be further along than I am now."
     },
     "vael": {
       "name": "Vael",
       "title": "The Echo",
       "greeting": {
         "tier0": "...",
-        "tier1": "You can hear me. The others couldn't.",
-        "tier2": "I've been in this loop longer than you know.",
+        "tier1": "You begin to understand my language. Good. There is little time.",
+        "tier2": "I have shown you everything I can. The rest is your choice.",
         "tier3": "I am what you become if you fail. Listen carefully.",
         "tier4": "I was the Keeper before the Keeper before the Keeper before you.",
         "tier5": "I've been waiting for someone willing to make a bargain."
@@ -75,18 +85,40 @@
         "reset": "Every time the loop resets, the mechanism absorbs a little more of whoever lit it last. Eventually there's nothing left but the light."
       },
       "keeper": {
-        "confession": "The keeper before me was Elias. He told me what the mechanism required. I didn't believe him until my third loop."
+        "confession": "The keeper before me was Elias. He told me what the mechanism required. I didn't believe him until my third loop.",
+        "memory": "I remember every keeper. Each one comes in thinking they are the first to understand. Each one is right, and each one is wrong, in the same proportion. You are no different. You are also exactly what was needed."
       },
       "binding": {
         "nature": "I'm not haunting this place. I'm woven into it. The lighthouse uses my memory as fuel on nights when no living keeper is present.",
-        "eternal": "How long? I've lost count. The mechanism measures time differently. I may have been bound since the lighthouse's first lighting."
+        "eternal": "How long? I've lost count. The mechanism measures time differently. I may have been bound since the lighthouse's first lighting.",
+        "vision": "The binding looks different from the inside. It is not a cage — it is a lens. Everything I was is focused into a single point: the moment the light first touched the water. I have lived in that moment for longer than the island has had a name."
       },
       "help": {
         "offer": "Your help would cost you. Not money. The mechanism takes something more specific than that."
       },
       "bargain": {
-        "terms": "I'll tell you how to break the loop permanently. In exchange, you agree to let me pass through you once \u2014 just the memory of standing in the light. One moment. Then I'll be gone.",
+        "terms": "I'll tell you how to break the loop permanently. In exchange, you agree to let me pass through you once — just the memory of standing in the light. One moment. Then I'll be gone.",
         "refused": "Then the loop continues. I'll still be here next time. I have patience. I have nothing but patience."
+      },
+      "other": {
+        "keepers": "They each made one mistake. Not the same mistake — different ones, perfectly suited to who they were. The island is patient. It finds what you trust most and makes that the instrument of your failure."
+      },
+      "wrong": {
+        "choice": "The wrong choice was not wrong at the time. That is the cruelty of it. What breaks the loop cannot be known in advance — only in retrospect, and by then the loop has already reset."
+      },
+      "what": {
+        "want": "I want to finish a thought I began before the first binding. I have been holding it incomplete for longer than you can calculate. The thought is simple. The conditions required to complete it are not."
+      },
+      "freedom": {
+        "offer": "Freedom is not a word I use. What you are offering is dissolution — the end of my presence here. I have considered it. The answer depends on what you intend to do with the space I would leave.",
+        "accepted": "Then it is agreed. I will show you the thread. When you pull it, the binding comes undone from my end. What happens at your end is your responsibility. I trust you understand what that means.",
+        "cost": "The cost is specificity. You would need to be present at the exact moment of the mechanism's alignment — not near it, not watching it, but part of it. Whether you survive that contact in your current form is a question I cannot answer honestly."
+      },
+      "transcendence": {
+        "clue": "There is a state beyond the loop — not outside it, but through it, in the way that light is not the glass but passes through the glass and is changed. I have glimpsed it. The path requires seven specific understandings, gathered in a specific order."
+      },
+      "seven": {
+        "insights": "The seventh understanding is the hardest. It cannot be told to you — only confirmed. You will know it when you know it, and you will spend some time refusing to believe that you know it. That refusal is the last test."
       }
     },
     "silas": {
@@ -167,7 +199,7 @@
         "tier0": "Busy. Come back later.",
         "tier1": "Someone's been ordering custom ironwork. Won't say what for.",
         "tier2": "Found old blueprints in the bottom of a new order. They match the mechanism room.",
-        "tier3": "Whoever built the original mechanism \u2014 they knew it would need to be remade. They left instructions.",
+        "tier3": "Whoever built the original mechanism — they knew it would need to be remade. They left instructions.",
         "tier4": "I kept one of the gears. Figured someone would need it eventually.",
         "tier5": "You want to know who commissioned the replacement parts? Fine. But it implicates someone you trust."
       },
@@ -213,16 +245,16 @@
         "pattern": "It surfaces every night precisely at the moment the lighthouse goes dark. Not to feed. To witness."
       },
       "notebook": {
-        "share": "Here \u2014 my observation notes. Every surfacing event for the past two months. The timestamps will mean something to you if you know what to look for."
+        "share": "Here — my observation notes. Every surfacing event for the past two months. The timestamps will mean something to you if you know what to look for."
       },
       "notes": {
         "received": "The gaps in my notes correspond to the loop resets. I didn't understand that until I showed them to you."
       },
       "beam": {
-        "diagram": "Look \u2014 the bioluminescent pattern mirrors the lighthouse beam exactly. But it predates the lighthouse by geological time scales. The lighthouse was built to answer a signal that already existed."
+        "diagram": "Look — the bioluminescent pattern mirrors the lighthouse beam exactly. But it predates the lighthouse by geological time scales. The lighthouse was built to answer a signal that already existed."
       },
       "vael": {
-        "communication": "The light in the water is Vael. Or \u2014 the part of Vael that isn't bound to the lighthouse. They're communicating with themselves. Across the binding."
+        "communication": "The light in the water is Vael. Or — the part of Vael that isn't bound to the lighthouse. They're communicating with themselves. Across the binding."
       }
     }
   },
@@ -275,7 +307,13 @@
       "accept_bargain": "Accept the bargain",
       "refuse_bargain": "Refuse the bargain",
       "accept_gift": "Accept",
-      "leave": "Leave"
+      "leave": "Leave",
+      "ask_prev_keeper": "Ask about the previous keeper",
+      "ask_her_role": "Ask about your role here",
+      "ask_other_keepers": "Ask about the other keepers",
+      "ask_what_want": "Ask what it truly wants",
+      "offer_free_vael": "Offer to free it",
+      "ask_transcendence": "Ask about transcendence"
     }
   }
 }

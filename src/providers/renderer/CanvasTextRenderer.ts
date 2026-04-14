@@ -1385,6 +1385,23 @@ export class CanvasTextRenderer implements IRenderer {
     if (line) ctx.fillText(line, x, lineY)
   }
 
+  private wrapTextCount(text: string, maxW: number): number {
+    const { ctx } = this
+    const words = text.split(' ')
+    let line = ''
+    let count = 1
+    for (const word of words) {
+      const test = line ? `${line} ${word}` : word
+      if (ctx.measureText(test).width > maxW && line) {
+        line = word
+        count++
+      } else {
+        line = test
+      }
+    }
+    return count
+  }
+
   private setFont(size: number, weight = ''): void {
     const scaled = Math.round(size * this.basePx / 11)
     this.ctx.font = `${weight ? weight + ' ' : ''}${scaled}px monospace`
@@ -1772,11 +1789,32 @@ export class CanvasTextRenderer implements IRenderer {
         ctx.fillText('(no pages found in this domain)', contentX, y + 12)
       } else {
         for (const page of found) {
-          this.setFont(11)
+          const title = this.t(page.titleKey)
+          const body = this.t(page.bodyKey)
+          const bodyResolved = body !== page.bodyKey
+
+          this.setFont(11, 'bold')
           ctx.fillStyle = this.colors.textPrimary
-          ctx.fillText(`• ${page.titleKey}`, contentX, y + 12)
-          y += Math.round(this.basePx * 1.6)
-          if (y > panelY + panelH - 20) break
+          ctx.fillText(`• ${title}`, contentX, y + 12)
+          y += Math.round(this.basePx * 1.7)
+
+          this.setFont(10)
+          if (bodyResolved) {
+            ctx.fillStyle = this.colors.textDim
+            const bodyLines = this.wrapTextCount(body, panelW - m * 2 - 12)
+            this.wrapText(body, contentX + 12, y, panelW - m * 2 - 12, 15)
+            y += bodyLines * 15 + 6
+          } else {
+            ctx.fillStyle = this.colors.textFaint
+            ctx.fillText('No entry recorded.', contentX + 12, y + 12)
+            y += Math.round(this.basePx * 1.6)
+          }
+
+          ctx.fillStyle = this.colors.borderDim
+          ctx.fillRect(contentX, y, panelW - m * 2, 1)
+          y += 10
+
+          if (y > panelY + panelH - 40) break
         }
       }
     } else {

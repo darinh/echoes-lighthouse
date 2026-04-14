@@ -19,8 +19,9 @@ export const VAEL_NPC: NPCFullData = {
     'vael.greeting.tier1': {
       speakerKey: 'npc.vael.greeting.tier1',
       choices: [
-        { id: 'ask.lighthouse', textKey: 'dialogue.choice.ask_lighthouse', nextNodeId: 'vael.light.hunger', insightGain: 8, trustGain: 3, questStart: 'quest_light_source_truth' },
-        { id: 'ask.echo', textKey: 'dialogue.choice.ask_echo', nextNodeId: 'vael.echo.nature', insightGain: 10, moralWeight: 1 },
+        { id: 'ask.binding.lore', textKey: 'dialogue.choice.ask_binding', nextNodeId: 'vael.binding.vision', insightGain: 10, trustGain: 4 },
+        { id: 'ask.other.keepers', textKey: 'dialogue.choice.ask_other_keepers', nextNodeId: 'vael.other.keepers', insightGain: 8, trustGain: 3 },
+        { id: 'ask.what.want', textKey: 'dialogue.choice.ask_what_want', nextNodeId: 'vael.what.want', insightGain: 10, trustGain: 5 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -36,11 +37,78 @@ export const VAEL_NPC: NPCFullData = {
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
+    'vael.binding.vision': {
+      speakerKey: 'npc.vael.binding.vision',
+      choices: [
+        { id: 'ask.keeper_memory', textKey: 'dialogue.choice.ask_former_keeper', nextNodeId: 'vael.keeper.memory', insightGain: 10, trustGain: 3 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.keeper.memory': {
+      speakerKey: 'npc.vael.keeper.memory',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.other.keepers': {
+      speakerKey: 'npc.vael.other.keepers',
+      choices: [
+        { id: 'ask.wrong_choice', textKey: 'dialogue.choice.ask_what_was_coming', nextNodeId: 'vael.wrong.choice', insightGain: 8, trustGain: 2 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.wrong.choice': {
+      speakerKey: 'npc.vael.wrong.choice',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.what.want': {
+      speakerKey: 'npc.vael.what.want',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.freedom.offer': {
+      speakerKey: 'npc.vael.freedom.offer',
+      choices: [
+        { id: 'confirm.freedom', textKey: 'dialogue.choice.accept_bargain', nextNodeId: 'vael.freedom.accepted', insightGain: 20, trustGain: 10, moralWeight: 3, worldFlagSet: 'vael_freedom_confirmed' },
+        { id: 'ask.what_costs', textKey: 'dialogue.choice.ask_what_was_coming', nextNodeId: 'vael.freedom.cost', insightGain: 8 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.freedom.accepted': {
+      speakerKey: 'npc.vael.freedom.accepted',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.freedom.cost': {
+      speakerKey: 'npc.vael.freedom.cost',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.transcendence.clue': {
+      speakerKey: 'npc.vael.transcendence.clue',
+      choices: [
+        { id: 'ask.all_seven', textKey: 'dialogue.choice.ask_archive_deeper', nextNodeId: 'vael.seven.insights', insightGain: 15, trustGain: 5, requiresTier: 2 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.seven.insights': {
+      speakerKey: 'npc.vael.seven.insights',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
     'vael.greeting.tier2': {
       speakerKey: 'npc.vael.greeting.tier2',
       choices: [
         { id: 'ask.mechanism', textKey: 'dialogue.choice.ask_mechanism', nextNodeId: 'vael.mechanism.reset', insightGain: 12, trustGain: 4 },
         { id: 'ask.echo', textKey: 'dialogue.choice.ask_echo', nextNodeId: 'vael.echo.nature', insightGain: 10 },
+        { id: 'offer.free_vael', textKey: 'dialogue.choice.offer_free_vael', nextNodeId: 'vael.freedom.offer', insightGain: 15, trustGain: 8, worldFlagSet: 'vael_offered_freedom' },
+        { id: 'ask.transcendence', textKey: 'dialogue.choice.ask_transcendence', nextNodeId: 'vael.transcendence.clue', insightGain: 12, trustGain: 4, requiresTier: 2 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
