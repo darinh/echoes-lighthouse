@@ -73,6 +73,7 @@ export type GameEventType =
   | 'night.danger.escalate'
   | 'vision.started'
   | 'vision.completed'
+  | 'examine.completed'
 
 | 'lighthouse.lit'
   | 'loop.dawn'

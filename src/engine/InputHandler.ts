@@ -19,6 +19,7 @@ export type GameAction =
   | { type: 'night.hide' }
   | { type: 'player.accept.death' }
   | { type: 'main.menu' }
+  | { type: 'examine'; itemId: string; locationId: string }
 
 export type ActionHandler = (action: GameAction) => void
 

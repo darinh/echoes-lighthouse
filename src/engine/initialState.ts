@@ -20,12 +20,12 @@ const DEFAULT_ARCHIVE_MASTERY = {
 }
 
 const NPC_START_LOCATIONS: Partial<Record<NPCId, LocationId>> = {
-  maren:  'keepers_cottage',
-  vael:   'cliffside',
+  maren:  'archive_basement',
+  vael:   'lighthouse_top',
   silas:  'harbor',
-  petra:  'ruins',
+  petra:  'village_square',
   tobias: 'mill',
-  elara:  'harbor',
+  elara:  'ruins',
 }
 
 const DEFAULT_NPC_STATES: Record<NPCId, INPCState> = Object.fromEntries(
@@ -55,6 +55,7 @@ const DEFAULT_PLAYER: IPlayerState = {
   discoveredLocations: new Set(['keepers_cottage']),
   sealedInsights: new Set(),
   activeJournalThreads: new Set(),
+  journalEntries: [],
   currentLocation: 'keepers_cottage',
 }
 
