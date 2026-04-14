@@ -364,28 +364,30 @@ export class CanvasTextRenderer implements IRenderer {
     this.setFont(10)
     ctx.fillStyle = this.colors.textDim
     ctx.textAlign = 'left'
-    ctx.fillText(`LOOP ${player.loopCount}  ·  ${phase.replace('_', ' ').toUpperCase()}`, x + m, y + 18)
+    ctx.fillText(`LOOP ${player.loopCount}  ·  ${phase.replace('_', ' ').toUpperCase()}`, x + m, y + this.lh(10))
 
     this.setFont(12)
     ctx.fillStyle = this.colors.danger
-    ctx.fillText('♥'.repeat(player.hearts) + '♡'.repeat(Math.max(0, 3 - player.hearts)), x + m, y + 38)
+    ctx.fillText('♥'.repeat(player.hearts) + '♡'.repeat(Math.max(0, 3 - player.hearts)), x + m, y + this.lh(10) + this.lh(12))
 
     const statX = x + m + 80
-    this.renderSegmentedBar(statX, y + 20, 90, 8, player.stamina / 100, 10, this.colors.safe, 'STA')
-    this.renderStatBar(statX + 100, y + 28, 90, 8, player.lightReserves / 100, this.colors.accentWarm, 'LGT')
+    const row1Y = y + this.lh(10) + 4
+    const row2Y = y + this.lh(10) + this.lh(12) - 4
+    this.renderSegmentedBar(statX, row1Y, 90, 8, player.stamina / 100, 10, this.colors.safe, 'STA')
+    this.renderStatBar(statX + 100, row1Y, 90, 8, player.lightReserves / 100, this.colors.accentWarm, 'LGT')
 
     // ⚠ warning glyph when stamina critical or time running out
     if (player.stamina <= 2 || dayTimeRemaining < 0.2) {
       this.setFont(12)
       ctx.fillStyle = this.colors.danger
       ctx.textAlign = 'left'
-      ctx.fillText('⚠', statX + 200, y + 38)
+      ctx.fillText('⚠', statX + 200, row2Y)
     }
 
     this.setFont(11)
     ctx.fillStyle = this.colors.accentGold
     ctx.textAlign = 'left'
-    ctx.fillText(`◈ ${player.insight}`, statX + 220, y + 38)
+    ctx.fillText(`◈ ${player.insight}`, statX + 220, row2Y)
 
     const timerW = Math.min(200, w * 0.25)
     const timerX = x + w - timerW - m
@@ -397,13 +399,13 @@ export class CanvasTextRenderer implements IRenderer {
     this.setFont(9)
     ctx.fillStyle = this.colors.textDim
     ctx.textAlign = 'right'
-    ctx.fillText('DAY', timerX - 6, y + 38)
-    this.renderStatBar(timerX, y + 28, timerW, 8, dayTimeRemaining, timerColor)
+    ctx.fillText('DAY', timerX - 6, row2Y)
+    this.renderStatBar(timerX, row1Y, timerW, 8, dayTimeRemaining, timerColor)
 
     ctx.textAlign = 'right'
     this.setFont(10)
     ctx.fillStyle = this.colors.textPrimary
-    ctx.fillText(this.locationName(state.player.currentLocation), x + w - m, y + 16)
+    ctx.fillText(this.locationName(state.player.currentLocation), x + w - m, y + this.lh(10))
   }
 
   private renderLocationPanel(state: IGameState, x: number, y: number, w: number, h: number): void {
