@@ -17,6 +17,7 @@ export type GameAction =
   | { type: 'light.lighthouse' }
   | { type: 'loop.dawn' }
   | { type: 'vision.continue' }
+  | { type: 'dismiss.vision' }
   | { type: 'night.hide' }
   | { type: 'player.accept.death' }
   | { type: 'main.menu' }
@@ -86,6 +87,8 @@ export class InputHandler {
 
   private handleKey(e: KeyboardEvent): void {
     if (e.repeat) return
+    // Any key dismisses an active vision sequence
+    this.dispatch({ type: 'dismiss.vision' })
     switch (e.key) {
       case 'Escape':
         this.dispatch({ type: 'dialogue.close' })

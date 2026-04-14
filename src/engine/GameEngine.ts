@@ -186,6 +186,21 @@ export class GameEngine {
         }
         break
       }
+
+      case 'dismiss.vision': {
+        if (this.state.pendingVisions.length === 0) break
+        const remaining = this.state.pendingVisions.slice(1)
+        const nextPhase = remaining.length === 0
+          ? (this.state.priorPhase ?? 'night_safe')
+          : 'vision'
+        this.state = {
+          ...this.state,
+          pendingVisions: remaining,
+          phase: nextPhase,
+          priorPhase: remaining.length === 0 ? null : this.state.priorPhase,
+        }
+        break
+      }
     }
   }
 

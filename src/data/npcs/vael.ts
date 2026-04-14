@@ -19,7 +19,7 @@ export const VAEL_NPC: NPCFullData = {
     'vael.greeting.tier1': {
       speakerKey: 'npc.vael.greeting.tier1',
       choices: [
-        { id: 'ask.lighthouse', textKey: 'dialogue.choice.ask_lighthouse', nextNodeId: 'vael.light.hunger', insightGain: 8, trustGain: 3 },
+        { id: 'ask.lighthouse', textKey: 'dialogue.choice.ask_lighthouse', nextNodeId: 'vael.light.hunger', insightGain: 8, trustGain: 3, questStart: 'quest_light_source_truth' },
         { id: 'ask.echo', textKey: 'dialogue.choice.ask_echo', nextNodeId: 'vael.echo.nature', insightGain: 10, moralWeight: 1 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],

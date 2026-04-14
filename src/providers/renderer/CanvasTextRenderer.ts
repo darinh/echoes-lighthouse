@@ -448,7 +448,17 @@ export class CanvasTextRenderer implements IRenderer {
       ctx.textAlign = 'left'
       const displayName = this.t(`npc.${npcId}.name`)
       const npcName = (displayName === `npc.${npcId}.name`) ? npcId : displayName
+
+      // Resonance dots: trust/25 filled out of 4
+      const trust = state.player.trust[npcId as NPCId] ?? 0
+      const filledDots = Math.min(4, Math.floor(trust / 25))
+      const dots = '◈'.repeat(filledDots) + '○'.repeat(4 - filledDots)
       ctx.fillText(npcName, x + 10, npcY + 15)
+
+      this.setFont(9)
+      ctx.fillStyle = this.colors.accentGold
+      ctx.textAlign = 'right'
+      ctx.fillText(dots, x + 170, npcY + 15)
 
       const titleKey = `npc.${npcId}.title`
       const npcTitle = this.t(titleKey)
@@ -932,6 +942,13 @@ export class CanvasTextRenderer implements IRenderer {
     const visionId = state.pendingVisions[0] ?? 'vision_the_binding'
     const cx = width / 2
 
+    // If the vision has i18n content, use the sequence renderer
+    const i18nTitle = this.t(`vision.${visionId}.title`)
+    if (i18nTitle !== `vision.${visionId}.title`) {
+      this.renderVisionSequence(state)
+      return
+    }
+
     const visions: Record<string, { title: string; lines: string[] }> = {
       vision_the_first_keeper: {
         title: '◈  VISION: THE FIRST KEEPER  ◈',
@@ -998,6 +1015,59 @@ export class CanvasTextRenderer implements IRenderer {
       const btnX = cx - btnW / 2
       const btnY = height * 0.75 - 20
       this.addClickRegion(btnX, btnY, btnW, btnH, { type: 'vision.continue' }, 'Continue vision')
+    }
+
+    ctx.globalAlpha = 1
+  }
+
+  /** Renders a vision from i18n keys `vision.{id}.title` and `vision.{id}.text`. */
+  private renderVisionSequence(state: IGameState): void {
+    const { ctx, width, height } = this
+    const visionId = state.pendingVisions[0]
+    if (!visionId) return
+
+    const cx = width / 2
+    const fadeIn = Math.min(1, this._visionFrame / 90)
+
+    // Darkened full-panel overlay
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.96)'
+    ctx.fillRect(0, 0, width, height)
+
+    const title = this.t(`vision.${visionId}.title`)
+    const text = this.t(`vision.${visionId}.text`)
+
+    ctx.globalAlpha = fadeIn
+
+    // Title header in amber/accent
+    this.setFont(13, 'bold')
+    ctx.fillStyle = this.colors.accentWarm
+    ctx.textAlign = 'center'
+    ctx.fillText(title, cx, height * 0.25)
+
+    ctx.fillStyle = this.colors.borderBright
+    ctx.fillRect(cx - Math.min(260, width * 0.38), height * 0.29, Math.min(520, width * 0.76), 1)
+
+    // Vision body text in warm white
+    this.setFont(12)
+    ctx.fillStyle = '#e8dfc0'
+    const textX = cx - Math.min(280, width * 0.38)
+    const textW = Math.min(560, width * 0.76)
+    this.wrapText(text, textX, height * 0.36, textW, 22)
+
+    // Dismiss prompt — appears after brief fade
+    if (this._visionFrame > 60) {
+      const pulse = 0.6 + 0.4 * Math.abs(Math.sin(Date.now() / 900))
+      ctx.fillStyle = `rgba(204,136,68,${pulse * fadeIn})`
+      this.setFont(10)
+      ctx.textAlign = 'center'
+      ctx.fillText('[ press any key ]', cx, height * 0.80)
+
+      ctx.globalAlpha = 1
+      const btnW = 220
+      const btnH = 40
+      const btnX = cx - btnW / 2
+      const btnY = height * 0.80 - 24
+      this.addClickRegion(btnX, btnY, btnW, btnH, { type: 'dismiss.vision' }, 'Dismiss vision')
     }
 
     ctx.globalAlpha = 1
@@ -1290,9 +1360,48 @@ export class CanvasTextRenderer implements IRenderer {
       y += lineH
     } else {
       for (const id of insights) {
+        const nameKey = `insight.${id}.name`
+        const resolvedName = this.t(nameKey)
+        const displayName = resolvedName !== nameKey ? resolvedName : id.replace(/_/g, ' ')
         this.setFont(11)
         ctx.fillStyle = this.colors.accentGold
-        ctx.fillText(`◈ ${id}`, contentX, y + 12)
+        ctx.fillText(`◈ ${displayName}`, contentX, y + 12)
+        y += lineH
+      }
+    }
+
+    // Show endings available based on sealed insights
+    const endingRequirements: Record<string, string[]> = {
+      liberation:   ['vael_origin', 'mechanism_purpose'],
+      keeper_peace: ['vael_origin', 'mechanism_purpose', 'keeper_betrayal', 'spirit_binding', 'island_history', 'light_covenant', 'warden_truth'],
+      sacrifice:    ['keeper_betrayal', 'spirit_binding'],
+      corruption:   ['island_history'],
+      transcendence:['vael_origin', 'mechanism_purpose', 'keeper_betrayal', 'spirit_binding', 'island_history', 'light_covenant', 'warden_truth'],
+    }
+    const endingTitles: Record<string, string> = {
+      liberation:    'Liberation — Free the Vael',
+      keeper_peace:  "Keeper's Peace",
+      sacrifice:     'The Sacrifice',
+      corruption:    'Corruption',
+      transcendence: 'Transcendence',
+    }
+    const availableEndings = Object.entries(endingRequirements)
+      .filter(([, reqs]) => reqs.every(r => state.player.sealedInsights.has(r)))
+      .map(([id]) => id)
+
+    if (availableEndings.length > 0) {
+      y += lineH * 0.5
+      this.setFont(10, 'bold')
+      ctx.fillStyle = this.colors.accentGold
+      ctx.fillText('ENDINGS AVAILABLE', contentX, y + 14)
+      y += 20
+      ctx.fillStyle = this.colors.borderDim
+      ctx.fillRect(contentX, y, contentW, 1)
+      y += lineH
+      for (const endId of availableEndings) {
+        this.setFont(11)
+        ctx.fillStyle = this.colors.accentWarm
+        ctx.fillText(`◉ ${endingTitles[endId] ?? endId}`, contentX, y + 12)
         y += lineH
       }
     }
