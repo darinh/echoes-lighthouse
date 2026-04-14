@@ -658,64 +658,72 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillText('MOVE TO', x + m, y + m + 10)
 
     const adjacent = getAdjacentLocations(state.player.currentLocation)
-    let btnY = y + m + 26
+    let btnY = y + m + this.lh(12)
 
     for (const loc of adjacent) {
-      const btnH = 34
+      const btnH = this.lh(11) * 2 + 8  // two text lines + padding, fully scaled
       const btnW = w - m * 2
       const isDiscovered = state.player.discoveredLocations.has(loc.id)
 
       ctx.fillStyle = this.colors.bgHighlight
       ctx.fillRect(x + m, btnY, btnW, btnH)
 
+      // Location name
       this.setFont(11)
       ctx.fillStyle = isDiscovered ? this.colors.textPrimary : this.colors.accentGold
       ctx.textAlign = 'left'
       ctx.fillText(
         (isDiscovered ? '' : '★ ') + this.locationName(loc.id),
-        x + m + 8, btnY + 14
+        x + m + 8, btnY + this.lh(11)
       )
-      this.setFont(9)
-      ctx.fillStyle = this.colors.textDim
-      ctx.fillText(loc.dangerousAtNight ? '⚠ dangerous at night' : 'safe', x + m + 8, btnY + 26)
+
+      // Danger label — only show warning for dangerous locations, omit "safe" entirely
+      if (loc.dangerousAtNight) {
+        this.setFont(9)
+        ctx.fillStyle = this.colors.danger
+        ctx.fillText('⚠ dangerous at night', x + m + 8, btnY + this.lh(11) + this.lh(9))
+      }
 
       this.addClickRegion(x + m, btnY, btnW, btnH, { type: 'move', target: loc.id }, this.locationName(loc.id))
-      btnY += btnH + 6
+      btnY += btnH + 4
     }
 
     ctx.fillStyle = this.colors.borderDim
     ctx.fillRect(x + m, btnY + 4, w - m * 2, 1)
-    btnY += 14
+    btnY += 10
 
-    this.renderActionButton(x + m, btnY, w - m * 2, 30, '⏸  WAIT', this.colors.textDim)
-    btnY += 36
+    this.renderActionButton(x + m, btnY, w - m * 2, this.lh(12) * 2, '⏸  WAIT', this.colors.textDim)
+    this.addClickRegion(x + m, btnY, w - m * 2, this.lh(12) * 2, { type: 'pause.toggle' }, 'Wait')
+    btnY += this.lh(12) * 2 + 4
 
     if (state.player.currentLocation === 'lighthouse_top' &&
         (state.phase === 'day' || state.phase === 'dusk')) {
       const hasResources = state.player.lightReserves >= 30 && state.player.stamina >= 20
       const beaconColor = hasResources ? this.colors.accentWarm : this.colors.textFaint
-      this.renderActionButton(x + m, btnY, w - m * 2, 32, '◈ LIGHT THE BEACON', beaconColor)
+      const bH = this.lh(12) * 2
+      this.renderActionButton(x + m, btnY, w - m * 2, bH, '◈ LIGHT THE BEACON', beaconColor)
       if (hasResources) {
-        this.addClickRegion(x + m, btnY, w - m * 2, 32, { type: 'light.lighthouse' }, 'Light the beacon')
+        this.addClickRegion(x + m, btnY, w - m * 2, bH, { type: 'light.lighthouse' }, 'Light the beacon')
       } else {
         this.setFont(8)
         ctx.fillStyle = this.colors.textFaint
         ctx.textAlign = 'left'
-        ctx.fillText('needs 30 LGT + 20 STA', x + m + 4, btnY + 44)
+        ctx.fillText('needs 30 LGT + 20 STA', x + m + 4, btnY + bH + this.lh(8))
       }
-      btnY += 40
+      btnY += bH + 4
     }
 
     if (state.player.currentLocation === 'village_inn') {
-      this.renderActionButton(x + m, btnY, w - m * 2, 32, '◈ REST', this.colors.safe)
-      this.addClickRegion(x + m, btnY, w - m * 2, 32, { type: 'rest' }, 'Rest at the inn')
-      btnY += 40
+      const bH = this.lh(12) * 2
+      this.renderActionButton(x + m, btnY, w - m * 2, bH, '◈ REST', this.colors.safe)
+      this.addClickRegion(x + m, btnY, w - m * 2, bH, { type: 'rest' }, 'Rest at the inn')
+      btnY += bH + 4
     }
 
     this.setFont(9)
     ctx.fillStyle = this.colors.textFaint
     ctx.textAlign = 'left'
-    ctx.fillText('J — journal  ·  I — insight', x + m, y + h - 16)
+    ctx.fillText('J — journal  ·  I — insight', x + m, y + h - this.lh(9))
   }
 
   private renderActionPanelPortrait(state: IGameState, x: number, y: number, w: number, h: number): void {
