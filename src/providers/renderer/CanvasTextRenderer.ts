@@ -3,6 +3,7 @@ import type { IGameState, INPCState, NPCId } from '@/interfaces/index.js'
 import type { GameAction } from '@/engine/InputHandler.js'
 import { getAdjacentLocations } from '@/data/locations/phase1Locations.js'
 import { CODEX_PAGES } from '@/data/codex/pages.js'
+import { EXAMINE_DATA } from '@/data/locations/examineData.js'
 
 /** A hit-testable clickable region drawn on the canvas. */
 interface ClickRegion {
@@ -387,16 +388,17 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = this.colors.textPrimary
     this.wrapText(this.locationDesc(locId), x, y + 50, w, 18)
 
-    this.renderNPCPresence(state, x, y + 130, w)
+    const npcH = this.renderNPCPresence(state, x, y + 130, w)
+    this.renderExamineItems(state, x, y + 130 + npcH, w)
   }
 
-  private renderNPCPresence(state: IGameState, x: number, y: number, _w: number): void {
+  private renderNPCPresence(state: IGameState, x: number, y: number, _w: number): number {
     const { ctx } = this
     const locId = state.player.currentLocation
     const present: Array<[string, INPCState]> = Object.entries(state.npcStates).filter(
       ([, ns]) => ns.currentLocation === locId && ns.isAlive
     ) as Array<[string, INPCState]>
-    if (present.length === 0) return
+    if (present.length === 0) return 0
 
     this.setFont(11)
     ctx.fillStyle = this.colors.textDim
@@ -413,13 +415,62 @@ export class CanvasTextRenderer implements IRenderer {
       this.setFont(12)
       ctx.fillStyle = this.colors.textPrimary
       ctx.textAlign = 'left'
-      ctx.fillText(npcId, x + 10, npcY + 15)
-      this.setFont(9)
-      ctx.fillStyle = this.colors.textDim
-      ctx.fillText(`resonance ${state.player.resonance[npcId as keyof typeof state.player.resonance] ?? 0}  ·  tier ${ns.dialogueTier}`, x + 10, npcY + 28)
+      const displayName = this.t(`npc.${npcId}.name`)
+      const npcName = (displayName === `npc.${npcId}.name`) ? npcId : displayName
+      ctx.fillText(npcName, x + 10, npcY + 15)
+
+      const titleKey = `npc.${npcId}.title`
+      const npcTitle = this.t(titleKey)
+      if (npcTitle !== titleKey) {
+        this.setFont(9)
+        ctx.fillStyle = this.colors.textDim
+        ctx.fillText(npcTitle, x + 10, npcY + 28)
+      } else {
+        this.setFont(9)
+        ctx.fillStyle = this.colors.textDim
+        ctx.fillText(`resonance ${state.player.resonance[npcId as keyof typeof state.player.resonance] ?? 0}  ·  tier ${ns.dialogueTier}`, x + 10, npcY + 28)
+      }
 
       this.addClickRegion(x, npcY, 180, 36, { type: 'interact', npcId: npcId as NPCId }, `Talk to ${npcId}`)
     })
+
+    return 20 + present.length * 44 + 12
+  }
+
+  private renderExamineItems(state: IGameState, x: number, y: number, w: number): void {
+    const { ctx } = this
+    const locId = state.player.currentLocation
+    const items = EXAMINE_DATA[locId]
+    if (!items || items.length === 0) return
+
+    this.setFont(11)
+    ctx.fillStyle = this.colors.textDim
+    ctx.textAlign = 'left'
+    ctx.fillText('EXAMINE', x, y)
+
+    let btnY = y + 16
+    for (const item of items) {
+      const examined = state.worldFlags.has(item.worldFlag)
+      const btnH = 28
+      const btnW = Math.min(w, 200)
+
+      ctx.fillStyle = examined ? this.colors.bgPanel : this.colors.bgHighlight
+      ctx.fillRect(x, btnY, btnW, btnH)
+      ctx.strokeStyle = examined ? this.colors.borderDim : this.colors.borderBright
+      ctx.strokeRect(x, btnY, btnW, btnH)
+
+      const label = this.t(item.labelKey)
+      this.setFont(10)
+      ctx.fillStyle = examined ? this.colors.textDim : this.colors.textPrimary
+      ctx.textAlign = 'left'
+      ctx.fillText(examined ? `✓ ${label}` : label, x + 8, btnY + 18)
+
+      if (!examined) {
+        this.addClickRegion(x, btnY, btnW, btnH, { type: 'examine', itemId: item.id, locationId: locId }, label)
+      }
+
+      btnY += btnH + 4
+    }
   }
 
   private renderActionPanel(state: IGameState, x: number, y: number, w: number, h: number): void {
@@ -1029,14 +1080,27 @@ export class CanvasTextRenderer implements IRenderer {
   }
 
   private locationDesc(id: string): string {
-    const descs: Record<string, string> = {
-      keepers_cottage: 'A modest dwelling near the cliff path. The smell of old paper and sea salt. Maren tends the archive here.',
-      village_square: 'The heart of the island. Villagers move with purpose, eyes cast low. The well stands dry.',
-      harbor: 'Weathered boats creak against the dock. Silas watches the horizon. The fog is thick this morning.',
-      lighthouse_base: 'The base of the great tower. Its shadow falls long across the rocks. The mechanism hums faintly.',
-      lighthouse_top: 'The lens room. From here you can see the whole island — and something in the water below.',
+    const key = `location.${id}.desc`
+    const val = this.t(key)
+    if (val === key) {
+      const fallbacks: Record<string, string> = {
+        keepers_cottage:  'A modest dwelling near the cliff path. The smell of old paper and sea salt. Maren tends the archive here.',
+        village_square:   'The heart of the island. Villagers move with purpose, eyes cast low. The well stands dry.',
+        harbor:           'Weathered boats creak against the dock. Silas watches the horizon. The fog is thick this morning.',
+        lighthouse_base:  'The base of the great tower. Its shadow falls long across the rocks. The mechanism hums faintly.',
+        lighthouse_top:   'The lens room. From here you can see the whole island — and something in the water below.',
+        archive_basement: 'Stone steps descending into cold air. Rows of iron shelving. Maren\'s domain. Water stains mark the walls at hip height — the flood came this far, once.',
+        chapel:           'The pews are empty but the candles are lit. Someone tends this place. The stained glass is cracked; the saint\'s face replaced with rough plaster.',
+        cliffside:        'Wind tears at your coat. The cliff drops eighty feet to the rocks below. You can see the lighthouse from here — and the shape beneath the water.',
+        forest_path:      'The trees press close. Roots cross the path like sleeping fingers. You hear movement that stops when you stop.',
+        mechanism_room:   'Gears the size of millstones turn without apparent power. The hum from above is louder here. The walls are covered in symbols no one on the island claims to recognise.',
+        mill:             'The wheel still turns though the stream has been dry for years. The miller\'s log is open on the table, the last entry three weeks ago.',
+        ruins:            'Crumbled walls of what was once a manor. The east wing still stands, barely. The smell of old smoke that will not quite leave.',
+        tidal_caves:      'Seawater pools on the cave floor, lit from below by something bioluminescent. The tide is coming in. You have perhaps an hour.',
+      }
+      return fallbacks[id] ?? 'You stand here. The air is still.'
     }
-    return descs[id] ?? 'You stand here. The air is still.'
+    return val
   }
 
   private renderJournal(state: IGameState): void {
@@ -1129,6 +1193,36 @@ export class CanvasTextRenderer implements IRenderer {
         ctx.fillStyle = this.colors.accent
         ctx.fillText(`▶ ${threadId}`, contentX, y + 14)
         y += lineH * 1.2
+      }
+    }
+
+    y += lineH * 0.5
+
+    this.setFont(10, 'bold')
+    ctx.fillStyle = this.colors.textDim
+    ctx.fillText('FIELD NOTES', contentX, y + 14)
+    y += 20
+    ctx.fillStyle = this.colors.borderDim
+    ctx.fillRect(contentX, y, contentW, 1)
+    y += lineH
+
+    const entries = Array.from(state.player.journalEntries).reverse()
+    if (entries.length === 0) {
+      this.setFont(11)
+      ctx.fillStyle = this.colors.textFaint
+      ctx.fillText('(no entries yet)', contentX, y + 12)
+      y += lineH
+    } else {
+      for (const entry of entries) {
+        this.setFont(10)
+        ctx.fillStyle = this.colors.accentWarm
+        ctx.fillText(`[Loop ${entry.timestamp}] ${entry.locationId.replace(/_/g, ' ').toUpperCase()}`, contentX, y + 12)
+        y += lineH * 0.8
+        this.setFont(11)
+        ctx.fillStyle = this.colors.textPrimary
+        const text = this.t(entry.textKey)
+        this.wrapText(text, contentX, y + 12, contentW, 16)
+        y += lineH * 3.5
       }
     }
 

@@ -8,6 +8,14 @@ import type {
   NPCAttitude,
 } from './types.js'
 
+export interface IJournalEntry {
+  readonly id: string
+  readonly timestamp: number   // loop count when added
+  readonly locationId: LocationId
+  readonly textKey: string     // i18n key
+  readonly source: 'explore' | 'examine'
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // DIALOGUE STATE
 // ─────────────────────────────────────────────────────────────────────────────
@@ -67,6 +75,7 @@ export interface IPlayerState {
   readonly discoveredLocations: ReadonlySet<LocationId>
   readonly sealedInsights: ReadonlySet<InsightCardId>
   readonly activeJournalThreads: ReadonlySet<JournalThreadId>
+  readonly journalEntries: ReadonlyArray<IJournalEntry>
   readonly currentLocation: LocationId
 }
 

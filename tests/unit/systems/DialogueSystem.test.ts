@@ -48,6 +48,7 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     discoveredLocations: new Set<LocationId>(['keepers_cottage']),
     sealedInsights: new Set<string>(),
     activeJournalThreads: new Set<string>(),
+    journalEntries: [],
     currentLocation: 'keepers_cottage',
   }
 

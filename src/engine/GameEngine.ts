@@ -1,8 +1,11 @@
 import type { IGameState } from '@/interfaces/index.js'
 import type { ISystem, IEventBus, IAudioProvider, IRenderer } from '@/interfaces/index.js'
 import type { GameAction } from './InputHandler.js'
+import type { IJournalEntry } from '@/interfaces/IGameState.js'
+import type { LocationId } from '@/interfaces/types.js'
 import { createInitialState } from './initialState.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
+import { EXAMINE_DATA } from '@/data/locations/examineData.js'
 
 /**
  * GameEngine — Owns game state, coordinates systems, drives the render loop.
@@ -90,9 +93,55 @@ export class GameEngine {
 
       case 'move':
         if (this.movement) {
+          const wasDiscovered = this.state.player.discoveredLocations.has(action.target)
           this.state = this.movement.moveTo(this.state, action.target)
+          if (!wasDiscovered) {
+            const exploreEntry: IJournalEntry = {
+              id: `discover.${action.target}`,
+              timestamp: this.state.player.loopCount,
+              locationId: action.target,
+              textKey: `location.${action.target}.enter`,
+              source: 'explore',
+            }
+            this.state = {
+              ...this.state,
+              player: {
+                ...this.state.player,
+                journalEntries: [...this.state.player.journalEntries, exploreEntry],
+              },
+            }
+          }
         }
         break
+
+      case 'examine': {
+        const { itemId, locationId } = action
+        const items = EXAMINE_DATA[locationId as LocationId]
+        const item = items?.find(i => i.id === itemId)
+        if (!item) break
+        if (this.state.worldFlags.has(item.worldFlag)) break
+        const newFlags = new Set(this.state.worldFlags)
+        newFlags.add(item.worldFlag)
+        const examineEntry: IJournalEntry = {
+          id: `${locationId}.${itemId}`,
+          timestamp: this.state.player.loopCount,
+          locationId: locationId as LocationId,
+          textKey: item.textKey,
+          source: 'examine',
+        }
+        this.state = {
+          ...this.state,
+          worldFlags: newFlags,
+          player: {
+            ...this.state.player,
+            journalEntries: [...this.state.player.journalEntries, examineEntry],
+          },
+        }
+        this.eventBus.emit('insight.gained', { amount: item.insight })
+        this.applyEvent('insight.gained', { amount: item.insight })
+        this.eventBus.emit('examine.completed', { itemId, locationId, insight: item.insight })
+        break
+      }
 
       case 'interact':
         this.applyEvent('dialogue.start', { npcId: action.npcId })

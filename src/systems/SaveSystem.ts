@@ -27,6 +27,13 @@ interface SaveSnapshot {
     discoveredLocations: string[]
     sealedInsights: string[]
     activeJournalThreads: string[]
+    journalEntries: Array<{
+      id: string
+      timestamp: number
+      locationId: string
+      textKey: string
+      source: 'explore' | 'examine'
+    }>
     currentLocation: string
   }
   npcStates: Record<string, {
@@ -130,6 +137,7 @@ export class SaveSystem implements ISystem {
         discoveredLocations: [...state.player.discoveredLocations],
         sealedInsights: [...state.player.sealedInsights],
         activeJournalThreads: [...state.player.activeJournalThreads],
+        journalEntries: [...state.player.journalEntries],
         currentLocation: state.player.currentLocation,
       },
       npcStates: Object.fromEntries(
@@ -179,6 +187,7 @@ export class SaveSystem implements ISystem {
         discoveredLocations: new Set(snapshot.player.discoveredLocations) as IGameState['player']['discoveredLocations'],
         sealedInsights: new Set(snapshot.player.sealedInsights) as IGameState['player']['sealedInsights'],
         activeJournalThreads: new Set(snapshot.player.activeJournalThreads) as IGameState['player']['activeJournalThreads'],
+        journalEntries: (snapshot.player.journalEntries ?? []) as IGameState['player']['journalEntries'],
         currentLocation: snapshot.player.currentLocation as IGameState['player']['currentLocation'],
       },
       npcStates: npcStates as unknown as IGameState['npcStates'],
