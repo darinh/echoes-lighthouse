@@ -39,6 +39,9 @@ export class CanvasTextRenderer implements IRenderer {
   private _currentActivePanel: string = 'none'
   private _visionFrame = 0
   private _i18n: II18n | null = null
+  private _lastTouchY = 0
+  private _journalScrollMoved = false
+  private _journalContentHeight = 0
 
   setI18n(i18n: II18n): void { this._i18n = i18n }
   private t(key: string): string { return this._i18n ? this._i18n.t(key) : key }
@@ -94,7 +97,21 @@ export class CanvasTextRenderer implements IRenderer {
       const rect = this.canvas.getBoundingClientRect()
       this._touchStartX = touch.clientX - rect.left
       this._touchStartY = touch.clientY - rect.top
+      this._lastTouchY = this._touchStartY
+      this._journalScrollMoved = false
     }, { passive: true })
+    canvas.addEventListener('touchmove', (e: TouchEvent) => {
+      if (this._currentActivePanel !== 'journal') return
+      const touch = e.touches[0]
+      if (!touch) return
+      e.preventDefault()
+      const rect = this.canvas.getBoundingClientRect()
+      const currentY = touch.clientY - rect.top
+      const dy = currentY - this._lastTouchY
+      this._lastTouchY = currentY
+      this._journalScrollOffset = Math.max(0, this._journalScrollOffset - dy)
+      this._journalScrollMoved = true
+    }, { passive: false })
     canvas.addEventListener('touchend', (e: TouchEvent) => {
       e.preventDefault()
       const touch = e.changedTouches[0]
@@ -108,6 +125,11 @@ export class CanvasTextRenderer implements IRenderer {
       const inActionPanel = my >= this._actionPanelY && my <= this._actionPanelY + this._actionPanelH
       if (inActionPanel && Math.abs(dx) > 20 && Math.abs(dx) > Math.abs(dy) * 1.5) {
         this._actionScrollX = Math.max(0, this._actionScrollX - dx)
+        return
+      }
+      // Vertical drag in journal panel — handled in touchmove; don't fire click
+      if (this._journalScrollMoved && this._currentActivePanel === 'journal') {
+        this._journalScrollMoved = false
         return
       }
       if (!this.onAction) return
@@ -334,7 +356,8 @@ export class CanvasTextRenderer implements IRenderer {
       this.setFont(9)
       ctx.fillStyle = this.colors.textDim
       ctx.textAlign = 'right'
-      ctx.fillText(this.locationName(state.player.currentLocation), timerX - m, y + h * 0.65)
+      const warnGlyph = (player.stamina <= 2 || dayTimeRemaining < 0.2) ? ' ⚠' : ''
+      ctx.fillText(this.locationName(state.player.currentLocation) + warnGlyph, timerX - m, y + h * 0.65)
       return
     }
 
@@ -348,13 +371,21 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillText('♥'.repeat(player.hearts) + '♡'.repeat(Math.max(0, 3 - player.hearts)), x + m, y + 38)
 
     const statX = x + m + 80
-    this.renderStatBar(statX, y + 28, 90, 8, player.stamina / 100, this.colors.safe, 'STA')
+    this.renderSegmentedBar(statX, y + 20, 90, 8, player.stamina / 100, 10, this.colors.safe, 'STA')
     this.renderStatBar(statX + 100, y + 28, 90, 8, player.lightReserves / 100, this.colors.accentWarm, 'LGT')
+
+    // ⚠ warning glyph when stamina critical or time running out
+    if (player.stamina <= 2 || dayTimeRemaining < 0.2) {
+      this.setFont(12)
+      ctx.fillStyle = this.colors.danger
+      ctx.textAlign = 'left'
+      ctx.fillText('⚠', statX + 200, y + 38)
+    }
 
     this.setFont(11)
     ctx.fillStyle = this.colors.accentGold
     ctx.textAlign = 'left'
-    ctx.fillText(`◈ ${player.insight}`, statX + 208, y + 38)
+    ctx.fillText(`◈ ${player.insight}`, statX + 220, y + 38)
 
     const timerW = Math.min(200, w * 0.25)
     const timerX = x + w - timerW - m
@@ -375,7 +406,7 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillText(this.locationName(state.player.currentLocation), x + w - m, y + 16)
   }
 
-  private renderLocationPanel(state: IGameState, x: number, y: number, w: number, _h: number): void {
+  private renderLocationPanel(state: IGameState, x: number, y: number, w: number, h: number): void {
     const { ctx } = this
     const locId = state.player.currentLocation
 
@@ -422,6 +453,8 @@ export class CanvasTextRenderer implements IRenderer {
     if (state.player.currentLocation === 'archive_basement') {
       this.renderArchiveDesk(state, x, y + 130 + npcH + examineH, w)
     }
+
+    this.renderTutorialHints(state, x, y + h - 72, w)
   }
 
   private renderNPCPresence(state: IGameState, x: number, y: number, _w: number): number {
@@ -1263,6 +1296,64 @@ export class CanvasTextRenderer implements IRenderer {
     }
   }
 
+  /** Segmented bar: draws `segments` discrete filled/unfilled blocks. */
+  private renderSegmentedBar(
+    x: number, y: number, w: number, h: number,
+    value: number, segments: number, color: string, label?: string,
+  ): void {
+    const { ctx } = this
+    const gap = 1
+    const segW = Math.max(1, Math.floor((w - gap * (segments - 1)) / segments))
+    const filled = Math.round(Math.max(0, Math.min(1, value)) * segments)
+    for (let i = 0; i < segments; i++) {
+      const sx = x + i * (segW + gap)
+      ctx.fillStyle = i < filled ? color : this.colors.borderDim
+      ctx.fillRect(sx, y, segW, h)
+    }
+    if (label) {
+      this.setFont(8)
+      ctx.fillStyle = this.colors.textDim
+      ctx.textAlign = 'left'
+      ctx.fillText(label, x, y - 2)
+    }
+  }
+
+  /**
+   * Tutorial hints overlay for first-run players.
+   * Shown on loop 1 while discoveredLocations.size <= 3, fading as player explores.
+   */
+  private renderTutorialHints(state: IGameState, x: number, y: number, _w: number): void {
+    const { discoveredLocations, loopCount } = state.player
+    if (loopCount !== 1 || discoveredLocations.size > 3) return
+
+    const { ctx } = this
+    const isTouchDevice = navigator.maxTouchPoints > 0
+    const moveHint = isTouchDevice
+      ? this.t('tutorial.hint.move_touch')
+      : this.t('tutorial.hint.move')
+
+    const hints = [
+      moveHint,
+      this.t('tutorial.hint.npc'),
+      this.t('tutorial.hint.examine'),
+      this.t('tutorial.hint.goal'),
+    ]
+
+    // Fade out gradually as player explores more locations
+    const fadeSteps = Math.max(1, discoveredLocations.size)
+    const alpha = Math.max(0.15, 1 - (fadeSteps - 1) / 3) * 0.55
+
+    ctx.save()
+    ctx.globalAlpha = alpha
+    this.setFont(9)
+    ctx.fillStyle = this.colors.textDim
+    ctx.textAlign = 'left'
+    hints.forEach((hint, i) => {
+      ctx.fillText(`· ${hint}`, x, y + i * 15)
+    })
+    ctx.restore()
+  }
+
   private renderActionButton(x: number, y: number, w: number, h: number, label: string, color: string): void {
     const { ctx } = this
     ctx.fillStyle = this.colors.bgHighlight
@@ -1274,7 +1365,6 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.textAlign = 'center'
     ctx.fillText(label, x + w / 2, y + h / 2 + 4)
   }
-
 
   private wrapText(text: string, x: number, y: number, maxW: number, lineH: number): void {
     const { ctx } = this
@@ -1552,7 +1642,22 @@ export class CanvasTextRenderer implements IRenderer {
       }
     }
 
+    // Track total content height for scroll indicator
+    this._journalContentHeight = Math.max(contentH, y - contentY + this._journalScrollOffset)
+
     ctx.restore()
+
+    // Scroll indicator: thin bar on right edge of journal panel
+    if (this._journalContentHeight > contentH) {
+      const indicatorX = panelX + panelW - 6
+      const indicatorTrackH = contentH
+      const indicatorH = Math.max(20, Math.round(indicatorTrackH * (contentH / this._journalContentHeight)))
+      const indicatorY = contentY + Math.round((indicatorTrackH - indicatorH) * (this._journalScrollOffset / (this._journalContentHeight - contentH)))
+      ctx.fillStyle = this.colors.borderDim
+      ctx.fillRect(indicatorX, contentY, 3, indicatorTrackH)
+      ctx.fillStyle = this.colors.borderBright
+      ctx.fillRect(indicatorX, indicatorY, 3, indicatorH)
+    }
 
     const footerY = panelY + panelH - 20
     this.setFont(10)

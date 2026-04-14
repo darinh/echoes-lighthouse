@@ -106,6 +106,15 @@
       "10": "Master"
     }
   },
+  "tutorial": {
+    "hint": {
+      "move":         "↑↓ or click to move",
+      "move_touch":   "Tap a location to move",
+      "npc":          "Talk to NPCs you encounter",
+      "examine":      "Examine items to gain insight",
+      "goal":         "Reach the lighthouse before nightfall"
+    }
+  },
   "settings": {
     "saved": "Settings saved."
   },
