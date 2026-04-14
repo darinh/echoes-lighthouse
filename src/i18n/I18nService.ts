@@ -48,18 +48,34 @@ export class I18nService implements II18n {
     return typeof node === 'string' ? node : undefined
   }
 
+  private deepMerge(target: LocaleBundle, source: LocaleBundle): LocaleBundle {
+    for (const key of Object.keys(source)) {
+      const sv = source[key], tv = target[key]
+      if (sv && typeof sv === 'object' && !Array.isArray(sv) &&
+          tv && typeof tv === 'object' && !Array.isArray(tv)) {
+        this.deepMerge(tv as LocaleBundle, sv as LocaleBundle)
+      } else {
+        target[key] = sv
+      }
+    }
+    return target
+  }
+
   private async loadLocale(locale: string): Promise<void> {
     if (this.bundles.has(locale)) return
     const files = ['ui', 'dialogue', 'lore', 'journal']
-    const merged: LocaleBundle = {}
-    await Promise.all(files.map(async (file) => {
+    const results = await Promise.all(files.map(async (file) => {
       try {
         const res = await fetch(`${this.base}locales/${locale}/${file}.json`)
-        if (res.ok) Object.assign(merged, await res.json())
+        return res.ok ? (await res.json() as LocaleBundle) : null
       } catch {
-        // Non-fatal: missing locale file falls back to 'en'
+        return null
       }
     }))
+    const merged: LocaleBundle = {}
+    for (const bundle of results) {
+      if (bundle) this.deepMerge(merged, bundle)
+    }
     this.bundles.set(locale, merged)
   }
 }
