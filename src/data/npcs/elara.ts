@@ -1,45 +1,101 @@
-export const ELARA_NPC = {
-  id: 'elara' as const,
+import type { NPCFullData } from './dialogueTypes.js'
+
+export const ELARA_NPC: NPCFullData = {
+  id: 'elara',
   nameKey: 'npc.elara.name',
   titleKey: 'npc.elara.title',
-  defaultLocation: 'harbor' as const,
-  defaultAttitude: 'fearful' as const,
-  schedule: {
-    dusk: 'village_square' as const,
-    night_safe: 'keepers_cottage' as const,
-  },
-  tierThresholds: [0, 3, 7, 15] as const,
-  greetingNodes: ['elara.greeting.tier0', 'elara.greeting.tier1', 'elara.greeting.tier2', 'elara.greeting.tier3'],
+  defaultLocation: 'harbor',
+  defaultAttitude: 'fearful',
+  schedule: { dusk: 'village_square', night_safe: 'keepers_cottage' },
+  tierThresholds: [0, 3, 7, 15, 25, 40, 60, 80, 100, 130, 170],
+  greetingNodes: ['elara.greeting.tier0','elara.greeting.tier1','elara.greeting.tier2','elara.greeting.tier3','elara.greeting.tier4','elara.greeting.tier5'],
   nodes: {
     'elara.greeting.tier0': {
       speakerKey: 'npc.elara.greeting.tier0',
       choices: [
-        { id: 'leave', textKey: 'dialogue.choice.leave', insightGain: 0, moralWeight: 0 },
+        { id: 'ask.mainland', textKey: 'dialogue.choice.ask_mainland', nextNodeId: 'elara.mainland.chat', insightGain: 3, trustGain: 3 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'elara.mainland.chat': {
+      speakerKey: 'npc.elara.mainland.chat',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
     'elara.greeting.tier1': {
       speakerKey: 'npc.elara.greeting.tier1',
       choices: [
-        { id: 'ask.lighthouse', textKey: 'dialogue.choice.ask_lighthouse', insightGain: 5, moralWeight: 0 },
-        { id: 'offer_help',     textKey: 'dialogue.choice.offer_help',     insightGain: 8, moralWeight: 0 },
-        { id: 'leave',          textKey: 'dialogue.choice.leave',           insightGain: 0, moralWeight: 0 },
+        { id: 'ask.water.thing', textKey: 'dialogue.choice.ask_water_creature', nextNodeId: 'elara.water.creature', insightGain: 8, trustGain: 3 },
+        { id: 'ask.mainland', textKey: 'dialogue.choice.ask_mainland', nextNodeId: 'elara.mainland.chat' },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'elara.water.creature': {
+      speakerKey: 'npc.elara.water.creature',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
     'elara.greeting.tier2': {
       speakerKey: 'npc.elara.greeting.tier2',
       choices: [
-        { id: 'ask.echo',   textKey: 'dialogue.choice.ask_echo',   insightGain: 10, moralWeight: 1 },
-        { id: 'offer_help', textKey: 'dialogue.choice.offer_help', insightGain: 8,  moralWeight: 0 },
-        { id: 'leave',      textKey: 'dialogue.choice.leave',       insightGain: 0,  moralWeight: 0 },
+        { id: 'ask.feeding.pattern', textKey: 'dialogue.choice.ask_feeding_pattern', nextNodeId: 'elara.feeding.pattern', insightGain: 10, trustGain: 4 },
+        { id: 'ask.water.thing', textKey: 'dialogue.choice.ask_water_creature', nextNodeId: 'elara.water.creature' },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'elara.feeding.pattern': {
+      speakerKey: 'npc.elara.feeding.pattern',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
     'elara.greeting.tier3': {
       speakerKey: 'npc.elara.greeting.tier3',
       choices: [
-        { id: 'demand_truth', textKey: 'dialogue.choice.demand_truth', insightGain: 15, moralWeight: 2 },
-        { id: 'offer_help',   textKey: 'dialogue.choice.offer_help',   insightGain: 10, moralWeight: 0 },
-        { id: 'leave',        textKey: 'dialogue.choice.leave',         insightGain: 0,  moralWeight: 0 },
+        { id: 'ask.notebook', textKey: 'dialogue.choice.ask_notebook', nextNodeId: 'elara.notebook.share', insightGain: 12, trustGain: 8, requiresTier: 3 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'elara.notebook.share': {
+      speakerKey: 'npc.elara.notebook.share',
+      choices: [
+        { id: 'accept.notes', textKey: 'dialogue.choice.accept_gift', nextNodeId: 'elara.notes.received', insightGain: 10, worldFlagSet: 'elara_notes_received', questTrigger: 'quest_light_source_truth' },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'elara.notes.received': {
+      speakerKey: 'npc.elara.notes.received',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'elara.greeting.tier4': {
+      speakerKey: 'npc.elara.greeting.tier4',
+      choices: [
+        { id: 'ask.beam.diagram', textKey: 'dialogue.choice.ask_beam_diagram', nextNodeId: 'elara.beam.diagram', insightGain: 15, trustGain: 6, requiresTier: 4 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'elara.beam.diagram': {
+      speakerKey: 'npc.elara.beam.diagram',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'elara.greeting.tier5': {
+      speakerKey: 'npc.elara.greeting.tier5',
+      choices: [
+        { id: 'ask.vael.signal', textKey: 'dialogue.choice.ask_vael_signal', nextNodeId: 'elara.vael.communication', insightGain: 20, trustGain: 10, worldFlagSet: 'light_source_truth_hint', requiresTier: 5 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'elara.vael.communication': {
+      speakerKey: 'npc.elara.vael.communication',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
   },
-} as const
+}
