@@ -71,6 +71,7 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     pendingVisions: [],
     priorPhase: null,
     lighthouseLitThisLoop: false,
+    deathCause: null,
     settings: {
       masterVolume: 1,
       ambientVolume: 0.6,

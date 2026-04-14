@@ -103,6 +103,7 @@ export interface IGameState {
   readonly pendingVisions: ReadonlyArray<string>
   readonly priorPhase: GamePhase | null
   readonly lighthouseLitThisLoop: boolean
+  readonly deathCause: string | null
   readonly settings: {
     readonly masterVolume: number
     readonly ambientVolume: number

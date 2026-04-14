@@ -4,90 +4,93 @@
     "tagline": "Every loop reveals more. Every choice persists."
   },
   "phase": {
-    "title":      "Title",
-    "dawn":       "Dawn",
-    "day":        "Day",
-    "dusk":       "Dusk",
+    "title": "Title",
+    "dawn": "Dawn",
+    "day": "Day",
+    "dusk": "Dusk",
     "night_safe": "Night",
     "night_dark": "Night",
-    "vision":     "Vision",
-    "ending":     "Ending"
+    "vision": "Vision",
+    "ending": "Ending"
   },
   "hud": {
-    "stamina":      "Stamina",
-    "light":        "Light",
-    "hearts":       "Hearts",
-    "insight":      "Insight",
-    "loop":         "Loop {count}",
+    "stamina": "Stamina",
+    "light": "Light",
+    "hearts": "Hearts",
+    "insight": "Insight",
+    "loop": "Loop {count}",
     "time_warning": "Darkness approaches"
   },
   "action": {
-    "examine":  "Examine",
-    "move":     "Move",
-    "talk":     "Talk",
-    "take":     "Take",
-    "use":      "Use",
-    "bank":     "Bank Insight",
+    "examine": "Examine",
+    "move": "Move",
+    "talk": "Talk",
+    "take": "Take",
+    "use": "Use",
+    "bank": "Bank Insight",
     "continue": "Continue",
-    "back":     "Back",
-    "skip":     "Skip"
+    "back": "Back",
+    "skip": "Skip"
   },
   "menu": {
-    "new_game":    "Begin",
-    "continue":    "Continue",
-    "settings":    "Settings",
-    "language":    "Language",
-    "volume":      "Volume",
-    "master":      "Master",
-    "ambient":     "Ambient",
-    "ui_sounds":   "Interface",
-    "narrative":   "Narrative"
+    "new_game": "Begin",
+    "continue": "Continue",
+    "settings": "Settings",
+    "language": "Language",
+    "volume": "Volume",
+    "master": "Master",
+    "ambient": "Ambient",
+    "ui_sounds": "Interface",
+    "narrative": "Narrative"
   },
   "journal": {
-    "title":          "The Journal",
-    "threads":        "Active Threads",
-    "sealed":         "Sealed Insights",
-    "archive":        "Archive Mastery",
-    "no_threads":     "Nothing recorded yet.",
-    "seal_prompt":    "Seal this insight as truth?",
-    "seal_confirm":   "Seal",
-    "seal_cancel":    "Not yet"
+    "title": "The Journal",
+    "threads": "Active Threads",
+    "sealed": "Sealed Insights",
+    "archive": "Archive Mastery",
+    "no_threads": "Nothing recorded yet.",
+    "seal_prompt": "Seal this insight as truth?",
+    "seal_confirm": "Seal",
+    "seal_cancel": "Not yet"
   },
   "dialogue": {
-    "requires_insight":   "Requires {amount} Insight",
+    "requires_insight": "Requires {amount} Insight",
     "requires_resonance": "Requires Resonance {level} with {npc}",
-    "requires_archive":   "Requires {domain} knowledge"
+    "requires_archive": "Requires {domain} knowledge"
   },
   "death": {
-    "title":       "The loop resets.",
+    "title": "The loop resets.",
     "insight_lost": "Unbanked Insight lost: {amount}",
-    "loop_count":  "Loop {count} begins.",
-    "continue":    "Wake again"
+    "loop_count": "Loop {count} begins.",
+    "continue": "Wake again",
+    "night_danger": "Consumed by the dark between the loops.",
+    "stamina_depleted": "Your body gave out before the truth could.",
+    "tagline": "The lighthouse still waits."
   },
   "location": {
-    "keepers_cottage":  "Keeper's Cottage",
-    "lighthouse_base":  "Lighthouse",
-    "lighthouse_top":   "Lighthouse — Lantern Room",
-    "mechanism_room":   "Mechanism Room",
-    "village_square":   "Village Square",
-    "harbor":           "The Harbour",
-    "chapel":           "St. Maret's Chapel",
-    "mill":             "The Old Mill",
-    "forest_path":      "Forest Path",
-    "ruins":            "The Old Ruins",
-    "cliffside":        "Cliffside",
+    "keepers_cottage": "Keeper's Cottage",
+    "lighthouse_base": "Lighthouse",
+    "lighthouse_top": "Lighthouse — Lantern Room",
+    "mechanism_room": "Mechanism Room",
+    "village_square": "Village Square",
+    "harbor": "The Harbour",
+    "chapel": "St. Maret's Chapel",
+    "mill": "The Old Mill",
+    "forest_path": "Forest Path",
+    "ruins": "The Old Ruins",
+    "cliffside": "Cliffside",
     "archive_basement": "Archive Basement",
-    "tidal_caves":      "Tidal Caves"
+    "tidal_caves": "Tidal Caves"
   },
   "archive": {
     "domain": {
-      "history":      "History",
-      "occult":       "Occult",
-      "maritime":     "Maritime",
-      "ecology":      "Ecology",
-      "alchemy":      "Alchemy",
-      "cartography":  "Cartography",
-      "linguistics":  "Linguistics"
+      "history": "History",
+      "occult": "Occult",
+      "maritime": "Maritime",
+      "ecology": "Ecology",
+      "alchemy": "Alchemy",
+      "cartography": "Cartography",
+      "linguistics": "Linguistics"
     },
     "level": {
       "0": "Unknown",
@@ -108,6 +111,28 @@
   },
   "error": {
     "load_failed": "Failed to load. Please refresh.",
-    "save_failed":  "Save failed. Progress may be lost."
+    "save_failed": "Save failed. Progress may be lost."
+  },
+  "ending": {
+    "liberation": {
+      "title": "Liberation",
+      "text": "The Vael dissolves into light, carrying secrets older than the island itself. You stand at the lighthouse top as the mechanism goes quiet. The sea is calm. You are free."
+    },
+    "keeper_peace": {
+      "title": "The Keeper's Peace",
+      "text": "You understand the bargain now. The island needs a keeper, and you choose to stay. Not trapped — chosen. The light burns steady through the night."
+    },
+    "sacrifice": {
+      "title": "The Sacrifice",
+      "text": "You feed yourself to the mechanism. The lighthouse burns brighter than it has in a century. The ships will be safe. Your name will not be remembered."
+    },
+    "corruption": {
+      "title": "Corruption",
+      "text": "You reach for power you do not understand. The island takes what it is owed. The lighthouse burns — but now something else looks through the lens."
+    },
+    "transcendence": {
+      "title": "Transcendence",
+      "text": "All seven truths cohere. You see the lighthouse for what it is: a lock, a key, and a door. You step through. The island watches you go with something like relief."
+    }
   }
 }

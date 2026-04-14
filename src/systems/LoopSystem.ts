@@ -15,7 +15,7 @@ export class LoopSystem implements ISystem {
   }
 
   update(state: IGameState, deltaMs: number): IGameState {
-    if (state.isPaused || state.phase === 'title' || state.phase === 'ending') return state
+    if (state.isPaused || state.phase === 'title' || state.phase === 'ending' || state.phase === 'death') return state
 
     // Drain dayTimeRemaining during day phase
     if (state.phase === 'day' || state.phase === 'dusk') {
@@ -28,10 +28,15 @@ export class LoopSystem implements ISystem {
 
       if (newTime <= 0) {
         this.eventBus.emit('phase.changed', { from: state.phase, to: 'night_dark' })
-        return { ...state, phase: 'night_dark', dayTimeRemaining: 0 }
+        return { ...state, phase: 'night_dark', dayTimeRemaining: 0, nightDangerLevel: 2 }
       }
 
-      return { ...state, dayTimeRemaining: newTime }
+      // Update night danger level based on remaining time thresholds
+      let nightDangerLevel = state.nightDangerLevel
+      if (newTime < 0.15) nightDangerLevel = Math.max(nightDangerLevel, 2)
+      else if (newTime < 0.30) nightDangerLevel = Math.max(nightDangerLevel, 1)
+
+      return { ...state, dayTimeRemaining: newTime, nightDangerLevel }
     }
 
     return state
@@ -44,12 +49,13 @@ export class LoopSystem implements ISystem {
 
   private handleDeath(state: IGameState): IGameState {
     const { player } = state
-    // Insight penalty: lose unbanked insight on death
     const survivingInsight = player.insightBanked
     return {
       ...state,
       phase: 'dawn',
       dayTimeRemaining: 1,
+      deathCause: null,
+      nightDangerLevel: 0,
       player: {
         ...player,
         stamina: 100,

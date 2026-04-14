@@ -11,6 +11,7 @@ export type GamePhase =
   | 'dusk'
   | 'night_safe'   // lighthouse lit
   | 'night_dark'   // lighthouse unlit, danger escalates
+  | 'death'        // death screen before loop reset
   | 'vision'       // narrative revelation sequence
   | 'ending'
 
@@ -49,6 +50,7 @@ export type LocationId =
   | 'lighthouse_top'
   | 'mechanism_room'
   | 'village_square'
+  | 'village_inn'
   | 'harbor'
   | 'chapel'
   | 'mill'

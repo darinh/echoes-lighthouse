@@ -7,6 +7,7 @@ import { createInitialState } from './initialState.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
 import { EXAMINE_DATA } from '@/data/locations/examineData.js'
 import { INSIGHT_CARDS } from '@/data/insights/cards.js'
+import { SaveSystem } from '@/systems/SaveSystem.js'
 
 /**
  * GameEngine — Owns game state, coordinates systems, drives the render loop.
@@ -77,25 +78,15 @@ export class GameEngine {
    */
   handleAction(action: GameAction): void {
     switch (action.type) {
-      case 'start.game':
-        if (this.state.phase === 'title' || this.state.phase === 'ending') {
-          this.eventBus.emit('loop.started', { loopCount: this.state.player.loopCount })
-          // Transition to dawn — LoopSystem handles loop reset on death,
-          // but start.game from title just advances to the play state.
-          if (this.state.phase === 'title') {
-            this.state = { ...this.state, phase: 'dawn' }
-          } else {
-            // From ending: emit player.died so LoopSystem handles full reset
-            this.applyEvent('player.died', {})
-            this.eventBus.emit('player.died', {})
-          }
-        }
-        break
-
       case 'move':
         if (this.movement) {
+          if (this.state.player.stamina === 0) {
+            this.state = { ...this.state, phase: 'death', deathCause: 'death.stamina_depleted' }
+            break
+          }
           const wasDiscovered = this.state.player.discoveredLocations.has(action.target)
           this.state = { ...this.movement.moveTo(this.state, action.target), lastExaminedKey: null }
+          this.applyEvent('location.moved', {})
           if (!wasDiscovered) {
             const exploreEntry: IJournalEntry = {
               id: `discover.${action.target}`,
@@ -190,17 +181,107 @@ export class GameEngine {
       case 'dismiss.vision': {
         if (this.state.pendingVisions.length === 0) break
         const remaining = this.state.pendingVisions.slice(1)
-        const nextPhase = remaining.length === 0
-          ? (this.state.priorPhase ?? 'night_safe')
-          : 'vision'
-        this.state = {
-          ...this.state,
-          pendingVisions: remaining,
-          phase: nextPhase,
-          priorPhase: remaining.length === 0 ? null : this.state.priorPhase,
+        if (remaining.length === 0 && this.state.lighthouseLitThisLoop) {
+          // Visions complete after lighting lighthouse — resolve ending
+          const endingId = this.resolveEnding(this.state)
+          this.state = {
+            ...this.state,
+            pendingVisions: [],
+            phase: 'ending',
+            priorPhase: null,
+            endingId,
+          }
+        } else {
+          const nextPhase = remaining.length === 0
+            ? (this.state.priorPhase ?? 'night_safe')
+            : 'vision'
+          this.state = {
+            ...this.state,
+            pendingVisions: remaining,
+            phase: nextPhase,
+            priorPhase: remaining.length === 0 ? null : this.state.priorPhase,
+          }
         }
         break
       }
+
+      case 'light.lighthouse': {
+        if (this.state.player.currentLocation !== 'lighthouse_top') break
+        const hasResources = this.state.player.lightReserves >= 30 && this.state.player.stamina >= 20
+        if (!hasResources) break
+        this.state = {
+          ...this.state,
+          lighthouseLitThisLoop: true,
+          pendingVisions: ['lighthouse_ignition', 'keeper_echo', 'final_resonance'],
+          phase: 'vision',
+          priorPhase: this.state.phase,
+        }
+        this.eventBus.emit('lighthouse.lit', {})
+        break
+      }
+
+      case 'rest': {
+        if (this.state.player.currentLocation !== 'village_inn') break
+        const newStamina = Math.min(10, this.state.player.stamina + 3)
+        const newTime = Math.max(0, this.state.dayTimeRemaining - 2)
+        this.state = {
+          ...this.state,
+          dayTimeRemaining: newTime,
+          player: { ...this.state.player, stamina: newStamina },
+        }
+        this.applyEvent('player.rested', {})
+        break
+      }
+
+      case 'player.accept.death': {
+        this.state = { ...this.state, phase: 'death', deathCause: this.state.deathCause ?? 'death.night_danger' }
+        break
+      }
+
+      case 'start.game':
+        if (this.state.phase === 'title' || this.state.phase === 'ending' || this.state.phase === 'death') {
+          this.eventBus.emit('loop.started', { loopCount: this.state.player.loopCount })
+          if (this.state.phase === 'title') {
+            this.state = { ...this.state, phase: 'dawn' }
+          } else {
+            this.state = { ...this.state, deathCause: null }
+            this.applyEvent('player.died', {})
+            this.eventBus.emit('player.died', {})
+          }
+        }
+        break
+
+      case 'main.menu':
+        this.state = { ...this.state, phase: 'title' }
+        break
+
+      case 'save.now':
+        // eslint-disable-next-line no-case-declarations -- needed for static call
+        { SaveSystem.saveState(this.state); break }
+
+      case 'save.clear.confirmed':
+        SaveSystem.clearSave()
+        this.state = createInitialState()
+        break
+
+      case 'night.hide': {
+        if (Math.random() < 0.5) {
+          const newDanger = Math.max(0, this.state.nightDangerLevel - 20)
+          this.state = { ...this.state, nightDangerLevel: newDanger }
+        } else {
+          this.applyEvent('night.danger.escalate', {})
+        }
+        break
+      }
+
+      case 'loop.dawn':
+        this.applyEvent('loop.dawn', {})
+        this.eventBus.emit('loop.dawn', {})
+        break
+
+      case 'vision.continue':
+        this.handleAction({ type: 'dismiss.vision' })
+        break
     }
   }
 
@@ -210,6 +291,18 @@ export class GameEngine {
     for (const system of this.systems) {
       this.state = system.onEvent(event, this.state)
     }
+  }
+
+  /** Resolve the winning ending based on sealedInsights priority order. */
+  private resolveEnding(state: IGameState): string {
+    const sealed = state.player.sealedInsights
+    const allSeven = ['light_source_truth', 'vael_origin', 'keeper_betrayal', 'spirit_binding', 'mechanism_purpose', 'island_history', 'final_signal']
+    const hasAll = allSeven.every(id => sealed.has(id))
+    if (hasAll) return 'transcendence'
+    if (sealed.has('vael_origin') && sealed.has('mechanism_purpose')) return 'liberation'
+    if (sealed.has('keeper_betrayal') && sealed.has('spirit_binding')) return 'sacrifice'
+    if (sealed.has('island_history')) return 'corruption'
+    return 'sacrifice'
   }
 
   private loop(timestamp: number): void {

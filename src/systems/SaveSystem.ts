@@ -11,6 +11,7 @@ interface SaveSnapshot {
   dayTimeRemaining: number
   locale: string
   isPaused: boolean
+  deathCause: string | null
   activeQuests: string[]
   completedQuests: string[]
   player: {
@@ -121,6 +122,7 @@ export class SaveSystem implements ISystem {
       dayTimeRemaining: state.dayTimeRemaining,
       locale: state.locale,
       isPaused: state.isPaused,
+      deathCause: state.deathCause,
       activeQuests: [...state.activeQuests],
       completedQuests: [...state.completedQuests],
       player: {
@@ -199,6 +201,7 @@ export class SaveSystem implements ISystem {
       pendingVisions: [],
       priorPhase: null,
       lighthouseLitThisLoop: false,
+      deathCause: snapshot.deathCause ?? null,
       settings: {
         masterVolume: 0.8,
         ambientVolume: 0.8,
