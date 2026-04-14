@@ -23,6 +23,8 @@ export type GameAction =
   | { type: 'main.menu' }
   | { type: 'examine'; itemId: string; locationId: string }
   | { type: 'rest' }
+  | { type: 'setting.volume'; key: 'masterVolume' | 'ambientVolume' | 'uiVolume' | 'narrativeVolume'; value: number }
+  | { type: 'save.clear' }
 
 export type ActionHandler = (action: GameAction) => void
 
