@@ -9,9 +9,12 @@ function makeMockCanvas() {
     fillText: vi.fn(), measureText: vi.fn(() => ({ width: 50 })),
     beginPath: vi.fn(), moveTo: vi.fn(), lineTo: vi.fn(),
     closePath: vi.fn(), fill: vi.fn(), stroke: vi.fn(), rect: vi.fn(),
-    arc: vi.fn(), translate: vi.fn(),
+    arc: vi.fn(), arcTo: vi.fn(), translate: vi.fn(),
     save: vi.fn(), restore: vi.fn(), clip: vi.fn(),
     scale: vi.fn(), createRadialGradient: vi.fn(() => ({
+      addColorStop: vi.fn(),
+    })),
+    createLinearGradient: vi.fn(() => ({
       addColorStop: vi.fn(),
     })),
     canvas: { width: 800, height: 600 },
