@@ -386,12 +386,37 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = this.colors.borderDim
     ctx.fillRect(x, y + 28, w, 1)
 
-    this.setFont(12)
-    ctx.fillStyle = this.colors.textPrimary
-    this.wrapText(this.locationDesc(locId), x, y + 50, w, 18)
+    // If an examine was just triggered, show its flavor text prominently
+    if (state.lastExaminedKey) {
+      this.setFont(11)
+      ctx.fillStyle = this.colors.accentGold
+      ctx.textAlign = 'left'
+      ctx.fillText('◈ DISCOVERY', x, y + 52)
 
-    const npcH = this.renderNPCPresence(state, x, y + 130, w)
-    const examineH = this.renderExamineItems(state, x, y + 130 + npcH, w)
+      ctx.fillStyle = this.colors.borderBright
+      ctx.fillRect(x, y + 62, w, 1)
+
+      this.setFont(12)
+      ctx.fillStyle = this.colors.textPrimary
+      const examineText = this.t(state.lastExaminedKey)
+      this.wrapText(examineText, x, y + 74, w, 20)
+
+      ctx.fillStyle = this.colors.borderDim
+      ctx.fillRect(x, y + 148, w, 1)
+
+      this.setFont(10)
+      ctx.fillStyle = this.colors.textFaint
+      ctx.textAlign = 'left'
+      ctx.fillText('(move to continue)', x, y + 158)
+    } else {
+      this.setFont(12)
+      ctx.fillStyle = this.colors.textPrimary
+      this.wrapText(this.locationDesc(locId), x, y + 50, w, 18)
+    }
+
+    const contentOffsetY = state.lastExaminedKey ? 175 : 130
+    const npcH = this.renderNPCPresence(state, x, y + contentOffsetY, w)
+    const examineH = this.renderExamineItems(state, x, y + contentOffsetY + npcH, w)
 
     if (state.player.currentLocation === 'archive_basement') {
       this.renderArchiveDesk(state, x, y + 130 + npcH + examineH, w)

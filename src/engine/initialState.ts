@@ -74,6 +74,7 @@ export function createInitialState(): IGameState {
     worldFlags: new Set<string>(),
     saveVersion: 1,
     endingId: null,
+    lastExaminedKey: null,
     nightDangerLevel: 0,
     pendingVisions: [],
     priorPhase: null,
