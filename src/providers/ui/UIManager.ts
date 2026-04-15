@@ -492,9 +492,20 @@ export class UIManager {
 
     const itemHere = getItemAtLocation(state.player.currentLocation)
     if (itemHere && !state.inventory.has(itemHere.id)) {
-      html += `<button data-action='{"type":"take","itemId":"${itemHere.id}"}'>
-        ⬡ TAKE ${this.esc(this.t(itemHere.nameKey).toUpperCase())}
-      </button>`
+      const searchedFlag = `searched:${state.player.currentLocation}`
+      const isSearched = state.worldFlags.has(searchedFlag)
+      const needsSearch = state.difficulty !== 'easy' && !isSearched
+
+      if (needsSearch) {
+        const canSearch = state.player.stamina > 0
+        html += `<button class="${canSearch ? 'safe-action' : 'dim-action'}" ${canSearch ? `data-action='{"type":"search"}'` : 'disabled'}>
+          🔍 SEARCH AREA${!canSearch ? '<span style="font-size:10px;display:block">no stamina</span>' : ''}
+        </button>`
+      } else {
+        html += `<button class="safe-action" data-action='{"type":"take","itemId":"${itemHere.id}"}'>
+          ⬡ TAKE ${this.esc(this.t(itemHere.nameKey).toUpperCase())}
+        </button>`
+      }
     }
 
     html += `<div class="action-hint">J — journal · I — insight</div>`
