@@ -32,12 +32,6 @@ async function waitForCanvasPaint(page: Page, timeout = 5000): Promise<void> {
   )
 }
 
-/** Click the centre of the canvas element. */
-async function clickCanvas(page: Page): Promise<void> {
-  const canvas = page.locator('canvas')
-  await canvas.click()
-}
-
 /** Press Enter to start the game from the title screen. */
 async function startGame(page: Page): Promise<void> {
   await page.keyboard.press('Enter')
@@ -145,7 +139,10 @@ test.describe('Echoes of the Lighthouse — UI', () => {
     test('clicking the canvas starts the game', async ({ page }) => {
       await page.goto('/')
       await waitForCanvasPaint(page)
-      await clickCanvas(page)
+      // In hybrid layout, the start button is in the HTML overlay — click it
+      const startBtn = page.locator('.start-btn').first()
+      await expect(startBtn).toBeVisible({ timeout: 3000 })
+      await startBtn.click()
       await page.waitForTimeout(300)
 
       const pixelCount = await page.evaluate(() => {

@@ -80,6 +80,7 @@ export type GameEventType =
   | 'loop.night'
   | 'achievement.unlocked'
   | 'weather.changed'
+  | 'encounter.resolved'
 
 | 'lighthouse.lit'
   | 'loop.dawn'

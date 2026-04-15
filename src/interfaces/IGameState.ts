@@ -10,6 +10,7 @@ import type {
   EndingId,
   AchievementId,
 } from './types.js'
+import type { EncounterId } from '@/data/encounters/index.js'
 
 export type WeatherType = 'clear' | 'fog' | 'rain'
 
@@ -133,4 +134,6 @@ export interface IGameState {
     readonly locale: string
   }
   readonly weather: WeatherType
+  readonly activeEncounter: EncounterId | null
+  readonly nightEncounterShown: number
 }

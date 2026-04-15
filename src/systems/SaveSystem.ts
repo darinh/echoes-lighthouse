@@ -251,6 +251,8 @@ export class SaveSystem implements ISystem {
       achievements: new Set(snapshot.achievements ?? []) as IGameState['achievements'],
       pendingAchievement: null,
       pendingMilestoneMessage: null,
+      activeEncounter: null,
+      nightEncounterShown: 0,
       weather: (snapshot.weather ?? 'clear') as WeatherType,
       settings: {
         masterVolume: 0.8,

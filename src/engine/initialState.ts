@@ -88,6 +88,8 @@ export function createInitialState(): IGameState {
     pendingAchievement: null,
     pendingMilestoneMessage: null,
     weather: 'clear',
+    activeEncounter: null,
+    nightEncounterShown: 0,
     settings: {
       masterVolume: 0.8,
       ambientVolume: 0.8,

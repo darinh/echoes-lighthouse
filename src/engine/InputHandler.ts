@@ -25,6 +25,8 @@ export type GameAction =
   | { type: 'take'; itemId: string }
   | { type: 'rest' }
   | { type: 'wait' }
+  | { type: 'investigate' }
+  | { type: 'ignore_encounter' }
   | { type: 'setting.volume'; key: 'masterVolume' | 'ambientVolume' | 'uiVolume' | 'narrativeVolume'; value: number }
   | { type: 'save.clear' }
   | { type: 'new.game' }

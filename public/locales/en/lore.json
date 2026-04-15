@@ -644,5 +644,32 @@
       "codex_title": "Echo: The Transcendence",
       "codex_body": "All seven truths sealed, the mechanism understood in full. The light you kindled that final night rose higher than the tower. Somewhere beyond the fog, something vast took notice. It did not seem hostile."
     }
+  },
+  "encounter": {
+    "ignore": "Leave it be.",
+    "distant_light": {
+      "desc": "A distant light blinks three times across the water — deliberate, rhythmic. Someone, or something, is out there.",
+      "investigate": "You follow the signal to the cliff's edge. The light vanishes before you arrive, but you find salt-worn marks in the stone — an old message system."
+    },
+    "strange_sound": {
+      "desc": "A sound rises from the rocks below: not wind, not wave. Something between a moan and a word.",
+      "investigate": "You press your ear to the cold stone. The sound resolves into syllables you cannot quite parse — but you recognise the cadence. It matches the keeper's old journals."
+    },
+    "shadow_movement": {
+      "desc": "Something moves at the edge of your lantern light. Too large for an animal. Too fluid for a person.",
+      "investigate": "You raise the lantern and step forward. The shadow retreats, leaving a depression in the wet grass — the shape of a body, still warm."
+    },
+    "tide_signal": {
+      "desc": "The tide is withdrawing in an unusual pattern, exposing rocks that should be submerged. The water moves against the current.",
+      "investigate": "You watch the pattern for several minutes. The rocks form a sequence — the same sequence carved above the lighthouse door. The sea is sending a message."
+    },
+    "lantern_flicker": {
+      "desc": "Your lantern stutters without wind. Three short pulses, one long. Then steady again.",
+      "investigate": "You count the pattern carefully: three short, one long. You have seen this before — in the signal log the keeper kept by the lens housing. Someone knows you are here."
+    },
+    "voice_in_wind": {
+      "desc": "The wind carries a fragment of speech — a name. Your name. Spoken once, clearly, from no direction at all.",
+      "investigate": "You stand perfectly still and listen. The voice does not return. But the silence that follows is different — attentive, waiting. Something on the island has noticed you."
+    }
   }
 }
