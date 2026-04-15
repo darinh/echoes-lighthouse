@@ -363,8 +363,8 @@ body { overscroll-behavior: none; }
 #game-ui.title-screen { pointer-events: auto; }
 
 .title-prompt {
-  position: absolute; bottom: 20%; left: 50%; transform: translateX(-50%);
-  text-align: center; pointer-events: auto;
+  position: absolute; bottom: 16%; left: 50%; transform: translateX(-50%);
+  text-align: center; pointer-events: auto; min-width: 320px; max-width: 560px;
 }
 .title-prompt .start-btn {
   background: none; border: none; color: #e8a830; font-family: monospace;
@@ -377,3 +377,32 @@ body { overscroll-behavior: none; }
 }
 .title-prompt .new-game-btn:hover { color: #c4cfe0; }
 @keyframes pulse { 0%, 100% { opacity:0.5; } 50% { opacity:1; } }
+
+.title-endings {
+  font-family: monospace; font-size: 11px; color: #5a7090; letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+.title-loop-hint {
+  font-family: monospace; font-size: 11px; color: #7a8fa8; margin-top: 4px;
+  letter-spacing: 0.06em;
+}
+
+.title-key-hint {
+  font-family: monospace; font-size: 11px; color: #3d5068; margin-top: 10px;
+  letter-spacing: 0.04em;
+}
+
+.title-lore {
+  margin-bottom: 16px; padding: 10px 16px;
+  border-top: 1px solid rgba(100, 140, 180, 0.15);
+  border-bottom: 1px solid rgba(100, 140, 180, 0.15);
+}
+.title-lore-quote {
+  font-family: Georgia, serif; font-size: 12px; color: #8aa4be;
+  font-style: italic; line-height: 1.5; margin: 0 0 4px;
+}
+.title-lore-source {
+  font-family: monospace; font-size: 10px; color: #4a6278; margin: 0;
+  letter-spacing: 0.05em;
+}
