@@ -10,6 +10,7 @@ export type GameAction =
   | { type: 'start.game' }
   | { type: 'pause.toggle' }
   | { type: 'panel.toggle'; panel: 'journal' | 'codex' | 'map' | 'settings' }
+  | { type: 'panel.close' }
   | { type: 'insight.bank' }
   | { type: 'seal.insight'; cardId: string }
   | { type: 'save.now' }

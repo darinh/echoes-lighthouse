@@ -25,6 +25,9 @@ export class UIManager {
 
   private _i18n: II18n | null = null
   private _toastTimer: ReturnType<typeof setTimeout> | null = null
+  private _codexActiveTab: ArchiveDomain | 'all' = 'all'
+  private _codexSearchTerm = ''
+  private _codexEscListener: ((e: KeyboardEvent) => void) | null = null
 
   setI18n(i18n: II18n): void { this._i18n = i18n }
   private t(key: string): string { return this._i18n ? this._i18n.t(key) : key }
@@ -410,6 +413,13 @@ export class UIManager {
   private updateOverlay(state: IGameState): void {
     if (state.activePanel === 'none') {
       this.overlayPanel.classList.add('hidden')
+      // Clean up codex Escape listener and reset state when panel closes
+      if (this._codexEscListener) {
+        window.removeEventListener('keydown', this._codexEscListener)
+        this._codexEscListener = null
+      }
+      this._codexActiveTab = 'all'
+      this._codexSearchTerm = ''
       return
     }
     this.overlayPanel.classList.remove('hidden')
@@ -471,34 +481,106 @@ export class UIManager {
   }
 
   private renderCodex(state: IGameState): void {
-    const domains: ArchiveDomain[] = ['history', 'occult', 'maritime', 'ecology', 'alchemy', 'cartography', 'linguistics']
-    let body = ''
+    const domains = [...new Set(CODEX_PAGES.map(page => page.domain))] as ArchiveDomain[]
 
-    for (const domain of domains) {
+    // Build full entry list (unlocked pages only shown with content)
+    const allEntries = domains.flatMap(domain => {
       const mastery = state.player.archiveMastery[domain] ?? 0
-      const pages = CODEX_PAGES.filter(p => p.domain === domain)
-      const unlockedPages = pages.slice(0, mastery)
-      body += `
-        <div class="codex-domain">
-          <h3>${domain.toUpperCase()} (${mastery}/${pages.length})</h3>
-          <div class="codex-bar-row">
-            <span class="codex-bar-label">${domain}</span>
-            <div class="codex-bar-track"><div class="codex-bar-fill" style="width:${pages.length > 0 ? Math.round(mastery / pages.length * 100) : 0}%"></div></div>
-          </div>
-      `
-      for (const page of pages) {
-        const isUnlocked = unlockedPages.includes(page)
-        const title = this.t(page.titleKey)
-        const text = isUnlocked ? this.t(page.bodyKey) : '???'
-        body += `<div class="codex-page ${isUnlocked ? 'unlocked' : ''}">
-          <div class="page-title">${this.esc(title)}</div>
-          <div class="page-text">${this.esc(text)}</div>
-        </div>`
-      }
-      body += `</div>`
+      return CODEX_PAGES.filter(p => p.domain === domain).map((page, idx) => ({
+        domain,
+        page,
+        isUnlocked: idx < mastery,
+        title: this.t(page.titleKey),
+        body: idx < mastery ? this.t(page.bodyKey) : '???',
+      }))
+    })
+
+    // Apply tab filter
+    const tabFiltered = this._codexActiveTab === 'all'
+      ? allEntries
+      : allEntries.filter(e => e.domain === this._codexActiveTab)
+
+    // Apply search filter (case-insensitive, only when unlocked has real text)
+    const term = this._codexSearchTerm.toLowerCase()
+    const visible = term
+      ? tabFiltered.filter(e => e.title.toLowerCase().includes(term) || e.body.toLowerCase().includes(term))
+      : tabFiltered
+
+    // Tab bar
+    const tabs: Array<ArchiveDomain | 'all'> = ['all', ...domains]
+    const tabHtml = tabs.map(tab => `
+      <button class="codex-tab${tab === this._codexActiveTab ? ' active' : ''}" data-codex-tab="${tab}">
+        ${tab === 'all' ? 'ALL' : tab.toUpperCase()}
+      </button>`).join('')
+
+    // Group visible entries by domain for rendering
+    const grouped = new Map<ArchiveDomain, typeof visible>()
+    for (const e of visible) {
+      if (!grouped.has(e.domain)) grouped.set(e.domain, [])
+      grouped.get(e.domain)!.push(e)
     }
 
+    let entriesHtml = ''
+    for (const [domain, entries] of grouped) {
+      const mastery = state.player.archiveMastery[domain] ?? 0
+      const total = CODEX_PAGES.filter(p => p.domain === domain).length
+      entriesHtml += `<div class="codex-domain">
+        <h3>${domain.toUpperCase()} (${mastery}/${total})</h3>
+        <div class="codex-bar-row">
+          <span class="codex-bar-label">${domain}</span>
+          <div class="codex-bar-track"><div class="codex-bar-fill" style="width:${total > 0 ? Math.round(mastery / total * 100) : 0}%"></div></div>
+        </div>`
+      for (const e of entries) {
+        entriesHtml += `<div class="codex-page ${e.isUnlocked ? 'unlocked' : ''}">
+          <div class="page-title">${this.esc(e.title)}</div>
+          <div class="page-text">${this.esc(e.body)}</div>
+        </div>`
+      }
+      entriesHtml += `</div>`
+    }
+
+    if (visible.length === 0) {
+      entriesHtml = `<p class="codex-empty">No entries match your search.</p>`
+    }
+
+    const body = `
+      <div class="codex-tabs">${tabHtml}</div>
+      <input class="codex-search" type="text" placeholder="Search entries…" value="${this.esc(this._codexSearchTerm)}">
+      <div class="codex-count">${visible.length} ${visible.length === 1 ? 'entry' : 'entries'}</div>
+      ${entriesHtml}
+    `
+
     this.overlayPanel.innerHTML = this.overlayWrap('◆ CODEX', body, 'codex')
+
+    // Wire search input
+    const searchEl = this.overlayPanel.querySelector<HTMLInputElement>('.codex-search')
+    if (searchEl) {
+      searchEl.focus()
+      searchEl.addEventListener('input', () => {
+        this._codexSearchTerm = searchEl.value
+        this.renderCodex(state)
+      })
+    }
+
+    // Wire tab clicks
+    this.overlayPanel.querySelectorAll<HTMLButtonElement>('[data-codex-tab]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this._codexActiveTab = (btn.dataset['codexTab'] as ArchiveDomain | 'all') ?? 'all'
+        this._codexSearchTerm = ''
+        this.renderCodex(state)
+      })
+    })
+
+    // Escape closes the codex panel
+    if (this._codexEscListener) {
+      window.removeEventListener('keydown', this._codexEscListener)
+    }
+    this._codexEscListener = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        this.onAction?.({ type: 'panel.close' })
+      }
+    }
+    window.addEventListener('keydown', this._codexEscListener)
   }
 
   private renderMapOverlay(state: IGameState): void {

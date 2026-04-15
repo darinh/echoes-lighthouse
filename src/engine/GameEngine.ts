@@ -248,6 +248,10 @@ export class GameEngine {
         }
         break
 
+      case 'panel.close':
+        this.state = { ...this.state, activePanel: 'none' }
+        break
+
       case 'insight.bank':
         if (this.state.player.insight > 0) {
           this.applyEvent('insight.banked', { amount: this.state.player.insight })
