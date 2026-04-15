@@ -46,34 +46,18 @@ export class UIManager {
     this.notifications = container.querySelector('#notifications') as HTMLElement
     this.gameUI = container.querySelector('#game-ui') as HTMLElement
 
-    const dispatchFromElement = (el: HTMLElement | null): boolean => {
-      const target = el?.closest('[data-action]') as HTMLElement | null
-      if (!target) return false
+    container.addEventListener('click', (e: Event) => {
+      const target = (e.target as HTMLElement).closest('[data-action]') as HTMLElement | null
+      if (!target) return
       const raw = target.dataset['action']
-      if (!raw) return false
+      if (!raw) return
       try {
         const action = JSON.parse(raw) as GameAction
         this.onAction?.(action)
-        return true
       } catch {
-        return false
+        // ignore
       }
-    }
-
-    container.addEventListener('click', (e: Event) => {
-      dispatchFromElement(e.target as HTMLElement)
     })
-
-    // iOS Safari: pointer-events:none on #game-ui prevents touch→click bubbling on children.
-    // Handle touchend directly via elementFromPoint to locate the tapped button.
-    container.addEventListener('touchend', (e: TouchEvent) => {
-      const t = e.changedTouches[0]
-      if (!t) return
-      const el = document.elementFromPoint(t.clientX, t.clientY) as HTMLElement | null
-      if (dispatchFromElement(el)) {
-        e.preventDefault() // suppress ghost click to prevent double-dispatch
-      }
-    }, { passive: false })
   }
 
   setActionHandler(handler: (action: GameAction) => void): void {
