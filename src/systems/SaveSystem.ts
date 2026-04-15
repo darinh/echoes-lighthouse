@@ -250,6 +250,7 @@ export class SaveSystem implements ISystem {
       audioMuted: snapshot.audioMuted ?? false,
       achievements: new Set(snapshot.achievements ?? []) as IGameState['achievements'],
       pendingAchievement: null,
+      pendingMilestoneMessage: null,
       weather: (snapshot.weather ?? 'clear') as WeatherType,
       settings: {
         masterVolume: 0.8,

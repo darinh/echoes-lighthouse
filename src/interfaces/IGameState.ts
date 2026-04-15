@@ -120,6 +120,11 @@ export interface IGameState {
     readonly descKey: string
     readonly shownAt: number
   } | null
+  readonly pendingMilestoneMessage: {
+    readonly messageKey: string
+    readonly loopCount: number
+    readonly shownAt: number
+  } | null
   readonly settings: {
     readonly masterVolume: number
     readonly ambientVolume: number

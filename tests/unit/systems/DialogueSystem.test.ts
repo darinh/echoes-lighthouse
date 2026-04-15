@@ -78,6 +78,7 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     audioMuted: false,
     achievements: new Set(),
     pendingAchievement: null,
+    pendingMilestoneMessage: null,
     settings: {
       masterVolume: 1,
       ambientVolume: 0.6,
@@ -85,9 +86,9 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
       narrativeVolume: 1,
       locale: 'en',
     },
-    weather: 'clear',
+    weather: 'clear' as const,
     ...overrides,
-  }
+  } as IGameState
 }
 
 describe('DialogueSystem', () => {

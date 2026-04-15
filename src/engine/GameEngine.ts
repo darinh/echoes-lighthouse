@@ -79,6 +79,10 @@ export class GameEngine {
    * or from rendered canvas hit-regions.
    */
   handleAction(action: GameAction): void {
+    // Dismiss milestone message on any player action
+    if (this.state.pendingMilestoneMessage) {
+      this.state = { ...this.state, pendingMilestoneMessage: null }
+    }
     switch (action.type) {
       case 'move':
         if (this.movement) {

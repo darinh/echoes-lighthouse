@@ -3,7 +3,7 @@ import { InputHandler } from '@/engine/InputHandler.js'
 import { I18nService } from '@/i18n/index.js'
 import { SynthAudioProvider } from '@/providers/audio/SynthAudioProvider.js'
 import { CanvasTextRenderer } from '@/providers/renderer/CanvasTextRenderer.js'
-import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, SaveSystem, AudioFeedbackSystem, NPCScheduleSystem, WeatherSystem } from '@/systems/index.js'
+import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, SaveSystem, AudioFeedbackSystem, NPCScheduleSystem, WeatherSystem, MilestoneSystem } from '@/systems/index.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
 
 async function boot(): Promise<void> {
@@ -30,6 +30,7 @@ async function boot(): Promise<void> {
 
   engine.setMovementSystem(movement)
   engine.registerSystem(new LoopSystem(eventBus))
+  engine.registerSystem(new MilestoneSystem(eventBus))
   engine.registerSystem(new KnowledgeSystem(eventBus))
   engine.registerSystem(new QuestSystem(eventBus))
   engine.registerSystem(new MoralWeightSystem(eventBus))

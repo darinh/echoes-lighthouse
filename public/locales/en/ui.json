@@ -271,5 +271,9 @@
   "weather": {
     "fog_prefix": "Through the grey murk, you make out...",
     "rain_treacherous": "treacherous"
-  }
+  },
+  "milestone.loop_3": "The lighthouse beam sweeps again. You know this rhythm now.",
+  "milestone.loop_5": "Five dawns. The island holds its secrets tighter than you thought.",
+  "milestone.loop_7": "Seven times the tide has turned. Something stirs in the deep pattern.",
+  "milestone.loop_10": "Ten loops. The lighthouse has been waiting for someone like you."
 }
