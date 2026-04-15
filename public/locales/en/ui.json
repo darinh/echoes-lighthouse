@@ -76,19 +76,58 @@
     "tagline": "The lighthouse still waits."
   },
   "location": {
-    "keepers_cottage": "Keeper's Cottage",
-    "lighthouse_base": "Lighthouse",
-    "lighthouse_top": "Lighthouse — Lantern Room",
-    "mechanism_room": "Mechanism Room",
-    "village_square": "Village Square",
-    "harbor": "The Harbour",
-    "chapel": "St. Maret's Chapel",
-    "mill": "The Old Mill",
-    "forest_path": "Forest Path",
-    "ruins": "The Old Ruins",
-    "cliffside": "Cliffside",
-    "archive_basement": "Archive Basement",
-    "tidal_caves": "Tidal Caves"
+    "keepers_cottage": {
+      "name": "Keeper's Cottage",
+      "desc": "A modest dwelling near the cliff path. The smell of old paper and sea salt. The previous keeper lived and worked here."
+    },
+    "lighthouse_base": {
+      "name": "Lighthouse",
+      "desc": "The base of the great tower. Its shadow falls long across the rocks. The mechanism hums faintly."
+    },
+    "lighthouse_top": {
+      "name": "Lighthouse — Lantern Room",
+      "desc": "The lens room. From here you can see the whole island — and something in the water below."
+    },
+    "mechanism_room": {
+      "name": "Mechanism Room",
+      "desc": "Gears the size of millstones turn without apparent power. The hum from above is louder here. The walls are covered in symbols no one on the island claims to recognise."
+    },
+    "village_square": {
+      "name": "Village Square",
+      "desc": "The heart of the island. Villagers move with purpose, eyes cast low. The well stands dry."
+    },
+    "harbor": {
+      "name": "The Harbour",
+      "desc": "Weathered boats creak against the dock. Silas watches the horizon. The fog is thick this morning."
+    },
+    "chapel": {
+      "name": "St. Maret's Chapel",
+      "desc": "The pews are empty but the candles are lit. Someone tends this place. The stained glass is cracked; the saint's face replaced with rough plaster."
+    },
+    "mill": {
+      "name": "The Old Mill",
+      "desc": "The wheel still turns though the stream has been dry for years. The miller's log is open on the table, the last entry three weeks ago."
+    },
+    "forest_path": {
+      "name": "Forest Path",
+      "desc": "The trees press close. Roots cross the path like sleeping fingers. You hear movement that stops when you stop."
+    },
+    "ruins": {
+      "name": "The Old Ruins",
+      "desc": "Crumbled walls of what was once a manor. The east wing still stands, barely. The smell of old smoke that will not quite leave."
+    },
+    "cliffside": {
+      "name": "Cliffside",
+      "desc": "Wind tears at your coat. The cliff drops eighty feet to the rocks below. You can see the lighthouse from here — and the shape beneath the water."
+    },
+    "archive_basement": {
+      "name": "Archive Basement",
+      "desc": "Stone steps descending into cold air. Rows of iron shelving. Maren's domain. Water stains mark the walls at hip height — the flood came this far, once."
+    },
+    "tidal_caves": {
+      "name": "Tidal Caves",
+      "desc": "Seawater pools on the cave floor, lit from below by something bioluminescent. The tide is coming in. You have perhaps an hour."
+    }
   },
   "archive": {
     "domain": {
