@@ -7,6 +7,7 @@ import type {
   JournalThreadId,
   NPCAttitude,
   ItemId,
+  EndingId,
 } from './types.js'
 
 export interface IJournalEntry {
@@ -107,6 +108,8 @@ export interface IGameState {
   readonly lighthouseLitThisLoop: boolean
   readonly deathCause: string | null
   readonly inventory: ReadonlySet<ItemId>
+  readonly endingsSeen: ReadonlySet<EndingId>
+  readonly audioMuted: boolean
   readonly settings: {
     readonly masterVolume: number
     readonly ambientVolume: number

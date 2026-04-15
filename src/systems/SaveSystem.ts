@@ -17,6 +17,8 @@ interface SaveSnapshot {
   completedQuests: string[]
   questStepProgress: Record<string, string[]>
   inventory: string[]
+  endingsSeen: string[]
+  audioMuted: boolean
   player: {
     stamina: number
     lightReserves: number
@@ -127,6 +129,18 @@ export class SaveSystem implements ISystem {
     localStorage.removeItem(STORAGE_KEY)
   }
 
+  /** Load only the endingsSeen set from the save (used on title screen). */
+  static loadEndingsSeen(): ReadonlySet<string> {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY)
+      if (!raw) return new Set()
+      const snapshot = JSON.parse(raw) as Partial<SaveSnapshot>
+      return new Set(snapshot.endingsSeen ?? [])
+    } catch {
+      return new Set()
+    }
+  }
+
   // ─── Serialisation ────────────────────────────────────────────────────────
 
   private static serialise(state: IGameState): SaveSnapshot {
@@ -144,6 +158,8 @@ export class SaveSystem implements ISystem {
         Object.entries(state.questStepProgress).map(([k, v]) => [k, [...v]])
       ),
       inventory: [...state.inventory],
+      endingsSeen: [...state.endingsSeen],
+      audioMuted: state.audioMuted,
       player: {
         stamina: state.player.stamina,
         lightReserves: state.player.lightReserves,
@@ -225,6 +241,8 @@ export class SaveSystem implements ISystem {
       lighthouseLitThisLoop: false,
       deathCause: null,
       inventory: new Set(snapshot.inventory ?? []) as IGameState['inventory'],
+      endingsSeen: new Set(snapshot.endingsSeen ?? []) as IGameState['endingsSeen'],
+      audioMuted: snapshot.audioMuted ?? false,
       settings: {
         masterVolume: 0.8,
         ambientVolume: 0.8,

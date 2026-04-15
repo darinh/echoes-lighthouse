@@ -74,6 +74,8 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     lighthouseLitThisLoop: false,
     deathCause: null,
     inventory: new Set(),
+    endingsSeen: new Set(),
+    audioMuted: false,
     settings: {
       masterVolume: 1,
       ambientVolume: 0.6,

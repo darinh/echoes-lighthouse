@@ -1,4 +1,4 @@
-import type { IGameState, IPlayerState, INPCState, NPCId, LocationId } from '@/interfaces/index.js'
+import type { IGameState, IPlayerState, INPCState, NPCId, LocationId, EndingId } from '@/interfaces/index.js'
 
 const NPC_IDS: NPCId[] = [
   'maren','vael','silas','petra','tobias','elara','corvin',
@@ -82,6 +82,8 @@ export function createInitialState(): IGameState {
     lighthouseLitThisLoop: false,
     deathCause: null,
     inventory: new Set<import('../interfaces/types.js').ItemId>(),
+    endingsSeen: new Set<EndingId>(),
+    audioMuted: false,
     settings: {
       masterVolume: 0.8,
       ambientVolume: 0.8,

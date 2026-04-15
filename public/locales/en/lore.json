@@ -616,5 +616,33 @@
         "talk_vael_tier3": "Find Vael and speak with them one final time."
       }
     }
+  },
+  "ending_tracker": {
+    "panel_title": "ECHOES",
+    "liberation": {
+      "short": "The Liberation",
+      "codex_title": "Echo: The Liberation",
+      "codex_body": "You unravelled the binding that chained Vael to the lighthouse mechanism. The signal fell silent. The island breathed out. Vael walked into the sea, and the water received them without a ripple."
+    },
+    "keepers_peace": {
+      "short": "The Keeper's Peace",
+      "codex_title": "Echo: The Keeper's Peace",
+      "codex_body": "You accepted the role. The lighthouse burns under your watch now. The islanders sleep easier. Whether the mechanism chose you, or you chose it, is a question the journal won't answer."
+    },
+    "sacrifice": {
+      "short": "The Sacrifice",
+      "codex_title": "Echo: The Sacrifice",
+      "codex_body": "Someone had to stay behind to hold the light. You understood that before the others did. The beam swept on. Your name joined the long list scratched into the lens housing."
+    },
+    "corruption": {
+      "short": "The Corruption",
+      "codex_title": "Echo: The Corruption",
+      "codex_body": "The mechanism offered power and you took it. The island remembers things differently now. There are new shadows where there were none, and the light that shines from the tower isn't quite the right colour."
+    },
+    "transcendence": {
+      "short": "The Transcendence",
+      "codex_title": "Echo: The Transcendence",
+      "codex_body": "All seven truths sealed, the mechanism understood in full. The light you kindled that final night rose higher than the tower. Somewhere beyond the fog, something vast took notice. It did not seem hostile."
+    }
   }
 }
