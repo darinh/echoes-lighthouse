@@ -86,6 +86,7 @@ export function createInitialState(): IGameState {
     audioMuted: false,
     achievements: new Set<AchievementId>(),
     pendingAchievement: null,
+    pendingMilestoneMessage: null,
     weather: 'clear',
     settings: {
       masterVolume: 0.8,

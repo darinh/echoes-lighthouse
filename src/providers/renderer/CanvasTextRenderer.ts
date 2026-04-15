@@ -215,6 +215,7 @@ export class CanvasTextRenderer implements IRenderer {
     }
     if (state.phase !== 'title') this.renderWeatherOverlay(state)
     this.renderHint(state)
+    this.renderMilestoneMessage(state)
     this.renderAchievementToast(state)
     this.updateAriaLabel(state)
   }
@@ -2661,6 +2662,65 @@ export class CanvasTextRenderer implements IRenderer {
     this.setFont(8)
     ctx.fillStyle = this.colors.textDim
     ctx.fillText('[ SPACE to dismiss ]', textX, barY + Math.round(barH * 0.78))
+
+    ctx.restore()
+  }
+
+  private renderMilestoneMessage(state: IGameState): void {
+    const { pendingMilestoneMessage } = state
+    if (!pendingMilestoneMessage) return
+
+    const elapsed = Date.now() - pendingMilestoneMessage.shownAt
+    const DURATION = 4000
+    if (elapsed >= DURATION) return
+
+    const { ctx, width, height } = this
+    const cx = width / 2
+    const cy = height / 2
+
+    // Fade in over 400ms, fade out over 600ms
+    let alpha = 1
+    if (elapsed < 400) {
+      alpha = elapsed / 400
+    } else if (elapsed > DURATION - 600) {
+      alpha = (DURATION - elapsed) / 600
+    }
+
+    ctx.save()
+    ctx.globalAlpha = alpha
+
+    // Full-screen dim overlay
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.6)'
+    ctx.fillRect(0, 0, width, height)
+
+    // Main message text (italic via font style, using setFont(11))
+    const msg = this.t(pendingMilestoneMessage.messageKey)
+    const maxW = Math.round(width * 0.72)
+    this.setFont(11, 'italic')
+    ctx.fillStyle = this.colors.accentWarm
+    ctx.textAlign = 'center'
+    ctx.fillText(msg, cx, cy - this.lh(11) * 0.5, maxW)
+
+    // Subtitle: "Loop {n}"
+    this.setFont(9)
+    ctx.fillStyle = this.colors.textDim
+    ctx.fillText(`Loop ${pendingMilestoneMessage.loopCount}`, cx, cy + this.lh(9) * 1.2)
+
+    // Decorative amber lines above and below main text
+    const lineW = Math.round(width * 0.3)
+    const lineY1 = cy - this.lh(11) * 1.8
+    const lineY2 = cy + this.lh(9) * 2.5
+    ctx.strokeStyle = this.colors.accent
+    ctx.lineWidth = 1
+    ctx.globalAlpha = alpha * 0.6
+    ctx.beginPath()
+    ctx.moveTo(cx - lineW / 2, lineY1)
+    ctx.lineTo(cx + lineW / 2, lineY1)
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(cx - lineW / 2, lineY2)
+    ctx.lineTo(cx + lineW / 2, lineY2)
+    ctx.stroke()
 
     ctx.restore()
   }
