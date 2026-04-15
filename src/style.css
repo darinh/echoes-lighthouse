@@ -117,6 +117,10 @@ body { overscroll-behavior: none; }
 #content-panel .npc-card:hover { background: #1b2438; }
 #content-panel .npc-card .npc-name { font-size: 13px; color: #c4cfe0; }
 #content-panel .npc-card .npc-sub { font-size: 11px; color: #465a72; }
+#content-panel .npc-card .npc-meta { display: flex; align-items: center; gap: 6px; }
+#content-panel .npc-card .relationship-indicator { font-size: 11px; }
+#content-panel .npc-card .relationship-indicator.ready { color: #f0c040; text-shadow: 0 0 6px rgba(240, 192, 64, 0.5); }
+#content-panel .npc-card .relationship-indicator.dim { color: #3a4860; }
 #content-panel .npc-card .npc-dots { color: #f0c040; font-size: 11px; }
 #content-panel .examine-list { margin-bottom: 12px; }
 #content-panel .examine-list h3 { color: #465a72; font-size: 11px; letter-spacing: 1px; margin-bottom: 6px; }

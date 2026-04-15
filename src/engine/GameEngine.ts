@@ -182,7 +182,21 @@ export class GameEngine {
         break
 
       case 'dialogue.choice':
-        this.applyEvent('dialogue.choice.selected', { choiceId: action.choiceId })
+        {
+          const prevTrust = { ...(this.state.player.trust as Readonly<Record<string, number>>) }
+          const prevResonance = { ...(this.state.player.resonance as Readonly<Record<string, number>>) }
+          this.applyEvent('dialogue.choice.selected', { choiceId: action.choiceId })
+          for (const [npcId, trust] of Object.entries(this.state.player.trust as Readonly<Record<string, number>>)) {
+            if ((prevTrust[npcId] ?? 0) !== trust) {
+              this.applyEvent('npc.trust.changed', { npcId, value: trust })
+            }
+          }
+          for (const [npcId, resonance] of Object.entries(this.state.player.resonance as Readonly<Record<string, number>>)) {
+            if ((prevResonance[npcId] ?? 0) !== resonance) {
+              this.applyEvent('npc.resonance.changed', { npcId, value: resonance })
+            }
+          }
+        }
         this.eventBus.emit('dialogue.choice.selected', { choiceId: action.choiceId })
         break
 

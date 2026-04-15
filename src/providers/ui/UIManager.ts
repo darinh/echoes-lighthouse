@@ -9,6 +9,7 @@ import { CODEX_PAGES } from '@/data/codex/pages.js'
 import { ENDING_NARRATIVES } from '@/data/endings/index.js'
 import { HINTS } from '@/data/hints/index.js'
 import { getItemAtLocation } from '@/data/items/index.js'
+import { RELATIONSHIP_UNLOCKS } from '@/data/npcs/relationships.js'
 import type { ArchiveDomain, LocationId } from '@/interfaces/types.js'
 
 export class UIManager {
@@ -182,13 +183,21 @@ export class UIManager {
         const trust = state.player.trust[npcId as NPCId] ?? 0
         const filledDots = Math.min(4, Math.floor(trust / 25))
         const dots = '◈'.repeat(filledDots) + '○'.repeat(4 - filledDots)
+        const hasRelationshipUnlock = RELATIONSHIP_UNLOCKS.some(unlock =>
+          unlock.npcId === npcId &&
+          state.player.relationshipFlags[unlock.flag] &&
+          !state.player.shownRelationshipDialogue.includes(unlock.flag)
+        )
         const titleKey = `npc.${npcId}.title`
         const npcTitle = this.t(titleKey)
         const subLine = npcTitle !== titleKey ? npcTitle : `resonance ${state.player.resonance[npcId as NPCId] ?? 0} · tier ${ns.dialogueTier}`
         html += `
           <button class="npc-card" data-action='{"type":"interact","npcId":"${npcId}"}'>
             <div><div class="npc-name">${this.esc(npcName)}</div><div class="npc-sub">${this.esc(subLine)}</div></div>
-            <div class="npc-dots">${dots}</div>
+            <div class="npc-meta">
+              <span class="relationship-indicator ${hasRelationshipUnlock ? 'ready' : 'dim'}">●</span>
+              <div class="npc-dots">${dots}</div>
+            </div>
           </button>
         `
       }

@@ -33,6 +33,8 @@ interface SaveSnapshot {
     archiveMastery: Record<string, number>
     loopCount: number
     moralWeight: number
+    relationshipFlags: Record<string, boolean>
+    shownRelationshipDialogue: string[]
     discoveredLocations: string[]
     sealedInsights: string[]
     activeJournalThreads: string[]
@@ -176,6 +178,8 @@ export class SaveSystem implements ISystem {
         archiveMastery: { ...state.player.archiveMastery },
         loopCount: state.player.loopCount,
         moralWeight: state.player.moralWeight,
+        relationshipFlags: { ...state.player.relationshipFlags },
+        shownRelationshipDialogue: [...state.player.shownRelationshipDialogue],
         discoveredLocations: [...state.player.discoveredLocations],
         sealedInsights: [...state.player.sealedInsights],
         activeJournalThreads: [...state.player.activeJournalThreads],
@@ -229,6 +233,8 @@ export class SaveSystem implements ISystem {
         archiveMastery: snapshot.player.archiveMastery as IGameState['player']['archiveMastery'],
         loopCount: snapshot.player.loopCount,
         moralWeight: snapshot.player.moralWeight,
+        relationshipFlags: (snapshot.player.relationshipFlags ?? {}) as IGameState['player']['relationshipFlags'],
+        shownRelationshipDialogue: (snapshot.player.shownRelationshipDialogue ?? []) as IGameState['player']['shownRelationshipDialogue'],
         discoveredLocations: new Set(snapshot.player.discoveredLocations) as IGameState['player']['discoveredLocations'],
         sealedInsights: new Set(snapshot.player.sealedInsights) as IGameState['player']['sealedInsights'],
         activeJournalThreads: new Set(snapshot.player.activeJournalThreads) as IGameState['player']['activeJournalThreads'],
