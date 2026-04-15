@@ -52,6 +52,7 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     currentLocation: 'keepers_cottage',
     relationshipFlags: {},
     shownRelationshipDialogue: [],
+    examineHistory: {},
   }
 
   return {

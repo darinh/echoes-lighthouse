@@ -6,6 +6,7 @@ import type { LocationId } from '@/interfaces/types.js'
 import { createInitialState } from './initialState.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
 import { EXAMINE_DATA } from '@/data/locations/examineData.js'
+import { LOCATION_SECRET_BY_ID, secretSeenFlag } from '@/data/locations/secrets.js'
 import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 import { SaveSystem } from '@/systems/SaveSystem.js'
 import { HINTS } from '@/data/hints/index.js'
@@ -128,32 +129,56 @@ export class GameEngine {
 
       case 'examine': {
         const { itemId, locationId } = action
-        const items = EXAMINE_DATA[locationId as LocationId]
+        const typedLocationId = locationId as LocationId
+        const items = EXAMINE_DATA[typedLocationId]
         const item = items?.find(i => i.id === itemId)
         if (!item) break
-        if (this.state.worldFlags.has(item.worldFlag)) break
         const newFlags = new Set(this.state.worldFlags)
-        newFlags.add(item.worldFlag)
+        const isFirstExamine = !this.state.worldFlags.has(item.worldFlag)
+        if (isFirstExamine) {
+          newFlags.add(item.worldFlag)
+        }
+        const prevCount = this.state.player.examineHistory[typedLocationId] ?? 0
+        const nextCount = prevCount + 1
+        const examineHistory = {
+          ...this.state.player.examineHistory,
+          [typedLocationId]: nextCount,
+        }
+        let revealedTextKey = item.textKey
+        const locationSecret = LOCATION_SECRET_BY_ID.get(typedLocationId)
+        if (locationSecret && nextCount >= locationSecret.requiredExamines) {
+          const seenFlag = secretSeenFlag(locationSecret.secretKey)
+          if (!newFlags.has(seenFlag)) {
+            newFlags.add(seenFlag)
+            if (locationSecret.worldFlagSet) {
+              newFlags.add(locationSecret.worldFlagSet)
+            }
+            revealedTextKey = locationSecret.secretKey
+          }
+        }
         const examineEntry: IJournalEntry = {
           id: `${locationId}.${itemId}`,
           timestamp: this.state.player.loopCount,
-          locationId: locationId as LocationId,
-          textKey: item.textKey,
+          locationId: typedLocationId,
+          textKey: revealedTextKey,
           source: 'examine',
         }
         this.state = {
           ...this.state,
           worldFlags: newFlags,
-          lastExaminedKey: item.textKey,
+          lastExaminedKey: revealedTextKey,
           player: {
             ...this.state.player,
+            examineHistory,
             journalEntries: [...this.state.player.journalEntries, examineEntry],
           },
         }
-        this.eventBus.emit('insight.gained', { amount: item.insight })
-        this.applyEvent('insight.gained', { amount: item.insight })
-        this.eventBus.emit('archive.page.found', { domain: item.domain })
-        this.applyEvent('archive.page.found', { domain: item.domain })
+        if (isFirstExamine) {
+          this.eventBus.emit('insight.gained', { amount: item.insight })
+          this.applyEvent('insight.gained', { amount: item.insight })
+          this.eventBus.emit('archive.page.found', { domain: item.domain })
+          this.applyEvent('archive.page.found', { domain: item.domain })
+        }
         this.eventBus.emit('examine.completed', { itemId, locationId, insight: item.insight })
         this.applyEvent('examine.completed', { itemId, locationId: locationId, insight: item.insight })
         if (this.state.player.stamina === 0) {
