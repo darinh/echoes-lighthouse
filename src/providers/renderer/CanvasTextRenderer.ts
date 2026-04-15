@@ -7,6 +7,7 @@ import { SaveSystem } from '@/systems/SaveSystem.js'
 import { EXAMINE_DATA } from '@/data/locations/examineData.js'
 import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 import { QUEST_REGISTRY } from '@/data/quests/index.js'
+import { ENDING_NARRATIVES } from '@/data/endings/index.js'
 
 /** A hit-testable clickable region drawn on the canvas. */
 interface ClickRegion {
@@ -1332,86 +1333,147 @@ export class CanvasTextRenderer implements IRenderer {
     const cx = width / 2
     const m = this.layout.margin
 
+    // Deep void background
     ctx.fillStyle = '#050508'
     ctx.fillRect(0, 0, width, height)
 
+    // Subtle vignette
+    const vig = ctx.createRadialGradient(cx, height / 2, height * 0.15, cx, height / 2, height * 0.8)
+    vig.addColorStop(0, 'rgba(0,0,0,0)')
+    vig.addColorStop(1, 'rgba(0,0,0,0.6)')
+    ctx.fillStyle = vig
+    ctx.fillRect(0, 0, width, height)
+
     const endingId = state.endingId ?? 'liberation'
+    const narrative = ENDING_NARRATIVES[endingId]
 
-    // Prefer i18n-driven content; fall back to hardcoded epilogues
-    const i18nTitle = this.t(`ending.${endingId}.title`)
-    const i18nText  = this.t(`ending.${endingId}.text`)
-    const hasI18n   = i18nTitle !== `ending.${endingId}.title`
-
-    const fallbackEpilogues: Record<string, { title: string; text: string }> = {
-      liberation:   { title: 'LIBERATION',        text: "Maren closed the archive for the last time. The records were complete. Silas watched the fog lift from the harbor — truly lift — for the first time he could remember. The lighthouse still burns. It no longer needs to." },
-      keepers_peace:{ title: "THE KEEPER'S PEACE", text: "Vael remained. Not trapped — present. There is a difference, in the end. The lighthouse burns still. It always will." },
-      sacrifice:    { title: 'THE SACRIFICE',      text: "The keeper's name was not recorded. That was their choice. The island keeps its bargains. It always has." },
-      corruption:   { title: 'CORRUPTION',         text: "You remember now. All of it. Every loop, every face, every name. The lighthouse beam moves faster now. It knows where to look." },
-      transcendence:{ title: 'TRANSCENDENCE',      text: "What was divided became whole. The lighthouse still burns — but it answers to no one now." },
-    }
-    const fallback = fallbackEpilogues[endingId] ?? fallbackEpilogues['liberation']
-
-    const title = hasI18n ? i18nTitle.toUpperCase() : fallback.title
-    const bodyText = hasI18n ? i18nText : fallback.text
+    const title    = narrative ? this.t(narrative.titleKey)    : endingId.toUpperCase()
+    const subtitle = narrative ? this.t(narrative.subtitleKey) : ''
+    const opening  = narrative ? this.t(narrative.openingKey)  : ''
+    const closing  = narrative ? this.t(narrative.closingKey)  : ''
+    const epilogues: string[] = narrative
+      ? narrative.epilogueKeys.map(k => this.t(k))
+      : []
 
     const sealedCount = state.player.sealedInsights.size
-    const journalPct = Math.round(Math.min(100, (sealedCount / 7) * 100))
+    const journalPct  = Math.round(Math.min(100, (sealedCount / 7) * 100))
 
-    const panelW = Math.min(600, width - m * 4)
+    const panelW = Math.min(620, width - m * 4)
     const panelX = cx - panelW / 2
-    let panelY = m * 2
+    const innerW = panelW - m * 2
+    let y = m * 2
 
-    ctx.strokeStyle = this.colors.borderBright
-    ctx.lineWidth = 1
-    ctx.strokeRect(panelX, panelY, panelW, height - m * 4)
-
-    const titleSectionH = this.lh(20) + this.lh(11)
-    ctx.fillStyle = this.colors.borderDim
-    ctx.fillRect(panelX, panelY + titleSectionH, panelW, 1)
-
+    // — Title —
     this.setFont(20, 'bold')
     ctx.fillStyle = this.colors.accentGold
     ctx.textAlign = 'center'
-    ctx.fillText(title, cx, panelY + this.lh(20))
+    ctx.fillText(title.toUpperCase(), cx, y + this.lh(20))
+    y += this.lh(20) + 6
 
-    panelY += titleSectionH + 14
+    // Amber decorative rule under title
+    const ruleGrad = ctx.createLinearGradient(panelX, 0, panelX + panelW, 0)
+    ruleGrad.addColorStop(0, 'rgba(0,0,0,0)')
+    ruleGrad.addColorStop(0.3, this.colors.accentGold)
+    ruleGrad.addColorStop(0.7, this.colors.accentGold)
+    ruleGrad.addColorStop(1, 'rgba(0,0,0,0)')
+    ctx.fillStyle = ruleGrad
+    ctx.fillRect(panelX, y, panelW, 1)
+    y += 10
 
-    // Body text (wrapped)
-    this.setFont(11)
-    ctx.fillStyle = this.colors.textPrimary
-    ctx.textAlign = 'left'
-    let textY = panelY + 8
-    this.wrapText(bodyText, panelX + m, textY, panelW - m * 2, this.lh(11))
-    // Estimate lines for spacing (rough: 60 chars per line)
-    const estimatedLines = Math.ceil(bodyText.length / 60)
-    textY += estimatedLines * this.lh(11) + this.lh(11)
+    // — Subtitle —
+    if (subtitle) {
+      this.setFont(10)
+      ctx.fillStyle = this.colors.textDim
+      ctx.textAlign = 'center'
+      ctx.fillText(subtitle, cx, y + this.lh(10))
+      y += this.lh(10) + this.lh(10)
+    }
 
-    const statsY = textY + 8
+    // — Opening paragraph —
+    if (opening) {
+      this.setFont(11)
+      ctx.fillStyle = this.colors.textPrimary
+      ctx.textAlign = 'left'
+      this.wrapText(opening, panelX + m, y + this.lh(11), innerW, this.lh(11))
+      const openLines = this.wrapTextCount(opening, innerW)
+      y += (openLines + 1) * this.lh(11) + 8
+    }
+
+    // — NPC Epilogues —
+    if (epilogues.length > 0) {
+      ctx.fillStyle = this.colors.borderDim
+      ctx.fillRect(panelX + m, y, innerW, 1)
+      y += 12
+
+      this.setFont(9)
+      ctx.fillStyle = this.colors.textDim
+      ctx.textAlign = 'left'
+      ctx.fillText('FATES', panelX + m, y + this.lh(9))
+      y += this.lh(9) + 6
+
+      for (const line of epilogues) {
+        ctx.fillStyle = this.colors.accentGold
+        ctx.fillRect(panelX + m, y + Math.round(this.lh(10) * 0.35), 4, 1)
+
+        this.setFont(10)
+        ctx.fillStyle = this.colors.textPrimary
+        ctx.textAlign = 'left'
+        this.wrapText(line, panelX + m + 10, y + this.lh(10), innerW - 10, this.lh(10))
+        const epiLines = this.wrapTextCount(line, innerW - 10)
+        y += (epiLines + 1) * this.lh(10) + 4
+      }
+      y += 6
+    }
+
+    // — Closing line —
+    if (closing) {
+      ctx.fillStyle = this.colors.borderDim
+      ctx.fillRect(panelX + m, y, innerW, 1)
+      y += 14
+
+      this.setFont(10)
+      ctx.fillStyle = this.colors.accentGold
+      ctx.globalAlpha = 0.75
+      ctx.textAlign = 'center'
+      this.wrapText(closing, panelX + m, y + this.lh(10), innerW, this.lh(10))
+      ctx.globalAlpha = 1
+      const closeLines = this.wrapTextCount(closing, innerW)
+      y += (closeLines + 1) * this.lh(10) + this.lh(10)
+    }
+
+    // — Stats strip —
     ctx.fillStyle = this.colors.borderDim
-    ctx.fillRect(panelX, statsY - 8, panelW, 1)
+    ctx.fillRect(panelX + m, y, innerW, 1)
+    y += 12
 
     this.setFont(9)
     ctx.fillStyle = this.colors.textDim
     ctx.textAlign = 'left'
-    ctx.fillText('JOURNAL COMPLETION', panelX + m, statsY + this.lh(9))
-    this.setFont(16, 'bold')
-    ctx.fillStyle = this.colors.accentGold
-    ctx.fillText(`${journalPct}%`, panelX + m, statsY + this.lh(9) + this.lh(16))
+    ctx.fillText(
+      `Journal: ${journalPct}%   ·   Loops: ${state.player.loopCount}   ·   Moral weight: ${state.player.moralWeight}`,
+      panelX + m, y + this.lh(9)
+    )
+    y += this.lh(9) + this.lh(9) + 4
 
-    this.setFont(10)
-    ctx.fillStyle = this.colors.textDim
-    ctx.fillText(`Completed in ${state.player.loopCount} loop${state.player.loopCount !== 1 ? 's' : ''}   ·   Moral weight: ${state.player.moralWeight}`, panelX + m, statsY + this.lh(9) + this.lh(16) + this.lh(10))
-
-    const btnY = statsY + this.lh(9) + this.lh(16) + this.lh(10) + this.lh(10)
-    const btnW = Math.min(140, (panelW - m * 3) / 2)
+    // — Buttons —
     ctx.fillStyle = this.colors.borderDim
-    ctx.fillRect(panelX, btnY - 12, panelW, 1)
+    ctx.fillRect(panelX + m, y, innerW, 1)
+    y += 14
 
-    this.renderActionButton(panelX + m, btnY, btnW, 36, '▶ PLAY AGAIN', this.colors.accent)
-    this.addClickRegion(panelX + m, btnY, btnW, 36, { type: 'start.game' }, 'Play again')
+    const btnW = Math.min(160, (innerW - m) / 2)
+    this.renderActionButton(panelX + m, y, btnW, 36, '▶ PLAY AGAIN', this.colors.accent)
+    this.addClickRegion(panelX + m, y, btnW, 36, { type: 'start.game' }, 'Play again')
 
-    this.renderActionButton(panelX + m * 2 + btnW, btnY, btnW, 36, 'MAIN MENU', this.colors.textDim)
-    this.addClickRegion(panelX + m * 2 + btnW, btnY, btnW, 36, { type: 'main.menu' }, 'Main menu')
+    this.renderActionButton(panelX + m * 2 + btnW, y, btnW, 36, 'MAIN MENU', this.colors.textDim)
+    this.addClickRegion(panelX + m * 2 + btnW, y, btnW, 36, { type: 'main.menu' }, 'Main menu')
+
+    // Keyboard hint
+    this.setFont(8)
+    ctx.fillStyle = this.colors.textDim
+    ctx.globalAlpha = 0.6
+    ctx.textAlign = 'center'
+    ctx.fillText('[ PRESS ENTER TO PLAY AGAIN ]', cx, y + 36 + this.lh(8) + 6)
+    ctx.globalAlpha = 1
   }
 
   private renderStatBar(x: number, y: number, w: number, h: number, value: number, color: string, label?: string): void {
