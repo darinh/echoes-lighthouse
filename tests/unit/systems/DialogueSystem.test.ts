@@ -85,6 +85,7 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
       narrativeVolume: 1,
       locale: 'en',
     },
+    weather: 'clear',
     ...overrides,
   }
 }

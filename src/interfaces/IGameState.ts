@@ -11,6 +11,8 @@ import type {
   AchievementId,
 } from './types.js'
 
+export type WeatherType = 'clear' | 'fog' | 'rain'
+
 export interface IJournalEntry {
   readonly id: string
   readonly timestamp: number   // loop count when added
@@ -125,4 +127,5 @@ export interface IGameState {
     readonly narrativeVolume: number
     readonly locale: string
   }
+  readonly weather: WeatherType
 }

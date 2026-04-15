@@ -1,5 +1,5 @@
 import type { IRenderer, RenderContext, II18n } from '@/interfaces/index.js'
-import type { IGameState, INPCState, NPCId } from '@/interfaces/index.js'
+import type { IGameState, INPCState, NPCId, WeatherType } from '@/interfaces/index.js'
 import type { GameAction } from '@/engine/InputHandler.js'
 import { getAdjacentLocations } from '@/data/locations/phase1Locations.js'
 import { CODEX_PAGES } from '@/data/codex/pages.js'
@@ -11,6 +11,12 @@ import { QUEST_REGISTRY } from '@/data/quests/index.js'
 import { ENDING_NARRATIVES } from '@/data/endings/index.js'
 import { HINTS } from '@/data/hints/index.js'
 import { getItemAtLocation } from '@/data/items/index.js'
+
+// Locations that are outdoors (affected by fog and rain weather)
+const OUTDOOR_LOCATIONS = new Set([
+  'harbor', 'cliffside', 'tidal_caves', 'keepers_cottage',
+  'village_square', 'chapel', 'mill', 'forest_path', 'ruins',
+])
 
 /** A hit-testable clickable region drawn on the canvas. */
 interface ClickRegion {
@@ -207,6 +213,7 @@ export class CanvasTextRenderer implements IRenderer {
         case 'settings': this.renderSettings(state); break
       }
     }
+    if (state.phase !== 'title') this.renderWeatherOverlay(state)
     this.renderHint(state)
     this.renderAchievementToast(state)
     this.updateAriaLabel(state)
@@ -443,6 +450,39 @@ export class CanvasTextRenderer implements IRenderer {
     }
   }
 
+  private weatherIcon(weather: WeatherType): string {
+    if (weather === 'fog') return '≈'
+    if (weather === 'rain') return '⛆'
+    return '☀'
+  }
+
+  private renderWeatherOverlay(state: IGameState): void {
+    const { ctx, width, height } = this
+    if (state.weather === 'fog') {
+      const fog = ctx.createRadialGradient(width / 2, height / 2, height * 0.1, width / 2, height / 2, Math.max(width, height) * 0.75)
+      fog.addColorStop(0, 'rgba(100,110,120,0)')
+      fog.addColorStop(0.6, 'rgba(100,110,120,0.07)')
+      fog.addColorStop(1, 'rgba(100,110,120,0.15)')
+      ctx.fillStyle = fog
+      ctx.fillRect(0, 0, width, height)
+    } else if (state.weather === 'rain') {
+      const now = Date.now()
+      const seed = now % 10000
+      ctx.save()
+      ctx.strokeStyle = 'rgba(180,190,200,0.08)'
+      ctx.lineWidth = 1
+      for (let i = 0; i < 12; i++) {
+        const rx = ((Math.sin(seed * 0.001 + i * 137.508) * 0.5 + 0.5)) * width
+        const ry = ((Math.cos(seed * 0.001 + i * 97.654) * 0.5 + 0.5)) * height
+        ctx.beginPath()
+        ctx.moveTo(rx, ry)
+        ctx.lineTo(rx + 6, ry + 18)
+        ctx.stroke()
+      }
+      ctx.restore()
+    }
+  }
+
   private renderHUD(state: IGameState, x: number, y: number, w: number, h: number): void {
     const { ctx } = this
     const { player, phase, dayTimeRemaining } = state
@@ -476,6 +516,12 @@ export class CanvasTextRenderer implements IRenderer {
       ctx.textAlign = 'right'
       const warnGlyph = (player.stamina <= 2 || dayTimeRemaining < 0.2) ? ' ⚠' : ''
       ctx.fillText(this.locationName(state.player.currentLocation) + warnGlyph, timerX - m, y + h * 0.65)
+
+      // Weather icon
+      const wIcon = this.weatherIcon(state.weather)
+      ctx.fillStyle = this.colors.textDim
+      ctx.textAlign = 'left'
+      ctx.fillText(wIcon, x + m + 110, y + h * 0.65)
       return
     }
 
@@ -526,6 +572,12 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = this.colors.accentGold
     ctx.textAlign = 'left'
     ctx.fillText(`◈ ${player.insight}`, statX + 220, row2Y + 4)
+
+    // Weather icon
+    this.setFont(9)
+    ctx.fillStyle = this.colors.textDim
+    ctx.textAlign = 'left'
+    ctx.fillText(this.weatherIcon(state.weather), statX + 290, row2Y + 4)
 
     // Right block: location + day timer
     const timerW = Math.min(200, w * 0.22)
@@ -578,7 +630,11 @@ export class CanvasTextRenderer implements IRenderer {
 
       this.setFont(12)
       ctx.fillStyle = this.colors.textPrimary
-      const examineText = this.t(state.lastExaminedKey)
+      const rawExamineText = this.t(state.lastExaminedKey)
+      const isFogOutdoor = state.weather === 'fog' && OUTDOOR_LOCATIONS.has(locId)
+      const examineText = isFogOutdoor
+        ? this.t('weather.fog_prefix') + ' ' + rawExamineText
+        : rawExamineText
       this.wrapText(examineText, x, y + this.lh(16) + this.lh(11) * 2 + this.lh(12), w, this.lh(12))
 
       ctx.fillStyle = this.colors.borderDim

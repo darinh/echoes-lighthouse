@@ -267,5 +267,9 @@
       "name": "Survivor",
       "desc": "You survive five dawns on the island."
     }
+  },
+  "weather": {
+    "fog_prefix": "Through the grey murk, you make out...",
+    "rain_treacherous": "treacherous"
   }
 }

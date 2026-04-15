@@ -1,3 +1,4 @@
+import type { WeatherType } from '@/interfaces/IGameState.js'
 import type { ISystem, IGameState, IGameEvent, IEventBus } from '@/interfaces/index.js'
 
 const STORAGE_KEY = 'echoes-lighthouse-save'
@@ -20,6 +21,7 @@ interface SaveSnapshot {
   endingsSeen: string[]
   audioMuted: boolean
   achievements: string[]
+  weather: WeatherType
   player: {
     stamina: number
     lightReserves: number
@@ -162,6 +164,7 @@ export class SaveSystem implements ISystem {
       endingsSeen: [...state.endingsSeen],
       audioMuted: state.audioMuted,
       achievements: [...state.achievements],
+      weather: state.weather,
       player: {
         stamina: state.player.stamina,
         lightReserves: state.player.lightReserves,
@@ -247,6 +250,7 @@ export class SaveSystem implements ISystem {
       audioMuted: snapshot.audioMuted ?? false,
       achievements: new Set(snapshot.achievements ?? []) as IGameState['achievements'],
       pendingAchievement: null,
+      weather: (snapshot.weather ?? 'clear') as WeatherType,
       settings: {
         masterVolume: 0.8,
         ambientVolume: 0.8,
