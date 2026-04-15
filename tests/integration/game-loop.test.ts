@@ -53,7 +53,7 @@ describe('[Integration] Dawn → Day → Insight → Death → Reset', () => {
     state = applyAllSystems(state, makeEvent('player.died'))
 
     // Physical stats reset
-    expect(state.player.stamina).toBe(100)
+    expect(state.player.stamina).toBe(10)
     expect(state.player.hearts).toBe(3)
     expect(state.phase).toBe('dawn')
 
