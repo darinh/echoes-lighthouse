@@ -12,6 +12,7 @@ interface SaveSnapshot {
   locale: string
   isPaused: boolean
   deathCause: string | null
+  worldFlags: string[]
   activeQuests: string[]
   completedQuests: string[]
   questStepProgress: Record<string, string[]>
@@ -63,6 +64,7 @@ export class SaveSystem implements ISystem {
     'dialogue.completed' as IGameEvent['type'],
     'loop.reset',
     'lighthouse.lit',
+    'examine.completed' as IGameEvent['type'],
   ])
 
   constructor(_eventBus: IEventBus) {}
@@ -103,11 +105,21 @@ export class SaveSystem implements ISystem {
       const raw = localStorage.getItem(STORAGE_KEY)
       if (!raw) return null
       const snapshot = JSON.parse(raw) as SaveSnapshot
-      if (!snapshot || snapshot.saveVersion !== CURRENT_SAVE_VERSION) return null
+      if (!snapshot) return null
+      // Completely corrupt or very old save — discard.
+      if (!snapshot.saveVersion || snapshot.saveVersion === 0) return null
+      // Version mismatch but still parseable — attempt migration with a warning.
+      if (snapshot.saveVersion !== CURRENT_SAVE_VERSION) {
+        console.warn(`[SaveSystem] Save version ${snapshot.saveVersion} differs from current ${CURRENT_SAVE_VERSION} — attempting migration.`)
+      }
       return SaveSystem.deserialise(snapshot)
     } catch {
       return null
     }
+  }
+
+  static hasSave(): boolean {
+    try { return localStorage.getItem(STORAGE_KEY) !== null } catch { return false }
   }
 
   static clearSave(): void {
@@ -124,6 +136,7 @@ export class SaveSystem implements ISystem {
       locale: state.locale,
       isPaused: state.isPaused,
       deathCause: state.deathCause,
+      worldFlags: [...state.worldFlags],
       activeQuests: [...state.activeQuests],
       completedQuests: [...state.completedQuests],
       questStepProgress: Object.fromEntries(
@@ -172,10 +185,10 @@ export class SaveSystem implements ISystem {
 
     return {
       saveVersion: snapshot.saveVersion,
-      phase: snapshot.phase,
-      dayTimeRemaining: snapshot.dayTimeRemaining,
+      phase: 'day',
+      dayTimeRemaining: 1,
       locale: snapshot.locale,
-      isPaused: snapshot.isPaused,
+      isPaused: false,
       activeDialogue: null,
       activeQuests: new Set(snapshot.activeQuests),
       completedQuests: new Set(snapshot.completedQuests),
@@ -183,10 +196,10 @@ export class SaveSystem implements ISystem {
         Object.entries(snapshot.questStepProgress ?? {}).map(([k, v]) => [k, new Set(v)])
       ),
       player: {
-        stamina: snapshot.player.stamina,
-        lightReserves: snapshot.player.lightReserves,
-        hearts: snapshot.player.hearts,
-        insight: snapshot.player.insight,
+        stamina: 100,
+        lightReserves: 100,
+        hearts: 3,
+        insight: 0,
         insightBanked: snapshot.player.insightBanked,
         resonance: snapshot.player.resonance as IGameState['player']['resonance'],
         trust: snapshot.player.trust as IGameState['player']['trust'],
@@ -201,14 +214,14 @@ export class SaveSystem implements ISystem {
       },
       npcStates: npcStates as unknown as IGameState['npcStates'],
       activePanel: 'none',
-      worldFlags: new Set<string>(),
+      worldFlags: new Set(snapshot.worldFlags ?? []),
       endingId: null,
       lastExaminedKey: null,
       nightDangerLevel: 0,
       pendingVisions: [],
       priorPhase: null,
       lighthouseLitThisLoop: false,
-      deathCause: snapshot.deathCause ?? null,
+      deathCause: null,
       settings: {
         masterVolume: 0.8,
         ambientVolume: 0.8,

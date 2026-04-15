@@ -6,7 +6,7 @@ export const PETRA_NPC: NPCFullData = {
   titleKey: 'npc.petra.title',
   defaultLocation: 'village_square',
   defaultAttitude: 'neutral',
-  schedule: { night_dark: 'chapel' },
+  schedule: { night_safe: 'keepers_cottage', night_dark: 'chapel' },
   tierThresholds: [0, 3, 7, 15, 25, 40, 60, 80, 100, 130, 170],
   greetingNodes: ['petra.greeting.tier0','petra.greeting.tier1','petra.greeting.tier2','petra.greeting.tier3','petra.greeting.tier4','petra.greeting.tier5'],
   nodes: {
