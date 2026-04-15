@@ -34,17 +34,12 @@ async function boot(): Promise<void> {
   engine.registerSystem(new QuestSystem(eventBus))
   engine.registerSystem(new MoralWeightSystem(eventBus))
   engine.registerSystem(new DialogueSystem(eventBus))
+  engine.registerSystem(new SaveSystem(eventBus))
   engine.registerSystem(new AudioFeedbackSystem(audio, eventBus))
   engine.registerSystem(new NPCScheduleSystem())
 
   setProgress(80, 'Preparing world...')
   const canvas = document.getElementById('game-canvas') as HTMLCanvasElement
-
-  // Load persisted save state if available.
-  const savedState = SaveSystem.loadState()
-  if (savedState) {
-    engine.loadState(savedState)
-  }
 
   // Wire renderer action handler (canvas click regions)
   renderer.setActionHandler(action => engine.handleAction(action))
