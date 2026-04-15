@@ -35,6 +35,7 @@ export type GameAction =
   | { type: 'new.game' }
   | { type: 'puzzle.dial.set'; dialIndex: 0 | 1 | 2; value: number }
   | { type: 'puzzle.signal.submit' }
+  | { type: 'hint.dismiss'; hintId: string }
 
 export type ActionHandler = (action: GameAction) => void
 

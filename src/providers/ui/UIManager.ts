@@ -749,30 +749,46 @@ export class UIManager {
     }
   }
 
-  private getActiveHint(state: IGameState): string | null {
+  private getActiveHint(state: IGameState): { id: string; text: string } | null {
     for (const hint of HINTS) {
       const triggered = state.worldFlags.has(`hint_trigger.${hint.id}`)
       const dismissed = state.worldFlags.has(`hint_dismissed.${hint.id}`)
-      if (triggered && !dismissed) return this.t(hint.textKey)
+      if (triggered && !dismissed) return { id: hint.id, text: this.t(hint.textKey) }
     }
     return null
   }
 
   private _lastHint: string | null = null
+  private _hintTimer: ReturnType<typeof setTimeout> | null = null
   private _lastToast: string | null = null
 
-  private renderHintNotif(hint: string | null): void {
-    if (hint === this._lastHint) return
-    this._lastHint = hint
+  private renderHintNotif(hint: { id: string; text: string } | null): void {
+    const hintKey = hint ? hint.id : null
+    if (hintKey === this._lastHint) return
+    this._lastHint = hintKey
+
+    if (this._hintTimer) { clearTimeout(this._hintTimer); this._hintTimer = null }
 
     const existing = this.notifications.querySelector('.notif-hint')
     if (existing) existing.remove()
     if (!hint) return
 
+    const dismiss = (): void => {
+      if (this._hintTimer) { clearTimeout(this._hintTimer); this._hintTimer = null }
+      el.remove()
+      this._lastHint = null
+      this.onAction?.({ type: 'hint.dismiss', hintId: hint.id })
+    }
+
     const el = document.createElement('div')
     el.className = 'notif-hint'
-    el.innerHTML = `💡 ${this.esc(hint)}`
+    el.innerHTML = `<span>💡 ${this.esc(hint.text)}</span><button class="hint-close" aria-label="Dismiss hint">✕</button>`
+    el.addEventListener('click', dismiss)
+    const closeBtn = el.querySelector('.hint-close') as HTMLButtonElement
+    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); dismiss() })
     this.notifications.appendChild(el)
+
+    this._hintTimer = setTimeout(dismiss, 8000)
   }
 
   private renderToast(title: string, sub: string): void {
@@ -794,6 +810,7 @@ export class UIManager {
 
   dispose(): void {
     if (this._toastTimer) clearTimeout(this._toastTimer)
+    if (this._hintTimer) clearTimeout(this._hintTimer)
   }
 
   private locationName(id: string): string {
