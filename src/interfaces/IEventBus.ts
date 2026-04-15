@@ -78,6 +78,7 @@ export type GameEventType =
   | 'examine.completed'
   | 'audio.toggle'
   | 'loop.night'
+  | 'achievement.unlocked'
 
 | 'lighthouse.lit'
   | 'loop.dawn'

@@ -208,6 +208,7 @@ export class CanvasTextRenderer implements IRenderer {
       }
     }
     this.renderHint(state)
+    this.renderAchievementToast(state)
     this.updateAriaLabel(state)
   }
 
@@ -2604,6 +2605,70 @@ export class CanvasTextRenderer implements IRenderer {
     this.setFont(8)
     ctx.fillStyle = this.colors.textDim
     ctx.fillText('[ SPACE to dismiss ]', textX, barY + Math.round(barH * 0.78))
+
+    ctx.restore()
+  }
+
+  private renderAchievementToast(state: IGameState): void {
+    const { pendingAchievement } = state
+    if (!pendingAchievement) return
+
+    const elapsed = Date.now() - pendingAchievement.shownAt
+    const DURATION = 3000
+    if (elapsed >= DURATION) return
+
+    const { ctx, width } = this
+
+    // Fade in over 300 ms, fade out over 400 ms
+    let alpha = 1
+    if (elapsed < 300) {
+      alpha = elapsed / 300
+    } else if (elapsed > DURATION - 400) {
+      alpha = (DURATION - elapsed) / 400
+    }
+
+    const toastW = Math.min(Math.round(width * 0.72), 440)
+    const toastH = Math.round(this.lh(11) * 2.8)
+    const toastX = Math.round((width - toastW) / 2)
+    const toastY = Math.round(this.lh(11) * 1.2)
+    const radius = 8
+
+    ctx.save()
+    ctx.globalAlpha = alpha
+
+    // Background pill
+    ctx.fillStyle = 'rgba(12, 15, 24, 0.96)'
+    ctx.beginPath()
+    ctx.roundRect(toastX, toastY, toastW, toastH, radius)
+    ctx.fill()
+
+    // Amber border
+    ctx.strokeStyle = this.colors.accent
+    ctx.lineWidth = 1.5
+    ctx.beginPath()
+    ctx.roundRect(toastX, toastY, toastW, toastH, radius)
+    ctx.stroke()
+
+    // Left accent strip
+    ctx.fillStyle = this.colors.accentWarm
+    ctx.beginPath()
+    ctx.roundRect(toastX, toastY, 3, toastH, [radius, 0, 0, radius])
+    ctx.fill()
+
+    const textX = toastX + toastW / 2
+
+    // Title row: ✦ [Achievement Name]
+    this.setFont(10, 'bold')
+    ctx.fillStyle = this.colors.accentGold
+    ctx.textAlign = 'center'
+    const name = this.t(pendingAchievement.nameKey)
+    ctx.fillText(`✦  ${name}`, textX, toastY + Math.round(toastH * 0.38), toastW - 24)
+
+    // Subtitle row: description
+    this.setFont(8)
+    ctx.fillStyle = this.colors.textPrimary
+    const desc = this.t(pendingAchievement.descKey)
+    ctx.fillText(desc, textX, toastY + Math.round(toastH * 0.72), toastW - 32)
 
     ctx.restore()
   }
