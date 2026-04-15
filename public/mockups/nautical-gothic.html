@@ -110,7 +110,9 @@ input[type="range"] { accent-color: var(--lantern); }
   display: flex;
   flex-direction: column;
   gap: var(--gap-sm);
-  min-height: 100vh;
+  height: 100dvh; /* viewport-locked — no page scroll */
+  height: 100vh;  /* fallback for older browsers */
+  overflow: hidden;
 }
 
 /* ── State Navigator ─────────────────────────────────────────── */
@@ -150,13 +152,23 @@ input[type="range"] { accent-color: var(--lantern); }
 /* ── Screen Container ────────────────────────────────────────── */
 .screen {
   flex: 1;
+  min-height: 0; /* crucial: allows flex child to shrink below content height */
   border: 1px solid var(--seam);
   border-radius: var(--radius);
   background: linear-gradient(178deg, rgba(12,26,40,0.92), rgba(8,16,24,0.96));
   overflow: hidden;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
-.screen-pad { padding: var(--gap-md); }
+.screen-pad {
+  padding: var(--gap-md);
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 
 /* ═══════════════════════════════════════════════════════════════
    COMPONENTS — Reusable across screens
@@ -524,11 +536,13 @@ input[type="range"] { accent-color: var(--lantern); }
 
 /* ── Full-screen cinematic ───────────────────────────────────── */
 .cinematic {
-  min-height: 70vh;
+  flex: 1;
+  min-height: 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   position: relative;
+  overflow: hidden;
 }
 .cin-card {
   position:relative; z-index:1;
@@ -539,6 +553,10 @@ input[type="range"] { accent-color: var(--lantern); }
   background: rgba(6,12,20,0.82);
   backdrop-filter: blur(4px);
   padding: var(--gap-lg);
+  max-height: 80%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hull) transparent;
 }
 .cin-card h2 {
   font-family: var(--font-log);
@@ -557,11 +575,13 @@ input[type="range"] { accent-color: var(--lantern); }
 
 /* ── Centered stage (death, vision, etc.) ────────────────────── */
 .stage {
-  min-height: 70vh;
+  flex: 1;
+  min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow: hidden;
 }
 .stage-card {
   position:relative; z-index:1;
@@ -572,6 +592,10 @@ input[type="range"] { accent-color: var(--lantern); }
   background: rgba(6,12,20,0.82);
   padding: var(--gap-lg);
   text-align: center;
+  max-height: 85%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hull) transparent;
 }
 .stage-card h2 {
   font-family: var(--font-log);
@@ -620,7 +644,6 @@ input[type="range"] { accent-color: var(--lantern); }
 
 /* ── Scroll container ────────────────────────────────────────── */
 .scroll-box {
-  max-height: 260px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--hull) transparent;
@@ -671,9 +694,37 @@ input[type="range"] { accent-color: var(--lantern); }
 }
 
 /* ── Gameplay layout (mobile: stacked, desktop: side-by-side) ── */
-.game-layout { display:grid; gap:var(--gap-sm); }
-.game-main { min-width:0; }
-.game-side { min-width:0; }
+.game-layout {
+  display: grid;
+  gap: var(--gap-sm);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.game-main {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hull) transparent;
+}
+.game-side {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.game-side .scroll-box {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Action dock (pinned to bottom of gameplay view) ─────────── */
+.action-dock {
+  flex-shrink: 0;
+  display: grid;
+  gap: var(--gap-xs);
+  padding-top: var(--gap-sm);
+  border-top: 1px solid var(--hairline);
+}
 
 /* ── Scene text (narrative voice) ────────────────────────────── */
 .scene-text {
@@ -725,7 +776,8 @@ input[type="range"] { accent-color: var(--lantern); }
    ═══════════════════════════════════════════════════════════════ */
 @media (min-width: 768px) {
   .archetype-grid { grid-template-columns: repeat(3,1fr); }
-  .game-layout { grid-template-columns: 1.6fr 1fr; }
+  .game-layout { grid-template-columns: 1.6fr 1fr; grid-template-rows: 1fr; }
+  .action-dock { grid-template-columns: repeat(4,1fr); }
 }
 @media (min-width: 1024px) {
   #app { padding: var(--gap-md); }
@@ -916,8 +968,8 @@ R.archetype = () => {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 R.gameplay = () => `
 <div class="screen-pad">
-  <!-- HUD [GDD §5c.2 Location Header] -->
-  <div class="hud">
+  <!-- HUD — pinned top [GDD §5c.2 Location Header] -->
+  <div class="hud" style="flex-shrink:0">
     <div class="hud-cell"><span class="label">Loop</span><span class="value">8</span></div>
     <div class="hud-cell"><span class="label">Phase</span><span class="value">AFTERNOON</span></div>
     <div class="hud-cell"><span class="label">Hearts</span><span class="hearts">♥♥♡</span></div>
@@ -928,44 +980,34 @@ R.gameplay = () => `
     <div class="hud-cell"><span class="label">Day Timer</span><div class="bar" style="margin-top:6px"><div class="bar-fill blue" style="width:53%"></div></div></div>
   </div>
 
+  <!-- Middle zone — fills available space, internal scroll only -->
   <div class="game-layout" style="margin-top:var(--gap-sm)">
-    <!-- MAIN CONTENT -->
     <div class="game-main">
       <div class="panel" style="margin-bottom:var(--gap-sm)">
         <div class="panel-label">Scene · Turn 14 / 30</div>
-        <p class="scene-text">The office smells of brine and old paper. Ledgers line the shelves, their spines cracked from decades of use. The desk is covered in maritime charts, weighted down by a brass compass that no longer points true north.<br><br>Through the salt-stained window, you can see the beam sweeping across the harbor. Something large disturbs the water near the breakwater.</p>
+        <p class="scene-text">The office smells of brine and old paper. Ledgers line the shelves, their spines cracked from decades of use. The desk is covered in maritime charts, weighted down by a brass compass that no longer points true north.</p>
         <div class="chips" style="margin-top:var(--gap-sm)">
-          <span class="chip">📋 Maritime Charts</span>
-          <span class="chip">🧭 Brass Compass</span>
-          <span class="chip">📖 Tide Ledger</span>
+          <span class="chip">📋 Charts</span>
+          <span class="chip">🧭 Compass</span>
+          <span class="chip">📖 Ledger</span>
         </div>
       </div>
-
-      <!-- NPCs present [GDD §5c.2] -->
       <div class="panel-label">PRESENT</div>
       <button class="npc-row" data-go="dialogue">
-        <div><div class="npc-name">Maren</div><div class="npc-sub">The Light-Keeper's Daughter · Tier 3</div></div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="npc-ready">●</span>
-          <span class="npc-dots">◈◈◈○</span>
-        </div>
+        <div><div class="npc-name">Maren</div><div class="npc-sub">Tier 3 · Ready ●</div></div>
+        <span class="npc-dots">◈◈◈○</span>
       </button>
       <button class="npc-row">
-        <div><div class="npc-name">Dov</div><div class="npc-sub">The Mechanic · Tier 2</div></div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span style="color:var(--graphite)">●</span>
-          <span class="npc-dots">◈◈○○</span>
-        </div>
+        <div><div class="npc-name">Dov</div><div class="npc-sub">Tier 2</div></div>
+        <span class="npc-dots">◈◈○○</span>
       </button>
-
-      <!-- Examine [GDD §5c.2] -->
-      <div class="panel-label" style="margin-top:var(--gap-md)">EXAMINE</div>
-      <button class="act ghost" style="margin-bottom:var(--gap-xs)">✓ Keeper's Diary (page 1)<span class="sub">Already examined</span></button>
-      <button class="act ghost" style="margin-bottom:var(--gap-xs)">Tide Ledger<span class="sub">Something is scratched out with a nail</span></button>
-      <button class="act ghost">Lens Housing<span class="sub">The mechanism looks wrong</span></button>
+      <div class="panel-label" style="margin-top:var(--gap-sm)">EXAMINE</div>
+      <button class="act ghost" style="margin-bottom:var(--gap-xs)">✓ Keeper's Diary (page 1)</button>
+      <button class="act ghost" style="margin-bottom:var(--gap-xs)">Tide Ledger</button>
+      <button class="act ghost">Lens Housing</button>
     </div>
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR — tabs switch content, no extra scroll -->
     <div class="game-side">
       <div class="tabs">
         ${['journal','map','status','archive'].map(t =>
@@ -976,15 +1018,13 @@ R.gameplay = () => `
     </div>
   </div>
 
-  <!-- ACTION BAR [GDD §5c.7] -->
-  <div style="display:grid;gap:var(--gap-xs);margin-top:var(--gap-sm)">
-    <div class="panel-label">MOVE TO</div>
-    <button class="act">Cliffs<span class="sub">1 turn · Discovered</span></button>
-    <button class="act">★ Mechanism Room<span class="sub">2 turns · Requires key</span><span class="cost">🔒</span></button>
-    <button class="act ghost">⏸ Wait (skip turn)</button>
-    <button class="act safe">◈ Light the Beacon<span class="sub">Needs 30% LGT + 2 STA</span></button>
+  <!-- ACTION DOCK — pinned bottom [GDD §5c.7] -->
+  <div class="action-dock">
+    <button class="act">Cliffs<span class="sub">1 turn</span></button>
+    <button class="act">★ Mechanism Room<span class="sub">2 turns</span><span class="cost">🔒</span></button>
+    <button class="act ghost">⏸ Wait</button>
+    <button class="act safe">◈ Light the Beacon</button>
   </div>
-  <div class="gdd-ref">GDD §5c · Permanent Layout · Main Panel 600×540 · Sidebar 260×540 · Action Bar 600×50</div>
 </div>`;
 
 function sideContent() {
@@ -1133,7 +1173,7 @@ R.journal = () => `
   <div class="tabs">
     ${['entries','threads','insights'].map(t => `<button class="tab ${S.journalSub===t?'on':''}" data-jtab="${t}">${t.charAt(0).toUpperCase()+t.slice(1)}</button>`).join('')}
   </div>
-  <div class="scroll-box" style="max-height:50vh">
+  <div class="scroll-box" style="flex:1;min-height:0">
     ${S.journalSub === 'entries' ? `
       <div class="panel-label">Loop 8</div>
       <div class="entry active"><b>Lighthouse Office</b><span>Maren: "The beam does not warn. It calls." Found beneath the tide chart, folded into thirds.</span></div>
