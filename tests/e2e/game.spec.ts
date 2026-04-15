@@ -95,6 +95,7 @@ test.describe('Echoes of the Lighthouse — UI', () => {
     test('title screen renders with visible content', async ({ page }) => {
       await page.goto('/')
       await waitForCanvasPaint(page)
+      await page.waitForTimeout(300) // allow animation to settle enough to paint >1000 px
 
       // Canvas must have painted non-transparent pixels
       const hasPaint = await page.evaluate(() => {
