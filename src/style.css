@@ -248,7 +248,9 @@ body {
 #action-panel button.danger-action { border-left-color: #c03838; color: #f87171; }
 #action-panel button.dim-action { border-left-color: #2e4268; color: #465a72; }
 #action-panel button:disabled { opacity: 0.4; cursor: not-allowed; }
-#action-panel .action-hint { font-size: 10px; color: #1e2c3a; text-align: center; margin-top: auto; padding-top: 8px; }
+#action-panel .action-nav { display: flex; gap: 6px; margin-top: auto; padding-top: 8px; }
+#action-panel .nav-btn { flex: 1; padding: 8px 4px; font-size: 11px; font-family: inherit; font-weight: 600; letter-spacing: 0.05em; color: #8a9bb0; background: transparent; border: 1px solid #2a3c50; border-radius: 4px; cursor: pointer; touch-action: manipulation; transition: color 0.15s, border-color 0.15s; }
+#action-panel .nav-btn:hover, #action-panel .nav-btn:active { color: #c8a96e; border-color: #c8a96e; }
 
 #overlay-panel {
   position: absolute; inset: 0;

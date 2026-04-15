@@ -110,6 +110,14 @@ export class InputHandler {
       case 'N':
         this.dispatch({ type: 'new.game' })
         break
+      case 'j':
+      case 'J':
+        this.dispatch({ type: 'panel.toggle', panel: 'journal' })
+        break
+      case 'i':
+      case 'I':
+        this.dispatch({ type: 'panel.toggle', panel: 'codex' })
+        break
     }
   }
 }
