@@ -95,6 +95,7 @@ export function createInitialState(): IGameState {
     weather: 'clear',
     activeEncounter: null,
     nightEncounterShown: 0,
+    puzzleState: { signalDials: [0, 0, 0], signalSolved: false },
     settings: {
       masterVolume: 0.8,
       ambientVolume: 0.8,
