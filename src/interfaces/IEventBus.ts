@@ -29,6 +29,7 @@ export type GameEventType =
   | 'npc.attitude.changed'
   | 'npc.trust.changed'
   | 'npc.trust.gained'
+  | 'npc.trust.up'
   | 'npc.trust.lost'
   | 'relationship.unlocked'
   // Dialogue lifecycle
@@ -40,6 +41,7 @@ export type GameEventType =
   | 'location.entered'
   | 'location.discovered'
   | 'location.moved'
+  | 'location.searched'
   | 'player.moved'
   // Loop
   | 'loop.started'
@@ -78,6 +80,7 @@ export type GameEventType =
   | 'vision.started'
   | 'vision.completed'
   | 'examine.completed'
+  | 'secret.revealed'
   | 'audio.toggle'
   | 'loop.night'
   | 'achievement.unlocked'

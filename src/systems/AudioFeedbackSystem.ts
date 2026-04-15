@@ -29,6 +29,12 @@ export class AudioFeedbackSystem implements ISystem {
       this.eventBus.on('loop.started',      () => this.audio.play('loop.started')),
       this.eventBus.on('lighthouse.lit',    () => this.audio.play('lighthouse.lit')),
       this.eventBus.on('ending.triggered',  () => this.audio.play('ending.reached')),
+      this.eventBus.on('item.taken',           () => this.audio.play('item.taken')),
+      this.eventBus.on('location.searched',    () => this.audio.play('location.searched')),
+      this.eventBus.on('secret.revealed',      () => this.audio.play('secret.revealed')),
+      this.eventBus.on('quest.step.completed', () => this.audio.play('quest.completed')),
+      this.eventBus.on('npc.trust.up',         () => this.audio.play('npc.trust.up')),
+      this.eventBus.on('loop.dawn',            () => this.audio.play('dawn.break')),
     )
     return state
   }

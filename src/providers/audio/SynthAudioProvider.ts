@@ -466,6 +466,79 @@ export class SynthAudioProvider implements IAudioProvider {
         return nodes
       }
 
+      case 'item.taken': {
+        // Short bright glide: triangle 440→880Hz, 150ms
+        return this.buildOscSound(440, 880, 150, 'triangle', 0.2, 5, 30, 0.1, 80, 150, 'ui')
+      }
+
+      case 'location.searched': {
+        // Soft swoosh + low click: noise burst 60ms then sine 200Hz 100ms
+        const ctx = this.ctx!
+        const nodes: AudioNode[] = []
+        const noise = this.createNoiseSource()
+        const filter = ctx.createBiquadFilter()
+        filter.type = 'bandpass'
+        filter.frequency.value = 600
+        filter.Q.value = 0.8
+        const noiseGain = ctx.createGain()
+        noiseGain.gain.value = 0
+        noise.connect(filter)
+        filter.connect(noiseGain)
+        noiseGain.connect(this.categoryGains['ui']!)
+        noiseGain.gain.setValueAtTime(0, ctx.currentTime)
+        noiseGain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.005)
+        noiseGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.06)
+        noise.start()
+        noise.stop(ctx.currentTime + 0.065)
+        nodes.push(noise, filter, noiseGain)
+        nodes.push(...this.buildOscSound(200, null, 0, 'sine', 0.12, 5, 20, 0, 60, 100, 'ui', 70))
+        return nodes
+      }
+
+      case 'secret.revealed': {
+        // Mysterious shimmer: AM modulation — 220Hz carrier, 4Hz mod, 800ms fade
+        const ctx = this.ctx!
+        const carrier = ctx.createOscillator()
+        const modulator = ctx.createOscillator()
+        const modGain = ctx.createGain()
+        const envGain = ctx.createGain()
+        carrier.type = 'sine'
+        carrier.frequency.value = 220
+        modulator.type = 'sine'
+        modulator.frequency.value = 4
+        modGain.gain.value = 0.5
+        modulator.connect(modGain)
+        modGain.connect(envGain.gain)
+        carrier.connect(envGain)
+        envGain.connect(this.categoryGains['narrative']!)
+        envGain.gain.setValueAtTime(0, ctx.currentTime)
+        envGain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.1)
+        envGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.8)
+        carrier.start()
+        modulator.start()
+        carrier.stop(ctx.currentTime + 0.85)
+        modulator.stop(ctx.currentTime + 0.85)
+        return [carrier, modulator, modGain, envGain]
+      }
+
+      case 'quest.completed': {
+        // Rising 3-note arpeggio: 440, 554, 660Hz, 100ms each, sine
+        const q1 = this.buildOscSound(440, null, 0, 'sine', 0.25, 5, 30, 0.2, 60, 100, 'ui',   0)
+        const q2 = this.buildOscSound(554, null, 0, 'sine', 0.25, 5, 30, 0.2, 60, 100, 'ui', 100)
+        const q3 = this.buildOscSound(660, null, 0, 'sine', 0.25, 5, 30, 0.2, 60, 200, 'ui', 200)
+        return [...q1, ...q2, ...q3]
+      }
+
+      case 'npc.trust.up': {
+        // Soft warm chime: sine 528Hz, 300ms, bell-like decay
+        return this.buildOscSound(528, null, 0, 'sine', 0.2, 5, 50, 0.3, 220, 300, 'ui')
+      }
+
+      case 'dawn.break': {
+        // Morning tone: sine 220→330Hz over 1000ms, gentle fade in
+        return this.buildOscSound(220, 330, 1000, 'sine', 0.18, 300, 200, 0.4, 600, 1000, 'narrative')
+      }
+
       case 'ending.reached': {
         const notes = [220, 277, 330, 415, 523, 659]
         const nodes: AudioNode[] = []
