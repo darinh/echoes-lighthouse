@@ -85,8 +85,11 @@ export class AmbientAudioSystem implements ISystem {
       this.buildZones()
       this.buildNightLayer()
 
-      const zone = this.zoneFor(state.player.currentLocation)
-      this.activateZone(zone, /* instant */ true)
+      // Don't play ambient on the title screen — activate when gameplay begins.
+      if (state.phase !== 'title') {
+        const zone = this.zoneFor(state.player.currentLocation)
+        this.activateZone(zone, /* instant */ true)
+      }
     } catch {
       // Web Audio API unavailable — degrade silently
     }
@@ -117,10 +120,13 @@ export class AmbientAudioSystem implements ISystem {
       }
       case 'phase.changed': {
         const { phase } = event.payload as { phase: string }
-        if (phase === 'night_safe' || phase === 'night_dark') {
-          this.setNight(true)
-        } else if (phase === 'dawn' || phase === 'morning') {
+        // First transition out of title — start ambient for starting location.
+        if (phase === 'dawn' || phase === 'morning') {
+          const zone = this.zoneFor(state.player.currentLocation)
+          this.activateZone(zone)
           this.setNight(false)
+        } else if (phase === 'night_safe' || phase === 'night_dark') {
+          this.setNight(true)
         }
         return state
       }
