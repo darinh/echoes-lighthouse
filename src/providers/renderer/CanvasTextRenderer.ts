@@ -8,6 +8,7 @@ import { EXAMINE_DATA } from '@/data/locations/examineData.js'
 import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 import { QUEST_REGISTRY } from '@/data/quests/index.js'
 import { ENDING_NARRATIVES } from '@/data/endings/index.js'
+import { HINTS } from '@/data/hints/index.js'
 
 /** A hit-testable clickable region drawn on the canvas. */
 interface ClickRegion {
@@ -203,6 +204,7 @@ export class CanvasTextRenderer implements IRenderer {
         case 'settings': this.renderSettings(state); break
       }
     }
+    this.renderHint(state)
     this.updateAriaLabel(state)
   }
 
@@ -2381,6 +2383,50 @@ export class CanvasTextRenderer implements IRenderer {
     this.canvas.setAttribute('aria-label',
       `Echoes of the Lighthouse. Phase: ${phase}. Location: ${loc}. Insight: ${insight}. Loop ${loopCount}.`
     )
+  }
+
+  private renderHint(state: IGameState): void {
+    const activeHint = HINTS.find(h =>
+      state.worldFlags.has(h.triggerFlag) && !state.worldFlags.has(h.dismissFlag)
+    )
+    if (!activeHint) return
+
+    const { ctx, width, height } = this
+    const barW = Math.round(width * 0.5)
+    const barH = Math.round(this.lh(11) * 2.5)
+    const barX = Math.round((width - barW) / 2)
+    const barY = Math.round(height * 0.85)
+    const radius = 6
+
+    // Semi-transparent dark background pill
+    ctx.save()
+    ctx.globalAlpha = 0.92
+    ctx.fillStyle = 'rgba(8, 12, 20, 0.95)'
+    ctx.beginPath()
+    ctx.roundRect(barX, barY, barW, barH, radius)
+    ctx.fill()
+    ctx.globalAlpha = 1
+
+    // Amber left accent strip
+    ctx.fillStyle = this.colors.accent
+    ctx.beginPath()
+    ctx.roundRect(barX, barY, 3, barH, [radius, 0, 0, radius])
+    ctx.fill()
+
+    // Hint text
+    const textX = barX + barW / 2
+    const hintText = this.t(activeHint.textKey)
+    this.setFont(10)
+    ctx.fillStyle = this.colors.textPrimary
+    ctx.textAlign = 'center'
+    ctx.fillText(hintText, textX, barY + Math.round(barH * 0.42), barW - 24)
+
+    // Dismiss label
+    this.setFont(8)
+    ctx.fillStyle = this.colors.textDim
+    ctx.fillText('[ SPACE to dismiss ]', textX, barY + Math.round(barH * 0.78))
+
+    ctx.restore()
   }
 
 }
