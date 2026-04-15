@@ -76,6 +76,8 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     inventory: new Set(),
     endingsSeen: new Set(),
     audioMuted: false,
+    achievements: new Set(),
+    pendingAchievement: null,
     settings: {
       masterVolume: 1,
       ambientVolume: 0.6,

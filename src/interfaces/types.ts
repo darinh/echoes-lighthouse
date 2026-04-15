@@ -94,3 +94,16 @@ export type ItemId =
   | 'signal_flare'
   | 'rusted_key'
   | 'tide_chart'
+
+/** Achievement identifiers — one per milestone. */
+export type AchievementId =
+  | 'first_steps'
+  | 'curious_mind'
+  | 'voices_of_the_island'
+  | 'finder_of_things'
+  | 'full_pockets'
+  | 'truth_seeker'
+  | 'lore_keeper'
+  | 'echo'
+  | 'all_echoes'
+  | 'survivor'

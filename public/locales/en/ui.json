@@ -225,5 +225,47 @@
       "desc": "A laminated nautical chart with handwritten annotations in two different inks.",
       "pickup": "You pick up the Tide Chart. The annotations make no immediate sense, but the dates go back decades."
     }
+  },
+  "achievement": {
+    "first_steps": {
+      "name": "First Steps",
+      "desc": "You leave the cottage for the first time."
+    },
+    "curious_mind": {
+      "name": "Curious Mind",
+      "desc": "You examine your first object on the island."
+    },
+    "voices_of_the_island": {
+      "name": "Voices of the Island",
+      "desc": "You speak to an islander for the first time."
+    },
+    "finder_of_things": {
+      "name": "Finder of Things",
+      "desc": "You pick up your first collectible item."
+    },
+    "full_pockets": {
+      "name": "Full Pockets",
+      "desc": "You have collected all five items on the island."
+    },
+    "truth_seeker": {
+      "name": "Truth Seeker",
+      "desc": "You complete your first quest."
+    },
+    "lore_keeper": {
+      "name": "Lore Keeper",
+      "desc": "You complete every quest the island has to offer."
+    },
+    "echo": {
+      "name": "Echo",
+      "desc": "You witness your first ending."
+    },
+    "all_echoes": {
+      "name": "All Echoes",
+      "desc": "You have seen all five endings of the lighthouse."
+    },
+    "survivor": {
+      "name": "Survivor",
+      "desc": "You survive five dawns on the island."
+    }
   }
 }

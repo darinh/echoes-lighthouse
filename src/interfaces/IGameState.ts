@@ -8,6 +8,7 @@ import type {
   NPCAttitude,
   ItemId,
   EndingId,
+  AchievementId,
 } from './types.js'
 
 export interface IJournalEntry {
@@ -110,6 +111,13 @@ export interface IGameState {
   readonly inventory: ReadonlySet<ItemId>
   readonly endingsSeen: ReadonlySet<EndingId>
   readonly audioMuted: boolean
+  readonly achievements: ReadonlySet<AchievementId>
+  readonly pendingAchievement: {
+    readonly id: AchievementId
+    readonly nameKey: string
+    readonly descKey: string
+    readonly shownAt: number
+  } | null
   readonly settings: {
     readonly masterVolume: number
     readonly ambientVolume: number

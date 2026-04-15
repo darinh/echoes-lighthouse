@@ -19,6 +19,7 @@ interface SaveSnapshot {
   inventory: string[]
   endingsSeen: string[]
   audioMuted: boolean
+  achievements: string[]
   player: {
     stamina: number
     lightReserves: number
@@ -160,6 +161,7 @@ export class SaveSystem implements ISystem {
       inventory: [...state.inventory],
       endingsSeen: [...state.endingsSeen],
       audioMuted: state.audioMuted,
+      achievements: [...state.achievements],
       player: {
         stamina: state.player.stamina,
         lightReserves: state.player.lightReserves,
@@ -243,6 +245,8 @@ export class SaveSystem implements ISystem {
       inventory: new Set(snapshot.inventory ?? []) as IGameState['inventory'],
       endingsSeen: new Set(snapshot.endingsSeen ?? []) as IGameState['endingsSeen'],
       audioMuted: snapshot.audioMuted ?? false,
+      achievements: new Set(snapshot.achievements ?? []) as IGameState['achievements'],
+      pendingAchievement: null,
       settings: {
         masterVolume: 0.8,
         ambientVolume: 0.8,
