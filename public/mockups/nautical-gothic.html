@@ -233,10 +233,43 @@ input[type="range"]{accent-color:var(--amber)}
 .stage-card{position:relative;z-index:2;width:min(480px,100%);margin:10px;border:1px solid var(--border-soft);background:rgba(5,10,15,0.85);padding:16px;text-align:center;max-height:85%;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--ocean-surface) transparent}
 .cin-card .actions,.stage-card .actions{display:grid;gap:3px;margin-top:10px}
 
-.game-layout{display:grid;gap:4px;flex:1;min-height:0;overflow:hidden}
+.game-layout{display:grid;gap:4px;flex:1;min-height:0;overflow:hidden;position:relative}
 .game-main{min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--ocean-surface) transparent}
+/* Mobile default: hide inline sidebar, show rail */
+.game-side{display:none}
+/* ═══ SIDE PANEL — vertical tab rail on mobile, inline on desktop ═══ */
 .game-side{min-height:0;display:flex;flex-direction:column}
 .game-side .scroll-box{flex:1;min-height:0}
+
+/* Mobile: tab rail is vertical strip on right edge, panel floats */
+.side-rail{
+  position:absolute;right:0;top:0;bottom:0;z-index:10;
+  display:flex;flex-direction:column;gap:1px;padding:4px 0;
+}
+.side-rail .tab{
+  writing-mode:vertical-lr;text-orientation:mixed;
+  padding:10px 5px;min-height:auto;min-width:28px;
+  border-bottom:none;border-left:1px solid var(--border-soft);
+  font-size:9px;
+}
+.side-rail .tab.on{border-left-color:var(--amber-dim)}
+.side-float{
+  position:absolute;right:30px;top:0;bottom:0;z-index:9;
+  width:min(280px,calc(100% - 40px));
+  border-left:1px solid var(--border-soft);
+  background:rgba(5,10,15,0.95);
+  display:flex;flex-direction:column;
+  padding:8px;
+  overflow:hidden;
+}
+.side-float .scroll-box{flex:1;min-height:0}
+.side-float-close{
+  position:absolute;top:4px;right:4px;z-index:1;
+  font-family:var(--font-data);font-size:10px;color:var(--text-dim);
+  padding:4px 6px;
+}
+.side-float-close:hover{color:var(--text)}
+
 .action-dock{flex-shrink:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:2px;padding-top:6px;border-top:1px solid var(--border-soft)}
 .action-dock .act{text-align:center;font-size:11px;padding:5px 4px}
 
@@ -249,8 +282,14 @@ input[type="range"]{accent-color:var(--amber)}
 .ending-corrupt .stage-card .title{color:var(--bile)}
 .ending-witness .stage-card .title{color:var(--amber-dim)}
 
-/* ═══ RESPONSIVE ═══ */
-@media(min-width:768px){.game-layout{grid-template-columns:1.5fr 1fr}.action-dock{grid-template-columns:repeat(4,1fr)}}
+/* Desktop: revert to inline sidebar (hide rail/float, show .game-side) */
+@media(min-width:768px){
+  .side-rail{display:none}
+  .side-float{display:none!important}
+  .game-side{display:flex!important}
+  .game-layout{grid-template-columns:1.5fr 1fr}
+  .action-dock{grid-template-columns:repeat(4,1fr)}
+}
 @media(prefers-reduced-motion:reduce){.star{animation:none!important;opacity:0.3}.beam-wrap{animation:none!important}*{transition-duration:0ms!important}}
 </style>
 </head>
@@ -271,7 +310,7 @@ const SCREENS=[
   {id:'ending4',label:'End:Corrupt'},{id:'ending5',label:'End:Witness'},
   {id:'pause',label:'Pause'},{id:'settings',label:'Settings'},
 ];
-const S={screen:'title',archetype:'Seeker',sideTab:'journal',journalSub:'entries',dialVal:[3,7,1]};
+const S={screen:'title',archetype:'Seeker',sideTab:'journal',sideOpen:false,journalSub:'entries',dialVal:[3,7,1]};
 const $n=document.getElementById('nav'),$s=document.getElementById('screen'),$a=document.getElementById('ann');
 
 function go(id){if(SCREENS.find(s=>s.id===id)){S.screen=id;render()}}
@@ -287,7 +326,8 @@ function render(){
 document.addEventListener('click',e=>{
   const g=e.target.closest('[data-go]');if(g){go(g.dataset.go);return}
   const a=e.target.closest('[data-arch]');if(a){S.archetype=a.dataset.arch;render();return}
-  const t=e.target.closest('[data-tab]');if(t){S.sideTab=t.dataset.tab;render();return}
+  const t=e.target.closest('[data-tab]');if(t){if(S.sideTab===t.dataset.tab&&S.sideOpen){S.sideOpen=false}else{S.sideTab=t.dataset.tab;S.sideOpen=true}render();return}
+  const sc=e.target.closest('[data-side-close]');if(sc){S.sideOpen=false;render();return}
   const j=e.target.closest('[data-jtab]');if(j){S.journalSub=j.dataset.jtab;render();return}
   const d=e.target.closest('[data-dial]');if(d){S.dialVal[+d.dataset.dial]=((S.dialVal[+d.dataset.dial]+(+d.dataset.dir))%10+10)%10;render();return}
 });
@@ -333,7 +373,10 @@ R.archetype=()=>{
   </div>`;
 };
 
-R.gameplay=()=>`<div class="pad">
+R.gameplay=()=>{
+  const tabsHtml=['journal','map','status','archive'].map(t=>`<button class="tab ${S.sideTab===t&&S.sideOpen?'on':''}" data-tab="${t}">${t}</button>`).join('');
+  const floatPanel=S.sideOpen?`<div class="side-float"><button class="side-float-close" data-side-close>✕</button><div class="heading" style="margin-bottom:4px">${S.sideTab}</div><div class="scroll-box">${sideC()}</div></div>`:'';
+  return `<div class="pad">
   <div class="hud" style="flex-shrink:0">
     <div class="hud-cell"><span class="lbl">Loop</span><span class="val">8</span></div>
     <div class="hud-cell"><span class="lbl">Turn</span><span class="val">14/30</span></div>
@@ -343,7 +386,7 @@ R.gameplay=()=>`<div class="pad">
     <div class="hud-cell"><span class="lbl" style="color:var(--amber-dim)">◈</span><span class="val" style="color:var(--amber)">72</span></div>
     <div class="hud-cell"><span class="val">Lighthouse Office</span></div>
   </div>
-  <div class="game-layout" style="margin-top:4px">
+  <div class="game-layout" style="margin-top:4px;position:relative">
     <div class="game-main">
       <div class="panel" style="margin-bottom:4px">
         <div class="heading">Scene</div>
@@ -358,6 +401,10 @@ R.gameplay=()=>`<div class="pad">
       <button class="act ghost" style="margin-bottom:2px">Tide Ledger</button>
       <button class="act ghost">Lens Housing</button>
     </div>
+    <!-- Mobile: vertical tab rail + floating panel -->
+    <div class="side-rail">${tabsHtml}</div>
+    ${floatPanel}
+    <!-- Desktop: inline sidebar (hidden on mobile via CSS) -->
     <div class="game-side">
       <div class="tabs">${['journal','map','status','archive'].map(t=>`<button class="tab ${S.sideTab===t?'on':''}" data-tab="${t}">${t}</button>`).join('')}</div>
       <div class="scroll-box">${sideC()}</div>
@@ -365,6 +412,7 @@ R.gameplay=()=>`<div class="pad">
   </div>
   <div class="action-dock"><button class="act">Cliffs · 1t</button><button class="act">Mechanism · 2t 🔒</button><button class="act ghost">Wait</button><button class="act safe">◈ Light Beacon</button></div>
 </div>`;
+};
 
 function sideC(){
   if(S.sideTab==='journal')return jSide();
