@@ -119,6 +119,15 @@
       },
       "seven": {
         "insights": "The seventh understanding is the hardest. It cannot be told to you — only confirmed. You will know it when you know it, and you will spend some time refusing to believe that you know it. That refusal is the last test."
+      },
+      "break": {
+        "binding": "The rune cannot be destroyed — it can only be unmade. But unmaking requires understanding it completely, from both sides of the seal. You have seen one side. The other is in the deep water, written in a language older than stone. If you find it, you will understand why I have not freed myself."
+      },
+      "original": {
+        "imprisonment": "His name was Cedric. A Keeper. A frightened man who found something in the caves he could not explain and chose containment over understanding. He did not ask whether I was dangerous. He assumed, because I was different. The binding was his answer to a question he was too afraid to finish asking."
+      },
+      "the": {
+        "choice": "You know what I am now. You know what was done. The only question left is what you do with that knowledge. Free me and dissolve the mechanism's purpose. Accept the purpose and let the binding stand. Neither choice is wrong. Both have costs you cannot yet see."
       }
     },
     "silas": {
@@ -156,6 +165,10 @@
       },
       "full": {
         "truth": "The commission that built the lighthouse knew what it required. They built the mechanism to be fed, not operated. Every keeper since has been a sacrifice who didn't know they were volunteering."
+      },
+      "confession": "I saw him. On the last night. He was standing at the top of the lighthouse, looking out toward the water. He wasn't trying to leave — he was watching something come in. I could have called up to him. I didn't. I told myself it wasn't my place. I've been telling myself that for twelve years.",
+      "buried": {
+        "message": "Three days before he disappeared, he handed me an envelope. Said to send it to the mainland if he wasn't back by month's end. I never sent it. I buried it instead — under the floorboards at the mill's north wall. I was afraid of what would happen if the wrong people read it first."
       }
     },
     "petra": {
@@ -190,7 +203,11 @@
       },
       "vial": {
         "gift": "This vial contains the antidote to what my family has been administering. Drink it in the mechanism room. You'll see what was hidden."
-      }
+      },
+      "beam": {
+        "signal": "I've been watching the lighthouse beam for three weeks now — not the light itself, the intervals. The dark gaps between sweeps. They're not uniform. Someone would have to be operating the mechanism manually to produce that rhythm. But no one's been up there. I've checked."
+      },
+      "coordinates": "It took me two weeks to decode it as a spatial pattern rather than a temporal one. The beam isn't marking time — it's marking location. Specific coordinates. They correspond to a point in the tidal caves' deepest chamber. The one that floods completely at high tide."
     },
     "tobias": {
       "name": "Tobias",
@@ -222,6 +239,12 @@
       },
       "commissioner": {
         "silas": "The harbormaster. Silas. He placed the order, paid in old coin, and told me that what I made would save the island. I believed him. I'm less sure now."
+      },
+      "trapdoor": {
+        "truth": "The mill's trapdoor — the one I've had locked for twenty years — doesn't lead to storage. It leads down. Old stone. Old smell. The kind of old that precedes the village by centuries. My grandfather used it. He never told me what for. I found his notes after he died. I wished I hadn't."
+      },
+      "grandfather": {
+        "secret": "My grandfather was the Keeper who first sealed the binding. He didn't discover Vael — he knew what Vael was before he arrived. He was sent here to contain it. The lighthouse wasn't built to guide ships. It was built as the instrument of that containment. He wrote that he was sorry. He didn't say who he was sorry to."
       }
     },
     "elara": {
@@ -255,6 +278,12 @@
       },
       "vael": {
         "communication": "The light in the water is Vael. Or — the part of Vael that isn't bound to the lighthouse. They're communicating with themselves. Across the binding."
+      },
+      "keepers": {
+        "names": "The names scratched into the chapel floor — I counted them. Forty-one names, all with dates. None of them match the official record of who served as Keeper. These were not keepers who were remembered. These were keepers who stayed. Who merged with the island in a way that made them impossible to catalogue as departed."
+      },
+      "binding": {
+        "ritual": "The ritual is written in the chapel. Behind the saint's plaster face — there's older text. I can read some of it. It requires three things: a keeper's willing presence, the mechanism's full activation, and something the text calls 'the genuine question.' Not asked aloud. Genuinely wondered. I don't know what happens if the question isn't genuine. I suspect the mechanism does."
       }
     }
   },
@@ -313,7 +342,10 @@
       "ask_other_keepers": "Ask about the other keepers",
       "ask_what_want": "Ask what it truly wants",
       "offer_free_vael": "Offer to free it",
-      "ask_transcendence": "Ask about transcendence"
+      "ask_transcendence": "Ask about transcendence",
+      "ask_break_binding": "Ask how the binding could be undone",
+      "ask_original_imprisonment": "Ask who imprisoned them and why",
+      "ask_the_choice": "Ask what choice remains"
     }
   }
 }

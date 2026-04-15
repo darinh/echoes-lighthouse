@@ -6,7 +6,7 @@ export const ELARA_NPC: NPCFullData = {
   titleKey: 'npc.elara.title',
   defaultLocation: 'harbor',
   defaultAttitude: 'fearful',
-  schedule: { dusk: 'village_square', night_safe: 'keepers_cottage' },
+  schedule: { dusk: 'village_square', night_safe: 'keepers_cottage', night_dark: 'ruins' },
   tierThresholds: [0, 3, 7, 15, 25, 40, 60, 80, 100, 130, 170],
   greetingNodes: ['elara.greeting.tier0','elara.greeting.tier1','elara.greeting.tier2','elara.greeting.tier3','elara.greeting.tier4','elara.greeting.tier5'],
   nodes: {
@@ -55,6 +55,7 @@ export const ELARA_NPC: NPCFullData = {
       speakerKey: 'npc.elara.greeting.tier3',
       choices: [
         { id: 'ask.notebook', textKey: 'dialogue.choice.ask_notebook', nextNodeId: 'elara.notebook.share', insightGain: 12, trustGain: 8, requiresTier: 3 },
+        { id: 'ask.keepers.names', textKey: 'dialogue.choice.ask_keeper', nextNodeId: 'elara.keepers.names', insightGain: 15, requiresTier: 3 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -75,6 +76,7 @@ export const ELARA_NPC: NPCFullData = {
       speakerKey: 'npc.elara.greeting.tier4',
       choices: [
         { id: 'ask.beam.diagram', textKey: 'dialogue.choice.ask_beam_diagram', nextNodeId: 'elara.beam.diagram', insightGain: 15, trustGain: 6, requiresTier: 4 },
+        { id: 'ask.binding.ritual', textKey: 'dialogue.choice.ask_binding', nextNodeId: 'elara.binding.ritual', insightGain: 20, requiresTier: 4 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -93,6 +95,19 @@ export const ELARA_NPC: NPCFullData = {
     },
     'elara.vael.communication': {
       speakerKey: 'npc.elara.vael.communication',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'elara.keepers.names': {
+      speakerKey: 'npc.elara.keepers.names',
+      choices: [
+        { id: 'ask.ritual', textKey: 'dialogue.choice.ask_binding', nextNodeId: 'elara.binding.ritual', insightGain: 12, trustGain: 5 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'elara.binding.ritual': {
+      speakerKey: 'npc.elara.binding.ritual',
       choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],

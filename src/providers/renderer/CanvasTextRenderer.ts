@@ -3,9 +3,12 @@ import type { IGameState, INPCState, NPCId } from '@/interfaces/index.js'
 import type { GameAction } from '@/engine/InputHandler.js'
 import { getAdjacentLocations } from '@/data/locations/phase1Locations.js'
 import { CODEX_PAGES } from '@/data/codex/pages.js'
+import { SaveSystem } from '@/systems/SaveSystem.js'
 import { EXAMINE_DATA } from '@/data/locations/examineData.js'
 import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 import { QUEST_REGISTRY } from '@/data/quests/index.js'
+import { ENDING_NARRATIVES } from '@/data/endings/index.js'
+import { HINTS } from '@/data/hints/index.js'
 
 /** A hit-testable clickable region drawn on the canvas. */
 interface ClickRegion {
@@ -48,22 +51,22 @@ export class CanvasTextRenderer implements IRenderer {
   private _prevLocation = ''
 
   private readonly colors = {
-    bg:           '#0a0a0f',
-    bgPanel:      '#0f0f18',
-    bgHighlight:  '#1a1a2a',
-    borderDim:    '#1e2030',
-    borderBright: '#3a4060',
-    textPrimary:  '#c8ccd8',
-    textDim:      '#556677',
-    textFaint:    '#2a3040',
-    accent:       '#4488cc',
-    accentWarm:   '#cc8844',
-    accentGold:   '#d4aa44',
-    danger:       '#cc4444',
-    safe:         '#44cc88',
-    timerFull:    '#4488cc',
-    timerWarn:    '#cc8844',
-    timerCrit:    '#cc4444',
+    bg:           '#07090e',
+    bgPanel:      '#0a0c15',
+    bgHighlight:  '#111726',
+    borderDim:    '#1b2438',
+    borderBright: '#2e4268',
+    textPrimary:  '#c4cfe0',
+    textDim:      '#465a72',
+    textFaint:    '#1e2c3a',
+    accent:       '#d4900a',      // amber lantern — was cold blue
+    accentWarm:   '#e8a830',      // bright amber gold
+    accentGold:   '#f0c040',      // discovery gold
+    danger:       '#c03838',
+    safe:         '#28a070',      // ocean teal — was generic green
+    timerFull:    '#2e7ab8',      // steel blue
+    timerWarn:    '#d4900a',
+    timerCrit:    '#c03838',
   }
 
   private get isPortrait(): boolean {
@@ -201,6 +204,7 @@ export class CanvasTextRenderer implements IRenderer {
         case 'settings': this.renderSettings(state); break
       }
     }
+    this.renderHint(state)
     this.updateAriaLabel(state)
   }
 
@@ -213,78 +217,138 @@ export class CanvasTextRenderer implements IRenderer {
     const cx = width / 2
     const now = Date.now()
 
-    const grad = ctx.createRadialGradient(cx, height * 0.4, 0, cx, height * 0.4, height * 0.7)
-    grad.addColorStop(0, '#0f1020')
-    grad.addColorStop(1, this.colors.bg)
-    ctx.fillStyle = grad
+    // Deep ocean-dark background with radial warmth at center
+    ctx.fillStyle = this.colors.bg
     ctx.fillRect(0, 0, width, height)
 
-    // Animated ASCII lighthouse — stars pulse in and out
-    const starPulse = 0.4 + 0.6 * Math.abs(Math.sin(now * 0.003))
-    const asciiLines: { text: string; pulse: boolean }[] = [
-      { text: `         *        *`,        pulse: true  },
-      { text: `       *   *    *   *`,      pulse: true  },
-      { text: `      *     ****     *`,     pulse: false },
-      { text: `       *   *    *   *`,      pulse: true  },
-      { text: `         * *    * *`,        pulse: true  },
-      { text: `           |    |`,           pulse: false },
-      { text: `           |    |`,           pulse: false },
+    const warmGrad = ctx.createRadialGradient(cx, height * 0.45, 0, cx, height * 0.45, height * 0.65)
+    warmGrad.addColorStop(0, 'rgba(30, 20, 8, 0.9)')
+    warmGrad.addColorStop(0.5, 'rgba(14, 12, 20, 0.6)')
+    warmGrad.addColorStop(1, 'rgba(0,0,0,0)')
+    ctx.fillStyle = warmGrad
+    ctx.fillRect(0, 0, width, height)
+
+    // Vignette edges
+    const vignette = ctx.createRadialGradient(cx, height / 2, height * 0.2, cx, height / 2, height * 0.85)
+    vignette.addColorStop(0, 'rgba(0,0,0,0)')
+    vignette.addColorStop(1, 'rgba(0,0,0,0.7)')
+    ctx.fillStyle = vignette
+    ctx.fillRect(0, 0, width, height)
+
+    // Stars — scattered cold pinpoints
+    const starSeed = 137
+    for (let i = 0; i < 60; i++) {
+      const sx = ((Math.sin(i * starSeed) * 0.5 + 0.5)) * width
+      const sy = ((Math.cos(i * starSeed * 1.7) * 0.5 + 0.5)) * height * 0.5
+      const alpha = 0.2 + 0.5 * Math.abs(Math.sin(now / 2400 + i * 1.1))
+      const sz = i % 5 === 0 ? 1.5 : 1
+      ctx.fillStyle = `rgba(180,200,240,${alpha})`
+      ctx.fillRect(sx, sy, sz, sz)
+    }
+
+    // Sweeping lighthouse beam
+    const beamAngle = (now / 4000) % (Math.PI * 2)
+    const beamOriginX = cx
+    const beamOriginY = height * 0.32
+    const beamLen = Math.max(width, height) * 0.9
+    ctx.save()
+    ctx.globalAlpha = 0.08
+    const beamGrad = ctx.createRadialGradient(beamOriginX, beamOriginY, 0, beamOriginX, beamOriginY, beamLen)
+    beamGrad.addColorStop(0, '#f0c040')
+    beamGrad.addColorStop(0.3, '#d4900a')
+    beamGrad.addColorStop(1, 'rgba(212,144,10,0)')
+    ctx.fillStyle = beamGrad
+    ctx.beginPath()
+    ctx.moveTo(beamOriginX, beamOriginY)
+    const spread = Math.PI / 14
+    ctx.arc(beamOriginX, beamOriginY, beamLen, beamAngle - spread, beamAngle + spread)
+    ctx.closePath()
+    ctx.fill()
+    ctx.restore()
+
+    // ASCII lighthouse — more refined, tighter
+    const starPulse = 0.5 + 0.5 * Math.abs(Math.sin(now * 0.0025))
+    const asciiLines: { text: string; pulse: boolean; color?: string }[] = [
+      { text: `      *  *    *  *`,        pulse: true,  color: '#f0c040' },
+      { text: `    *   *  **  *   *`,      pulse: true,  color: '#e8a830' },
+      { text: `     * * \u25c8\u25c8\u25c8\u25c8 * *`,        pulse: false, color: this.colors.accent },
+      { text: `      *  *    *  *`,        pulse: true,  color: '#f0c040' },
+      { text: `         |    |`,           pulse: false, color: this.colors.accentWarm },
+      { text: `        /|    |\\`,          pulse: false, color: this.colors.accent },
+      { text: `       / |    | \\`,         pulse: false, color: this.colors.borderBright },
+      { text: `      /  |    |  \\`,        pulse: false, color: this.colors.borderBright },
+      { text: `\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a`, pulse: false, color: this.colors.borderBright },
     ]
 
-    const lineH = Math.round(this.basePx * 1.4)
-    const asciiStartY = height * 0.14
+    const lineH = Math.round(this.basePx * 1.35)
+    const asciiStartY = height * 0.12
     ctx.textAlign = 'center'
     this.setFont(10)
     for (let i = 0; i < asciiLines.length; i++) {
-      const { text, pulse } = asciiLines[i]
+      const { text, pulse, color } = asciiLines[i]
+      const c = color ?? this.colors.accent
       if (pulse) {
-        ctx.fillStyle = `rgba(212,170,68,${starPulse})`
+        const [r, g, b] = [parseInt(c.slice(1,3),16), parseInt(c.slice(3,5),16), parseInt(c.slice(5,7),16)]
+        ctx.fillStyle = `rgba(${r},${g},${b},${starPulse})`
       } else {
-        ctx.fillStyle = this.colors.accent
+        ctx.fillStyle = c
       }
       ctx.fillText(text, cx, asciiStartY + i * lineH)
     }
 
-    // Lighthouse body
-    const bodyY = asciiStartY + asciiLines.length * lineH
-    const bodyLines = [
-      `          /|    |\\`,
-      `         / |    | \\`,
-      `        /  |    |  \\`,
-      `\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a\u254a`,
-    ]
-    ctx.fillStyle = this.colors.accent
-    for (let i = 0; i < bodyLines.length; i++) {
-      ctx.fillText(bodyLines[i], cx, bodyY + i * lineH)
-    }
+    // Horizontal decorative rule above title
+    const ruleY = height * 0.54
+    const ruleW = Math.min(width * 0.6, 400)
+    const ruleGrad = ctx.createLinearGradient(cx - ruleW/2, ruleY, cx + ruleW/2, ruleY)
+    ruleGrad.addColorStop(0, 'rgba(212,144,10,0)')
+    ruleGrad.addColorStop(0.3, 'rgba(212,144,10,0.6)')
+    ruleGrad.addColorStop(0.5, 'rgba(212,144,10,0.9)')
+    ruleGrad.addColorStop(0.7, 'rgba(212,144,10,0.6)')
+    ruleGrad.addColorStop(1, 'rgba(212,144,10,0)')
+    ctx.fillStyle = ruleGrad
+    ctx.fillRect(cx - ruleW/2, ruleY - 1, ruleW, 1)
 
-    // Title
+    // Main title
     this.setFont(28, 'bold')
-    ctx.fillStyle = this.colors.accent
+    ctx.fillStyle = this.colors.accentWarm
     ctx.textAlign = 'center'
-    ctx.fillText('ECHOES OF THE LIGHTHOUSE', cx, height * 0.57)
+    ctx.fillText('ECHOES OF THE LIGHTHOUSE', cx, height * 0.58)
 
-    this.setFont(11)
+    // Subtitle
+    this.setFont(9)
     ctx.fillStyle = this.colors.textDim
-    ctx.fillText('a narrative mystery \u00b7 roguelite \u00b7 canvas text edition', cx, height * 0.57 + 24)
+    ctx.fillText('a  \u00b7  narrative mystery  \u00b7  roguelite  \u00b7  text edition', cx, height * 0.58 + this.lh(10) + 4)
+
+    // Decorative rule below subtitle
+    const r2Y = height * 0.58 + this.lh(10) + 10
+    ctx.fillStyle = ruleGrad
+    ctx.fillRect(cx - ruleW/2, r2Y, ruleW, 1)
 
     // Tagline
     this.setFont(10)
-    ctx.fillStyle = this.colors.textDim
+    ctx.fillStyle = this.colors.accent
+    ctx.textAlign = 'center'
     ctx.fillText('KEEP THE LIGHT BURNING', cx, height * 0.68)
 
-    // Prompt (pulsing)
-    const pulse = 0.6 + 0.4 * Math.abs(Math.sin(now / 900))
-    ctx.fillStyle = `rgba(68,136,204,${pulse})`
-    this.setFont(13)
-    ctx.fillText('[ PRESS ENTER OR CLICK ]', cx, height * 0.76)
+    // Pulsing prompt — changes based on save state
+    const pulse = 0.5 + 0.5 * Math.abs(Math.sin(now / 1100))
+    const hasSave = SaveSystem.hasSave()
+    ctx.fillStyle = `rgba(232,168,48,${pulse})`
+    this.setFont(11)
+    ctx.fillText(hasSave ? '[ PRESS ENTER TO CONTINUE ]' : '[ PRESS ENTER TO START ]', cx, height * 0.77)
+
+    if (hasSave) {
+      this.setFont(9)
+      ctx.fillStyle = this.colors.textDim
+      ctx.fillText('[ N ]  NEW GAME  (clears save)', cx, height * 0.77 + this.lh(11) + 4)
+    }
 
     // Quote
     this.setFont(9)
     ctx.fillStyle = this.colors.textFaint
-    ctx.fillText('"Do not let it go dark."  \u2014 H.V.', cx, height * 0.84)
+    ctx.fillText('\u201cDo not let it go dark.\u201d  \u2014 H.V.', cx, height * 0.86)
 
-    // Version \u2014 bottom right
+    // Version
     const version = (import.meta as { env?: Record<string, string> }).env?.VITE_APP_VERSION ?? '1.0.0'
     ctx.fillStyle = this.colors.textFaint
     ctx.textAlign = 'right'
@@ -361,64 +425,92 @@ export class CanvasTextRenderer implements IRenderer {
       return
     }
 
-    this.setFont(10)
-    ctx.fillStyle = this.colors.textDim
+    // Landscape HUD — refined layout
+    // Left block: loop + phase label
+    this.setFont(9)
+    ctx.fillStyle = this.colors.textFaint
     ctx.textAlign = 'left'
-    ctx.fillText(`LOOP ${player.loopCount}  ·  ${phase.replace('_', ' ').toUpperCase()}`, x + m, y + this.lh(10))
+    ctx.fillText('LOOP', x + m, y + this.lh(9) + 2)
+    this.setFont(14, 'bold')
+    ctx.fillStyle = this.colors.accentWarm
+    ctx.fillText(`${player.loopCount}`, x + m + 36, y + this.lh(14) + 2)
 
-    this.setFont(12)
+    this.setFont(9)
+    ctx.fillStyle = this.colors.textDim
+    ctx.fillText(phase.replace('_', ' ').toUpperCase(), x + m, y + this.lh(9) + this.lh(11) + 4)
+
+    // Hearts — rendered as glyphs with warm danger color
+    this.setFont(13)
     ctx.fillStyle = this.colors.danger
-    ctx.fillText('♥'.repeat(player.hearts) + '♡'.repeat(Math.max(0, 3 - player.hearts)), x + m, y + this.lh(10) + this.lh(12))
+    ctx.fillText('♥'.repeat(player.hearts) + '♡'.repeat(Math.max(0, 3 - player.hearts)), x + m + 60, y + this.lh(9) + this.lh(13) + 2)
 
-    const statX = x + m + 80
-    const row1Y = y + this.lh(10) + 4
-    const row2Y = y + this.lh(10) + this.lh(12) - 4
-    this.renderSegmentedBar(statX, row1Y, 90, 8, player.stamina / 100, 10, this.colors.safe, 'STA')
-    this.renderStatBar(statX + 100, row1Y, 90, 8, player.lightReserves / 100, this.colors.accentWarm, 'LGT')
+    // Stat bars block
+    const statX = x + m + 160
+    const row1Y = y + Math.round(h * 0.28)
+    const row2Y = y + Math.round(h * 0.62)
 
-    // ⚠ warning glyph when stamina critical or time running out
+    // Labels above bars
+    this.setFont(8)
+    ctx.fillStyle = this.colors.textFaint
+    ctx.textAlign = 'left'
+    ctx.fillText('STA', statX, row1Y - 2)
+    ctx.fillText('LGT', statX + 104, row1Y - 2)
+
+    this.renderSegmentedBar(statX, row1Y, 90, 7, player.stamina / 100, 10, this.colors.safe, '')
+    this.renderStatBar(statX + 100, row1Y, 90, 7, player.lightReserves / 100, this.colors.accentWarm, '')
+
+    // Warning glyph
     if (player.stamina <= 2 || dayTimeRemaining < 0.2) {
       this.setFont(12)
       ctx.fillStyle = this.colors.danger
       ctx.textAlign = 'left'
-      ctx.fillText('⚠', statX + 200, row2Y)
+      ctx.fillText('⚠', statX + 200, row2Y + 4)
     }
 
+    // Insight badge
     this.setFont(11)
     ctx.fillStyle = this.colors.accentGold
     ctx.textAlign = 'left'
-    ctx.fillText(`◈ ${player.insight}`, statX + 220, row2Y)
+    ctx.fillText(`◈ ${player.insight}`, statX + 220, row2Y + 4)
 
-    const timerW = Math.min(200, w * 0.25)
+    // Right block: location + day timer
+    const timerW = Math.min(200, w * 0.22)
     const timerX = x + w - timerW - m
     const timerColor =
       dayTimeRemaining > 0.4 ? this.colors.timerFull :
       dayTimeRemaining > 0.2 ? this.colors.timerWarn :
       this.colors.timerCrit
 
-    this.setFont(9)
-    ctx.fillStyle = this.colors.textDim
-    ctx.textAlign = 'right'
-    ctx.fillText('DAY', timerX - 6, row2Y)
-    this.renderStatBar(timerX, row1Y, timerW, 8, dayTimeRemaining, timerColor)
-
-    ctx.textAlign = 'right'
-    this.setFont(10)
+    this.setFont(10, 'bold')
     ctx.fillStyle = this.colors.textPrimary
-    ctx.fillText(this.locationName(state.player.currentLocation), x + w - m, y + this.lh(10))
+    ctx.textAlign = 'right'
+    ctx.fillText(this.locationName(state.player.currentLocation), x + w - m, y + this.lh(10) + 2)
+
+    this.setFont(8)
+    ctx.fillStyle = this.colors.textFaint
+    ctx.fillText('DAY REMAINING', timerX + timerW, row1Y - 2)
+
+    this.renderStatBar(timerX, row1Y, timerW, 7, dayTimeRemaining, timerColor)
   }
 
   private renderLocationPanel(state: IGameState, x: number, y: number, w: number, h: number): void {
     const { ctx } = this
     const locId = state.player.currentLocation
 
+    // Location name with decorative treatment
     this.setFont(16, 'bold')
-    ctx.fillStyle = this.colors.accent
+    ctx.fillStyle = this.colors.accentWarm
     ctx.textAlign = 'left'
     ctx.fillText(this.locationName(locId), x, y + this.lh(16))
 
-    ctx.fillStyle = this.colors.borderDim
-    ctx.fillRect(x, y + this.lh(16) + 4, w, 1)
+    // Decorative rule — gradient fade from accent
+    const rW = w
+    const rGrad = ctx.createLinearGradient(x, y + this.lh(16) + 6, x + rW, y + this.lh(16) + 6)
+    rGrad.addColorStop(0, 'rgba(212,144,10,0.5)')
+    rGrad.addColorStop(0.4, 'rgba(212,144,10,0.15)')
+    rGrad.addColorStop(1, 'rgba(212,144,10,0)')
+    ctx.fillStyle = rGrad
+    ctx.fillRect(x, y + this.lh(16) + 6, rW, 1)
 
     // If an examine was just triggered, show its flavor text prominently
     if (state.lastExaminedKey) {
@@ -667,8 +759,17 @@ export class CanvasTextRenderer implements IRenderer {
       const btnW = w - m * 2
       const isDiscovered = state.player.discoveredLocations.has(loc.id)
 
-      ctx.fillStyle = this.colors.bgHighlight
-      ctx.fillRect(x + m, btnY, btnW, btnH)
+      const btnGrad = ctx.createLinearGradient(x + m, btnY, x + m, btnY + btnH)
+      btnGrad.addColorStop(0, this.colors.bgHighlight)
+      btnGrad.addColorStop(1, this.colors.bg)
+      ctx.fillStyle = btnGrad
+      ctx.fillRect(x + m + 3, btnY, btnW - 3, btnH)
+      // Left accent border
+      const locAccent = isDiscovered ? this.colors.borderBright : this.colors.accentGold
+      ctx.fillStyle = locAccent
+      ctx.globalAlpha = 0.6
+      ctx.fillRect(x + m, btnY, 3, btnH)
+      ctx.globalAlpha = 1
 
       // Location name
       this.setFont(11)
@@ -842,12 +943,22 @@ export class CanvasTextRenderer implements IRenderer {
     let choiceY = y + this.lh(14) + this.lh(13) * 4 + 6
     for (const choice of dlg.availableChoices) {
       const btnH = 32
-      ctx.fillStyle = choice.isAvailable ? this.colors.bgHighlight : this.colors.bgPanel
-      ctx.fillRect(x, choiceY, w, btnH)
+      // Choice button with left accent border treatment
+      const choiceGrad = ctx.createLinearGradient(x, choiceY, x, choiceY + btnH)
+      choiceGrad.addColorStop(0, choice.isAvailable ? this.colors.bgHighlight : this.colors.bgPanel)
+      choiceGrad.addColorStop(1, this.colors.bg)
+      ctx.fillStyle = choiceGrad
+      ctx.fillRect(x + 3, choiceY, w - 3, btnH)
+      // Left border accent
+      ctx.fillStyle = choice.isAvailable ? this.colors.accent : this.colors.borderDim
+      ctx.globalAlpha = choice.isAvailable ? 0.8 : 0.4
+      ctx.fillRect(x, choiceY, 3, btnH)
+      ctx.globalAlpha = 1
+      // Choice text
       this.setFont(11)
       ctx.fillStyle = choice.isAvailable ? this.colors.textPrimary : this.colors.textFaint
       ctx.textAlign = 'left'
-      ctx.fillText(`▷  ${this.t(choice.textKey)}`, x + 12, choiceY + 14)
+      ctx.fillText(`▷  ${this.t(choice.textKey)}`, x + 14, choiceY + Math.round(btnH * 0.58))
       if (choice.isAvailable) {
         this.addClickRegion(x, choiceY, w, btnH, { type: 'dialogue.choice', choiceId: choice.id }, choice.textKey)
       }
@@ -897,9 +1008,14 @@ export class CanvasTextRenderer implements IRenderer {
 
     const contentY = hudHeight + margin * 4
     this.setFont(14, 'bold')
-    ctx.fillStyle = this.colors.accent
+    ctx.fillStyle = this.colors.accentWarm
     ctx.textAlign = 'center'
-    ctx.fillText("VAEL'S REST — NIGHT", cx, contentY + this.lh(14))
+    ctx.fillText("VAEL'S REST  \u00b7  NIGHT WATCH", cx, contentY + this.lh(14))
+
+    // Decorative rule
+    const nrW = Math.min(width * 0.5, 320)
+    ctx.fillStyle = `rgba(212,144,10,0.3)`
+    ctx.fillRect(cx - nrW/2, contentY + this.lh(14) + 4, nrW, 1)
 
     this.setFont(11)
     ctx.fillStyle = this.colors.accentGold
@@ -947,7 +1063,12 @@ export class CanvasTextRenderer implements IRenderer {
     this.setFont(14, 'bold')
     ctx.fillStyle = this.colors.danger
     ctx.textAlign = 'center'
-    ctx.fillText('DARKNESS FALLS', cx, contentY)
+    ctx.fillText('\u2726  DARKNESS FALLS  \u2726', cx, contentY)
+
+    // Ominous rule
+    const drW = Math.min(width * 0.5, 300)
+    ctx.fillStyle = `rgba(192,56,56,0.4)`
+    ctx.fillRect(cx - drW/2, contentY + 6, drW, 1)
 
     this.setFont(12)
     ctx.fillStyle = this.colors.textPrimary
@@ -1214,86 +1335,147 @@ export class CanvasTextRenderer implements IRenderer {
     const cx = width / 2
     const m = this.layout.margin
 
+    // Deep void background
     ctx.fillStyle = '#050508'
     ctx.fillRect(0, 0, width, height)
 
+    // Subtle vignette
+    const vig = ctx.createRadialGradient(cx, height / 2, height * 0.15, cx, height / 2, height * 0.8)
+    vig.addColorStop(0, 'rgba(0,0,0,0)')
+    vig.addColorStop(1, 'rgba(0,0,0,0.6)')
+    ctx.fillStyle = vig
+    ctx.fillRect(0, 0, width, height)
+
     const endingId = state.endingId ?? 'liberation'
+    const narrative = ENDING_NARRATIVES[endingId]
 
-    // Prefer i18n-driven content; fall back to hardcoded epilogues
-    const i18nTitle = this.t(`ending.${endingId}.title`)
-    const i18nText  = this.t(`ending.${endingId}.text`)
-    const hasI18n   = i18nTitle !== `ending.${endingId}.title`
-
-    const fallbackEpilogues: Record<string, { title: string; text: string }> = {
-      liberation:   { title: 'LIBERATION',        text: "Maren closed the archive for the last time. The records were complete. Silas watched the fog lift from the harbor — truly lift — for the first time he could remember. The lighthouse still burns. It no longer needs to." },
-      keepers_peace:{ title: "THE KEEPER'S PEACE", text: "Vael remained. Not trapped — present. There is a difference, in the end. The lighthouse burns still. It always will." },
-      sacrifice:    { title: 'THE SACRIFICE',      text: "The keeper's name was not recorded. That was their choice. The island keeps its bargains. It always has." },
-      corruption:   { title: 'CORRUPTION',         text: "You remember now. All of it. Every loop, every face, every name. The lighthouse beam moves faster now. It knows where to look." },
-      transcendence:{ title: 'TRANSCENDENCE',      text: "What was divided became whole. The lighthouse still burns — but it answers to no one now." },
-    }
-    const fallback = fallbackEpilogues[endingId] ?? fallbackEpilogues['liberation']
-
-    const title = hasI18n ? i18nTitle.toUpperCase() : fallback.title
-    const bodyText = hasI18n ? i18nText : fallback.text
+    const title    = narrative ? this.t(narrative.titleKey)    : endingId.toUpperCase()
+    const subtitle = narrative ? this.t(narrative.subtitleKey) : ''
+    const opening  = narrative ? this.t(narrative.openingKey)  : ''
+    const closing  = narrative ? this.t(narrative.closingKey)  : ''
+    const epilogues: string[] = narrative
+      ? narrative.epilogueKeys.map(k => this.t(k))
+      : []
 
     const sealedCount = state.player.sealedInsights.size
-    const journalPct = Math.round(Math.min(100, (sealedCount / 7) * 100))
+    const journalPct  = Math.round(Math.min(100, (sealedCount / 7) * 100))
 
-    const panelW = Math.min(600, width - m * 4)
+    const panelW = Math.min(620, width - m * 4)
     const panelX = cx - panelW / 2
-    let panelY = m * 2
+    const innerW = panelW - m * 2
+    let y = m * 2
 
-    ctx.strokeStyle = this.colors.borderBright
-    ctx.lineWidth = 1
-    ctx.strokeRect(panelX, panelY, panelW, height - m * 4)
-
-    const titleSectionH = this.lh(20) + this.lh(11)
-    ctx.fillStyle = this.colors.borderDim
-    ctx.fillRect(panelX, panelY + titleSectionH, panelW, 1)
-
+    // — Title —
     this.setFont(20, 'bold')
     ctx.fillStyle = this.colors.accentGold
     ctx.textAlign = 'center'
-    ctx.fillText(title, cx, panelY + this.lh(20))
+    ctx.fillText(title.toUpperCase(), cx, y + this.lh(20))
+    y += this.lh(20) + 6
 
-    panelY += titleSectionH + 14
+    // Amber decorative rule under title
+    const ruleGrad = ctx.createLinearGradient(panelX, 0, panelX + panelW, 0)
+    ruleGrad.addColorStop(0, 'rgba(0,0,0,0)')
+    ruleGrad.addColorStop(0.3, this.colors.accentGold)
+    ruleGrad.addColorStop(0.7, this.colors.accentGold)
+    ruleGrad.addColorStop(1, 'rgba(0,0,0,0)')
+    ctx.fillStyle = ruleGrad
+    ctx.fillRect(panelX, y, panelW, 1)
+    y += 10
 
-    // Body text (wrapped)
-    this.setFont(11)
-    ctx.fillStyle = this.colors.textPrimary
-    ctx.textAlign = 'left'
-    let textY = panelY + 8
-    this.wrapText(bodyText, panelX + m, textY, panelW - m * 2, this.lh(11))
-    // Estimate lines for spacing (rough: 60 chars per line)
-    const estimatedLines = Math.ceil(bodyText.length / 60)
-    textY += estimatedLines * this.lh(11) + this.lh(11)
+    // — Subtitle —
+    if (subtitle) {
+      this.setFont(10)
+      ctx.fillStyle = this.colors.textDim
+      ctx.textAlign = 'center'
+      ctx.fillText(subtitle, cx, y + this.lh(10))
+      y += this.lh(10) + this.lh(10)
+    }
 
-    const statsY = textY + 8
+    // — Opening paragraph —
+    if (opening) {
+      this.setFont(11)
+      ctx.fillStyle = this.colors.textPrimary
+      ctx.textAlign = 'left'
+      this.wrapText(opening, panelX + m, y + this.lh(11), innerW, this.lh(11))
+      const openLines = this.wrapTextCount(opening, innerW)
+      y += (openLines + 1) * this.lh(11) + 8
+    }
+
+    // — NPC Epilogues —
+    if (epilogues.length > 0) {
+      ctx.fillStyle = this.colors.borderDim
+      ctx.fillRect(panelX + m, y, innerW, 1)
+      y += 12
+
+      this.setFont(9)
+      ctx.fillStyle = this.colors.textDim
+      ctx.textAlign = 'left'
+      ctx.fillText('FATES', panelX + m, y + this.lh(9))
+      y += this.lh(9) + 6
+
+      for (const line of epilogues) {
+        ctx.fillStyle = this.colors.accentGold
+        ctx.fillRect(panelX + m, y + Math.round(this.lh(10) * 0.35), 4, 1)
+
+        this.setFont(10)
+        ctx.fillStyle = this.colors.textPrimary
+        ctx.textAlign = 'left'
+        this.wrapText(line, panelX + m + 10, y + this.lh(10), innerW - 10, this.lh(10))
+        const epiLines = this.wrapTextCount(line, innerW - 10)
+        y += (epiLines + 1) * this.lh(10) + 4
+      }
+      y += 6
+    }
+
+    // — Closing line —
+    if (closing) {
+      ctx.fillStyle = this.colors.borderDim
+      ctx.fillRect(panelX + m, y, innerW, 1)
+      y += 14
+
+      this.setFont(10)
+      ctx.fillStyle = this.colors.accentGold
+      ctx.globalAlpha = 0.75
+      ctx.textAlign = 'center'
+      this.wrapText(closing, panelX + m, y + this.lh(10), innerW, this.lh(10))
+      ctx.globalAlpha = 1
+      const closeLines = this.wrapTextCount(closing, innerW)
+      y += (closeLines + 1) * this.lh(10) + this.lh(10)
+    }
+
+    // — Stats strip —
     ctx.fillStyle = this.colors.borderDim
-    ctx.fillRect(panelX, statsY - 8, panelW, 1)
+    ctx.fillRect(panelX + m, y, innerW, 1)
+    y += 12
 
     this.setFont(9)
     ctx.fillStyle = this.colors.textDim
     ctx.textAlign = 'left'
-    ctx.fillText('JOURNAL COMPLETION', panelX + m, statsY + this.lh(9))
-    this.setFont(16, 'bold')
-    ctx.fillStyle = this.colors.accentGold
-    ctx.fillText(`${journalPct}%`, panelX + m, statsY + this.lh(9) + this.lh(16))
+    ctx.fillText(
+      `Journal: ${journalPct}%   ·   Loops: ${state.player.loopCount}   ·   Moral weight: ${state.player.moralWeight}`,
+      panelX + m, y + this.lh(9)
+    )
+    y += this.lh(9) + this.lh(9) + 4
 
-    this.setFont(10)
-    ctx.fillStyle = this.colors.textDim
-    ctx.fillText(`Completed in ${state.player.loopCount} loop${state.player.loopCount !== 1 ? 's' : ''}   ·   Moral weight: ${state.player.moralWeight}`, panelX + m, statsY + this.lh(9) + this.lh(16) + this.lh(10))
-
-    const btnY = statsY + this.lh(9) + this.lh(16) + this.lh(10) + this.lh(10)
-    const btnW = Math.min(140, (panelW - m * 3) / 2)
+    // — Buttons —
     ctx.fillStyle = this.colors.borderDim
-    ctx.fillRect(panelX, btnY - 12, panelW, 1)
+    ctx.fillRect(panelX + m, y, innerW, 1)
+    y += 14
 
-    this.renderActionButton(panelX + m, btnY, btnW, 36, '▶ PLAY AGAIN', this.colors.accent)
-    this.addClickRegion(panelX + m, btnY, btnW, 36, { type: 'start.game' }, 'Play again')
+    const btnW = Math.min(160, (innerW - m) / 2)
+    this.renderActionButton(panelX + m, y, btnW, 36, '▶ PLAY AGAIN', this.colors.accent)
+    this.addClickRegion(panelX + m, y, btnW, 36, { type: 'start.game' }, 'Play again')
 
-    this.renderActionButton(panelX + m * 2 + btnW, btnY, btnW, 36, 'MAIN MENU', this.colors.textDim)
-    this.addClickRegion(panelX + m * 2 + btnW, btnY, btnW, 36, { type: 'main.menu' }, 'Main menu')
+    this.renderActionButton(panelX + m * 2 + btnW, y, btnW, 36, 'MAIN MENU', this.colors.textDim)
+    this.addClickRegion(panelX + m * 2 + btnW, y, btnW, 36, { type: 'main.menu' }, 'Main menu')
+
+    // Keyboard hint
+    this.setFont(8)
+    ctx.fillStyle = this.colors.textDim
+    ctx.globalAlpha = 0.6
+    ctx.textAlign = 'center'
+    ctx.fillText('[ PRESS ENTER TO PLAY AGAIN ]', cx, y + 36 + this.lh(8) + 6)
+    ctx.globalAlpha = 1
   }
 
   private renderStatBar(x: number, y: number, w: number, h: number, value: number, color: string, label?: string): void {
@@ -1370,14 +1552,40 @@ export class CanvasTextRenderer implements IRenderer {
 
   private renderActionButton(x: number, y: number, w: number, h: number, label: string, color: string): void {
     const { ctx } = this
-    ctx.fillStyle = this.colors.bgHighlight
-    ctx.fillRect(x, y, w, h)
+    const r = 3
+    // Gradient background
+    const grad = ctx.createLinearGradient(x, y, x, y + h)
+    grad.addColorStop(0, this.colors.bgHighlight)
+    grad.addColorStop(1, this.colors.bg)
+    ctx.fillStyle = grad
+    // Main body (inset 3px from left for accent border)
+    ctx.beginPath()
+    ctx.moveTo(x + 3 + r, y)
+    ctx.lineTo(x + w - r, y)
+    ctx.arcTo(x + w, y, x + w, y + r, r)
+    ctx.lineTo(x + w, y + h - r)
+    ctx.arcTo(x + w, y + h, x + w - r, y + h, r)
+    ctx.lineTo(x + 3 + r, y + h)
+    ctx.arcTo(x + 3, y + h, x + 3, y + h - r, r)
+    ctx.lineTo(x + 3, y + r)
+    ctx.arcTo(x + 3, y, x + 3 + r, y, r)
+    ctx.closePath()
+    ctx.fill()
+    // Left accent border (3px)
+    ctx.fillStyle = color
+    ctx.globalAlpha = 0.7
+    ctx.fillRect(x, y, 3, h)
+    ctx.globalAlpha = 1
+    // Subtle outline
     ctx.strokeStyle = this.colors.borderDim
+    ctx.lineWidth = 1
     ctx.strokeRect(x, y, w, h)
+    // Label — left aligned with padding
     this.setFont(11)
     ctx.fillStyle = color
-    ctx.textAlign = 'center'
-    ctx.fillText(label, x + w / 2, y + h / 2 + 4)
+    ctx.textAlign = 'left'
+    ctx.fillText(label, x + 14, y + h / 2 + Math.round(this.basePx * 0.35))
+    ctx.textAlign = 'center' // reset
   }
 
   private wrapText(text: string, x: number, y: number, maxW: number, lineH: number): void {
@@ -1620,9 +1828,11 @@ export class CanvasTextRenderer implements IRenderer {
         y += lineH * 2.2
 
         for (const step of quest.steps) {
+          const progress = state.questStepProgress[questId]
+          const isDone = progress?.has(step.id) ?? false
           this.setFont(11)
-          ctx.fillStyle = this.colors.textPrimary
-          ctx.fillText(`  □ ${this.t(step.descriptionKey)}`, contentX, y + 12)
+          ctx.fillStyle = isDone ? this.colors.textFaint : this.colors.textPrimary
+          ctx.fillText(`  ${isDone ? '✓' : '□'} ${this.t(step.descriptionKey)}`, contentX, y + 12)
           y += lineH
         }
 
@@ -2173,6 +2383,50 @@ export class CanvasTextRenderer implements IRenderer {
     this.canvas.setAttribute('aria-label',
       `Echoes of the Lighthouse. Phase: ${phase}. Location: ${loc}. Insight: ${insight}. Loop ${loopCount}.`
     )
+  }
+
+  private renderHint(state: IGameState): void {
+    const activeHint = HINTS.find(h =>
+      state.worldFlags.has(h.triggerFlag) && !state.worldFlags.has(h.dismissFlag)
+    )
+    if (!activeHint) return
+
+    const { ctx, width, height } = this
+    const barW = Math.round(width * 0.5)
+    const barH = Math.round(this.lh(11) * 2.5)
+    const barX = Math.round((width - barW) / 2)
+    const barY = Math.round(height * 0.85)
+    const radius = 6
+
+    // Semi-transparent dark background pill
+    ctx.save()
+    ctx.globalAlpha = 0.92
+    ctx.fillStyle = 'rgba(8, 12, 20, 0.95)'
+    ctx.beginPath()
+    ctx.roundRect(barX, barY, barW, barH, radius)
+    ctx.fill()
+    ctx.globalAlpha = 1
+
+    // Amber left accent strip
+    ctx.fillStyle = this.colors.accent
+    ctx.beginPath()
+    ctx.roundRect(barX, barY, 3, barH, [radius, 0, 0, radius])
+    ctx.fill()
+
+    // Hint text
+    const textX = barX + barW / 2
+    const hintText = this.t(activeHint.textKey)
+    this.setFont(10)
+    ctx.fillStyle = this.colors.textPrimary
+    ctx.textAlign = 'center'
+    ctx.fillText(hintText, textX, barY + Math.round(barH * 0.42), barW - 24)
+
+    // Dismiss label
+    this.setFont(8)
+    ctx.fillStyle = this.colors.textDim
+    ctx.fillText('[ SPACE to dismiss ]', textX, barY + Math.round(barH * 0.78))
+
+    ctx.restore()
   }
 
 }

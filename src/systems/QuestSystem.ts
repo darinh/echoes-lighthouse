@@ -1,83 +1,164 @@
 import type { ISystem, IGameState, IGameEvent, IEventBus } from '@/interfaces/index.js'
-import type { QuestDefinition } from '@/data/quests/index.js'
-import { loadQuestData } from '@/data/quests/index.js'
-
-interface QuestProgress {
-  stepsCompleted: Set<string>
-  failed: boolean
-  completedLoop: number | null
-}
+import type { QuestDefinition, QuestStep } from '@/data/quests/index.js'
+import { QUEST_REGISTRY } from '@/data/quests/index.js'
 
 /**
- * QuestSystem — Tracks quest state, triggers, and completions.
+ * QuestSystem — Auto-starts quests and advances steps based on game events.
  * See docs/gdd/06-quest-dialogue.md for the full quest catalogue.
  */
 export class QuestSystem implements ISystem {
   readonly name = 'QuestSystem'
 
-  private questData: Record<string, QuestDefinition> = {}
-  private progress: Map<string, QuestProgress> = new Map()
-
-  constructor(private readonly eventBus: IEventBus) {
-    // Load quest data asynchronously; sync ops are safe because quests only
-    // become relevant after at least one player action.
-    loadQuestData().then(data => { this.questData = data }).catch(() => {})
-  }
+  constructor(private readonly eventBus: IEventBus) {}
 
   init(state: IGameState): IGameState { return state }
   update(state: IGameState, _deltaMs: number): IGameState { return state }
 
   onEvent(event: IGameEvent, state: IGameState): IGameState {
     switch (event.type) {
-      case 'quest.started':        return this.handleQuestStarted(event, state)
-      case 'quest.step.completed': return this.handleStepCompleted(event, state)
-      case 'quest.failed':         return this.handleQuestFailed(event, state)
-      default:                     return state
+      case 'location.moved':
+      case 'examine.completed':
+      case 'dialogue.start':
+      case 'insight.card.sealed':
+      case 'loop.dawn':
+        return this.processGameEvent(event, state)
+      default:
+        return state
     }
   }
 
-  private handleQuestStarted(event: IGameEvent, state: IGameState): IGameState {
-    const { questId } = event.payload as { questId: string }
-    if (state.activeQuests.has(questId) || state.completedQuests.has(questId)) {
-      return state
+  // ─── Core event processor ─────────────────────────────────────────────────
+
+  private processGameEvent(event: IGameEvent, state: IGameState): IGameState {
+    let s = state
+
+    // 1. Try to start new quests whose trigger conditions are met.
+    for (const [questId, quest] of Object.entries(QUEST_REGISTRY)) {
+      if (s.activeQuests.has(questId) || s.completedQuests.has(questId)) continue
+      if (this.matchesTrigger(quest, event, s)) {
+        s = this.startQuest(questId, s)
+      }
     }
-    this.progress.set(questId, { stepsCompleted: new Set(), failed: false, completedLoop: null })
+
+    // 2. Advance steps for all active quests.
+    for (const questId of s.activeQuests) {
+      const quest = QUEST_REGISTRY[questId]
+      if (!quest) continue
+      s = this.advanceSteps(questId, quest, event, s)
+    }
+
+    return s
+  }
+
+  // ─── Quest trigger matching ───────────────────────────────────────────────
+
+  private matchesTrigger(quest: QuestDefinition, event: IGameEvent, state: IGameState): boolean {
+    const { triggerType, triggerValue } = quest
+    switch (triggerType) {
+      case 'location_visit':
+        if (event.type !== 'location.moved') return false
+        return (event.payload as Record<string, unknown>).locationId === triggerValue
+
+      case 'examine':
+        if (event.type !== 'examine.completed') return false
+        return this.examineKey(event) === triggerValue
+
+      case 'dialogue':
+        if (event.type !== 'dialogue.start') return false
+        return (event.payload as Record<string, unknown>).npcId === triggerValue
+
+      case 'dialogue_tier': {
+        if (event.type !== 'dialogue.start') return false
+        const [npcId, tierStr] = triggerValue.split(':')
+        const tier = parseInt(tierStr, 10)
+        const npcState = state.npcStates[npcId as import('@/interfaces/types.js').NPCId]
+        return (event.payload as Record<string, unknown>).npcId === npcId &&
+               (npcState?.dialogueTier ?? 0) >= tier
+      }
+
+      case 'world_flag':
+        return state.worldFlags.has(triggerValue)
+
+      case 'automatic':
+        return event.type === 'loop.dawn'
+
+      default:
+        return false
+    }
+  }
+
+  // ─── Step completion matching ─────────────────────────────────────────────
+
+  private matchesStep(step: QuestStep, event: IGameEvent, state: IGameState): boolean {
+    const { type, value } = step.completedBy
+    switch (type) {
+      case 'location':
+        if (event.type !== 'location.moved') return false
+        return (event.payload as Record<string, unknown>).locationId === value
+
+      case 'examine':
+        if (event.type !== 'examine.completed') return false
+        return this.examineKey(event) === value
+
+      case 'dialogue':
+        if (event.type !== 'dialogue.start') return false
+        return (event.payload as Record<string, unknown>).npcId === value
+
+      case 'world_flag':
+        return state.worldFlags.has(value)
+
+      case 'fact':
+        // A fact step completes when an insight card with matching id is sealed.
+        if (event.type !== 'insight.card.sealed') return false
+        return (event.payload as Record<string, unknown>).cardId === value
+
+      default:
+        return false
+    }
+  }
+
+  // ─── State mutations (returns new state, never mutates) ───────────────────
+
+  private startQuest(questId: string, state: IGameState): IGameState {
     const newActive = new Set(state.activeQuests)
     newActive.add(questId)
+    this.eventBus.emit('quest.started', { questId })
     return { ...state, activeQuests: newActive }
   }
 
-  private handleStepCompleted(event: IGameEvent, state: IGameState): IGameState {
-    const { questId, stepId } = event.payload as { questId: string; stepId: string }
-    const prog = this.progress.get(questId)
-    if (!prog || prog.failed) return state
+  private advanceSteps(
+    questId: string,
+    quest: QuestDefinition,
+    event: IGameEvent,
+    state: IGameState,
+  ): IGameState {
+    const currentProgress = state.questStepProgress[questId] ?? new Set<string>()
+    let changed = false
+    const newProgress = new Set(currentProgress)
 
-    prog.stepsCompleted.add(stepId)
-
-    const definition = this.questData[questId]
-    if (definition && prog.stepsCompleted.size >= definition.steps.length) {
-      return this.completeQuest(questId, state, definition)
+    for (const step of quest.steps) {
+      if (newProgress.has(step.id)) continue
+      if (this.matchesStep(step, event, state)) {
+        newProgress.add(step.id)
+        changed = true
+        this.eventBus.emit('quest.step.completed', { questId, stepId: step.id })
+      }
     }
 
-    return state
+    if (!changed) return state
+
+    const newStepProgress = { ...state.questStepProgress, [questId]: newProgress }
+    const updatedState = { ...state, questStepProgress: newStepProgress }
+
+    // Check if all steps are now complete.
+    if (newProgress.size >= quest.steps.length) {
+      return this.completeQuest(questId, quest, updatedState)
+    }
+
+    return updatedState
   }
 
-  private handleQuestFailed(event: IGameEvent, state: IGameState): IGameState {
-    const { questId } = event.payload as { questId: string }
-    const prog = this.progress.get(questId)
-    if (prog) prog.failed = true
-
-    const newActive = new Set(state.activeQuests)
-    newActive.delete(questId)
-
-    this.eventBus.emit('journal.thread.failed', { threadId: questId })
-    return { ...state, activeQuests: newActive }
-  }
-
-  private completeQuest(questId: string, state: IGameState, definition: QuestDefinition): IGameState {
-    const prog = this.progress.get(questId)!
-    prog.completedLoop = state.player.loopCount
-
+  private completeQuest(questId: string, definition: QuestDefinition, state: IGameState): IGameState {
     const newActive = new Set(state.activeQuests)
     newActive.delete(questId)
     const newCompleted = new Set(state.completedQuests)
@@ -85,12 +166,10 @@ export class QuestSystem implements ISystem {
 
     this.eventBus.emit('quest.completed', { questId })
 
-    // Award insight reward if defined.
     if (definition.rewardInsight > 0) {
       this.eventBus.emit('insight.gained', { amount: definition.rewardInsight })
     }
 
-    // Award sealed insight card if quest produces one (rewardFact doubles as card id).
     let newSealed = state.player.sealedInsights
     if (definition.rewardFact) {
       const sealed = new Set(state.player.sealedInsights)
@@ -104,6 +183,13 @@ export class QuestSystem implements ISystem {
       activeQuests: newActive,
       completedQuests: newCompleted,
     }
+  }
+
+  // ─── Helpers ──────────────────────────────────────────────────────────────
+
+  private examineKey(event: IGameEvent): string {
+    const p = event.payload as Record<string, unknown>
+    return `${p.locationId}.${p.itemId}`
   }
 }
 

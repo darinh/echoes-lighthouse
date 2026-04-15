@@ -70,6 +70,7 @@ export const SILAS_NPC: NPCFullData = {
       choices: [
         { id: 'confront.coverup', textKey: 'dialogue.choice.confront_coverup', nextNodeId: 'silas.coverup.admit', insightGain: 15, moralWeight: 2, requiresTier: 3 },
         { id: 'ask.keeper', textKey: 'dialogue.choice.ask_keeper', nextNodeId: 'silas.keeper.hurry' },
+        { id: 'ask.confession', textKey: 'dialogue.choice.ask_what_happened', nextNodeId: 'silas.confession', insightGain: 15, trustGain: 8, requiresTier: 3 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -90,6 +91,7 @@ export const SILAS_NPC: NPCFullData = {
       speakerKey: 'npc.silas.greeting.tier4',
       choices: [
         { id: 'ask.mechanism.harbor', textKey: 'dialogue.choice.ask_mechanism', nextNodeId: 'silas.mechanism.harbor', insightGain: 15, trustGain: 5, requiresTier: 4 },
+        { id: 'ask.buried.message', textKey: 'dialogue.choice.press_harder', nextNodeId: 'silas.buried.message', insightGain: 20, trustGain: 10, requiresTier: 4 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -108,6 +110,19 @@ export const SILAS_NPC: NPCFullData = {
     },
     'silas.full.truth': {
       speakerKey: 'npc.silas.full.truth',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'silas.confession': {
+      speakerKey: 'npc.silas.confession',
+      choices: [
+        { id: 'press.further', textKey: 'dialogue.choice.press_harder', nextNodeId: 'silas.buried.message', insightGain: 12, moralWeight: 2, worldFlagSet: 'silas_burial_known' },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'silas.buried.message': {
+      speakerKey: 'npc.silas.buried.message',
       choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],

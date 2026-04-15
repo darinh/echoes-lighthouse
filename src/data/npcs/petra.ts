@@ -6,7 +6,7 @@ export const PETRA_NPC: NPCFullData = {
   titleKey: 'npc.petra.title',
   defaultLocation: 'village_square',
   defaultAttitude: 'neutral',
-  schedule: { night_dark: 'chapel' },
+  schedule: { night_safe: 'keepers_cottage', night_dark: 'chapel' },
   tierThresholds: [0, 3, 7, 15, 25, 40, 60, 80, 100, 130, 170],
   greetingNodes: ['petra.greeting.tier0','petra.greeting.tier1','petra.greeting.tier2','petra.greeting.tier3','petra.greeting.tier4','petra.greeting.tier5'],
   nodes: {
@@ -68,6 +68,7 @@ export const PETRA_NPC: NPCFullData = {
       speakerKey: 'npc.petra.greeting.tier3',
       choices: [
         { id: 'ask.who.forgot', textKey: 'dialogue.choice.ask_who_needed_to_forget', nextNodeId: 'petra.memory.medicine', insightGain: 12, moralWeight: 1, trustGain: 5 },
+        { id: 'ask.beam.signal', textKey: 'dialogue.choice.ask_lighthouse', nextNodeId: 'petra.beam.signal', insightGain: 15, requiresTier: 3 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -81,6 +82,7 @@ export const PETRA_NPC: NPCFullData = {
       speakerKey: 'npc.petra.greeting.tier4',
       choices: [
         { id: 'ask.family.silenced', textKey: 'dialogue.choice.ask_silenced', nextNodeId: 'petra.family.silenced', insightGain: 15, moralWeight: 2, requiresTier: 4 },
+        { id: 'ask.coordinates', textKey: 'dialogue.choice.press_harder', nextNodeId: 'petra.coordinates', insightGain: 20, requiresTier: 4 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -99,6 +101,19 @@ export const PETRA_NPC: NPCFullData = {
     },
     'petra.vial.gift': {
       speakerKey: 'npc.petra.vial.gift',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.beam.signal': {
+      speakerKey: 'npc.petra.beam.signal',
+      choices: [
+        { id: 'ask.decode', textKey: 'dialogue.choice.press_harder', nextNodeId: 'petra.coordinates', insightGain: 12, trustGain: 6 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.coordinates': {
+      speakerKey: 'npc.petra.coordinates',
       choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],

@@ -31,11 +31,43 @@ describe('[Phase 3] SaveSystem', () => {
       SaveSystem.saveState(state)
       const loaded = SaveSystem.loadState()
       expect(loaded).not.toBeNull()
-      expect(loaded!.phase).toBe(state.phase)
+      // phase always resets to 'day' on load (non-persistent)
+      expect(loaded!.phase).toBe('day')
       expect(loaded!.saveVersion).toBe(1)
-      expect(loaded!.player.insight).toBe(state.player.insight)
+      // insight resets to 0 on load (non-persistent)
+      expect(loaded!.player.insight).toBe(0)
       expect(loaded!.player.insightBanked).toBe(state.player.insightBanked)
       expect(loaded!.player.loopCount).toBe(state.player.loopCount)
+    })
+
+    it('resets non-persistent fields on load', () => {
+      const modified: IGameState = {
+        ...state,
+        phase: 'night_dark',
+        isPaused: true,
+        deathCause: 'death.night_danger',
+        player: { ...state.player, stamina: 20, lightReserves: 30, hearts: 1, insight: 99 },
+      }
+      SaveSystem.saveState(modified)
+      const loaded = SaveSystem.loadState()
+      expect(loaded!.phase).toBe('day')
+      expect(loaded!.isPaused).toBe(false)
+      expect(loaded!.deathCause).toBeNull()
+      expect(loaded!.player.stamina).toBe(100)
+      expect(loaded!.player.lightReserves).toBe(100)
+      expect(loaded!.player.hearts).toBe(3)
+      expect(loaded!.player.insight).toBe(0)
+    })
+
+    it('round-trips worldFlags', () => {
+      const withFlags: IGameState = {
+        ...state,
+        worldFlags: new Set(['lighthouse.examined', 'cottage.chest.opened']),
+      }
+      SaveSystem.saveState(withFlags)
+      const loaded = SaveSystem.loadState()
+      expect(loaded!.worldFlags.has('lighthouse.examined')).toBe(true)
+      expect(loaded!.worldFlags.has('cottage.chest.opened')).toBe(true)
     })
 
     it('round-trips Sets correctly', () => {
@@ -69,9 +101,35 @@ describe('[Phase 3] SaveSystem', () => {
       expect(SaveSystem.loadState()).toBeNull()
     })
 
-    it('returns null for wrong save version', () => {
-      localStorageMock.setItem('echoes-lighthouse-save', JSON.stringify({ saveVersion: 99 }))
+    it('returns null for save version 0 (corrupt)', () => {
+      localStorageMock.setItem('echoes-lighthouse-save', JSON.stringify({ saveVersion: 0 }))
       expect(SaveSystem.loadState()).toBeNull()
+    })
+
+    it('attempts migration for mismatched save version', () => {
+      // version 99 should attempt migration rather than silently drop
+      const snapshot = JSON.parse(JSON.stringify({
+        saveVersion: 99,
+        phase: 'day',
+        dayTimeRemaining: 1,
+        locale: 'en',
+        isPaused: false,
+        deathCause: null,
+        worldFlags: [],
+        activeQuests: [],
+        completedQuests: [],
+        questStepProgress: {},
+        player: {
+          stamina: 100, lightReserves: 100, hearts: 3, insight: 0, insightBanked: 0,
+          resonance: {}, trust: {}, archiveMastery: {}, loopCount: 0, moralWeight: 0,
+          discoveredLocations: [], sealedInsights: [], activeJournalThreads: [],
+          journalEntries: [], currentLocation: 'keepers_cottage',
+        },
+        npcStates: {},
+      }))
+      localStorageMock.setItem('echoes-lighthouse-save', JSON.stringify(snapshot))
+      const loaded = SaveSystem.loadState()
+      expect(loaded).not.toBeNull()
     })
 
     it('activeDialogue is null after load (ephemeral)', () => {

@@ -1,4 +1,12 @@
 {
+  "hint": {
+    "first_move": "Use the buttons below to move between locations. Each move costs stamina and time.",
+    "first_examine": "Examine objects to gain Insight — your currency for unlocking deeper truths.",
+    "first_npc": "Talk to islanders to build trust. Higher trust unlocks secrets they won't share with a stranger.",
+    "first_insight": "You've gathered Insight. Visit the Archive Desk to bank it — banked Insight persists across death.",
+    "first_journal": "Your journal tracks active quests and field notes. Quest steps update as you progress.",
+    "night_warning": "Dusk is falling. Return to the lighthouse to light the beam — or face what stirs in the dark."
+  },
   "game": {
     "title": "Echoes of the Lighthouse",
     "tagline": "Every loop reveals more. Every choice persists."
