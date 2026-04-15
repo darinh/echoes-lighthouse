@@ -31,6 +31,7 @@ export class UIManager {
   private _lastHudHtml = ''
   private _lastContentHtml = ''
   private _lastActionHtml = ''
+  private _lastOverlayHtml = ''
   private _codexActiveTab: ArchiveDomain | 'all' = 'all'
   private _codexSearchTerm = ''
   private _codexEscListener: ((e: KeyboardEvent) => void) | null = null
@@ -45,7 +46,7 @@ export class UIManager {
   private t(key: string): string { return this._i18n ? this._i18n.t(key) : key }
 
   /** Only set innerHTML when content actually changed — keeps buttons in the live DOM. */
-  private setHtml(el: HTMLElement, html: string, cache: '_lastHudHtml' | '_lastContentHtml' | '_lastActionHtml'): void {
+  private setHtml(el: HTMLElement, html: string, cache: '_lastHudHtml' | '_lastContentHtml' | '_lastActionHtml' | '_lastOverlayHtml'): void {
     if (this[cache] === html) return
     this[cache] = html
     el.innerHTML = html
@@ -557,6 +558,7 @@ export class UIManager {
       }
       this._codexActiveTab = 'all'
       this._codexSearchTerm = ''
+      this._lastOverlayHtml = ''
       return
     }
     this.overlayPanel.classList.remove('hidden')
@@ -614,7 +616,7 @@ export class UIManager {
       }
     }
 
-    this.overlayPanel.innerHTML = this.overlayWrap('◆ JOURNAL', body, 'journal')
+    this.setHtml(this.overlayPanel, this.overlayWrap('◆ JOURNAL', body, 'journal'), '_lastOverlayHtml')
   }
 
   private renderCodex(state: IGameState): void {
@@ -687,7 +689,7 @@ export class UIManager {
       ${entriesHtml}
     `
 
-    this.overlayPanel.innerHTML = this.overlayWrap('◆ CODEX', body, 'codex')
+    this.setHtml(this.overlayPanel, this.overlayWrap('◆ CODEX', body, 'codex'), '_lastOverlayHtml')
 
     // Wire search input
     const searchEl = this.overlayPanel.querySelector<HTMLInputElement>('.codex-search')
@@ -722,7 +724,7 @@ export class UIManager {
 
   private renderMapOverlay(state: IGameState): void {
     const body = `<div class="map-canvas-wrapper"><canvas id="map-canvas" width="600" height="400"></canvas></div>`
-    this.overlayPanel.innerHTML = this.overlayWrap('◆ MAP', body, 'map')
+    this.setHtml(this.overlayPanel, this.overlayWrap('◆ MAP', body, 'map'), '_lastOverlayHtml')
     const mapCanvas = this.overlayPanel.querySelector('#map-canvas') as HTMLCanvasElement | null
     if (mapCanvas && this._mapDrawCallback) {
       this._mapDrawCallback(mapCanvas, state)
@@ -766,7 +768,7 @@ export class UIManager {
         <button class="settings-btn" data-action='{"type":"save.clear"}'>CLEAR SAVE</button>
       </div>
     `
-    this.overlayPanel.innerHTML = this.overlayWrap('◆ SETTINGS', body, 'settings')
+    this.setHtml(this.overlayPanel, this.overlayWrap('◆ SETTINGS', body, 'settings'), '_lastOverlayHtml')
 
     const ranges = this.overlayPanel.querySelectorAll<HTMLInputElement>('input[type="range"]')
     ranges.forEach(input => {
