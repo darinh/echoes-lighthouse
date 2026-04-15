@@ -338,10 +338,20 @@ body {
   background: rgba(10,12,21,0.92);
   border: 1px solid rgba(245,158,11,0.3);
   border-left: 3px solid #f59e0b;
-  padding: 8px 16px; font-size: 12px; color: #e2d9c8;
+  padding: 8px 16px 8px 12px;
+  font-size: 12px; color: #e2d9c8;
   pointer-events: auto; cursor: pointer;
   animation: notif-in 0.3s ease;
+  display: flex; align-items: center; gap: 10px;
 }
+.notif-hint:hover { background: rgba(10,12,21,0.98); border-color: rgba(245,158,11,0.5); }
+.notif-hint .hint-close {
+  margin-left: auto; flex-shrink: 0;
+  color: #465a72; font-size: 14px; line-height: 1;
+  background: none; border: none; cursor: pointer;
+  font-family: monospace; padding: 0 0 0 8px;
+}
+.notif-hint .hint-close:hover { color: #e8a830; }
 .notif-toast {
   background: rgba(10,12,21,0.92);
   border: 1px solid rgba(240,192,64,0.4);

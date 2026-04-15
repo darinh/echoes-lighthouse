@@ -253,6 +253,13 @@ export class GameEngine {
         this.state = { ...this.state, activePanel: 'none' }
         break
 
+      case 'hint.dismiss':
+        this.state = {
+          ...this.state,
+          worldFlags: new Set([...this.state.worldFlags, `hint_dismissed.${action.hintId}`])
+        }
+        break
+
       case 'insight.bank':
         if (this.state.player.insight > 0) {
           this.applyEvent('insight.banked', { amount: this.state.player.insight })
