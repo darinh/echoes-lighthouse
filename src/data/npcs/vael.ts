@@ -123,6 +123,7 @@ export const VAEL_NPC: NPCFullData = {
       choices: [
         { id: 'ask.former.keeper', textKey: 'dialogue.choice.ask_former_keeper', nextNodeId: 'vael.keeper.confession', insightGain: 15, trustGain: 8 },
         { id: 'ask.binding', textKey: 'dialogue.choice.ask_binding', nextNodeId: 'vael.binding.nature', insightGain: 12, requiresTier: 3 },
+        { id: 'ask.break.binding', textKey: 'dialogue.choice.ask_break_binding', nextNodeId: 'vael.break.binding', insightGain: 15, requiresTier: 3 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -143,6 +144,7 @@ export const VAEL_NPC: NPCFullData = {
       choices: [
         { id: 'ask.binding.detail', textKey: 'dialogue.choice.ask_how_bound', nextNodeId: 'vael.binding.eternal', insightGain: 15, trustGain: 8, requiresTier: 4 },
         { id: 'offer.help', textKey: 'dialogue.choice.offer_help', nextNodeId: 'vael.help.offer', insightGain: 10, trustGain: 5 },
+        { id: 'ask.original.imprisonment', textKey: 'dialogue.choice.ask_original_imprisonment', nextNodeId: 'vael.original.imprisonment', insightGain: 20, requiresTier: 4 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -163,6 +165,7 @@ export const VAEL_NPC: NPCFullData = {
       choices: [
         { id: 'accept.bargain', textKey: 'dialogue.choice.accept_bargain', nextNodeId: 'vael.bargain.terms', insightGain: 20, trustGain: 15, moralWeight: 2, worldFlagSet: 'vael_bargain_offered' },
         { id: 'refuse.bargain', textKey: 'dialogue.choice.refuse_bargain', nextNodeId: 'vael.bargain.refused', moralWeight: -1, trustLoss: 5 },
+        { id: 'ask.the.choice', textKey: 'dialogue.choice.ask_the_choice', nextNodeId: 'vael.the.choice', insightGain: 25, requiresTier: 5 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -175,6 +178,27 @@ export const VAEL_NPC: NPCFullData = {
     'vael.bargain.refused': {
       speakerKey: 'npc.vael.bargain.refused',
       choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.break.binding': {
+      speakerKey: 'npc.vael.break.binding',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.original.imprisonment': {
+      speakerKey: 'npc.vael.original.imprisonment',
+      choices: [
+        { id: 'react.shock', textKey: 'dialogue.choice.react_shock', nextNodeId: 'vael.the.choice', insightGain: 15, trustGain: 5 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.the.choice': {
+      speakerKey: 'npc.vael.the.choice',
+      choices: [
+        { id: 'choose.free', textKey: 'dialogue.choice.offer_free_vael', nextNodeId: 'vael.freedom.offer', insightGain: 20, trustGain: 10, moralWeight: 2, worldFlagSet: 'vael_freedom_path' },
+        { id: 'choose.purpose', textKey: 'dialogue.choice.accept_bargain', nextNodeId: 'vael.bargain.terms', insightGain: 20, moralWeight: -1, worldFlagSet: 'lighthouse_purpose_accepted' },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
