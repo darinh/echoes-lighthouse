@@ -406,3 +406,77 @@ body { overscroll-behavior: none; }
   font-family: monospace; font-size: 10px; color: #4a6278; margin: 0;
   letter-spacing: 0.05em;
 }
+
+/* ── Signal Puzzle Panel ─────────────────────────────────────── */
+.puzzle-panel {
+  margin: 8px 0;
+  padding: 10px 12px;
+  background: linear-gradient(135deg, rgba(20,15,8,0.9) 0%, rgba(30,22,10,0.85) 100%);
+  border: 1px solid #8b6914;
+  border-left: 3px solid #d4a017;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+}
+.puzzle-title {
+  color: #d4a017;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+}
+.puzzle-dials {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.dial-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.dial-btn {
+  background: rgba(212,160,23,0.15);
+  border: 1px solid #8b6914;
+  color: #d4a017;
+  width: 28px;
+  height: 22px;
+  cursor: pointer;
+  font-size: 10px;
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+.dial-btn:hover {
+  background: rgba(212,160,23,0.3);
+}
+.dial-value {
+  color: #f0d060;
+  font-size: 18px;
+  font-weight: bold;
+  min-width: 28px;
+  text-align: center;
+  line-height: 1.4;
+}
+.transmit-btn {
+  width: 100%;
+  padding: 7px;
+  background: linear-gradient(90deg, rgba(212,160,23,0.2) 0%, rgba(212,160,23,0.08) 100%);
+  border: 1px solid #d4a017;
+  border-left: 3px solid #d4a017;
+  color: #d4a017;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+.transmit-btn:hover {
+  background: linear-gradient(90deg, rgba(212,160,23,0.35) 0%, rgba(212,160,23,0.15) 100%);
+}
+.puzzle-panel.solved {
+  color: #d4a017;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-align: center;
+}

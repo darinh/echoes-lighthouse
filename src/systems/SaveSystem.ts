@@ -23,6 +23,10 @@ interface SaveSnapshot {
   audioMuted: boolean
   achievements: string[]
   weather: WeatherType
+  puzzleState?: {
+    signalDials: number[]
+    signalSolved: boolean
+  }
   player: {
     stamina: number
     lightReserves: number
@@ -171,6 +175,10 @@ export class SaveSystem implements ISystem {
       audioMuted: state.audioMuted,
       achievements: [...state.achievements],
       weather: state.weather,
+      puzzleState: {
+        signalDials: [...state.puzzleState.signalDials],
+        signalSolved: state.puzzleState.signalSolved,
+      },
       player: {
         stamina: state.player.stamina,
         lightReserves: state.player.lightReserves,
@@ -268,6 +276,10 @@ export class SaveSystem implements ISystem {
       pendingMilestoneMessage: null,
       activeEncounter: null,
       nightEncounterShown: 0,
+      puzzleState: {
+        signalDials: snapshot.puzzleState?.signalDials ?? [0, 0, 0],
+        signalSolved: snapshot.puzzleState?.signalSolved ?? false,
+      },
       weather: (snapshot.weather ?? 'clear') as WeatherType,
       settings: {
         masterVolume: 0.8,

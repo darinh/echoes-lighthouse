@@ -11,6 +11,7 @@ import { ENDING_NARRATIVES } from '@/data/endings/index.js'
 import { HINTS } from '@/data/hints/index.js'
 import { getItemAtLocation } from '@/data/items/index.js'
 import { RELATIONSHIP_UNLOCKS } from '@/data/npcs/relationships.js'
+import { SIGNAL_DIAL_MAX } from '@/data/puzzle/signalPuzzle.js'
 import type { ArchiveDomain, LocationId } from '@/interfaces/types.js'
 
 export class UIManager {
@@ -455,6 +456,30 @@ export class UIManager {
       html += `<button class="${hasResources ? '' : 'dim-action'}" ${hasResources ? `data-action='{"type":"light.lighthouse"}'` : 'disabled'}>
         ◈ LIGHT THE BEACON${!hasResources ? '<span style="font-size:10px;display:block">needs 30 LGT + 2 STA</span>' : ''}
       </button>`
+    }
+
+    // Signal puzzle — show at lighthouse_top when not solved
+    if (state.player.currentLocation === 'lighthouse_top') {
+      if (!state.puzzleState.signalSolved) {
+        const dials = state.puzzleState.signalDials
+        html += `<div class="puzzle-panel">
+          <div class="puzzle-title">◈ FREQUENCY DIALS</div>
+          <div class="puzzle-dials">`
+        for (let i = 0; i < 3; i++) {
+          const v = dials[i] ?? 0
+          html += `
+            <div class="dial-group">
+              <button class="dial-btn" data-action='{"type":"puzzle.dial.set","dialIndex":${i},"value":${Math.min(SIGNAL_DIAL_MAX, v + 1)}}'>▲</button>
+              <span class="dial-value">${v}</span>
+              <button class="dial-btn" data-action='{"type":"puzzle.dial.set","dialIndex":${i},"value":${Math.max(0, v - 1)}}'>▼</button>
+            </div>`
+        }
+        html += `</div>
+          <button class="transmit-btn" data-action='{"type":"puzzle.signal.submit"}'>◈ TRANSMIT SIGNAL</button>
+        </div>`
+      } else {
+        html += `<div class="puzzle-panel solved">✦ SIGNAL LOCKED</div>`
+      }
     }
 
     if (state.player.currentLocation === 'village_inn') {

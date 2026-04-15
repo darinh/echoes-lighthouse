@@ -12,6 +12,7 @@ import { SaveSystem } from '@/systems/SaveSystem.js'
 import { HINTS } from '@/data/hints/index.js'
 import { getItemAtLocation, itemTakenFlag } from '@/data/items/index.js'
 import { NIGHT_ENCOUNTERS, pickRandomEncounter } from '@/data/encounters/index.js'
+import { SIGNAL_SOLUTION } from '@/data/puzzle/signalPuzzle.js'
 
 /**
  * GameEngine — Owns game state, coordinates systems, drives the render loop.
@@ -529,6 +530,32 @@ export class GameEngine {
         if (!enc) break
         this.state = { ...this.state, activeEncounter: null }
         this.eventBus.emit('encounter.resolved', { encounterId: enc.id, action: 'ignore' })
+        break
+      }
+
+      case 'puzzle.dial.set': {
+        if (this.state.puzzleState.signalSolved) break
+        const dials = [...this.state.puzzleState.signalDials] as [number, number, number]
+        dials[action.dialIndex] = Math.max(0, Math.min(7, action.value))
+        this.state = { ...this.state, puzzleState: { ...this.state.puzzleState, signalDials: dials } }
+        break
+      }
+      case 'puzzle.signal.submit': {
+        if (this.state.puzzleState.signalSolved) break
+        const correct = this.state.puzzleState.signalDials.every((v, i) => v === SIGNAL_SOLUTION[i])
+        if (correct) {
+          const newSealed = new Set(this.state.player.sealedInsights)
+          newSealed.add('final_signal')
+          this.state = {
+            ...this.state,
+            puzzleState: { ...this.state.puzzleState, signalSolved: true },
+            player: { ...this.state.player, sealedInsights: newSealed },
+          }
+          this.eventBus.emit('insight.gained', { insightId: 'final_signal' })
+          this.eventBus.emit('puzzle.solved', {})
+        } else {
+          this.eventBus.emit('puzzle.failed', {})
+        }
         break
       }
     }

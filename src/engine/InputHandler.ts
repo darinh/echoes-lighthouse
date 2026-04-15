@@ -33,6 +33,8 @@ export type GameAction =
   | { type: 'settings.difficulty'; value: 'easy' | 'normal' | 'hard' }
   | { type: 'save.clear' }
   | { type: 'new.game' }
+  | { type: 'puzzle.dial.set'; dialIndex: number; value: number }
+  | { type: 'puzzle.signal.submit' }
 
 export type ActionHandler = (action: GameAction) => void
 
