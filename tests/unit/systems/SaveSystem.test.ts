@@ -147,6 +147,52 @@ describe('[Phase 3] SaveSystem', () => {
     })
   })
 
+  describe('endingsSeen', () => {
+    it('round-trips an empty endingsSeen set', () => {
+      SaveSystem.saveState(state)
+      const loaded = SaveSystem.loadState()
+      expect(loaded!.endingsSeen.size).toBe(0)
+    })
+
+    it('round-trips populated endingsSeen across save/load', () => {
+      const modified: IGameState = {
+        ...state,
+        endingsSeen: new Set(['liberation', 'transcendence']),
+      }
+      SaveSystem.saveState(modified)
+      const loaded = SaveSystem.loadState()
+      expect(loaded!.endingsSeen.has('liberation')).toBe(true)
+      expect(loaded!.endingsSeen.has('transcendence')).toBe(true)
+      expect(loaded!.endingsSeen.size).toBe(2)
+    })
+
+    it('loadEndingsSeen returns empty set when no save exists', () => {
+      const seen = SaveSystem.loadEndingsSeen()
+      expect(seen.size).toBe(0)
+    })
+
+    it('loadEndingsSeen returns persisted endings without full deserialise', () => {
+      const modified: IGameState = {
+        ...state,
+        endingsSeen: new Set(['sacrifice', 'corruption']),
+      }
+      SaveSystem.saveState(modified)
+      const seen = SaveSystem.loadEndingsSeen()
+      expect(seen.has('sacrifice')).toBe(true)
+      expect(seen.has('corruption')).toBe(true)
+      expect(seen.size).toBe(2)
+    })
+
+    it('deserialises gracefully when endingsSeen is missing from old save', () => {
+      // Simulate an old save format without endingsSeen
+      const snapshot = JSON.stringify({ saveVersion: 1, endingsSeen: undefined, worldFlags: [], activeQuests: [], completedQuests: [], questStepProgress: {}, inventory: [], player: { stamina: 10, lightReserves: 100, hearts: 3, insight: 0, insightBanked: 0, resonance: {}, trust: {}, archiveMastery: {}, loopCount: 0, moralWeight: 0, discoveredLocations: [], sealedInsights: [], activeJournalThreads: [], journalEntries: [], currentLocation: 'keepers_cottage' }, npcStates: {} })
+      localStorageMock.setItem('echoes-lighthouse-save', snapshot)
+      const loaded = SaveSystem.loadState()
+      expect(loaded).not.toBeNull()
+      expect(loaded!.endingsSeen.size).toBe(0)
+    })
+  })
+
   describe('system event triggers', () => {
     it('saves on location.entered', () => {
       const system = new SaveSystem(new EventBus())
