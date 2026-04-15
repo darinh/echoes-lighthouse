@@ -2476,10 +2476,12 @@ export class CanvasTextRenderer implements IRenderer {
     if (!activeHint) return
 
     const { ctx, width, height } = this
-    const barW = Math.round(width * 0.5)
+    // On narrow screens (mobile portrait) use 88% of width; desktop cap at 500px
+    const barW = Math.min(Math.round(width * 0.88), 500)
     const barH = Math.round(this.lh(11) * 2.5)
     const barX = Math.round((width - barW) / 2)
-    const barY = Math.round(height * 0.85)
+    // Clamp barY so the overlay never overflows the canvas bottom
+    const barY = Math.min(Math.round(height * 0.85), height - barH - 8)
     const radius = 6
 
     // Semi-transparent dark background pill
