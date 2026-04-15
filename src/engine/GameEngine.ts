@@ -8,6 +8,7 @@ import { MovementSystem } from '@/world/MovementSystem.js'
 import { EXAMINE_DATA } from '@/data/locations/examineData.js'
 import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 import { SaveSystem } from '@/systems/SaveSystem.js'
+import { HINTS } from '@/data/hints/index.js'
 
 /**
  * GameEngine — Owns game state, coordinates systems, drives the render loop.
@@ -108,6 +109,14 @@ export class GameEngine {
               },
             }
           }
+          // Trigger first_move hint after the player's first move to a new location
+          if (
+            this.state.player.discoveredLocations.size === 1 &&
+            !this.state.worldFlags.has('hint_trigger.first_move') &&
+            !this.state.worldFlags.has('hint_dismissed.first_move')
+          ) {
+            this.setFlag('hint_trigger.first_move')
+          }
         }
         break
 
@@ -140,12 +149,26 @@ export class GameEngine {
         this.eventBus.emit('archive.page.found', { domain: item.domain })
         this.applyEvent('archive.page.found', { domain: item.domain })
         this.eventBus.emit('examine.completed', { itemId, locationId, insight: item.insight })
+        // Hint triggers after examine
+        if (!this.state.worldFlags.has('hint_dismissed.first_examine')) {
+          this.setFlag('hint_trigger.first_examine')
+        }
+        if (
+          this.state.player.insight > 20 &&
+          !this.state.worldFlags.has('hint_trigger.first_insight') &&
+          !this.state.worldFlags.has('hint_dismissed.first_insight')
+        ) {
+          this.setFlag('hint_trigger.first_insight')
+        }
         break
       }
 
       case 'interact':
         this.applyEvent('dialogue.start', { npcId: action.npcId })
         this.eventBus.emit('dialogue.start', { npcId: action.npcId })
+        if (!this.state.worldFlags.has('hint_dismissed.first_npc')) {
+          this.setFlag('hint_trigger.first_npc')
+        }
         break
 
       case 'dialogue.choice':
@@ -166,6 +189,13 @@ export class GameEngine {
         this.state = {
           ...this.state,
           activePanel: this.state.activePanel === action.panel ? 'none' : action.panel,
+        }
+        if (
+          action.panel === 'journal' &&
+          this.state.activePanel === 'journal' &&
+          !this.state.worldFlags.has('hint_dismissed.first_journal')
+        ) {
+          this.setFlag('hint_trigger.first_journal')
         }
         break
 
@@ -250,7 +280,16 @@ export class GameEngine {
         break
       }
 
-      case 'start.game':
+      case 'start.game': {
+        // If a hint is showing, Space dismisses it instead of starting/restarting
+        const activeHint = HINTS.find(h =>
+          this.state.worldFlags.has(h.triggerFlag) &&
+          !this.state.worldFlags.has(h.dismissFlag)
+        )
+        if (activeHint) {
+          this.setFlag(activeHint.dismissFlag)
+          break
+        }
         if (this.state.phase === 'title' || this.state.phase === 'ending' || this.state.phase === 'death') {
           this.eventBus.emit('loop.started', { loopCount: this.state.player.loopCount })
           if (this.state.phase === 'title') {
@@ -267,6 +306,7 @@ export class GameEngine {
           }
         }
         break
+      }
 
       case 'new.game':
         SaveSystem.clearSave()
@@ -347,6 +387,12 @@ export class GameEngine {
     return 'sacrifice'
   }
 
+  private setFlag(flag: string): void {
+    const newFlags = new Set(this.state.worldFlags)
+    newFlags.add(flag)
+    this.state = { ...this.state, worldFlags: newFlags }
+  }
+
   private loop(timestamp: number): void {
     if (!this.running) return
     const deltaMs = Math.min(timestamp - this.lastFrameTime, 100) // cap at 100ms
@@ -355,6 +401,16 @@ export class GameEngine {
     // Update all systems (timer drain, etc.)
     for (const system of this.systems) {
       this.state = system.update(this.state, deltaMs)
+    }
+
+    // Trigger night_warning hint as day time runs low
+    if (
+      (this.state.phase === 'day' || this.state.phase === 'dusk') &&
+      this.state.dayTimeRemaining < 0.30 &&
+      !this.state.worldFlags.has('hint_trigger.night_warning') &&
+      !this.state.worldFlags.has('hint_dismissed.night_warning')
+    ) {
+      this.setFlag('hint_trigger.night_warning')
     }
 
     this.renderer.render(this.state)
