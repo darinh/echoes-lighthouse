@@ -386,7 +386,6 @@ body {
   #action-panel button { min-width: unset; width: 100%; flex-shrink: 0; text-align: left; }
   #content-panel { flex: 1 1 0; overflow-y: auto; }
   input, select, textarea { font-size: 16px !important; }
-  #notifications { top: auto; bottom: calc(env(safe-area-inset-bottom) + 80px); }
 }
 
 /* Small phones: ≤480px */
@@ -421,7 +420,6 @@ body {
   #content-panel { overflow-y: auto; }
   input, select, textarea { font-size: 16px !important; }
   #hud { padding: 3px 8px; min-height: 36px; font-size: 10px; gap: 6px; }
-  #notifications { top: auto; bottom: calc(env(safe-area-inset-bottom) + 60px); }
 }
 
 /* Tablet portrait — action panel slightly wider */
@@ -435,7 +433,6 @@ body {
   input, select, textarea { font-size: 16px !important; }
   .codex-search { font-size: 16px; }
   .codex-tab { padding: 8px 10px; min-height: 36px; }
-  #notifications { top: auto; bottom: calc(env(safe-area-inset-bottom) + 80px); }
 }
 
 #game-ui.title-screen #hud,
