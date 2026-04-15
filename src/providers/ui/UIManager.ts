@@ -29,6 +29,12 @@ export class UIManager {
   private _codexSearchTerm = ''
   private _codexEscListener: ((e: KeyboardEvent) => void) | null = null
 
+  // Title-screen lore rotation
+  private _loreRotateTimer: ReturnType<typeof setInterval> | null = null
+  private _currentLoreIdx = 0
+  private static readonly _lorePages = CODEX_PAGES.filter(p => p.bodyKey.length > 0)
+  private _cachedSaveLoopCount: number | null = null
+
   setI18n(i18n: II18n): void { this._i18n = i18n }
   private t(key: string): string { return this._i18n ? this._i18n.t(key) : key }
 
@@ -63,29 +69,85 @@ export class UIManager {
     this.gameUI.className = isTitle ? 'title-screen' : ''
 
     if (isTitle) {
-      this.updateTitleUI()
+      this.updateTitleUI(state)
       return
     }
 
+    this._clearLoreTimer()
     this.updateHUD(state)
     this.updateMainArea(state)
     this.updateOverlay(state)
     this.updateNotifications(state)
   }
 
-  private updateTitleUI(): void {
+  private updateTitleUI(_state: IGameState): void {
     let prompt = this.gameUI.querySelector('.title-prompt') as HTMLElement | null
     if (!prompt) {
       prompt = document.createElement('div')
       prompt.className = 'title-prompt'
       this.gameUI.appendChild(prompt)
     }
+
+    // Start lore rotation interval on first title frame
+    if (this._loreRotateTimer === null && UIManager._lorePages.length > 0) {
+      this._currentLoreIdx = Math.floor(Math.random() * UIManager._lorePages.length)
+      this._cachedSaveLoopCount = this._readSaveLoopCount()
+      this._loreRotateTimer = setInterval(() => {
+        this._currentLoreIdx = (this._currentLoreIdx + 1) % UIManager._lorePages.length
+      }, 6000)
+    }
+
     const hasSave = SaveSystem.hasSave()
-    const label = hasSave ? '[ PRESS ENTER TO CONTINUE ]' : '[ PRESS ENTER TO START ]'
+    const endingsSeen = SaveSystem.loadEndingsSeen()
+    const totalEndings = Object.keys(ENDING_NARRATIVES).length
+    const endingsText = `◇ ${endingsSeen.size} / ${totalEndings} endings discovered`
+
+    const loopHint = hasSave && this._cachedSaveLoopCount !== null
+      ? `<div class="title-loop-hint">Loop ${this._cachedSaveLoopCount}</div>`
+      : ''
+
+    const startLabel = hasSave ? '[ PRESS ENTER TO CONTINUE ]' : '[ PRESS ENTER TO START ]'
+
+    let loreHtml = ''
+    if (UIManager._lorePages.length > 0) {
+      const page = UIManager._lorePages[this._currentLoreIdx % UIManager._lorePages.length]
+      const fullBody = this.t(page.bodyKey)
+      const snippet = fullBody.length > 160 ? fullBody.slice(0, 157).trimEnd() + '…' : fullBody
+      const domain = page.domain.charAt(0).toUpperCase() + page.domain.slice(1)
+      loreHtml = `
+        <div class="title-lore">
+          <p class="title-lore-quote">"${this.esc(snippet)}"</p>
+          <p class="title-lore-source">— ${this.esc(domain)} Archive</p>
+        </div>`
+    }
+
     prompt.innerHTML = `
-      <button class="start-btn" data-action='{"type":"start.game"}'>${label}</button>
+      ${loreHtml}
+      <div class="title-endings">${this.esc(endingsText)}</div>
+      <button class="start-btn" data-action='{"type":"start.game"}'>${startLabel}</button>
+      ${loopHint}
       ${hasSave ? `<button class="new-game-btn" data-action='{"type":"new.game"}'>[ N ] NEW GAME (clears save)</button>` : ''}
+      <div class="title-key-hint">Press Enter or Space to begin</div>
     `
+  }
+
+  private _clearLoreTimer(): void {
+    if (this._loreRotateTimer !== null) {
+      clearInterval(this._loreRotateTimer)
+      this._loreRotateTimer = null
+      this._cachedSaveLoopCount = null
+    }
+  }
+
+  private _readSaveLoopCount(): number | null {
+    try {
+      const raw = localStorage.getItem('echoes-lighthouse-save')
+      if (!raw) return null
+      const snap = JSON.parse(raw) as { player?: { loopCount?: number } }
+      return snap?.player?.loopCount ?? null
+    } catch {
+      return null
+    }
   }
 
   private removeTitle(): void {
