@@ -54,7 +54,7 @@ export class InputHandler {
   private readonly abortController = new AbortController()
 
   constructor(
-    private readonly canvas: HTMLCanvasElement,
+    _canvas: HTMLCanvasElement,
     private readonly eventBus: IEventBus,
   ) {}
 
@@ -62,16 +62,11 @@ export class InputHandler {
     this.onAction = onAction
     const { signal } = this.abortController
 
-    // Canvas click → emit audio.unlock (first interaction unblocks Web Audio)
-    this.canvas.addEventListener(
-      'click',
+    // First interaction (click or touch anywhere) unblocks Web Audio
+    window.addEventListener(
+      'pointerdown',
       () => this.eventBus.emit('audio.unlock', {}),
       { signal, once: true },
-    )
-    this.canvas.addEventListener(
-      'touchstart',
-      () => this.eventBus.emit('audio.unlock', {}),
-      { signal, once: true, passive: true },
     )
 
     // Keyboard shortcuts
