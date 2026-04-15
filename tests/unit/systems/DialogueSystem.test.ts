@@ -73,6 +73,7 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     priorPhase: null,
     lighthouseLitThisLoop: false,
     deathCause: null,
+    inventory: new Set(),
     settings: {
       masterVolume: 1,
       ambientVolume: 0.6,

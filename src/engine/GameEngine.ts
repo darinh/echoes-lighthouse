@@ -9,6 +9,7 @@ import { EXAMINE_DATA } from '@/data/locations/examineData.js'
 import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 import { SaveSystem } from '@/systems/SaveSystem.js'
 import { HINTS } from '@/data/hints/index.js'
+import { getItemAtLocation, itemTakenFlag } from '@/data/items/index.js'
 
 /**
  * GameEngine — Owns game state, coordinates systems, drives the render loop.
@@ -263,6 +264,25 @@ export class GameEngine {
           priorPhase: this.state.phase,
         }
         this.eventBus.emit('lighthouse.lit', {})
+        break
+      }
+
+      case 'take': {
+        const item = getItemAtLocation(this.state.player.currentLocation)
+        if (!item || item.id !== action.itemId) break
+        if (this.state.inventory.has(item.id)) break
+        const newInventory = new Set(this.state.inventory)
+        newInventory.add(item.id)
+        const newFlags = new Set(this.state.worldFlags)
+        newFlags.add(itemTakenFlag(item.id))
+        this.state = {
+          ...this.state,
+          inventory: newInventory,
+          worldFlags: newFlags,
+          lastExaminedKey: item.pickupKey,
+        }
+        this.eventBus.emit('item.taken', { itemId: item.id, locationId: this.state.player.currentLocation })
+        this.applyEvent('item.taken', { itemId: item.id, locationId: this.state.player.currentLocation })
         break
       }
 

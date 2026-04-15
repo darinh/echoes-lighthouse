@@ -14,6 +14,13 @@ export const ELARA_NPC: NPCFullData = {
       speakerKey: 'npc.elara.greeting.tier0',
       choices: [
         { id: 'ask.mainland', textKey: 'dialogue.choice.ask_mainland', nextNodeId: 'elara.mainland.chat', insightGain: 3, trustGain: 3 },
+        { id: 'show.flare', textKey: 'dialogue.choice.show_flare', nextNodeId: 'elara.item.flare', worldFlagRequired: 'item.taken.signal_flare', insightGain: 10, trustGain: 4 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'elara.item.flare': {
+      speakerKey: 'npc.elara.item.flare',
+      choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
