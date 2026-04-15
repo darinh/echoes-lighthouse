@@ -280,6 +280,27 @@ body { overscroll-behavior: none; }
 .codex-page.unlocked .page-title { color: #e2d9c8; }
 .codex-page .page-text { font-size: 11px; color: #465a72; }
 .codex-page.unlocked .page-text { color: #c4cfe0; }
+.codex-empty { font-size: 12px; color: #465a72; margin-top: 8px; }
+
+.codex-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+.codex-tab {
+  padding: 4px 10px; font-family: monospace; font-size: 11px; letter-spacing: 0.5px;
+  background: #0d1623; border: 1px solid #2e4268; color: #465a72;
+  cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.codex-tab:hover { background: #1b2438; color: #c4cfe0; border-color: #465a72; }
+.codex-tab.active { background: rgba(212,144,10,0.15); border-color: #d4900a; color: #e8a830; }
+
+.codex-search {
+  width: 100%; box-sizing: border-box; padding: 6px 10px; margin-bottom: 6px;
+  background: #0d1623; border: 1px solid #2e4268; color: #c4cfe0;
+  font-family: monospace; font-size: 12px; outline: none;
+  transition: border-color 0.15s;
+}
+.codex-search:focus { border-color: #d4900a; }
+.codex-search::placeholder { color: #2e4268; }
+
+.codex-count { font-size: 11px; color: #465a72; margin-bottom: 10px; letter-spacing: 0.5px; }
 
 .map-canvas-wrapper { width: 100%; }
 .map-canvas-wrapper canvas { display: block; width: 100%; }
