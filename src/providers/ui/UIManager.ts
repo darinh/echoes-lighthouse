@@ -371,8 +371,8 @@ export class UIManager {
     if (state.player.loopCount === 1 && !state.player.discoveredLocations.has('village_inn' as LocationId)) {
       lines.push('Tip: Explore to discover new locations.')
     }
-    if (!state.worldFlags.has('journal_opened')) lines.push('J — open journal')
-    if (!state.worldFlags.has('codex_opened')) lines.push('I — open codex')
+    if (!state.worldFlags.has('journal_opened')) lines.push('Tip: Tap JOURNAL in the action panel to track your discoveries.')
+    if (!state.worldFlags.has('codex_opened')) lines.push('Tip: Tap CODEX to read lore and track your knowledge.')
     if (lines.length === 0) return ''
     return `<div class="tutorial-hints">${lines.map(l => `<p>${this.esc(l)}</p>`).join('')}</div>`
   }
@@ -508,7 +508,11 @@ export class UIManager {
       }
     }
 
-    html += `<div class="action-hint">J — journal · I — insight</div>`
+    html += `
+      <div class="action-nav">
+        <button class="nav-btn" data-action='{"type":"panel.toggle","panel":"journal"}'>📖 JOURNAL</button>
+        <button class="nav-btn" data-action='{"type":"panel.toggle","panel":"codex"}'>◆ CODEX</button>
+      </div>`
     this.actionPanel.innerHTML = html
   }
 
