@@ -53,6 +53,7 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     relationshipFlags: {},
     shownRelationshipDialogue: [],
     examineHistory: {},
+    searchedLocations: new Set(),
   }
 
   return {

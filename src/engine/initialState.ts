@@ -60,6 +60,7 @@ const DEFAULT_PLAYER: IPlayerState = {
   examineHistory: {},
   relationshipFlags: {},
   shownRelationshipDialogue: [],
+  searchedLocations: new Set(),
 }
 
 export function createInitialState(): IGameState {
@@ -73,6 +74,7 @@ export function createInitialState(): IGameState {
     completedQuests: new Set(),
     questStepProgress: {},
     locale: 'en',
+    difficulty: 'normal',
     isPaused: false,
     activePanel: 'none',
     worldFlags: new Set<string>(),
