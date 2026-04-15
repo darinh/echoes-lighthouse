@@ -25,6 +25,7 @@ export type GameAction =
   | { type: 'rest' }
   | { type: 'setting.volume'; key: 'masterVolume' | 'ambientVolume' | 'uiVolume' | 'narrativeVolume'; value: number }
   | { type: 'save.clear' }
+  | { type: 'new.game' }
 
 export type ActionHandler = (action: GameAction) => void
 
@@ -99,6 +100,10 @@ export class InputHandler {
       case ' ':
       case 'Enter':
         this.dispatch({ type: 'start.game' })
+        break
+      case 'n':
+      case 'N':
+        this.dispatch({ type: 'new.game' })
         break
     }
   }

@@ -254,13 +254,23 @@ export class GameEngine {
         if (this.state.phase === 'title' || this.state.phase === 'ending' || this.state.phase === 'death') {
           this.eventBus.emit('loop.started', { loopCount: this.state.player.loopCount })
           if (this.state.phase === 'title') {
-            this.state = { ...this.state, phase: 'dawn' }
+            const saved = SaveSystem.loadState()
+            if (saved) {
+              this.state = saved
+            } else {
+              this.state = { ...this.state, phase: 'dawn' }
+            }
           } else {
             this.state = { ...this.state, deathCause: null }
             this.applyEvent('player.died', {})
             this.eventBus.emit('player.died', {})
           }
         }
+        break
+
+      case 'new.game':
+        SaveSystem.clearSave()
+        this.state = { ...createInitialState(), phase: 'dawn' }
         break
 
       case 'main.menu':

@@ -21,11 +21,11 @@ const DEFAULT_ARCHIVE_MASTERY = {
 
 const NPC_START_LOCATIONS: Partial<Record<NPCId, LocationId>> = {
   maren:  'archive_basement',
-  vael:   'lighthouse_top',
+  vael:   'cliffside',
   silas:  'harbor',
   petra:  'village_square',
   tobias: 'mill',
-  elara:  'ruins',
+  elara:  'harbor',
 }
 
 const DEFAULT_NPC_STATES: Record<NPCId, INPCState> = Object.fromEntries(

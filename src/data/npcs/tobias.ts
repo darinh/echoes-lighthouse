@@ -6,7 +6,7 @@ export const TOBIAS_NPC: NPCFullData = {
   titleKey: 'npc.tobias.title',
   defaultLocation: 'mill',
   defaultAttitude: 'friendly',
-  schedule: { night_dark: 'village_square' },
+  schedule: { dusk: 'village_square', night_safe: 'keepers_cottage', night_dark: 'village_square' },
   tierThresholds: [0, 3, 7, 15, 25, 40, 60, 80, 100, 130, 170],
   greetingNodes: ['tobias.greeting.tier0','tobias.greeting.tier1','tobias.greeting.tier2','tobias.greeting.tier3','tobias.greeting.tier4','tobias.greeting.tier5'],
   nodes: {

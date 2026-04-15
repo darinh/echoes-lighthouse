@@ -3,6 +3,7 @@ import type { IGameState, INPCState, NPCId } from '@/interfaces/index.js'
 import type { GameAction } from '@/engine/InputHandler.js'
 import { getAdjacentLocations } from '@/data/locations/phase1Locations.js'
 import { CODEX_PAGES } from '@/data/codex/pages.js'
+import { SaveSystem } from '@/systems/SaveSystem.js'
 import { EXAMINE_DATA } from '@/data/locations/examineData.js'
 import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 import { QUEST_REGISTRY } from '@/data/quests/index.js'
@@ -326,11 +327,18 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.textAlign = 'center'
     ctx.fillText('KEEP THE LIGHT BURNING', cx, height * 0.68)
 
-    // Pulsing prompt
+    // Pulsing prompt — changes based on save state
     const pulse = 0.5 + 0.5 * Math.abs(Math.sin(now / 1100))
+    const hasSave = SaveSystem.hasSave()
     ctx.fillStyle = `rgba(232,168,48,${pulse})`
     this.setFont(11)
-    ctx.fillText('[ PRESS ENTER OR CLICK ]', cx, height * 0.77)
+    ctx.fillText(hasSave ? '[ PRESS ENTER TO CONTINUE ]' : '[ PRESS ENTER TO START ]', cx, height * 0.77)
+
+    if (hasSave) {
+      this.setFont(9)
+      ctx.fillStyle = this.colors.textDim
+      ctx.fillText('[ N ]  NEW GAME  (clears save)', cx, height * 0.77 + this.lh(11) + 4)
+    }
 
     // Quote
     this.setFont(9)
