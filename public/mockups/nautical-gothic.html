@@ -233,26 +233,27 @@ input[type="range"]{accent-color:var(--amber)}
 .stage-card{position:relative;z-index:2;width:min(480px,100%);margin:10px;border:1px solid var(--border-soft);background:rgba(5,10,15,0.85);padding:16px;text-align:center;max-height:85%;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--ocean-surface) transparent}
 .cin-card .actions,.stage-card .actions{display:grid;gap:3px;margin-top:10px}
 
-.game-layout{display:grid;gap:4px;flex:1;min-height:0;overflow:hidden;position:relative}
-.game-main{min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--ocean-surface) transparent}
-/* Mobile default: hide inline sidebar, show rail */
-.game-side{display:none}
+.game-layout{display:grid;grid-template-columns:1fr 30px;grid-template-rows:1fr;gap:0;flex:1;min-height:0;overflow:hidden;position:relative}
+.game-main{grid-column:1;grid-row:1;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--ocean-surface) transparent;padding-right:4px}
+
 /* ═══ SIDE PANEL — vertical tab rail on mobile, inline on desktop ═══ */
-.game-side{min-height:0;display:flex;flex-direction:column}
+/* Mobile: inline sidebar hidden, placed in rail column to avoid extra row */
+.game-side{display:none;min-height:0;flex-direction:column;grid-column:2;grid-row:1}
 .game-side .scroll-box{flex:1;min-height:0}
 
-/* Mobile: tab rail is vertical strip on right edge, panel floats */
+/* Mobile: tab rail is an in-flow grid column on the right */
 .side-rail{
-  position:absolute;right:0;top:0;bottom:0;z-index:10;
-  display:flex;flex-direction:column;gap:1px;padding:4px 0;
+  grid-column:2;grid-row:1;
+  display:flex;flex-direction:column;gap:1px;padding:2px 0;
+  border-left:1px solid var(--border-soft);
 }
 .side-rail .tab{
   writing-mode:vertical-lr;text-orientation:mixed;
   padding:10px 5px;min-height:auto;min-width:28px;
-  border-bottom:none;border-left:1px solid var(--border-soft);
+  border-bottom:none;border-left:none;
   font-size:9px;
 }
-.side-rail .tab.on{border-left-color:var(--amber-dim)}
+.side-rail .tab.on{color:var(--amber);background:rgba(200,169,110,0.06)}
 .side-float{
   position:absolute;right:30px;top:0;bottom:0;z-index:9;
   width:min(280px,calc(100% - 40px));
@@ -282,12 +283,13 @@ input[type="range"]{accent-color:var(--amber)}
 .ending-corrupt .stage-card .title{color:var(--bile)}
 .ending-witness .stage-card .title{color:var(--amber-dim)}
 
-/* Desktop: revert to inline sidebar (hide rail/float, show .game-side) */
+/* Desktop: hide rail, show inline sidebar */
 @media(min-width:768px){
   .side-rail{display:none}
   .side-float{display:none!important}
-  .game-side{display:flex!important}
-  .game-layout{grid-template-columns:1.5fr 1fr}
+  .game-side{display:flex!important;grid-column:2;grid-row:1}
+  .game-layout{grid-template-columns:1.5fr 1fr;gap:4px}
+  .game-main{padding-right:0}
   .action-dock{grid-template-columns:repeat(4,1fr)}
 }
 @media(prefers-reduced-motion:reduce){.star{animation:none!important;opacity:0.3}.beam-wrap{animation:none!important}*{transition-duration:0ms!important}}
