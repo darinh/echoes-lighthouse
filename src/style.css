@@ -7,7 +7,13 @@ html, body {
   font-family: 'Courier New', Courier, monospace;
   color: #c4cfe0;
 }
-body { overscroll-behavior: none; }
+body {
+  overscroll-behavior: none;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
 
 #app { width: 100%; height: 100%; position: relative; }
 
@@ -93,6 +99,7 @@ body { overscroll-behavior: none; }
   flex-direction: column;
   padding: 16px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   pointer-events: auto;
   color: #c8bfb0;
   line-height: 1.6;
@@ -113,6 +120,7 @@ body { overscroll-behavior: none; }
   margin-bottom: 4px; cursor: pointer; transition: background 0.15s;
   display: flex; align-items: center; justify-content: space-between;
   border: none; width: 100%; text-align: left; font-family: monospace; color: inherit;
+  min-height: 44px;
 }
 #content-panel .npc-card:hover { background: #1b2438; }
 #content-panel .npc-card .npc-name { font-size: 13px; color: #c4cfe0; }
@@ -125,10 +133,10 @@ body { overscroll-behavior: none; }
 #content-panel .examine-list { margin-bottom: 12px; }
 #content-panel .examine-list h3 { color: #465a72; font-size: 11px; letter-spacing: 1px; margin-bottom: 6px; }
 #content-panel .examine-btn {
-  width: 100%; max-width: 240px; padding: 6px 10px;
+  width: 100%; max-width: 240px; padding: 10px 10px;
   background: #111726; border: 1px solid #2e4268; color: #c4cfe0;
   font-family: monospace; font-size: 12px; text-align: left; cursor: pointer;
-  margin-bottom: 3px; transition: background 0.15s;
+  margin-bottom: 3px; transition: background 0.15s; min-height: 44px;
 }
 #content-panel .examine-btn:hover { background: #1b2438; }
 #content-panel .examine-btn.done { color: #465a72; border-color: #1b2438; cursor: default; }
@@ -137,30 +145,34 @@ body { overscroll-behavior: none; }
 #content-panel .dialogue-text { font-size: 13px; color: #c4cfe0; margin-bottom: 14px; }
 #content-panel .dialogue-choices { display: flex; flex-direction: column; gap: 4px; }
 #content-panel .dialogue-choice {
-  padding: 8px 14px; font-family: monospace; font-size: 12px;
+  padding: 10px 14px; font-family: monospace; font-size: 12px;
   background: linear-gradient(135deg, rgba(212,144,10,0.08), rgba(212,144,10,0.04));
   border: 1px solid rgba(212,144,10,0.2); border-left: 3px solid #d4900a;
   color: #e2d9c8; text-align: left; cursor: pointer; transition: background 0.15s; width: 100%;
+  min-height: 44px;
 }
 #content-panel .dialogue-choice:hover { background: rgba(212,144,10,0.15); }
 #content-panel .dialogue-choice:disabled { color: #465a72; border-left-color: #1b2438; cursor: not-allowed; background: none; }
 #content-panel .dialogue-leave {
-  margin-top: 8px; padding: 6px 12px; font-family: monospace; font-size: 12px;
+  margin-top: 8px; padding: 10px 12px; font-family: monospace; font-size: 12px;
   background: none; border: 1px solid #1b2438; color: #465a72; cursor: pointer; transition: border-color 0.15s;
+  min-height: 44px;
 }
 #content-panel .dialogue-leave:hover { border-color: #465a72; color: #c4cfe0; }
 #content-panel .archive-desk { border-top: 1px solid #1b2438; margin-top: 12px; padding-top: 12px; }
 #content-panel .archive-desk h3 { color: #d4900a; font-size: 12px; font-weight: bold; margin-bottom: 8px; }
 #content-panel .archive-stats { font-size: 12px; color: #c4cfe0; margin-bottom: 8px; }
 #content-panel .archive-btn {
-  padding: 6px 12px; font-family: monospace; font-size: 12px; cursor: pointer;
+  padding: 10px 12px; font-family: monospace; font-size: 12px; cursor: pointer;
   background: #111726; border: 1px solid #2e4268; color: #c4cfe0; margin-bottom: 12px; transition: background 0.15s;
+  min-height: 44px;
 }
 #content-panel .archive-btn:hover { background: #1b2438; }
 #content-panel .archive-btn:disabled { color: #465a72; border-color: #1b2438; cursor: not-allowed; }
 #content-panel .seal-card {
-  padding: 8px 10px; margin-bottom: 3px; font-family: monospace;
+  padding: 10px 10px; margin-bottom: 3px; font-family: monospace;
   background: #0a0c15; border: 1px solid #1b2438; display: flex; justify-content: space-between; align-items: center;
+  min-height: 44px;
 }
 #content-panel .seal-card.available { border-color: #2e4268; cursor: pointer; }
 #content-panel .seal-card.available:hover { background: #111726; }
@@ -213,6 +225,7 @@ body { overscroll-behavior: none; }
   background: rgba(10,12,21,0.75);
   border-left: 1px solid rgba(245,158,11,0.15);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   pointer-events: auto;
   scrollbar-width: thin;
   scrollbar-color: #1b2438 transparent;
@@ -253,8 +266,9 @@ body { overscroll-behavior: none; }
 }
 #overlay-panel .overlay-title { color: #e8a830; font-size: 14px; font-weight: bold; letter-spacing: 1px; }
 #overlay-panel .overlay-close {
-  padding: 4px 12px; font-family: monospace; font-size: 12px; cursor: pointer;
+  padding: 10px 12px; font-family: monospace; font-size: 12px; cursor: pointer;
   background: none; border: 1px solid #2e4268; color: #465a72; transition: border-color 0.15s;
+  min-height: 44px; min-width: 44px;
 }
 #overlay-panel .overlay-close:hover { border-color: #e8a830; color: #e8a830; }
 #overlay-panel .overlay-body { padding: 20px; }
@@ -346,16 +360,72 @@ body { overscroll-behavior: none; }
 }
 @keyframes notif-in { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
 
-@media (orientation: portrait) {
-  #main-area { flex-direction: column-reverse; }
+/* ── Mobile breakpoints ────────────────────────────────────────── */
+
+/* Portrait on any mobile (≤768px wide) */
+@media (max-width: 768px) and (orientation: portrait) {
+  #main-area { flex-direction: column; }
   #action-panel {
-    flex: 0 0 auto; flex-direction: row;
+    flex: 0 0 auto;
+    flex-direction: column;
     border-left: none; border-top: 1px solid rgba(245,158,11,0.15);
-    overflow-x: auto; overflow-y: hidden; height: 64px; padding: 6px;
-    gap: 4px;
+    overflow-y: auto; overflow-x: hidden;
+    max-height: 45vh;
+    padding: 8px; gap: 6px;
   }
-  #action-panel button { min-width: 80px; min-height: 100%; flex-shrink: 0; text-align: center; font-size: 11px; }
-  #content-panel { flex: 1 1 0; }
+  #action-panel button { min-width: unset; width: 100%; flex-shrink: 0; text-align: left; }
+  #content-panel { flex: 1 1 0; overflow-y: auto; }
+  input, select, textarea { font-size: 16px !important; }
+  #notifications { top: auto; bottom: calc(env(safe-area-inset-bottom) + 80px); }
+}
+
+/* Small phones: ≤480px */
+@media (max-width: 480px) {
+  #hud { padding: 4px 8px; font-size: 10px; gap: 6px; }
+  #hud .hud-stat { font-size: 10px; }
+  #hud .hud-loop { font-size: 10px; }
+  #hud .hud-loop span { font-size: 12px; }
+  #hud .hud-phase { font-size: 10px; }
+  #hud .hud-hearts { font-size: 11px; }
+  #hud .hud-stamina { font-size: 10px; }
+  #hud .hud-light { font-size: 10px; }
+  #hud .hud-insight { font-size: 10px; }
+  #hud .hud-location { font-size: 11px; }
+  #hud .hud-stamina .bar-track { width: 44px; }
+  #hud .hud-timer .bar-track { width: 56px; }
+  .action-btn { font-size: 13px; padding: 12px 16px; min-height: 44px; }
+  .title-prompt { bottom: 10%; width: 90%; }
+  .title-lore { font-size: 11px; max-width: 90%; }
+  .title-endings { font-size: 10px; }
+}
+
+/* Landscape on small phones (phone sideways) */
+@media (max-width: 768px) and (orientation: landscape) and (max-height: 480px) {
+  #action-panel {
+    flex: 0 0 140px;
+    border-left: 1px solid rgba(245,158,11,0.15); border-top: none;
+    overflow-y: auto; overflow-x: hidden;
+    flex-direction: column; gap: 4px; padding: 6px;
+  }
+  #action-panel button { font-size: 11px; padding: 8px 10px; }
+  #content-panel { overflow-y: auto; }
+  input, select, textarea { font-size: 16px !important; }
+  #hud { padding: 3px 8px; min-height: 36px; font-size: 10px; gap: 6px; }
+  #notifications { top: auto; bottom: calc(env(safe-area-inset-bottom) + 60px); }
+}
+
+/* Tablet portrait — action panel slightly wider */
+@media (min-width: 481px) and (max-width: 768px) and (orientation: portrait) {
+  #action-panel { max-height: 40vh; }
+}
+
+/* General mobile: larger action buttons */
+@media (max-width: 768px) {
+  #action-panel button { font-size: 13px; padding: 12px 14px; min-height: 44px; }
+  input, select, textarea { font-size: 16px !important; }
+  .codex-search { font-size: 16px; }
+  .codex-tab { padding: 8px 10px; min-height: 36px; }
+  #notifications { top: auto; bottom: calc(env(safe-area-inset-bottom) + 80px); }
 }
 
 #game-ui.title-screen #hud,
