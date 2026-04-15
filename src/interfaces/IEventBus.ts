@@ -76,6 +76,8 @@ export type GameEventType =
   | 'vision.started'
   | 'vision.completed'
   | 'examine.completed'
+  | 'audio.toggle'
+  | 'loop.night'
 
 | 'lighthouse.lit'
   | 'loop.dawn'
