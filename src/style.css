@@ -32,8 +32,12 @@ body {
 #loading-status { color: #465a72; font-size: 12px; }
 
 #game-container {
-  position: relative;
-  width: 100%; height: 100vh;
+  /* Fixed to the viewport so the container always matches window.innerWidth/Height
+     regardless of body safe-area padding. Without this, body padding shrinks #app,
+     making #game-container's 100vh overflow the parent and shift the HTML overlay
+     coordinate space away from the canvas coordinate space. */
+  position: fixed;
+  inset: 0;
   overflow: hidden;
 }
 
@@ -43,6 +47,11 @@ body {
   width: 100%; height: 100%;
   display: block;
   touch-action: none;
+  /* Canvas is purely visual — all interaction is handled by the #game-ui HTML overlay.
+     Without pointer-events: none the canvas (touch-action: none) absorbs the entire
+     touch sequence on mobile WebKit before events can reach the HTML buttons above it,
+     even though #game-ui has a higher z-index. */
+  pointer-events: none;
 }
 
 #game-ui {
