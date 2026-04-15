@@ -645,6 +645,22 @@
       "codex_body": "All seven truths sealed, the mechanism understood in full. The light you kindled that final night rose higher than the tower. Somewhere beyond the fog, something vast took notice. It did not seem hostile."
     }
   },
+  "npc": {
+    "keeper": {
+      "confide": "The Keeper waits until the wind drowns the village noise, then speaks in a low, steady voice. They admit the lighthouse has been locking something below the island for generations, and every loop weakens the old seals. If the beam fails at the wrong hour, the sea itself will remember a different shape of night.",
+      "secret": "The Keeper unfolds a page torn from a hidden ledger, ink blurred by salt and fear. It names a chamber beneath the lens where each keeper carved a confession before vanishing. Your own name is already scratched there in a hand that looks disturbingly like yours."
+    },
+    "elder": {
+      "memory": "The Elder's gaze drifts past you to the tower light, as if listening to a voice from long ago. They recall a winter when the beam burned black for one minute, and every bell on the island rang without hands to pull them. Since then, they say, no one here fully trusts dawn.",
+      "revelation": "At last the Elder presses a rusted key into your palm and tells you it opens a door below the mechanism room. Behind it rests a chart no mapmaker would admit exists: routes the island takes when it drifts between storms. The final margin note reads, 'Do not let the light go dark while the tide is speaking.'"
+    },
+    "wanderer": {
+      "past": "The Wanderer laughs once, bitterly, and admits they were never stranded here at all. They came chasing the same underwater signal now haunting your dreams, and every year since has been a failed escape. They warn that the lighthouse doesn't just keep things out — it keeps certain people in."
+    },
+    "archivist": {
+      "hidden_lore": "The Archivist unlocks a drawer hidden behind worm-eaten folios and sets out a brittle vellum map. It marks tunnels beneath the lighthouse that do not exist on any survey, each annotated with resonance values and dates spanning centuries. At the bottom, a note in crimson ink reads: 'When trust aligns with the beam, the sealed history answers back.'"
+    }
+  },
   "encounter": {
     "ignore": "Leave it be.",
     "distant_light": {

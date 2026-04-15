@@ -3,6 +3,7 @@ export { QuestSystem } from './QuestSystem.js'
 export { MoralWeightSystem } from './MoralWeightSystem.js'
 export { LoopSystem } from './LoopSystem.js'
 export { DialogueSystem } from './DialogueSystem.js'
+export { RelationshipSystem } from './RelationshipSystem.js'
 
 export { ResonanceSystem } from './ResonanceSystem.js'
 export { InsightBankingSystem } from './InsightBankingSystem.js'

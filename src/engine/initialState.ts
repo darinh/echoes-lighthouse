@@ -57,6 +57,8 @@ const DEFAULT_PLAYER: IPlayerState = {
   activeJournalThreads: new Set(),
   journalEntries: [],
   currentLocation: 'keepers_cottage',
+  relationshipFlags: {},
+  shownRelationshipDialogue: [],
 }
 
 export function createInitialState(): IGameState {

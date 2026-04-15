@@ -5,7 +5,7 @@ import { SynthAudioProvider } from '@/providers/audio/SynthAudioProvider.js'
 import { CanvasRenderer } from '@/providers/renderer/CanvasRenderer.js'
 import { UIManager } from '@/providers/ui/UIManager.js'
 import { HybridRenderer } from '@/providers/renderer/HybridRenderer.js'
-import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, SaveSystem, AudioFeedbackSystem, NPCScheduleSystem, MilestoneSystem, WeatherSystem } from '@/systems/index.js'
+import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, RelationshipSystem, SaveSystem, AudioFeedbackSystem, NPCScheduleSystem, MilestoneSystem, WeatherSystem } from '@/systems/index.js'
 import { AchievementSystem } from '@/systems/AchievementSystem.js'
 import { AmbientAudioSystem } from '@/systems/AmbientAudioSystem.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
@@ -42,6 +42,7 @@ async function boot(): Promise<void> {
   engine.registerSystem(new QuestSystem(eventBus))
   engine.registerSystem(new MoralWeightSystem(eventBus))
   engine.registerSystem(new DialogueSystem(eventBus))
+  engine.registerSystem(new RelationshipSystem(eventBus))
   engine.registerSystem(new SaveSystem(eventBus))
   engine.registerSystem(new AudioFeedbackSystem(audio, eventBus))
   engine.registerSystem(new NPCScheduleSystem())

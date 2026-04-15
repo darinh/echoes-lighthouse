@@ -50,6 +50,8 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     activeJournalThreads: new Set<string>(),
     journalEntries: [],
     currentLocation: 'keepers_cottage',
+    relationshipFlags: {},
+    shownRelationshipDialogue: [],
   }
 
   return {

@@ -27,8 +27,10 @@ export type GameEventType =
   | 'npc.dialogue.closed'
   | 'npc.resonance.changed'
   | 'npc.attitude.changed'
+  | 'npc.trust.changed'
   | 'npc.trust.gained'
   | 'npc.trust.lost'
+  | 'relationship.unlocked'
   // Dialogue lifecycle
   | 'dialogue.start'
   | 'dialogue.choice.selected'

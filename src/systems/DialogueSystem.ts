@@ -3,6 +3,8 @@ import type { IGameState, IDialogueState, IDialogueChoice } from '@/interfaces/I
 import type { IGameEvent, IEventBus } from '@/interfaces/IEventBus.js'
 import type { NPCId, InsightCardId } from '@/interfaces/types.js'
 import type { NPCFullData, DialogueChoice as NPCDialogueChoice } from '@/data/npcs/dialogueTypes.js'
+import { RELATIONSHIP_UNLOCKS } from '@/data/npcs/relationships.js'
+import loreEn from '../../public/locales/en/lore.json'
 import { MAREN_NPC }  from '@/data/npcs/maren.js'
 import { VAEL_NPC }   from '@/data/npcs/vael.js'
 import { SILAS_NPC }  from '@/data/npcs/silas.js'
@@ -17,6 +19,16 @@ const NPC_REGISTRY: Record<string, NPCFullData> = {
   petra:  PETRA_NPC  as unknown as NPCFullData,
   tobias: TOBIAS_NPC as unknown as NPCFullData,
   elara:  ELARA_NPC  as unknown as NPCFullData,
+}
+
+function hasDialogueKey(key: string): boolean {
+  const parts = key.split('.')
+  let cursor: unknown = loreEn
+  for (const part of parts) {
+    if (typeof cursor !== 'object' || cursor === null) return false
+    cursor = (cursor as Record<string, unknown>)[part]
+  }
+  return typeof cursor === 'string'
 }
 
 /**
@@ -55,16 +67,34 @@ export class DialogueSystem implements ISystem {
     if (!node) return state
 
     const availableChoices = this.buildChoices(node.choices, npcId, state)
+    const relationshipReveal = RELATIONSHIP_UNLOCKS.find(unlock =>
+      unlock.npcId === npcId &&
+      state.player.relationshipFlags[unlock.flag] &&
+      !state.player.shownRelationshipDialogue.includes(unlock.flag) &&
+      hasDialogueKey(unlock.dialogueKey)
+    )
+
     const dialogueState: IDialogueState = {
       npcId,
       currentNodeId: greetingNodeId,
-      speakerTextKey: node.speakerKey,
+      speakerTextKey: relationshipReveal?.dialogueKey ?? node.speakerKey,
       availableChoices,
       isActive: true,
     }
 
     this.eventBus.emit('npc.dialogue.opened', { npcId })
-    return { ...state, activeDialogue: dialogueState }
+    if (!relationshipReveal) {
+      return { ...state, activeDialogue: dialogueState }
+    }
+
+    return {
+      ...state,
+      player: {
+        ...state.player,
+        shownRelationshipDialogue: [...state.player.shownRelationshipDialogue, relationshipReveal.flag],
+      },
+      activeDialogue: dialogueState,
+    }
   }
 
   private handleChoiceSelected(event: IGameEvent, state: IGameState): IGameState {

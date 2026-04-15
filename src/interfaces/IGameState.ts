@@ -83,6 +83,8 @@ export interface IPlayerState {
   readonly activeJournalThreads: ReadonlySet<JournalThreadId>
   readonly journalEntries: ReadonlyArray<IJournalEntry>
   readonly currentLocation: LocationId
+  readonly relationshipFlags: Readonly<Record<string, boolean>>
+  readonly shownRelationshipDialogue: ReadonlyArray<string>
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
