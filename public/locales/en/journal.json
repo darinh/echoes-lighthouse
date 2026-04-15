@@ -1,33 +1,33 @@
 {
   "thread": {
     "mechanism_failure": {
-      "name":    "The Broken Mechanism",
+      "name": "The Broken Mechanism",
       "summary": "The lighthouse mechanism is in pieces. Someone — or something — took it apart deliberately."
     },
     "prior_keepers": {
-      "name":    "The Lost Keepers",
+      "name": "The Lost Keepers",
       "summary": "Three Keepers before you. None left the island. Their echoes remain."
     },
     "the_warden": {
-      "name":    "What Lies Beneath",
+      "name": "What Lies Beneath",
       "summary": "The lighthouse was not built to guide ships."
     },
     "marens_secret": {
-      "name":    "The Archivist's Burden",
+      "name": "The Archivist's Burden",
       "summary": "Maren knows more than she admits. She has been here through more loops than you."
     },
     "the_seal": {
-      "name":    "The Old Seal",
+      "name": "The Old Seal",
       "summary": "Something was bound beneath the island long before the lighthouse was built."
     }
   },
   "insight_card": {
     "blacksmith_lying": {
-      "name":    "The Blacksmith Arrived Late",
+      "name": "The Blacksmith Arrived Late",
       "summary": "Tobias claims he arrived before the storm. The harbour records disagree."
     },
     "chapel_symbol": {
-      "name":    "The Chapel Symbol",
+      "name": "The Chapel Symbol",
       "summary": "The symbol above the chapel door is not a religious icon. It is a containment mark."
     }
   },
@@ -57,6 +57,47 @@
         "talk_to_elara": "Find someone else who knows about the harbour.",
         "confront_silas": "Confront Silas with what you've learned."
       }
+    }
+  },
+  "location": {
+    "keepers_cottage": {
+      "enter": "The cottage smells of salt and old paper. A journal sits on the table — not mine. The handwriting is steady until the last entry, where it becomes a series of crossed-out lines and then, finally, a single sentence I don't understand yet. I copy it down. I have a feeling I'll need it."
+    },
+    "lighthouse_base": {
+      "enter": "The lighthouse rises above me, taller than it looks from the village. The door is unlocked, which surprises me — I expected resistance, a lock, a reason not to enter. The only resistance is the threshold itself: I stand here for a moment longer than I need to. Something about crossing this line feels significant. I cross it."
+    },
+    "lighthouse_top": {
+      "enter": "The view from here changes everything. I can see the whole island laid out below me like a map of itself — every path, every building, every dark patch of water at the cliff base. From up here, it looks deliberate. It looks like it was designed to be seen this way. I write down what I can see. I'm not sure what I'm looking for, but I think I'll know it when I find it."
+    },
+    "harbor": {
+      "enter": "The harbour smells of salt water and something else — oil, or old rope, or the particular smell of a working place that has stopped working. The boats are still here. The people are not, mostly. One lantern burns at the harbourmaster's window. I note the time. I note that the harbour is quieter than a harbour should be."
+    },
+    "village_square": {
+      "enter": "The square is the heart of the village, and it feels hollow. People pass through it quickly, without stopping, without meeting eyes. I stand in the centre for a while, trying to read the space. The notice board draws my attention first. Then the well. Something about the well is wrong, and I find myself walking toward it before I've decided to."
+    },
+    "ruins": {
+      "enter": "The ruins are older than anything else on this island. I can feel it in the stones — not dramatically, not in any way I can explain, just the specific weight of something that has been standing longer than any living person has been alive. The stones don't fit together right; they're not the style or scale of any building I know. Someone built this for a reason I don't have a word for yet."
+    },
+    "mechanism_room": {
+      "enter": "Gears the size of millstones, connected by shafts that disappear into the floor and the ceiling. Whatever drove this mechanism once, it wasn't wind or water — there's no intake, no channel, no means of external power I can identify. The room smells of metal and something else, something older. The walls are covered in symbols. I start drawing them. It will take several visits to get them all."
+    },
+    "chapel": {
+      "enter": "St. Maret's Chapel: doors open, candles lit, no one in attendance. The candles are fresh. Someone lit them today, perhaps this morning. I sit for a while in one of the pews and try to think, but the chapel doesn't allow neutral thinking — there's too much of it, pressing in, the weight of what happened here and what didn't. I notice, when I finally look, that my name is on the wall."
+    },
+    "mill": {
+      "enter": "The old mill creaks in a wind that isn't there. I stop and listen to be sure: the air is still, the trees at the forest's edge are not moving, but the mill groans and settles as if under pressure from something I can't see. The wheel hasn't turned in years — the axle is rusted, the paddles warped. Something else is turning. I write this down before I can talk myself out of it."
+    },
+    "forest_path": {
+      "enter": "The path begins at the village edge and leads into a treeline that should, by my count, only take ten minutes to cross. It always takes longer than that. The path itself seems cooperative — it goes where I need to go — but the relationship between distance walked and distance covered is unreliable here. I've stopped trying to track it precisely. I mark where I notice things instead."
+    },
+    "cliffside": {
+      "enter": "The cliff edge drops sharply, the cove far below glittering in whatever light is available. I keep a careful distance from the edge — not from fear exactly, more from respect for a place that has claimed things. At certain hours, in certain light, something moves in the water far below. I've stopped pretending it's a seal. I watch it. It has not yet looked back, but I have the impression it's aware that I'm here."
+    },
+    "archive_basement": {
+      "enter": "Row upon row of stone shelves, catalogued in a system I don't fully understand, holding documents in materials that range from paper to vellum to something that might be cured skin. The smell is overwhelming at first — age, damp, the specific musk of things that have not been disturbed in a long time. I spend the first few minutes just reading labels. Whatever is in this archive, it predates everything I thought I knew about this place."
+    },
+    "tidal_caves": {
+      "enter": "The tide has retreated far enough to allow entry — I'll have perhaps two hours before it comes back. The walls of the cave are covered in writing, both carved and what appears to be bioluminescent growth, both glowing faintly in the dark. I'm not sure which came first. I bring my notebook and begin at the entrance, working inward. I'm aware that the light at the back of the cave is not reflected from outside. It has its own source."
     }
   }
 }
