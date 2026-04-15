@@ -92,6 +92,7 @@ export interface IGameState {
   readonly activeDialogue: IDialogueState | null
   readonly activeQuests: ReadonlySet<string>
   readonly completedQuests: ReadonlySet<string>
+  readonly questStepProgress: Readonly<Record<string, ReadonlySet<string>>>
   readonly locale: string
   readonly isPaused: boolean
   readonly activePanel: 'none' | 'journal' | 'codex' | 'map' | 'settings'

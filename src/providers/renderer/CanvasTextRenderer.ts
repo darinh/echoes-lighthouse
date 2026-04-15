@@ -1756,9 +1756,11 @@ export class CanvasTextRenderer implements IRenderer {
         y += lineH * 2.2
 
         for (const step of quest.steps) {
+          const progress = state.questStepProgress[questId]
+          const isDone = progress?.has(step.id) ?? false
           this.setFont(11)
-          ctx.fillStyle = this.colors.textPrimary
-          ctx.fillText(`  □ ${this.t(step.descriptionKey)}`, contentX, y + 12)
+          ctx.fillStyle = isDone ? this.colors.textFaint : this.colors.textPrimary
+          ctx.fillText(`  ${isDone ? '✓' : '□'} ${this.t(step.descriptionKey)}`, contentX, y + 12)
           y += lineH
         }
 

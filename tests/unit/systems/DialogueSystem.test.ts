@@ -60,6 +60,7 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     activeDialogue: null,
     activeQuests: new Set<string>(),
     completedQuests: new Set<string>(),
+    questStepProgress: {},
     locale: 'en',
     isPaused: false,
     saveVersion: 1,
