@@ -171,43 +171,29 @@ test.describe('Echoes of the Lighthouse — UI', () => {
   // 4. HUD integrity
   // -------------------------------------------------------------------------
   test.describe('HUD', () => {
-    test('top strip of canvas is painted after game start (HUD present)', async ({ page }) => {
+    test('HUD element is visible after game start', async ({ page }) => {
       await page.goto('/')
       await waitForCanvasPaint(page)
       await startGame(page)
+      await page.waitForTimeout(200)
 
-      // Sample the top 10% of the canvas — the HUD lives there
-      const hudPainted = await page.evaluate(() => {
-        const canvas = document.querySelector('canvas') as HTMLCanvasElement
-        const ctx = canvas.getContext('2d')!
-        const strip = ctx.getImageData(0, 0, canvas.width, Math.floor(canvas.height * 0.1))
-        let painted = 0
-        for (let i = 3; i < strip.data.length; i += 4) {
-          if (strip.data[i] > 0) painted++
-        }
-        return painted
-      })
-      expect(hudPainted).toBeGreaterThan(100)
+      const hud = page.locator('#hud')
+      await expect(hud).toBeVisible()
+      const hudText = await hud.innerText()
+      expect(hudText.length).toBeGreaterThan(5)
     })
 
-    test('action panel area has paint (buttons rendered)', async ({ page }) => {
+    test('action panel has buttons after game start', async ({ page }) => {
       await page.goto('/')
       await waitForCanvasPaint(page)
       await startGame(page)
+      await page.waitForTimeout(200)
 
-      // In landscape, the right ~35% is the action panel
-      const actionPanelPainted = await page.evaluate(() => {
-        const canvas = document.querySelector('canvas') as HTMLCanvasElement
-        const ctx = canvas.getContext('2d')!
-        const startX = Math.floor(canvas.width * 0.65)
-        const strip = ctx.getImageData(startX, 0, canvas.width - startX, canvas.height)
-        let painted = 0
-        for (let i = 3; i < strip.data.length; i += 4) {
-          if (strip.data[i] > 0) painted++
-        }
-        return painted
-      })
-      expect(actionPanelPainted).toBeGreaterThan(200)
+      const actionPanel = page.locator('#action-panel')
+      await expect(actionPanel).toBeVisible()
+      const buttons = actionPanel.locator('button')
+      const count = await buttons.count()
+      expect(count).toBeGreaterThan(0)
     })
   })
 
