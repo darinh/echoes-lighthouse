@@ -1,6 +1,6 @@
 // Barrel export — import all interfaces from '@/interfaces'
 export type { GamePhase, ArchiveDomain, NPCId, LocationId, InsightCardId, JournalThreadId, QuestId, MoralAlignment, AudioCategory, NPCAttitude, EndingId, ItemId, AchievementId } from './types.js'
-export type { IGameState, IPlayerState, INPCState, IDialogueState, IDialogueChoice, WeatherType } from './IGameState.js'
+export type { IGameState, IPlayerState, INPCState, IDialogueState, IDialogueChoice, WeatherType, Difficulty } from './IGameState.js'
 export type { IAudioProvider, PlayOptions } from './IAudioProvider.js'
 export type { IRenderer, RenderContext } from './IRenderer.js'
 export type { II18n } from './II18n.js'

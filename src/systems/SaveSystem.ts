@@ -9,6 +9,7 @@ const CURRENT_SAVE_VERSION = 1
 interface SaveSnapshot {
   saveVersion: number
   phase: IGameState['phase']
+  difficulty: IGameState['difficulty']
   dayTimeRemaining: number
   locale: string
   isPaused: boolean
@@ -36,6 +37,7 @@ interface SaveSnapshot {
     examineHistory: Record<string, number>
     relationshipFlags: Record<string, boolean>
     shownRelationshipDialogue: string[]
+    searchedLocations: string[]
     discoveredLocations: string[]
     sealedInsights: string[]
     activeJournalThreads: string[]
@@ -153,6 +155,7 @@ export class SaveSystem implements ISystem {
     return {
       saveVersion: state.saveVersion,
       phase: state.phase,
+      difficulty: state.difficulty,
       dayTimeRemaining: state.dayTimeRemaining,
       locale: state.locale,
       isPaused: state.isPaused,
@@ -182,6 +185,7 @@ export class SaveSystem implements ISystem {
         examineHistory: { ...state.player.examineHistory },
         relationshipFlags: { ...state.player.relationshipFlags },
         shownRelationshipDialogue: [...state.player.shownRelationshipDialogue],
+        searchedLocations: [...state.player.searchedLocations],
         discoveredLocations: [...state.player.discoveredLocations],
         sealedInsights: [...state.player.sealedInsights],
         activeJournalThreads: [...state.player.activeJournalThreads],
@@ -215,6 +219,7 @@ export class SaveSystem implements ISystem {
     return {
       saveVersion: snapshot.saveVersion,
       phase: 'morning',
+      difficulty: (snapshot.difficulty ?? 'normal') as IGameState['difficulty'],
       dayTimeRemaining: 1,
       locale: snapshot.locale,
       isPaused: false,
@@ -238,6 +243,7 @@ export class SaveSystem implements ISystem {
         examineHistory: (snapshot.player.examineHistory ?? {}) as IGameState['player']['examineHistory'],
         relationshipFlags: (snapshot.player.relationshipFlags ?? {}) as IGameState['player']['relationshipFlags'],
         shownRelationshipDialogue: (snapshot.player.shownRelationshipDialogue ?? []) as IGameState['player']['shownRelationshipDialogue'],
+        searchedLocations: new Set(snapshot.player.searchedLocations ?? []) as IGameState['player']['searchedLocations'],
         discoveredLocations: new Set(snapshot.player.discoveredLocations) as IGameState['player']['discoveredLocations'],
         sealedInsights: new Set(snapshot.player.sealedInsights) as IGameState['player']['sealedInsights'],
         activeJournalThreads: new Set(snapshot.player.activeJournalThreads) as IGameState['player']['activeJournalThreads'],

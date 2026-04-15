@@ -13,6 +13,7 @@ import type {
 import type { EncounterId } from '@/data/encounters/index.js'
 
 export type WeatherType = 'clear' | 'fog' | 'rain'
+export type Difficulty = 'easy' | 'normal' | 'hard'
 
 export interface IJournalEntry {
   readonly id: string
@@ -86,6 +87,7 @@ export interface IPlayerState {
   readonly examineHistory: Readonly<Record<string, number>>
   readonly relationshipFlags: Readonly<Record<string, boolean>>
   readonly shownRelationshipDialogue: ReadonlyArray<string>
+  readonly searchedLocations: ReadonlySet<LocationId>
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -103,6 +105,7 @@ export interface IGameState {
   readonly completedQuests: ReadonlySet<string>
   readonly questStepProgress: Readonly<Record<string, ReadonlySet<string>>>
   readonly locale: string
+  readonly difficulty: Difficulty
   readonly isPaused: boolean
   readonly activePanel: 'none' | 'journal' | 'codex' | 'map' | 'settings'
   readonly worldFlags: ReadonlySet<string>
