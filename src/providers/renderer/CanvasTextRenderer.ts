@@ -11,6 +11,7 @@ import { QUEST_REGISTRY } from '@/data/quests/index.js'
 import { ENDING_NARRATIVES } from '@/data/endings/index.js'
 import { HINTS } from '@/data/hints/index.js'
 import { getItemAtLocation } from '@/data/items/index.js'
+import { NIGHT_ENCOUNTERS } from '@/data/encounters/index.js'
 
 // Locations that are outdoors (affected by fog and rain weather)
 const OUTDOOR_LOCATIONS = new Set([
@@ -1164,19 +1165,24 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.textAlign = 'center'
     ctx.fillText(`◈ ${state.player.insight} INSIGHT  ·  ⚡ ${state.player.stamina}/10  ·  LGT ${state.player.lightReserves}%`, cx, barY)
 
-    const btnY = contentY + this.lh(14) + this.lh(11) + this.lh(12) * 5 + 4
-    const btnW = Math.min(180, width * 0.3)
-    const gap = 20
-    const totalW = btnW * 2 + gap
-    const b1x = cx - totalW / 2
-    const b2x = cx + gap / 2
+    if (state.activeEncounter) {
+      const encPanelY = contentY + this.lh(14) + this.lh(11) + this.lh(12) * 4 + 4
+      this.renderEncounterPanel(state, encPanelY)
+    } else {
+      const btnY = contentY + this.lh(14) + this.lh(11) + this.lh(12) * 5 + 4
+      const btnW = Math.min(180, width * 0.3)
+      const gap = 20
+      const totalW = btnW * 2 + gap
+      const b1x = cx - totalW / 2
+      const b2x = cx + gap / 2
 
-    this.renderActionButton(b1x, btnY, btnW, 36, 'WAIT UNTIL DAWN', this.colors.accent)
-    this.addClickRegion(b1x, btnY, btnW, 36, { type: 'loop.dawn' }, 'Wait until dawn')
+      this.renderActionButton(b1x, btnY, btnW, 36, 'WAIT UNTIL DAWN', this.colors.accent)
+      this.addClickRegion(b1x, btnY, btnW, 36, { type: 'loop.dawn' }, 'Wait until dawn')
 
-    if (state.pendingVisions.length > 0) {
-      this.renderActionButton(b2x, btnY, btnW, 36, 'ENTER VISION', this.colors.accentWarm)
-      this.addClickRegion(b2x, btnY, btnW, 36, { type: 'vision.continue' }, 'Enter vision')
+      if (state.pendingVisions.length > 0) {
+        this.renderActionButton(b2x, btnY, btnW, 36, 'ENTER VISION', this.colors.accentWarm)
+        this.addClickRegion(b2x, btnY, btnW, 36, { type: 'vision.continue' }, 'Enter vision')
+      }
     }
   }
 
@@ -1238,6 +1244,61 @@ export class CanvasTextRenderer implements IRenderer {
 
     this.renderActionButton(btnX, btnY, btnW, btnH, '◈ ACCEPT DEATH', this.colors.danger)
     this.addClickRegion(btnX, btnY, btnW, btnH, { type: 'player.accept.death' }, 'Accept death')
+
+    if (state.activeEncounter) {
+      btnY += btnH + 16
+      this.renderEncounterPanel(state, btnY)
+    }
+  }
+
+  private renderEncounterPanel(state: IGameState, y: number): void {
+    const { ctx, width } = this
+    const cx = width / 2
+    const panelW = Math.min(400, width * 0.7)
+    const panelX = cx - panelW / 2
+    const enc = NIGHT_ENCOUNTERS.find(e => e.id === state.activeEncounter)
+    if (!enc) return
+
+    const panelH = this.lh(11) * 6
+    ctx.fillStyle = 'rgba(15,12,8,0.92)'
+    ctx.fillRect(panelX, y, panelW, panelH)
+    ctx.strokeStyle = this.colors.accentWarm
+    ctx.lineWidth = 1
+    ctx.strokeRect(panelX, y, panelW, panelH)
+    ctx.fillStyle = this.colors.accentWarm
+    ctx.fillRect(panelX, y, panelW, 2)
+
+    const innerX = panelX + 12
+    const innerW = panelW - 24
+
+    this.setFont(10, 'bold')
+    ctx.fillStyle = this.colors.accentWarm
+    ctx.textAlign = 'left'
+    ctx.fillText('◉  NIGHT ENCOUNTER', innerX, y + this.lh(10) + 4)
+
+    const desc = this.t(enc.descKey)
+    this.setFont(10)
+    ctx.fillStyle = this.colors.textPrimary
+    this.wrapText(desc, innerX, y + this.lh(10) * 2 + 4, innerW, this.lh(10))
+
+    const btnH = 30
+    const btnW = Math.min(160, panelW / 2 - 16)
+    const btnY = y + panelH - btnH - 10
+    const b1x = panelX + 8
+    const b2x = panelX + panelW / 2 + 4
+
+    const canInvestigate = state.player.stamina >= enc.staminaCost
+    const investLabel = `◈ INVESTIGATE (${enc.staminaCost}⚡)`
+    const investColor = canInvestigate ? this.colors.accentWarm : this.colors.textFaint
+    this.renderActionButton(b1x, btnY, btnW, btnH, investLabel, investColor)
+    if (canInvestigate) {
+      this.addClickRegion(b1x, btnY, btnW, btnH, { type: 'investigate' }, 'Investigate')
+    }
+
+    this.renderActionButton(b2x, btnY, btnW, btnH, '→ IGNORE', this.colors.textDim)
+    this.addClickRegion(b2x, btnY, btnW, btnH, { type: 'ignore_encounter' }, 'Ignore encounter')
+
+    ctx.textAlign = 'center'
   }
 
   private renderVision(state: IGameState): void {

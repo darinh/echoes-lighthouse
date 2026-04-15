@@ -87,6 +87,8 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
       locale: 'en',
     },
     weather: 'clear' as const,
+    activeEncounter: null,
+    nightEncounterShown: 0,
     ...overrides,
   } as IGameState
 }
