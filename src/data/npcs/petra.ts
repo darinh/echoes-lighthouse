@@ -15,6 +15,13 @@ export const PETRA_NPC: NPCFullData = {
       choices: [
         { id: 'ask.remedies', textKey: 'dialogue.choice.ask_remedies', nextNodeId: 'petra.remedies.offer', insightGain: 3, trustGain: 2 },
         { id: 'ask.island', textKey: 'dialogue.choice.ask_island', nextNodeId: 'petra.island.intro', insightGain: 5 },
+        { id: 'show.chart', textKey: 'dialogue.choice.show_chart', nextNodeId: 'petra.item.chart', worldFlagRequired: 'item.taken.tide_chart', insightGain: 10, trustGain: 4 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'petra.item.chart': {
+      speakerKey: 'npc.petra.item.chart',
+      choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },

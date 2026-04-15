@@ -1,9 +1,5 @@
 import type { NPCId, LocationId } from '@/interfaces/types.js'
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ITEM SYSTEM — Collectible items that unlock unique NPC dialogue options.
-// ─────────────────────────────────────────────────────────────────────────────
-
 export type ItemId =
   | 'keeper_logbook'
   | 'old_compass'
@@ -17,7 +13,6 @@ export interface ItemDefinition {
   readonly nameKey: string
   readonly descKey: string
   readonly pickupKey: string
-  /** NPC → dialogue node ID unlocked when this item is in inventory */
   readonly dialogueUnlocks: Readonly<Partial<Record<NPCId, string>>>
 }
 
@@ -64,12 +59,10 @@ export const ITEMS: readonly ItemDefinition[] = [
   },
 ]
 
-/** Returns the item available at a location, or undefined. */
 export function getItemAtLocation(locationId: LocationId): ItemDefinition | undefined {
   return ITEMS.find(item => item.locationId === locationId)
 }
 
-/** World flag set when an item is picked up. */
 export function itemTakenFlag(itemId: ItemId): string {
   return `item.taken.${itemId}`
 }

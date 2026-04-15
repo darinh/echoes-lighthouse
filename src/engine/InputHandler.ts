@@ -22,6 +22,7 @@ export type GameAction =
   | { type: 'player.accept.death' }
   | { type: 'main.menu' }
   | { type: 'examine'; itemId: string; locationId: string }
+  | { type: 'take'; itemId: string }
   | { type: 'rest' }
   | { type: 'wait' }
   | { type: 'setting.volume'; key: 'masterVolume' | 'ambientVolume' | 'uiVolume' | 'narrativeVolume'; value: number }

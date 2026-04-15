@@ -67,6 +67,7 @@ export type GameEventType =
   | 'audio.volume.changed'
   | 'save.requested'
   | 'save.cleared'
+  | 'item.taken'
   | 'panel.opened'
   | 'panel.closed'
   | 'renderer.resized'

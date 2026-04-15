@@ -9,6 +9,7 @@ import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 import { QUEST_REGISTRY } from '@/data/quests/index.js'
 import { ENDING_NARRATIVES } from '@/data/endings/index.js'
 import { HINTS } from '@/data/hints/index.js'
+import { getItemAtLocation } from '@/data/items/index.js'
 
 /** A hit-testable clickable region drawn on the canvas. */
 interface ClickRegion {
@@ -824,6 +825,15 @@ export class CanvasTextRenderer implements IRenderer {
       btnY += bH + 4
     }
 
+    const itemHere = getItemAtLocation(state.player.currentLocation)
+    if (itemHere && !state.inventory.has(itemHere.id)) {
+      const bH = this.lh(12) * 2
+      const itemLabel = `⬡ TAKE ${this.t(itemHere.nameKey).toUpperCase()}`
+      this.renderActionButton(x + m, btnY, w - m * 2, bH, itemLabel, this.colors.accentWarm)
+      this.addClickRegion(x + m, btnY, w - m * 2, bH, { type: 'take', itemId: itemHere.id }, itemLabel)
+      btnY += bH + 4
+    }
+
     this.setFont(9)
     ctx.fillStyle = this.colors.textFaint
     ctx.textAlign = 'left'
@@ -865,6 +875,17 @@ export class CanvasTextRenderer implements IRenderer {
           action: { type: 'rest' } as GameAction,
           color: this.colors.safe,
         }] : []),
+      ...(() => {
+        const itemHere = getItemAtLocation(state.player.currentLocation)
+        if (itemHere && !state.inventory.has(itemHere.id)) {
+          return [{
+            label: `⬡ ${this.t(itemHere.nameKey).toUpperCase()}`,
+            action: { type: 'take', itemId: itemHere.id } as GameAction,
+            color: this.colors.accentWarm,
+          }]
+        }
+        return []
+      })(),
     ]
 
     // Fixed button width: min 80px, enough for label
