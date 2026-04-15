@@ -28,6 +28,8 @@ export class UIManager {
   private _codexActiveTab: ArchiveDomain | 'all' = 'all'
   private _codexSearchTerm = ''
   private _codexEscListener: ((e: KeyboardEvent) => void) | null = null
+  private _loreTimer: ReturnType<typeof setInterval> | null = null
+  private _loreIndex = 0
 
   setI18n(i18n: II18n): void { this._i18n = i18n }
   private t(key: string): string { return this._i18n ? this._i18n.t(key) : key }
@@ -63,7 +65,7 @@ export class UIManager {
     this.gameUI.className = isTitle ? 'title-screen' : ''
 
     if (isTitle) {
-      this.updateTitleUI()
+      this.updateTitleUI(state)
       return
     }
 
@@ -73,24 +75,69 @@ export class UIManager {
     this.updateNotifications(state)
   }
 
-  private updateTitleUI(): void {
+  private updateTitleUI(state: IGameState): void {
     let prompt = this.gameUI.querySelector('.title-prompt') as HTMLElement | null
+    const firstRender = !prompt
     if (!prompt) {
       prompt = document.createElement('div')
       prompt.className = 'title-prompt'
       this.gameUI.appendChild(prompt)
     }
+
     const hasSave = SaveSystem.hasSave()
-    const label = hasSave ? '[ PRESS ENTER TO CONTINUE ]' : '[ PRESS ENTER TO START ]'
+    const endingsSeen = state.endingsSeen.size > 0
+      ? state.endingsSeen.size
+      : SaveSystem.loadEndingsSeen().size
+
+    // Build continue label with loop info from saved state
+    let continueLabel = '[ PRESS ENTER TO CONTINUE ]'
+    if (hasSave) {
+      const saved = SaveSystem.loadState()
+      if (saved) {
+        continueLabel = `[ PRESS ENTER TO CONTINUE ] — Loop ${saved.player.loopCount}`
+      }
+    }
+    const label = hasSave ? continueLabel : '[ PRESS ENTER TO START ]'
+
+    const endingsHtml = endingsSeen > 0
+      ? `<div class="title-endings">${endingsSeen} / 5 endings discovered</div>`
+      : ''
+
     prompt.innerHTML = `
+      ${endingsHtml}
       <button class="start-btn" data-action='{"type":"start.game"}'>${label}</button>
       ${hasSave ? `<button class="new-game-btn" data-action='{"type":"new.game"}'>[ N ] NEW GAME (clears save)</button>` : ''}
+      <div class="title-lore" id="title-lore-quote"></div>
+      <div class="title-kbd-hint">Press Enter or Space to begin</div>
     `
+
+    // Start lore quote rotation only on first render
+    if (firstRender) {
+      const lorePages = CODEX_PAGES.filter(p => p.bodyKey)
+      if (lorePages.length > 0) {
+        this._loreIndex = Math.floor(Math.random() * lorePages.length)
+        const showQuote = () => {
+          const quoteEl = this.gameUI.querySelector('#title-lore-quote')
+          if (!quoteEl) return
+          const page = lorePages[this._loreIndex % lorePages.length]
+          const title = this.t(page.titleKey)
+          const body = this.t(page.bodyKey)
+          quoteEl.innerHTML = `<span class="title-lore-title">${this.esc(title)}</span><span class="title-lore-body">${this.esc(body)}</span>`
+          this._loreIndex++
+        }
+        showQuote()
+        this._loreTimer = setInterval(showQuote, 6000)
+      }
+    }
   }
 
   private removeTitle(): void {
     const p = this.gameUI.querySelector('.title-prompt')
     if (p) p.remove()
+    if (this._loreTimer !== null) {
+      clearInterval(this._loreTimer)
+      this._loreTimer = null
+    }
   }
 
   updateHUD(state: IGameState): void {
