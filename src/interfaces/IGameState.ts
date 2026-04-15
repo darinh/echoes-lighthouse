@@ -10,6 +10,9 @@ import type {
   EndingId,
   AchievementId,
 } from './types.js'
+import type { EncounterId } from '@/data/encounters/index.js'
+
+export type WeatherType = 'clear' | 'fog' | 'rain'
 
 export interface IJournalEntry {
   readonly id: string
@@ -111,6 +114,7 @@ export interface IGameState {
   readonly inventory: ReadonlySet<ItemId>
   readonly endingsSeen: ReadonlySet<EndingId>
   readonly audioMuted: boolean
+  readonly weather: WeatherType
   readonly achievements: ReadonlySet<AchievementId>
   readonly pendingAchievement: {
     readonly id: AchievementId
@@ -125,4 +129,6 @@ export interface IGameState {
     readonly narrativeVolume: number
     readonly locale: string
   }
+  readonly activeEncounter: EncounterId | null
+  readonly nightEncounterShown: number
 }

@@ -78,6 +78,7 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     audioMuted: false,
     achievements: new Set(),
     pendingAchievement: null,
+    weather: 'clear' as const,
     settings: {
       masterVolume: 1,
       ambientVolume: 0.6,
@@ -85,6 +86,8 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
       narrativeVolume: 1,
       locale: 'en',
     },
+    activeEncounter: null,
+    nightEncounterShown: 0,
     ...overrides,
   }
 }

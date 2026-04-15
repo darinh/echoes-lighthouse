@@ -11,6 +11,7 @@ import { QUEST_REGISTRY } from '@/data/quests/index.js'
 import { ENDING_NARRATIVES } from '@/data/endings/index.js'
 import { HINTS } from '@/data/hints/index.js'
 import { getItemAtLocation } from '@/data/items/index.js'
+import { NIGHT_ENCOUNTERS } from '@/data/encounters/index.js'
 
 /** A hit-testable clickable region drawn on the canvas. */
 interface ClickRegion {
@@ -1121,6 +1122,7 @@ export class CanvasTextRenderer implements IRenderer {
       this.renderActionButton(b2x, btnY, btnW, 36, 'ENTER VISION', this.colors.accentWarm)
       this.addClickRegion(b2x, btnY, btnW, 36, { type: 'vision.continue' }, 'Enter vision')
     }
+    this.renderEncounterPanel(state, btnY + 36 + 16)
   }
 
   private renderNightDark(state: IGameState): void {
@@ -1181,6 +1183,54 @@ export class CanvasTextRenderer implements IRenderer {
 
     this.renderActionButton(btnX, btnY, btnW, btnH, '◈ ACCEPT DEATH', this.colors.danger)
     this.addClickRegion(btnX, btnY, btnW, btnH, { type: 'player.accept.death' }, 'Accept death')
+    this.renderEncounterPanel(state, btnY + btnH + 16)
+  }
+
+  private renderEncounterPanel(state: IGameState, panelY: number): void {
+    if (!state.activeEncounter) return
+    const enc = NIGHT_ENCOUNTERS.find(e => e.id === state.activeEncounter)
+    if (!enc) return
+
+    const { ctx, width } = this
+    const cx = width / 2
+    const panelW = Math.min(400, width * 0.7)
+    const panelX = cx - panelW / 2
+    const panelH = 96
+
+    // Amber-bordered panel background
+    ctx.fillStyle = 'rgba(20, 14, 4, 0.92)'
+    ctx.fillRect(panelX, panelY, panelW, panelH)
+    ctx.strokeStyle = this.colors.accentWarm
+    ctx.lineWidth = 1.5
+    ctx.strokeRect(panelX, panelY, panelW, panelH)
+    ctx.lineWidth = 1
+
+    // Left amber accent strip
+    ctx.fillStyle = this.colors.accentWarm
+    ctx.fillRect(panelX, panelY, 3, panelH)
+
+    // Description text
+    this.setFont(10)
+    ctx.fillStyle = this.colors.textPrimary
+    ctx.textAlign = 'left'
+    const desc = this.t(enc.descKey)
+    this.wrapText(desc, panelX + 14, panelY + this.lh(10) + 4, panelW - 28, this.lh(10))
+
+    // Buttons row
+    const bY = panelY + panelH - this.lh(11) - 10
+    const bW = Math.min(140, panelW * 0.4)
+
+    const canInvestigate = state.player.stamina >= enc.staminaCost
+    const invColor = canInvestigate ? this.colors.accentWarm : this.colors.textFaint
+    const invLabel = `${this.t(enc.investigateKey)} (1⚡)`
+    this.renderActionButton(panelX + 14, bY, bW, this.lh(11), invLabel, invColor)
+    if (canInvestigate) {
+      this.addClickRegion(panelX + 14, bY, bW, this.lh(11), { type: 'investigate' }, 'Investigate encounter')
+    }
+
+    const ignLabel = this.t(enc.ignoreKey)
+    this.renderActionButton(panelX + 14 + bW + 10, bY, bW, this.lh(11), ignLabel, this.colors.textDim)
+    this.addClickRegion(panelX + 14 + bW + 10, bY, bW, this.lh(11), { type: 'ignore_encounter' }, 'Ignore encounter')
   }
 
   private renderVision(state: IGameState): void {

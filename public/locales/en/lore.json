@@ -644,5 +644,14 @@
       "codex_title": "Echo: The Transcendence",
       "codex_body": "All seven truths sealed, the mechanism understood in full. The light you kindled that final night rose higher than the tower. Somewhere beyond the fog, something vast took notice. It did not seem hostile."
     }
+  },
+  "encounter": {
+    "ignore": "Ignore",
+    "distant_light": { "desc": "A rhythmic light pulses from the far cliffs.", "investigate": "Investigate" },
+    "strange_sound": { "desc": "Something scrapes against the rocks below.", "investigate": "Investigate" },
+    "shadow_movement": { "desc": "A silhouette crosses the lighthouse beam.", "investigate": "Investigate" },
+    "tide_signal": { "desc": "The tide retreats in an unusual pattern.", "investigate": "Investigate" },
+    "lantern_flicker": { "desc": "The lighthouse lantern stutters — three short, two long.", "investigate": "Investigate" },
+    "voice_in_wind": { "desc": "You hear your name in the wind. Or think you do.", "investigate": "Investigate" }
   }
 }

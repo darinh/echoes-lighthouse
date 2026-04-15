@@ -10,6 +10,7 @@ import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 import { SaveSystem } from '@/systems/SaveSystem.js'
 import { HINTS } from '@/data/hints/index.js'
 import { getItemAtLocation, itemTakenFlag } from '@/data/items/index.js'
+import { pickRandomEncounter, NIGHT_ENCOUNTERS } from '@/data/encounters/index.js'
 
 /**
  * GameEngine — Owns game state, coordinates systems, drives the render loop.
@@ -252,6 +253,9 @@ export class GameEngine {
             phase: nextPhase,
             priorPhase: remaining.length === 0 ? null : this.state.priorPhase,
           }
+          if (nextPhase === 'night_safe') {
+            this.maybeTriggerNightEncounter()
+          }
         }
         break
       }
@@ -310,6 +314,7 @@ export class GameEngine {
         } else if (this.state.phase === 'dusk') {
           this.state = { ...this.state, phase: 'night_dark', nightDangerLevel: 2 }
           this.eventBus.emit('time.passed', { from: 'dusk', to: 'night_dark' })
+          this.maybeTriggerNightEncounter()
         }
         break
       }
@@ -396,9 +401,41 @@ export class GameEngine {
       }
 
       case 'loop.dawn':
+        this.state = {
+          ...this.state,
+          activeEncounter: null,
+          nightEncounterShown: 0,
+        }
         this.applyEvent('loop.dawn', {})
         this.eventBus.emit('loop.dawn', {})
         break
+
+      case 'investigate': {
+        const enc = NIGHT_ENCOUNTERS.find(e => e.id === this.state.activeEncounter)
+        if (!enc || this.state.player.stamina < enc.staminaCost) break
+        const newFlags = new Set(this.state.worldFlags)
+        if (enc.rewardFlag) newFlags.add(enc.rewardFlag)
+        const insight = enc.rewardInsight ?? 0
+        this.state = {
+          ...this.state,
+          activeEncounter: null,
+          worldFlags: newFlags,
+          player: {
+            ...this.state.player,
+            stamina: this.state.player.stamina - enc.staminaCost,
+            insight: this.state.player.insight + insight,
+          },
+        }
+        this.eventBus.emit('encounter.resolved', { encounterId: enc.id, choice: 'investigate' })
+        break
+      }
+
+      case 'ignore_encounter': {
+        const encId = this.state.activeEncounter
+        this.state = { ...this.state, activeEncounter: null }
+        if (encId) this.eventBus.emit('encounter.resolved', { encounterId: encId, choice: 'ignore' })
+        break
+      }
 
       case 'vision.continue':
         this.handleAction({ type: 'dismiss.vision' })
@@ -430,6 +467,17 @@ export class GameEngine {
     const newFlags = new Set(this.state.worldFlags)
     newFlags.add(flag)
     this.state = { ...this.state, worldFlags: newFlags }
+  }
+
+  private maybeTriggerNightEncounter(): void {
+    if (this.state.nightEncounterShown >= 1) return
+    const encounter = pickRandomEncounter(new Set<string>())
+    if (!encounter) return
+    this.state = {
+      ...this.state,
+      activeEncounter: encounter.id,
+      nightEncounterShown: this.state.nightEncounterShown + 1,
+    }
   }
 
   private loop(timestamp: number): void {

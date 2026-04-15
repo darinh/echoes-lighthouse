@@ -84,6 +84,7 @@ export function createInitialState(): IGameState {
     inventory: new Set<import('../interfaces/types.js').ItemId>(),
     endingsSeen: new Set<EndingId>(),
     audioMuted: false,
+    weather: 'clear',
     achievements: new Set<AchievementId>(),
     pendingAchievement: null,
     settings: {
@@ -93,5 +94,7 @@ export function createInitialState(): IGameState {
       narrativeVolume: 0.8,
       locale: 'en',
     },
+    activeEncounter: null,
+    nightEncounterShown: 0,
   }
 }

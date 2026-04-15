@@ -79,6 +79,8 @@ export type GameEventType =
   | 'audio.toggle'
   | 'loop.night'
   | 'achievement.unlocked'
+  | 'weather.changed'
+  | 'encounter.resolved'
 
 | 'lighthouse.lit'
   | 'loop.dawn'

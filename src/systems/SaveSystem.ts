@@ -245,6 +245,7 @@ export class SaveSystem implements ISystem {
       inventory: new Set(snapshot.inventory ?? []) as IGameState['inventory'],
       endingsSeen: new Set(snapshot.endingsSeen ?? []) as IGameState['endingsSeen'],
       audioMuted: snapshot.audioMuted ?? false,
+      weather: 'clear',
       achievements: new Set(snapshot.achievements ?? []) as IGameState['achievements'],
       pendingAchievement: null,
       settings: {
@@ -254,6 +255,8 @@ export class SaveSystem implements ISystem {
         narrativeVolume: 0.8,
         locale: snapshot.locale,
       },
+      activeEncounter: null,
+      nightEncounterShown: 0,
     }
   }
 }
