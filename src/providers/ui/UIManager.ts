@@ -25,6 +25,12 @@ export class UIManager {
 
   private _i18n: II18n | null = null
   private _toastTimer: ReturnType<typeof setTimeout> | null = null
+
+  // Per-panel HTML cache — only write innerHTML when content changes, preventing
+  // per-frame button detachment that silently breaks click events.
+  private _lastHudHtml = ''
+  private _lastContentHtml = ''
+  private _lastActionHtml = ''
   private _codexActiveTab: ArchiveDomain | 'all' = 'all'
   private _codexSearchTerm = ''
   private _codexEscListener: ((e: KeyboardEvent) => void) | null = null
@@ -37,6 +43,13 @@ export class UIManager {
 
   setI18n(i18n: II18n): void { this._i18n = i18n }
   private t(key: string): string { return this._i18n ? this._i18n.t(key) : key }
+
+  /** Only set innerHTML when content actually changed — keeps buttons in the live DOM. */
+  private setHtml(el: HTMLElement, html: string, cache: '_lastHudHtml' | '_lastContentHtml' | '_lastActionHtml'): void {
+    if (this[cache] === html) return
+    this[cache] = html
+    el.innerHTML = html
+  }
 
   init(container: HTMLElement = document.body): void {
     this.hud = container.querySelector('#hud') as HTMLElement
@@ -166,7 +179,7 @@ export class UIManager {
     const warnGlyph = (player.stamina <= 2 || dayTimeRemaining < 0.2) ? '<span class="hud-warn">⚠</span>' : ''
     const mutedIcon = state.audioMuted ? '🔇' : '🔊'
 
-    this.hud.innerHTML = `
+    const hudHtml = `
       <span class="hud-loop">LOOP <span>${player.loopCount}</span></span>
       <span class="hud-phase">${phase.replace('_', ' ').toUpperCase()}</span>
       <span class="hud-hearts">${'♥'.repeat(player.hearts)}${'♡'.repeat(Math.max(0, 3 - player.hearts))}</span>
@@ -185,7 +198,9 @@ export class UIManager {
         <span class="bar-track"><span class="bar-fill ${timerClass}" style="width:${Math.round(dayTimeRemaining * 100)}%"></span></span>
       </span>
       <button class="hud-mute" data-action='{"type":"pause.toggle"}' title="Toggle audio">${mutedIcon}</button>
+      <span class="hud-version">v${(import.meta as { env?: Record<string, string> }).env?.VITE_APP_VERSION ?? '?'}</span>
     `
+    this.setHtml(this.hud, hudHtml, '_lastHudHtml')
   }
 
   private updateMainArea(state: IGameState): void {
@@ -210,11 +225,11 @@ export class UIManager {
         break
       case 'death':
         this.renderDeathScreen(state)
-        this.actionPanel.innerHTML = ''
+        this.setHtml(this.actionPanel, '', '_lastActionHtml')
         break
       case 'ending':
         this.renderEndingScreen(state)
-        this.actionPanel.innerHTML = ''
+        this.setHtml(this.actionPanel, '', '_lastActionHtml')
         break
       case 'vision':
         this.renderVisionScreen(state)
@@ -306,7 +321,7 @@ export class UIManager {
     }
 
     html += this.tutorialHintsHTML(state)
-    this.contentPanel.innerHTML = html
+    this.setHtml(this.contentPanel, html, '_lastContentHtml')
   }
 
   private archiveDeskHTML(state: IGameState): string {
@@ -393,7 +408,7 @@ export class UIManager {
       </button>`
     }
 
-    this.contentPanel.innerHTML = `
+    this.setHtml(this.contentPanel, `
       <div class="dialogue-box">
         <div class="dialogue-speaker">${this.esc(speakerName.toUpperCase())}</div>
         <div class="dialogue-rule"></div>
@@ -401,36 +416,36 @@ export class UIManager {
         <div class="dialogue-choices">${choicesHTML}</div>
         <button class="dialogue-leave" data-action='{"type":"dialogue.close"}'>← LEAVE</button>
       </div>
-    `
+    `, '_lastContentHtml')
   }
 
   private renderNightSafe(state: IGameState): void {
     const locName = this.locationName(state.player.currentLocation)
-    this.contentPanel.innerHTML = `
+    this.setHtml(this.contentPanel, `
       <div class="night-safe">
         <div class="night-label">◈ SAFE HARBOUR</div>
         <p class="night-desc">You shelter at ${this.esc(locName)} as night falls.</p>
         <p class="night-desc">Stamina: ${state.player.stamina}/10 · Light Reserves: ${state.player.lightReserves}%</p>
         <button class="night-btn safe-btn" data-action='{"type":"loop.dawn"}'>AWAIT DAWN →</button>
       </div>
-    `
+    `, '_lastContentHtml')
   }
 
   private renderNightDark(state: IGameState): void {
     const locName = this.locationName(state.player.currentLocation)
-    this.contentPanel.innerHTML = `
+    this.setHtml(this.contentPanel, `
       <div class="night-dark">
         <div class="night-label">⚠ DARKNESS FALLS</div>
         <p class="night-desc">You are caught in the open at ${this.esc(locName)} as night descends.</p>
         <button class="night-btn dark-btn" data-action='{"type":"night.hide"}'>TRY TO HIDE</button>
         <button class="night-btn dark-btn" data-action='{"type":"player.accept.death"}'>ACCEPT FATE</button>
       </div>
-    `
+    `, '_lastContentHtml')
   }
 
   private renderDeathScreen(state: IGameState): void {
     const cause = state.deathCause ? this.t(state.deathCause) : 'The darkness took you.'
-    this.contentPanel.innerHTML = `
+    this.setHtml(this.contentPanel, `
       <div class="death-screen">
         <div class="death-title">◆ YOU HAVE FALLEN ◆</div>
         <p class="death-cause">${this.esc(cause)}</p>
@@ -438,7 +453,7 @@ export class UIManager {
         <button class="death-btn" data-action='{"type":"loop.dawn"}'>BEGIN AGAIN →</button>
         <button class="death-btn" data-action='{"type":"main.menu"}'>MAIN MENU</button>
       </div>
-    `
+    `, '_lastContentHtml')
   }
 
   private renderEndingScreen(state: IGameState): void {
@@ -446,25 +461,25 @@ export class UIManager {
     const narrative = ENDING_NARRATIVES[state.endingId]
     const title = narrative ? this.t(narrative.titleKey) : 'THE END'
     const text = narrative ? this.t(narrative.openingKey) : ''
-    this.contentPanel.innerHTML = `
+    this.setHtml(this.contentPanel, `
       <div class="ending-screen">
         <div class="ending-title">${this.esc(title)}</div>
         <p class="ending-text">${this.esc(text)}</p>
         <button class="ending-btn" data-action='{"type":"main.menu"}'>RETURN TO LIGHTHOUSE</button>
       </div>
-    `
+    `, '_lastContentHtml')
   }
 
   private renderVisionScreen(state: IGameState): void {
     const visionKey = state.pendingVisions[0]
     if (!visionKey) return
     const visionText = this.t(visionKey)
-    this.contentPanel.innerHTML = `
+    this.setHtml(this.contentPanel, `
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;gap:16px;padding:32px;">
         <p style="font-size:14px;color:#c4cfe0;max-width:480px;line-height:1.8;font-style:italic;">${this.esc(visionText)}</p>
         <button style="background:none;border:1px solid #2e4268;color:#465a72;font-family:monospace;font-size:12px;padding:6px 16px;cursor:pointer;" data-action='{"type":"vision.continue"}'>CONTINUE →</button>
       </div>
-    `
+    `, '_lastContentHtml')
   }
 
   private renderActionPanel(state: IGameState): void {
@@ -529,7 +544,7 @@ export class UIManager {
           CODEX
         </button>
       </div>`
-    this.actionPanel.innerHTML = html
+    this.setHtml(this.actionPanel, html, '_lastActionHtml')
   }
 
   private updateOverlay(state: IGameState): void {
