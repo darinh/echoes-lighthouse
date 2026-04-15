@@ -44,7 +44,7 @@ describe('PanelRendering', () => {
     const { canvas } = makeMockCanvas()
     renderer.init(canvas)
     renderer.resize(800, 600)
-    baseState = { ...createInitialState(), phase: 'day' }
+    baseState = { ...createInitialState(), phase: 'morning' }
   })
 
   it('renders journal panel without crash when sealedInsights is empty', () => {

@@ -185,7 +185,7 @@ export class SaveSystem implements ISystem {
 
     return {
       saveVersion: snapshot.saveVersion,
-      phase: 'day',
+      phase: 'morning',
       dayTimeRemaining: 1,
       locale: snapshot.locale,
       isPaused: false,
@@ -196,7 +196,7 @@ export class SaveSystem implements ISystem {
         Object.entries(snapshot.questStepProgress ?? {}).map(([k, v]) => [k, new Set(v)])
       ),
       player: {
-        stamina: 100,
+        stamina: 10,
         lightReserves: 100,
         hearts: 3,
         insight: 0,

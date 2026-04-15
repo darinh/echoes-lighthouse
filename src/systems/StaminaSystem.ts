@@ -1,11 +1,12 @@
 import type { ISystem, IGameState, IGameEvent, IEventBus } from '@/interfaces/index.js'
 
-const STAMINA_DRAIN_PER_MOVE = 10
-const LIGHT_DRAIN_PER_TICK = 2
-const STAMINA_LOW_THRESHOLD = 20
+const STAMINA_DRAIN_PER_MOVE = 1
+const STAMINA_DRAIN_PER_EXAMINE = 1
+const STAMINA_LOW_THRESHOLD = 2
+const MAX_STAMINA = 10
 
 /**
- * StaminaSystem — Drains stamina on movement and light reserves on time ticks.
+ * StaminaSystem — Drains stamina on movement/examine and light reserves on time ticks.
  * Emits exhaustion/low-light events for the engine to react to.
  */
 export class StaminaSystem implements ISystem {
@@ -18,24 +19,41 @@ export class StaminaSystem implements ISystem {
 
   onEvent(event: IGameEvent, state: IGameState): IGameState {
     switch (event.type) {
-      case 'location.moved':   return this.handleMoved(state)
-      case 'time.tick':        return this.handleTimeTick(state)
-      case 'player.rested':    return this.handleRested(state)
-      case 'lantern.refilled': return this.handleLanternRefilled(state)
-      default:                 return state
+      case 'location.moved':    return this.handleMoved(state)
+      case 'examine.completed': return this.handleExamined(state)
+      case 'time.tick':         return this.handleTimeTick(state)
+      case 'player.rested':     return this.handleRested(state)
+      case 'lantern.refilled':  return this.handleLanternRefilled(state)
+      default:                  return state
     }
   }
 
   private handleMoved(state: IGameState): IGameState {
     const newStamina = Math.max(0, state.player.stamina - STAMINA_DRAIN_PER_MOVE)
-    let newState: IGameState = {
+    const newState: IGameState = {
       ...state,
       player: { ...state.player, stamina: newStamina },
     }
 
     if (newStamina === 0) {
       this.eventBus.emit('player.exhausted', {})
-    } else if (newStamina < STAMINA_LOW_THRESHOLD) {
+    } else if (newStamina <= STAMINA_LOW_THRESHOLD) {
+      this.eventBus.emit('player.stamina.low', { stamina: newStamina })
+    }
+
+    return newState
+  }
+
+  private handleExamined(state: IGameState): IGameState {
+    const newStamina = Math.max(0, state.player.stamina - STAMINA_DRAIN_PER_EXAMINE)
+    const newState: IGameState = {
+      ...state,
+      player: { ...state.player, stamina: newStamina },
+    }
+
+    if (newStamina === 0) {
+      this.eventBus.emit('player.exhausted', {})
+    } else if (newStamina <= STAMINA_LOW_THRESHOLD) {
       this.eventBus.emit('player.stamina.low', { stamina: newStamina })
     }
 
@@ -43,6 +61,7 @@ export class StaminaSystem implements ISystem {
   }
 
   private handleTimeTick(state: IGameState): IGameState {
+    const LIGHT_DRAIN_PER_TICK = 2
     const newLight = Math.max(0, state.player.lightReserves - LIGHT_DRAIN_PER_TICK)
     const newState: IGameState = {
       ...state,
@@ -59,7 +78,7 @@ export class StaminaSystem implements ISystem {
   private handleRested(state: IGameState): IGameState {
     return {
       ...state,
-      player: { ...state.player, stamina: 100 },
+      player: { ...state.player, stamina: MAX_STAMINA },
     }
   }
 

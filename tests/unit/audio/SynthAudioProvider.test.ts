@@ -112,7 +112,7 @@ describe('SynthAudioProvider', () => {
 
   it('setPhase() does not throw after unlock for all phases', async () => {
     await provider.unlock()
-    for (const phase of ['dawn', 'day', 'dusk', 'night_safe', 'night_dark', 'vision', 'ending'] as const) {
+    for (const phase of ['dawn', 'morning', 'afternoon', 'dusk', 'night_safe', 'night_dark', 'vision', 'ending'] as const) {
       expect(() => provider.setPhase(phase)).not.toThrow()
     }
   })

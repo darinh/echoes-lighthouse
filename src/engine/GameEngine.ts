@@ -149,6 +149,10 @@ export class GameEngine {
         this.eventBus.emit('archive.page.found', { domain: item.domain })
         this.applyEvent('archive.page.found', { domain: item.domain })
         this.eventBus.emit('examine.completed', { itemId, locationId, insight: item.insight })
+        this.applyEvent('examine.completed', { itemId, locationId: locationId, insight: item.insight })
+        if (this.state.player.stamina === 0) {
+          this.state = { ...this.state, phase: 'death', deathCause: 'death.stamina_depleted' }
+        }
         // Hint triggers after examine
         if (!this.state.worldFlags.has('hint_dismissed.first_examine')) {
           this.setFlag('hint_trigger.first_examine')
@@ -249,7 +253,7 @@ export class GameEngine {
 
       case 'light.lighthouse': {
         if (this.state.player.currentLocation !== 'lighthouse_top') break
-        const hasResources = this.state.player.lightReserves >= 30 && this.state.player.stamina >= 20
+        const hasResources = this.state.player.lightReserves >= 30 && this.state.player.stamina >= 2
         if (!hasResources) break
         this.state = {
           ...this.state,
@@ -264,14 +268,25 @@ export class GameEngine {
 
       case 'rest': {
         if (this.state.player.currentLocation !== 'village_inn') break
-        const newStamina = Math.min(10, this.state.player.stamina + 3)
-        const newTime = Math.max(0, this.state.dayTimeRemaining - 2)
         this.state = {
           ...this.state,
-          dayTimeRemaining: newTime,
-          player: { ...this.state.player, stamina: newStamina },
+          player: { ...this.state.player, stamina: 10 },
         }
         this.applyEvent('player.rested', {})
+        break
+      }
+
+      case 'wait': {
+        const phaseOrder: import('@/interfaces/types.js').GamePhase[] = ['dawn', 'morning', 'afternoon', 'dusk']
+        const currentIndex = phaseOrder.indexOf(this.state.phase as import('@/interfaces/types.js').GamePhase)
+        if (currentIndex !== -1 && currentIndex < phaseOrder.length - 1) {
+          const nextPhase = phaseOrder[currentIndex + 1]!
+          this.state = { ...this.state, phase: nextPhase }
+          this.eventBus.emit('time.passed', { from: this.state.phase, to: nextPhase })
+        } else if (this.state.phase === 'dusk') {
+          this.state = { ...this.state, phase: 'night_dark', nightDangerLevel: 2 }
+          this.eventBus.emit('time.passed', { from: 'dusk', to: 'night_dark' })
+        }
         break
       }
 
@@ -405,7 +420,7 @@ export class GameEngine {
 
     // Trigger night_warning hint as day time runs low
     if (
-      (this.state.phase === 'day' || this.state.phase === 'dusk') &&
+      (this.state.phase === 'morning' || this.state.phase === 'afternoon' || this.state.phase === 'dusk') &&
       this.state.dayTimeRemaining < 0.30 &&
       !this.state.worldFlags.has('hint_trigger.night_warning') &&
       !this.state.worldFlags.has('hint_dismissed.night_warning')
