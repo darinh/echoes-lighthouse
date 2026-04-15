@@ -720,15 +720,17 @@ input[type="range"] { accent-color: var(--lantern); }
 /* ── Action dock (pinned to bottom of gameplay view) ─────────── */
 .action-dock {
   flex-shrink: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap-xs);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 3px;
   padding-top: var(--gap-sm);
   border-top: 1px solid var(--hairline);
 }
 .action-dock .act {
-  flex: 1 1 auto;
-  width: auto;
+  text-align: center;
+  padding: 6px 4px;
+  font-size: 11px;
+  border-left-width: 3px;
 }
 
 /* ── Scene text (narrative voice) ────────────────────────────── */
@@ -1025,10 +1027,10 @@ R.gameplay = () => `
 
   <!-- ACTION DOCK — pinned bottom [GDD §5c.7] -->
   <div class="action-dock">
-    <button class="act">Cliffs<span class="sub">1 turn</span></button>
-    <button class="act">★ Mechanism Room<span class="sub">2 turns</span><span class="cost">🔒</span></button>
+    <button class="act">Cliffs · 1t</button>
+    <button class="act">★ Mechanism · 2t 🔒</button>
     <button class="act ghost">⏸ Wait</button>
-    <button class="act safe">◈ Light the Beacon</button>
+    <button class="act safe">◈ Light Beacon</button>
   </div>
 </div>`;
 
