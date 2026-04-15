@@ -235,6 +235,10 @@ export class UIManager {
       html += this.archiveDeskHTML(state)
     }
 
+    if (locId === 'lighthouse_top') {
+      html += this.signalPuzzleHTML(state)
+    }
+
     html += this.tutorialHintsHTML(state)
     this.contentPanel.innerHTML = html
   }
@@ -271,6 +275,31 @@ export class UIManager {
     }
     html += `</div></div>`
     return html
+  }
+
+  private signalPuzzleHTML(state: IGameState): string {
+    if (state.puzzleState.signalSolved) {
+      return `<p class="puzzle-solved">✦ SIGNAL LOCKED — frequency aligned</p>`
+    }
+    const dials = state.puzzleState.signalDials
+    let dialsHTML = ''
+    for (let i = 0; i < 3; i++) {
+      const val = dials[i]
+      dialsHTML += `
+        <div class="dial-group">
+          <button class="dial-btn" data-action='{"type":"puzzle.dial.set","dialIndex":${i},"value":${val + 1}}'>▲</button>
+          <span class="dial-value">${val}</span>
+          <button class="dial-btn" data-action='{"type":"puzzle.dial.set","dialIndex":${i},"value":${val - 1}}'>▼</button>
+        </div>
+      `
+    }
+    return `
+      <div class="puzzle-panel">
+        <p class="puzzle-hint">Tune the signal frequency</p>
+        <div class="puzzle-dials">${dialsHTML}</div>
+        <button class="action-btn puzzle-submit" data-action='{"type":"puzzle.signal.submit"}'>TRANSMIT SIGNAL</button>
+      </div>
+    `
   }
 
   private tutorialHintsHTML(state: IGameState): string {

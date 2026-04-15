@@ -142,4 +142,8 @@ export interface IGameState {
   readonly weather: WeatherType
   readonly activeEncounter: EncounterId | null
   readonly nightEncounterShown: number
+  readonly puzzleState: {
+    readonly signalDials: readonly [number, number, number]
+    readonly signalSolved: boolean
+  }
 }

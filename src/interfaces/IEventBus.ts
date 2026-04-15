@@ -86,6 +86,8 @@ export type GameEventType =
   | 'achievement.unlocked'
   | 'weather.changed'
   | 'encounter.resolved'
+  | 'puzzle.solved'
+  | 'puzzle.failed'
 
 | 'lighthouse.lit'
   | 'loop.dawn'
