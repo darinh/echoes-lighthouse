@@ -510,8 +510,20 @@ export class UIManager {
 
     html += `
       <div class="action-nav">
-        <button class="nav-btn" data-action='{"type":"panel.toggle","panel":"journal"}'>📖 JOURNAL</button>
-        <button class="nav-btn" data-action='{"type":"panel.toggle","panel":"codex"}'>◆ CODEX</button>
+        <button class="nav-btn" data-action='{"type":"panel.toggle","panel":"journal"}'>
+          <svg class="nav-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 15V5"/>
+            <path d="M2 4C4 3 6.5 3.5 9 5C11.5 3.5 14 3 16 4V15C14 14 11.5 13.5 9 15C6.5 13.5 4 14 2 15V4Z"/>
+          </svg>
+          JOURNAL
+        </button>
+        <button class="nav-btn" data-action='{"type":"panel.toggle","panel":"codex"}'>
+          <svg class="nav-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 2L11 7L16 9L11 11L9 16L7 11L2 9L7 7Z"/>
+            <circle cx="9" cy="9" r="2.2" fill="currentColor" stroke="none" opacity="0.4"/>
+          </svg>
+          CODEX
+        </button>
       </div>`
     this.actionPanel.innerHTML = html
   }
