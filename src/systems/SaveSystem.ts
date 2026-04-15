@@ -16,6 +16,7 @@ interface SaveSnapshot {
   activeQuests: string[]
   completedQuests: string[]
   questStepProgress: Record<string, string[]>
+  inventory: string[]
   player: {
     stamina: number
     lightReserves: number
@@ -142,6 +143,7 @@ export class SaveSystem implements ISystem {
       questStepProgress: Object.fromEntries(
         Object.entries(state.questStepProgress).map(([k, v]) => [k, [...v]])
       ),
+      inventory: [...state.inventory],
       player: {
         stamina: state.player.stamina,
         lightReserves: state.player.lightReserves,
@@ -222,6 +224,7 @@ export class SaveSystem implements ISystem {
       priorPhase: null,
       lighthouseLitThisLoop: false,
       deathCause: null,
+      inventory: new Set(snapshot.inventory ?? []) as IGameState['inventory'],
       settings: {
         masterVolume: 0.8,
         ambientVolume: 0.8,

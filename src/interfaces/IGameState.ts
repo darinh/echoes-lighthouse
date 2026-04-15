@@ -6,6 +6,7 @@ import type {
   InsightCardId,
   JournalThreadId,
   NPCAttitude,
+  ItemId,
 } from './types.js'
 
 export interface IJournalEntry {
@@ -105,6 +106,7 @@ export interface IGameState {
   readonly priorPhase: GamePhase | null
   readonly lighthouseLitThisLoop: boolean
   readonly deathCause: string | null
+  readonly inventory: ReadonlySet<ItemId>
   readonly settings: {
     readonly masterVolume: number
     readonly ambientVolume: number

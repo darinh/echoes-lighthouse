@@ -9,6 +9,7 @@ import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 import { QUEST_REGISTRY } from '@/data/quests/index.js'
 import { ENDING_NARRATIVES } from '@/data/endings/index.js'
 import { HINTS } from '@/data/hints/index.js'
+import { getItemAtLocation } from '@/data/items/index.js'
 
 /** A hit-testable clickable region drawn on the canvas. */
 interface ClickRegion {
@@ -824,6 +825,15 @@ export class CanvasTextRenderer implements IRenderer {
       btnY += bH + 4
     }
 
+    const itemHere = getItemAtLocation(state.player.currentLocation)
+    if (itemHere && !state.inventory.has(itemHere.id)) {
+      const bH = this.lh(12) * 2
+      const itemLabel = `⬡ TAKE ${this.t(itemHere.nameKey).toUpperCase()}`
+      this.renderActionButton(x + m, btnY, w - m * 2, bH, itemLabel, this.colors.accentWarm)
+      this.addClickRegion(x + m, btnY, w - m * 2, bH, { type: 'take', itemId: itemHere.id }, itemLabel)
+      btnY += bH + 4
+    }
+
     this.setFont(9)
     ctx.fillStyle = this.colors.textFaint
     ctx.textAlign = 'left'
@@ -865,6 +875,17 @@ export class CanvasTextRenderer implements IRenderer {
           action: { type: 'rest' } as GameAction,
           color: this.colors.safe,
         }] : []),
+      ...(() => {
+        const itemHere = getItemAtLocation(state.player.currentLocation)
+        if (itemHere && !state.inventory.has(itemHere.id)) {
+          return [{
+            label: `⬡ ${this.t(itemHere.nameKey).toUpperCase()}`,
+            action: { type: 'take', itemId: itemHere.id } as GameAction,
+            color: this.colors.accentWarm,
+          }]
+        }
+        return []
+      })(),
     ]
 
     // Fixed button width: min 80px, enough for label
@@ -2455,10 +2476,12 @@ export class CanvasTextRenderer implements IRenderer {
     if (!activeHint) return
 
     const { ctx, width, height } = this
-    const barW = Math.round(width * 0.5)
+    // On narrow screens (mobile portrait) use 88% of width; desktop cap at 500px
+    const barW = Math.min(Math.round(width * 0.88), 500)
     const barH = Math.round(this.lh(11) * 2.5)
     const barX = Math.round((width - barW) / 2)
-    const barY = Math.round(height * 0.85)
+    // Clamp barY so the overlay never overflows the canvas bottom
+    const barY = Math.min(Math.round(height * 0.85), height - barH - 8)
     const radius = 6
 
     // Semi-transparent dark background pill

@@ -81,6 +81,7 @@ export function createInitialState(): IGameState {
     priorPhase: null,
     lighthouseLitThisLoop: false,
     deathCause: null,
+    inventory: new Set<import('../interfaces/types.js').ItemId>(),
     settings: {
       masterVolume: 0.8,
       ambientVolume: 0.8,

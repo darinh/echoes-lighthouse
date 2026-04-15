@@ -78,3 +78,11 @@ export type AudioCategory = 'master' | 'ambient' | 'ui' | 'narrative'
 
 /** NPC attitude toward the player — can change based on choices. */
 export type NPCAttitude = 'friendly' | 'neutral' | 'hostile' | 'hidden' | 'fearful'
+
+/** Collectible item identifiers. */
+export type ItemId =
+  | 'keeper_logbook'
+  | 'old_compass'
+  | 'signal_flare'
+  | 'rusted_key'
+  | 'tide_chart'

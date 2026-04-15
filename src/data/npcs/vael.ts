@@ -13,6 +13,13 @@ export const VAEL_NPC: NPCFullData = {
     'vael.greeting.tier0': {
       speakerKey: 'npc.vael.greeting.tier0',
       choices: [
+        { id: 'show.logbook', textKey: 'dialogue.choice.show_logbook', nextNodeId: 'vael.item.logbook', worldFlagRequired: 'item.taken.keeper_logbook', insightGain: 12, trustGain: 5 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'vael.item.logbook': {
+      speakerKey: 'npc.vael.item.logbook',
+      choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },

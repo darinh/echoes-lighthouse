@@ -15,6 +15,13 @@ export const SILAS_NPC: NPCFullData = {
       choices: [
         { id: 'ask.ferry', textKey: 'dialogue.choice.ask_ferry', nextNodeId: 'silas.ferry.schedule', insightGain: 3 },
         { id: 'ask.lighthouse', textKey: 'dialogue.choice.ask_lighthouse', nextNodeId: 'silas.lighthouse.brush', insightGain: 5, trustLoss: 1 },
+        { id: 'show.compass', textKey: 'dialogue.choice.show_compass', nextNodeId: 'silas.item.compass', worldFlagRequired: 'item.taken.old_compass', insightGain: 10, trustGain: 4 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'silas.item.compass': {
+      speakerKey: 'npc.silas.item.compass',
+      choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },

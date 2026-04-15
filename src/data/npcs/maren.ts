@@ -15,6 +15,13 @@ export const MAREN_NPC: NPCFullData = {
       choices: [
         { id: 'ask.lighthouse', textKey: 'dialogue.choice.ask_lighthouse', nextNodeId: 'maren.lighthouse.lore', insightGain: 5 },
         { id: 'ask.archive', textKey: 'dialogue.choice.ask_archive', nextNodeId: 'maren.archive.lore', insightGain: 5 },
+        { id: 'show.key', textKey: 'dialogue.choice.show_key', nextNodeId: 'maren.item.key', worldFlagRequired: 'item.taken.rusted_key', insightGain: 10, trustGain: 4 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'maren.item.key': {
+      speakerKey: 'npc.maren.item.key',
+      choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
