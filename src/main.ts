@@ -1,7 +1,7 @@
 import { EventBus, GameEngine } from '@/engine/index.js'
 import { InputHandler } from '@/engine/InputHandler.js'
 import { I18nService } from '@/i18n/index.js'
-import { SynthAudioProvider } from '@/providers/audio/SynthAudioProvider.js'
+import { FileAudioProvider } from '@/providers/audio/FileAudioProvider.js'
 import { CanvasRenderer } from '@/providers/renderer/CanvasRenderer.js'
 import { UIManager } from '@/providers/ui/UIManager.js'
 import { HybridRenderer } from '@/providers/renderer/HybridRenderer.js'
@@ -25,7 +25,7 @@ async function boot(): Promise<void> {
   await i18n.setLocale('en')
 
   setProgress(30, 'Initialising systems...')
-  const audio      = new SynthAudioProvider()
+  const audio      = new FileAudioProvider()
   const canvasRend = new CanvasRenderer()
   canvasRend.setI18n(i18n)
   const uiManager  = new UIManager()
