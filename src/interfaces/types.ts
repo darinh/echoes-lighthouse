@@ -16,6 +16,14 @@ export type GamePhase =
   | 'vision'       // narrative revelation sequence
   | 'ending'
 
+/** The five narrative endings. */
+export type EndingId =
+  | 'liberation'
+  | 'keepers_peace'
+  | 'sacrifice'
+  | 'corruption'
+  | 'transcendence'
+
 /** The seven knowledge domains of the Archive Mastery system. */
 export type ArchiveDomain =
   | 'history'

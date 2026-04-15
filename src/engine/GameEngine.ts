@@ -231,13 +231,17 @@ export class GameEngine {
         if (remaining.length === 0 && this.state.lighthouseLitThisLoop) {
           // Visions complete after lighting lighthouse — resolve ending
           const endingId = this.resolveEnding(this.state)
+          const newEndingsSeen = new Set(this.state.endingsSeen)
+          newEndingsSeen.add(endingId as import('@/interfaces/types.js').EndingId)
           this.state = {
             ...this.state,
             pendingVisions: [],
             phase: 'ending',
             priorPhase: null,
             endingId,
+            endingsSeen: newEndingsSeen,
           }
+          SaveSystem.saveState(this.state)
         } else {
           const nextPhase = remaining.length === 0
             ? (this.state.priorPhase ?? 'night_safe')
@@ -345,7 +349,7 @@ export class GameEngine {
 
       case 'new.game':
         SaveSystem.clearSave()
-        this.state = { ...createInitialState(), phase: 'dawn' }
+        this.state = { ...createInitialState(), phase: 'dawn', endingsSeen: this.state.endingsSeen }
         break
 
       case 'main.menu':

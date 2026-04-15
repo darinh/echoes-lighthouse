@@ -3,6 +3,7 @@ import type { IGameState, INPCState, NPCId } from '@/interfaces/index.js'
 import type { GameAction } from '@/engine/InputHandler.js'
 import { getAdjacentLocations } from '@/data/locations/phase1Locations.js'
 import { CODEX_PAGES } from '@/data/codex/pages.js'
+import { ECHOES_CODEX } from '@/data/codex/echoes.js'
 import { SaveSystem } from '@/systems/SaveSystem.js'
 import { EXAMINE_DATA } from '@/data/locations/examineData.js'
 import { INSIGHT_CARDS } from '@/data/insights/cards.js'
@@ -350,12 +351,62 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = this.colors.textFaint
     ctx.fillText('\u201cDo not let it go dark.\u201d  \u2014 H.V.', cx, height * 0.86)
 
+    // ECHOES panel — endings tracker
+    this.renderTitleEchoes(cx, height)
+
     // Version
     const version = (import.meta as { env?: Record<string, string> }).env?.VITE_APP_VERSION ?? '1.0.0'
     ctx.fillStyle = this.colors.textFaint
     ctx.textAlign = 'right'
     ctx.fillText(`v${version}`, width - 16, height - 12)
     ctx.textAlign = 'center'
+  }
+
+  private renderTitleEchoes(cx: number, height: number): void {
+    const { ctx } = this
+    const seen = SaveSystem.loadEndingsSeen()
+    if (seen.size === 0 && !SaveSystem.hasSave()) return
+
+    const panelY = height * 0.895
+    const slotH = this.lh(8)
+    const panelH = slotH * (ECHOES_CODEX.length + 1) + 8
+    const panelW = Math.min(this.width * 0.45, 320)
+
+    // Decorative rule above panel
+    const ruleGrad = ctx.createLinearGradient(cx - panelW / 2, panelY, cx + panelW / 2, panelY)
+    ruleGrad.addColorStop(0, 'rgba(212,144,10,0)')
+    ruleGrad.addColorStop(0.4, 'rgba(212,144,10,0.5)')
+    ruleGrad.addColorStop(0.6, 'rgba(212,144,10,0.5)')
+    ruleGrad.addColorStop(1, 'rgba(212,144,10,0)')
+    ctx.fillStyle = ruleGrad
+    ctx.fillRect(cx - panelW / 2, panelY - 2, panelW, 1)
+
+    // Panel title
+    this.setFont(9, 'bold')
+    ctx.fillStyle = this.colors.accentWarm
+    ctx.textAlign = 'center'
+    ctx.fillText(this.t('ending_tracker.panel_title'), cx, panelY + slotH * 0.8)
+
+    // Ending slots
+    this.setFont(8)
+    ctx.textAlign = 'left'
+    const startX = cx - panelW / 2 + 8
+    let y = panelY + slotH + 4
+
+    for (const entry of ECHOES_CODEX) {
+      const isSeen = seen.has(entry.endingId)
+      if (isSeen) {
+        ctx.fillStyle = this.colors.accentWarm
+        ctx.fillText('\u2746 ' + this.t(entry.shortNameKey), startX, y)
+      } else {
+        ctx.fillStyle = this.colors.textFaint
+        ctx.fillText('\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591', startX, y)
+      }
+      y += slotH
+    }
+    ctx.textAlign = 'center'
+
+    void panelH
   }
 
   private renderDay(state: IGameState): void {
@@ -2072,6 +2123,48 @@ export class CanvasTextRenderer implements IRenderer {
       this.setFont(11)
       ctx.fillStyle = this.colors.textFaint
       ctx.fillText('(select a domain above)', contentX, y + 12)
+    }
+
+    // ── ECHOES section ─────────────────────────────────────────────────────
+    y += 16
+    ctx.fillStyle = this.colors.borderDim
+    ctx.fillRect(contentX, y, panelW - m * 2, 1)
+    y += 14
+
+    this.setFont(10, 'bold')
+    ctx.fillStyle = this.colors.accentWarm
+    ctx.textAlign = 'left'
+    ctx.fillText('ECHOES  —  narrative endings reached', contentX, y + 14)
+    y += Math.round(this.basePx * 2)
+
+    const echoRowH = Math.round(this.basePx * 2.2)
+    for (const entry of ECHOES_CODEX) {
+      const isSeen = state.endingsSeen.has(entry.endingId)
+      if (isSeen) {
+        this.setFont(11, 'bold')
+        ctx.fillStyle = this.colors.accentWarm
+        ctx.textAlign = 'left'
+        ctx.fillText('\u2746 ' + this.t(entry.titleKey), contentX, y + 14)
+        y += Math.round(this.basePx * 1.7)
+
+        this.setFont(10)
+        ctx.fillStyle = this.colors.textDim
+        const body = this.t(entry.bodyKey)
+        const lines = this.wrapTextCount(body, panelW - m * 2 - 12)
+        this.wrapText(body, contentX + 12, y, panelW - m * 2 - 12, this.lh(10))
+        y += lines * this.lh(10) + 6
+
+        ctx.fillStyle = this.colors.borderDim
+        ctx.fillRect(contentX, y, panelW - m * 2, 1)
+        y += 8
+      } else {
+        this.setFont(11)
+        ctx.fillStyle = this.colors.textFaint
+        ctx.textAlign = 'left'
+        ctx.fillText('\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591  ???', contentX, y + 14)
+        y += echoRowH
+      }
+      if (y > panelY + panelH - 20) break
     }
   }
 
