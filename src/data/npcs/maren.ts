@@ -4,7 +4,7 @@ export const MAREN_NPC: NPCFullData = {
   id: 'maren',
   nameKey: 'npc.maren.name',
   titleKey: 'npc.maren.title',
-  defaultLocation: 'keepers_cottage',
+  defaultLocation: 'archive_basement',
   defaultAttitude: 'neutral',
   schedule: {},
   tierThresholds: [0, 3, 7, 15, 25, 40, 60, 80, 100, 130, 170],

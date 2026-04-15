@@ -6,7 +6,7 @@ export const ELARA_NPC: NPCFullData = {
   titleKey: 'npc.elara.title',
   defaultLocation: 'harbor',
   defaultAttitude: 'fearful',
-  schedule: { dusk: 'village_square', night_safe: 'keepers_cottage' },
+  schedule: { dusk: 'village_square', night_safe: 'keepers_cottage', night_dark: 'ruins' },
   tierThresholds: [0, 3, 7, 15, 25, 40, 60, 80, 100, 130, 170],
   greetingNodes: ['elara.greeting.tier0','elara.greeting.tier1','elara.greeting.tier2','elara.greeting.tier3','elara.greeting.tier4','elara.greeting.tier5'],
   nodes: {
