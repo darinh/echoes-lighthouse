@@ -183,9 +183,20 @@ describe('[Phase 3] SaveSystem', () => {
       expect(seen.size).toBe(2)
     })
 
-    it('deserialises gracefully when endingsSeen is missing from old save', () => {
-      // Simulate an old save format without endingsSeen
-      const snapshot = JSON.stringify({ saveVersion: 1, endingsSeen: undefined, worldFlags: [], activeQuests: [], completedQuests: [], questStepProgress: {}, inventory: [], player: { stamina: 10, lightReserves: 100, hearts: 3, insight: 0, insightBanked: 0, resonance: {}, trust: {}, archiveMastery: {}, loopCount: 0, moralWeight: 0, discoveredLocations: [], sealedInsights: [], activeJournalThreads: [], journalEntries: [], currentLocation: 'keepers_cottage' }, npcStates: {} })
+    it('deserialises gracefully when endingsSeen is absent from old save format', () => {
+      const snapshot = JSON.stringify({
+        saveVersion: 1,
+        worldFlags: [], activeQuests: [], completedQuests: [],
+        questStepProgress: {}, inventory: [],
+        player: {
+          stamina: 10, lightReserves: 100, hearts: 3, insight: 0,
+          insightBanked: 0, resonance: {}, trust: {}, archiveMastery: {},
+          loopCount: 0, moralWeight: 0,
+          discoveredLocations: [], sealedInsights: [], activeJournalThreads: [],
+          journalEntries: [], currentLocation: 'keepers_cottage',
+        },
+        npcStates: {},
+      })
       localStorageMock.setItem('echoes-lighthouse-save', snapshot)
       const loaded = SaveSystem.loadState()
       expect(loaded).not.toBeNull()
