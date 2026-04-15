@@ -1,5 +1,32 @@
 # Copilot Agent Instructions — Echoes of the Lighthouse
 
+## Git Worktree Rule (MANDATORY for all agents)
+
+**Every sub-agent MUST get its own git worktree.** Never share `/workspaces/echoes-lighthouse`
+between concurrent agents — branch-switching collisions corrupt in-progress work.
+
+**Before spawning any agent, the Operator creates a dedicated worktree:**
+
+```bash
+# One-time setup per feature
+git worktree add /workspaces/wt-<feature> -b <prefix>/<feature> origin/main
+cd /workspaces/wt-<feature> && npm install
+
+# Then pass /workspaces/wt-<feature> as the agent's working directory
+```
+
+**The agent prompt must include:**
+- `Work EXCLUSIVELY in /workspaces/wt-<feature> — do NOT touch /workspaces/echoes-lighthouse`
+- All git commands run from the worktree path
+- `npm run typecheck` / `npm test` run from the worktree path
+
+**Cleanup after merge:**
+```bash
+git worktree remove /workspaces/wt-<feature>
+```
+
+---
+
 ## Branching Rules (mandatory)
 
 You are working in a protected repository. You **must not** push directly to `main` or `develop`.
@@ -8,11 +35,11 @@ Branch protection is enforced for all actors including admins.
 **Every piece of work must follow this flow:**
 
 ```
-1. git checkout develop && git pull origin develop
-2. git checkout -b <prefix>/<short-description>
+1. git worktree add /workspaces/wt-<feature> -b <prefix>/<feature> origin/main
+2. cd /workspaces/wt-<feature> && npm install
 3. Make changes, commit with conventional commit messages
 4. git push origin <your-branch>
-5. Open a PR targeting develop via the GitHub API
+5. Open a PR targeting main via the GitHub API
 ```
 
 **Branch prefixes:**
