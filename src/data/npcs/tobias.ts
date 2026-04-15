@@ -62,6 +62,7 @@ export const TOBIAS_NPC: NPCFullData = {
       speakerKey: 'npc.tobias.greeting.tier3',
       choices: [
         { id: 'ask.silence', textKey: 'dialogue.choice.ask_silenced', nextNodeId: 'tobias.paid.silence', insightGain: 12, trustGain: 5, moralWeight: 1, requiresTier: 3 },
+        { id: 'ask.trapdoor', textKey: 'dialogue.choice.ask_what_happened', nextNodeId: 'tobias.trapdoor.truth', insightGain: 12, requiresTier: 3 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -75,6 +76,7 @@ export const TOBIAS_NPC: NPCFullData = {
       speakerKey: 'npc.tobias.greeting.tier4',
       choices: [
         { id: 'ask.gear.kept', textKey: 'dialogue.choice.ask_gear_kept', nextNodeId: 'tobias.gear.offer', insightGain: 15, trustGain: 8, requiresTier: 4 },
+        { id: 'ask.grandfather', textKey: 'dialogue.choice.ask_former_keeper', nextNodeId: 'tobias.grandfather.secret', insightGain: 18, requiresTier: 4 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -100,6 +102,19 @@ export const TOBIAS_NPC: NPCFullData = {
     },
     'tobias.commissioner.silas': {
       speakerKey: 'npc.tobias.commissioner.silas',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'tobias.trapdoor.truth': {
+      speakerKey: 'npc.tobias.trapdoor.truth',
+      choices: [
+        { id: 'ask.grandfather', textKey: 'dialogue.choice.ask_former_keeper', nextNodeId: 'tobias.grandfather.secret', insightGain: 10, trustGain: 5 },
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    'tobias.grandfather.secret': {
+      speakerKey: 'npc.tobias.grandfather.secret',
       choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],

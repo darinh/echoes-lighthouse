@@ -542,5 +542,79 @@
       "title": "The Warden's Secret",
       "desc": "There is a Warden beneath the island. Not the Vael — something that predates it. The Vael is not the prisoner. The Vael is the guard. And the guard has grown tired."
     }
+  },
+  "quest": {
+    "light_source_truth": {
+      "title": "The Light's True Source",
+      "description": "Something feeds the lighthouse that has nothing to do with oil or electricity.",
+      "step": {
+        "visit_cliffside": "Visit the cliffside at night.",
+        "talk_to_vael": "Speak with the Echo about what you've seen.",
+        "examine_tidal_caves": "Examine the bioluminescent light in the tidal caves."
+      }
+    },
+    "archivist_bargain": {
+      "title": "The Archivist's Price",
+      "description": "Maren knows more than she shares. The price of her knowledge is unclear.",
+      "step": {
+        "visit_archive": "Visit the archive basement.",
+        "talk_maren_tier2": "Return to Maren once you've seen enough.",
+        "examine_restricted": "Find the restricted section."
+      }
+    },
+    "harbor_silence": {
+      "title": "What the Harbor Forgot",
+      "description": "Silas has kept a secret for twelve years. Something happened at the harbour the night the last Keeper vanished.",
+      "step": {
+        "talk_silas": "Talk to Silas about the night in question.",
+        "examine_harbor": "Examine the harbour maintenance records.",
+        "visit_lighthouse_base": "Return to the lighthouse base."
+      }
+    },
+    "vael_origin": {
+      "title": "Echoes in the Deep",
+      "description": "Something ancient stirs beneath the island. Vael knows what it is — but will not say freely.",
+      "step": {
+        "examine_symbols": "Examine the bioluminescent symbols in the tidal caves.",
+        "examine_binding": "Study the binding rune in the mechanism room.",
+        "talk_vael_again": "Return to Vael and ask about what you've found."
+      }
+    },
+    "keeper_betrayal": {
+      "title": "The Last Entry",
+      "description": "The previous Keeper's final log holds a secret the island has been protecting for decades.",
+      "step": {
+        "talk_maren": "Ask Maren what she knows about the previous Keeper.",
+        "examine_ledger": "Find the sealed ledger in the archive basement.",
+        "visit_mechanism": "Visit the mechanism room."
+      }
+    },
+    "spirit_binding": {
+      "title": "Chains Beneath the Stone",
+      "description": "The mechanism's symbols are not decorative. They are a record of a crime.",
+      "step": {
+        "examine_binding_rune": "Examine the binding rune in the mechanism room.",
+        "examine_hidden_names": "Find the hidden names in the chapel.",
+        "talk_elara": "Talk to Elara about what the names mean."
+      }
+    },
+    "island_history": {
+      "title": "What the Archives Forgot",
+      "description": "The archive's gaps are not accidental. Someone decided what the island would remember.",
+      "step": {
+        "examine_portrait": "Examine the burned portrait in the ruins.",
+        "examine_hidden_names": "Find the hidden names in the chapel.",
+        "talk_maren": "Return to Maren with what you've found."
+      }
+    },
+    "final_signal": {
+      "title": "The Last Frequency",
+      "description": "You have gathered what there is to know. The lighthouse has been waiting for this moment since before you arrived.",
+      "step": {
+        "light_lighthouse": "Light the lighthouse at night.",
+        "visit_top_night": "Ascend to the lighthouse top while it burns.",
+        "talk_vael_tier3": "Find Vael and speak with them one final time."
+      }
+    }
   }
 }
