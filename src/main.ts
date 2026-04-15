@@ -3,7 +3,7 @@ import { InputHandler } from '@/engine/InputHandler.js'
 import { I18nService } from '@/i18n/index.js'
 import { SynthAudioProvider } from '@/providers/audio/SynthAudioProvider.js'
 import { CanvasTextRenderer } from '@/providers/renderer/CanvasTextRenderer.js'
-import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, SaveSystem, AudioFeedbackSystem, NPCScheduleSystem } from '@/systems/index.js'
+import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, SaveSystem, AudioFeedbackSystem, NPCScheduleSystem, WeatherSystem } from '@/systems/index.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
 
 async function boot(): Promise<void> {
@@ -37,6 +37,7 @@ async function boot(): Promise<void> {
   engine.registerSystem(new SaveSystem(eventBus))
   engine.registerSystem(new AudioFeedbackSystem(audio, eventBus))
   engine.registerSystem(new NPCScheduleSystem())
+  engine.registerSystem(new WeatherSystem(eventBus))
 
   setProgress(80, 'Preparing world...')
   const canvas = document.getElementById('game-canvas') as HTMLCanvasElement
