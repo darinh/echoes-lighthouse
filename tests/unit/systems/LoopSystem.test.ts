@@ -30,10 +30,10 @@ describe('[GDD §1.1] LoopSystem — Death and loop reset', () => {
   })
 
   describe('player.died — physical stats reset [GDD §1.1]', () => {
-    it('resets stamina to 100', () => {
-      const state = withPhysical(system.init(createInitialState()), { stamina: 20 })
+    it('resets stamina to 10', () => {
+      const state = withPhysical(system.init(createInitialState()), { stamina: 2 })
       const next = system.onEvent(makeEvent('player.died'), state)
-      expect(next.player.stamina).toBe(100)
+      expect(next.player.stamina).toBe(10)
     })
 
     it('resets lightReserves to 100', () => {

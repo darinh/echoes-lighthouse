@@ -56,6 +56,7 @@ export type GameEventType =
   | 'ending.triggered'
   // Time
   | 'time.tick'
+  | 'time.passed'
   // Moral
   | 'moral.choice.made'
   // System
