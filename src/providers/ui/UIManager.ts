@@ -81,6 +81,10 @@ export class UIManager {
   }
 
   private updateTitleUI(_state: IGameState): void {
+    // Always hide the overlay on the title screen — it starts without the
+    // 'hidden' class in HTML and updateOverlay() is skipped for title phase.
+    this.overlayPanel.classList.add('hidden')
+
     let prompt = this.gameUI.querySelector('.title-prompt') as HTMLElement | null
     if (!prompt) {
       prompt = document.createElement('div')
