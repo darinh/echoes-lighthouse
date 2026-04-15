@@ -119,13 +119,13 @@ describe('[GDD §1.1] LoopSystem — Death and loop reset', () => {
     })
 
     it('drains during day phase', () => {
-      const state = { ...system.init(createInitialState()), phase: 'day' as const, dayTimeRemaining: 1 }
+      const state = { ...system.init(createInitialState()), phase: 'morning' as const, dayTimeRemaining: 1 }
       const next = system.update(state, 1000)
       expect(next.dayTimeRemaining).toBeLessThan(1)
     })
 
     it('transitions to night_dark when timer hits zero', () => {
-      const state = { ...system.init(createInitialState()), phase: 'day' as const, dayTimeRemaining: 0.000001 }
+      const state = { ...system.init(createInitialState()), phase: 'morning' as const, dayTimeRemaining: 0.000001 }
       const next = system.update(state, 60_000)
       expect(next.phase).toBe('night_dark')
       expect(next.dayTimeRemaining).toBe(0)

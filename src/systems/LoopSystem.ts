@@ -18,7 +18,7 @@ export class LoopSystem implements ISystem {
     if (state.isPaused || state.phase === 'title' || state.phase === 'ending' || state.phase === 'death') return state
 
     // Drain dayTimeRemaining during day phase
-    if (state.phase === 'day' || state.phase === 'dusk') {
+    if (state.phase === 'morning' || state.phase === 'afternoon' || state.phase === 'dusk') {
       const rate = 1 / (10 * 60 * 1000) // 10 minutes per loop
       const newTime = Math.max(0, state.dayTimeRemaining - rate * deltaMs)
 
@@ -58,7 +58,7 @@ export class LoopSystem implements ISystem {
       nightDangerLevel: 0,
       player: {
         ...player,
-        stamina: 100,
+        stamina: 10,
         lightReserves: 100,
         hearts: 3,
         insight: survivingInsight,

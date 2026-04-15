@@ -7,7 +7,8 @@
 export type GamePhase =
   | 'title'
   | 'dawn'
-  | 'day'
+  | 'morning'
+  | 'afternoon'
   | 'dusk'
   | 'night_safe'   // lighthouse lit
   | 'night_dark'   // lighthouse unlit, danger escalates

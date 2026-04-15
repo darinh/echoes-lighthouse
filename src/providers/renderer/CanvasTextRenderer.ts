@@ -187,7 +187,8 @@ export class CanvasTextRenderer implements IRenderer {
     switch (state.phase) {
       case 'title':      this.renderTitle(state); break
       case 'dawn':
-      case 'day':
+      case 'morning':
+      case 'afternoon':
       case 'dusk':       this.renderDay(state);   break
       case 'night_safe': this.renderNightSafe(state); break
       case 'night_dark': this.renderNightDark(state); break
@@ -453,10 +454,10 @@ export class CanvasTextRenderer implements IRenderer {
     this.setFont(8)
     ctx.fillStyle = this.colors.textFaint
     ctx.textAlign = 'left'
-    ctx.fillText('STA', statX, row1Y - 2)
+    ctx.fillText(`⚡ ${player.stamina}/10`, statX, row1Y - 2)
     ctx.fillText('LGT', statX + 104, row1Y - 2)
 
-    this.renderSegmentedBar(statX, row1Y, 90, 7, player.stamina / 100, 10, this.colors.safe, '')
+    this.renderSegmentedBar(statX, row1Y, 90, 7, player.stamina / 10, 10, this.colors.safe, '')
     this.renderStatBar(statX + 100, row1Y, 90, 7, player.lightReserves / 100, this.colors.accentWarm, '')
 
     // Warning glyph
@@ -796,12 +797,12 @@ export class CanvasTextRenderer implements IRenderer {
     btnY += 10
 
     this.renderActionButton(x + m, btnY, w - m * 2, this.lh(12) * 2, '⏸  WAIT', this.colors.textDim)
-    this.addClickRegion(x + m, btnY, w - m * 2, this.lh(12) * 2, { type: 'pause.toggle' }, 'Wait')
+    this.addClickRegion(x + m, btnY, w - m * 2, this.lh(12) * 2, { type: 'wait' }, 'Advance time')
     btnY += this.lh(12) * 2 + 4
 
     if (state.player.currentLocation === 'lighthouse_top' &&
-        (state.phase === 'day' || state.phase === 'dusk')) {
-      const hasResources = state.player.lightReserves >= 30 && state.player.stamina >= 20
+        (state.phase === 'morning' || state.phase === 'afternoon' || state.phase === 'dusk')) {
+      const hasResources = state.player.lightReserves >= 30 && state.player.stamina >= 2
       const beaconColor = hasResources ? this.colors.accentWarm : this.colors.textFaint
       const bH = this.lh(12) * 2
       this.renderActionButton(x + m, btnY, w - m * 2, bH, '◈ LIGHT THE BEACON', beaconColor)
@@ -811,7 +812,7 @@ export class CanvasTextRenderer implements IRenderer {
         this.setFont(8)
         ctx.fillStyle = this.colors.textFaint
         ctx.textAlign = 'left'
-        ctx.fillText('needs 30 LGT + 20 STA', x + m + 4, btnY + bH + this.lh(8))
+        ctx.fillText('needs 30 LGT + 2 STA', x + m + 4, btnY + bH + this.lh(8))
       }
       btnY += bH + 4
     }
@@ -849,9 +850,9 @@ export class CanvasTextRenderer implements IRenderer {
         action: { type: 'move', target: loc.id } as GameAction,
         color: state.player.discoveredLocations.has(loc.id) ? this.colors.textPrimary : this.colors.accentGold,
       })),
-      { label: 'WAIT', action: { type: 'pause.toggle' } as GameAction, color: this.colors.textDim },
+      { label: 'WAIT', action: { type: 'wait' } as GameAction, color: this.colors.textDim },
       ...(state.player.currentLocation === 'lighthouse_top' &&
-          (state.phase === 'day' || state.phase === 'dusk') ?
+          (state.phase === 'morning' || state.phase === 'afternoon' || state.phase === 'dusk') ?
         [{
           label: '◈ BEACON',
           action: { type: 'light.lighthouse' } as GameAction,
@@ -1031,7 +1032,7 @@ export class CanvasTextRenderer implements IRenderer {
     this.setFont(10)
     ctx.fillStyle = this.colors.textDim
     ctx.textAlign = 'center'
-    ctx.fillText(`◈ ${state.player.insight} INSIGHT  ·  STA ${state.player.stamina}%  ·  LGT ${state.player.lightReserves}%`, cx, barY)
+    ctx.fillText(`◈ ${state.player.insight} INSIGHT  ·  ⚡ ${state.player.stamina}/10  ·  LGT ${state.player.lightReserves}%`, cx, barY)
 
     const btnY = contentY + this.lh(14) + this.lh(11) + this.lh(12) * 5 + 4
     const btnW = Math.min(180, width * 0.3)

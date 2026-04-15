@@ -60,7 +60,7 @@ export interface INPCState {
 
 export interface IPlayerState {
   // Physical — reset on death
-  readonly stamina: number                                        // 0–100
+  readonly stamina: number                                        // 0–10
   readonly lightReserves: number                                  // 0–100
   readonly hearts: number                                         // 1–3
 
