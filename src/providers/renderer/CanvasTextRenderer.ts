@@ -1861,7 +1861,7 @@ export class CanvasTextRenderer implements IRenderer {
     const val = this.t(key)
     if (val === key) {
       const fallbacks: Record<string, string> = {
-        keepers_cottage:  'A modest dwelling near the cliff path. The smell of old paper and sea salt. Maren tends the archive here.',
+        keepers_cottage:  'A modest dwelling near the cliff path. The smell of old paper and sea salt. The previous keeper lived and worked here.',
         village_square:   'The heart of the island. Villagers move with purpose, eyes cast low. The well stands dry.',
         harbor:           'Weathered boats creak against the dock. Silas watches the horizon. The fog is thick this morning.',
         lighthouse_base:  'The base of the great tower. Its shadow falls long across the rocks. The mechanism hums faintly.',
