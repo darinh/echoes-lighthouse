@@ -71,6 +71,8 @@ jobs:
         with:
           node-version: 20
       - run: npm install
+      - name: Stamp version into package.json
+        run: npm version ${{ needs.tag-and-release.outputs.new_tag }} --no-git-tag-version --allow-same-version
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

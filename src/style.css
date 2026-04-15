@@ -86,6 +86,7 @@ body {
 #hud .hud-warn { color: #c03838; }
 #hud .hud-mute { cursor: pointer; color: #465a72; font-size: 14px; padding: 4px; background: none; border: none; font-family: monospace; }
 #hud .hud-mute:hover { color: #c4cfe0; }
+#hud .hud-version { color: #1e2c3a; font-size: 10px; }
 
 #main-area {
   flex: 1 1 0;
