@@ -14,6 +14,7 @@ interface SaveSnapshot {
   deathCause: string | null
   activeQuests: string[]
   completedQuests: string[]
+  questStepProgress: Record<string, string[]>
   player: {
     stamina: number
     lightReserves: number
@@ -125,6 +126,9 @@ export class SaveSystem implements ISystem {
       deathCause: state.deathCause,
       activeQuests: [...state.activeQuests],
       completedQuests: [...state.completedQuests],
+      questStepProgress: Object.fromEntries(
+        Object.entries(state.questStepProgress).map(([k, v]) => [k, [...v]])
+      ),
       player: {
         stamina: state.player.stamina,
         lightReserves: state.player.lightReserves,
@@ -175,6 +179,9 @@ export class SaveSystem implements ISystem {
       activeDialogue: null,
       activeQuests: new Set(snapshot.activeQuests),
       completedQuests: new Set(snapshot.completedQuests),
+      questStepProgress: Object.fromEntries(
+        Object.entries(snapshot.questStepProgress ?? {}).map(([k, v]) => [k, new Set(v)])
+      ),
       player: {
         stamina: snapshot.player.stamina,
         lightReserves: snapshot.player.lightReserves,

@@ -68,6 +68,7 @@ export function createInitialState(): IGameState {
     activeDialogue: null,
     activeQuests: new Set(),
     completedQuests: new Set(),
+    questStepProgress: {},
     locale: 'en',
     isPaused: false,
     activePanel: 'none',

@@ -86,7 +86,7 @@ export class GameEngine {
           }
           const wasDiscovered = this.state.player.discoveredLocations.has(action.target)
           this.state = { ...this.movement.moveTo(this.state, action.target), lastExaminedKey: null }
-          this.applyEvent('location.moved', {})
+          this.applyEvent('location.moved', { locationId: action.target })
           // Transition to death immediately when stamina is depleted by this move
           if (this.state.player.stamina === 0) {
             this.state = { ...this.state, phase: 'death', deathCause: 'death.stamina_depleted' }
