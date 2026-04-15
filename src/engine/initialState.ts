@@ -42,7 +42,7 @@ const DEFAULT_NPC_STATES: Record<NPCId, INPCState> = Object.fromEntries(
 ) as unknown as Record<NPCId, INPCState>
 
 const DEFAULT_PLAYER: IPlayerState = {
-  stamina: 100,
+  stamina: 10,
   lightReserves: 100,
   hearts: 3,
   insight: 0,

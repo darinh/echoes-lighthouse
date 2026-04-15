@@ -198,5 +198,32 @@
     "mirror_keeper": {
       "name": "The Mirror Keeper"
     }
+  },
+  "item": {
+    "keeper_logbook": {
+      "name": "Keeper's Logbook",
+      "desc": "A weathered journal filled with the final entries of the previous lighthouse keeper. The ink is smeared in places, as though the writer's hands were shaking.",
+      "pickup": "You pick up the Keeper's Logbook. The pages are stiff with salt air."
+    },
+    "old_compass": {
+      "name": "Old Compass",
+      "desc": "A brass compass with a cracked face. The needle trembles and never settles on true north.",
+      "pickup": "You pick up the Old Compass. Something about it feels wrong — the needle is pointing inland."
+    },
+    "signal_flare": {
+      "name": "Signal Flare",
+      "desc": "A weatherproof signal flare, still sealed. The instructions on the side have been worn away by rain.",
+      "pickup": "You pick up the Signal Flare. It is heavier than you expected."
+    },
+    "rusted_key": {
+      "name": "Rusted Key",
+      "desc": "An iron key, dark with rust. A tag of rotted string still hangs from the bow. The teeth are unusual — three steps, then a notch.",
+      "pickup": "You pick up the Rusted Key. It leaves a red stain on your palm."
+    },
+    "tide_chart": {
+      "name": "Tide Chart",
+      "desc": "A laminated nautical chart showing tidal cycles around the island. Handwritten annotations crowd the margins in two different inks.",
+      "pickup": "You pick up the Tide Chart. The annotations make no immediate sense, but the dates go back decades."
+    }
   }
 }

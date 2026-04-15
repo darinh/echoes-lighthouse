@@ -62,7 +62,10 @@
         }
       },
       "her_role": "I've been here before. Not in memory — I don't remember it the way you remember things. But the archive has my annotations in handwriting I don't recognise as mine, dated twelve years before I was born.",
-      "her_role_forget": "Whatever I knew in that previous iteration, the suppressor took it. I'm starting from less than zero. You may be further along than I am now."
+      "her_role_forget": "Whatever I knew in that previous iteration, the suppressor took it. I'm starting from less than zero. You may be further along than I am now.",
+      "item": {
+        "key": "I know this key. There is a room at the back of the cottage, behind the old wardrobe — the one the keeper always kept covered with sailcloth. The archive records show it was sealed by the council forty years ago after a cartographer refused to leave it. He claimed the room shifted at night and mapped something that should not have a shape. I never opened it. I was afraid the map might still be inside."
+      }
     },
     "vael": {
       "name": "Vael",
@@ -128,6 +131,9 @@
       },
       "the": {
         "choice": "You know what I am now. You know what was done. The only question left is what you do with that knowledge. Free me and dissolve the mechanism's purpose. Accept the purpose and let the binding stand. Neither choice is wrong. Both have costs you cannot yet see."
+      },
+      "item": {
+        "logbook": "I have not seen that handwriting in a very long time. These are Elias's final entries — the ones he burned before the accident. He wrote of a mechanism beneath the lighthouse, a heartbeat that needed to be stopped. He believed the island was feeding on the light, and that one day the light would run out. He was right. He simply did not know what would be left behind when it did."
       }
     },
     "silas": {
@@ -169,6 +175,9 @@
       "confession": "I saw him. On the last night. He was standing at the top of the lighthouse, looking out toward the water. He wasn't trying to leave — he was watching something come in. I could have called up to him. I didn't. I told myself it wasn't my place. I've been telling myself that for twelve years.",
       "buried": {
         "message": "Three days before he disappeared, he handed me an envelope. Said to send it to the mainland if he wasn't back by month's end. I never sent it. I buried it instead — under the floorboards at the mill's north wall. I was afraid of what would happen if the wrong people read it first."
+      },
+      "item": {
+        "compass": "That's a Reliance-make compass, pre-war, brass-wound. You don't find those any more — the factory on the cape burned down the same season the ferryman stopped coming. The needle doesn't point north. I figured that out years ago. It points toward the mechanism chamber, whatever it is down there. I stopped using it after the third loop, when I realized the island was redirecting every route back to itself."
       }
     },
     "petra": {
@@ -207,7 +216,10 @@
       "beam": {
         "signal": "I've been watching the lighthouse beam for three weeks now — not the light itself, the intervals. The dark gaps between sweeps. They're not uniform. Someone would have to be operating the mechanism manually to produce that rhythm. But no one's been up there. I've checked."
       },
-      "coordinates": "It took me two weeks to decode it as a spatial pattern rather than a temporal one. The beam isn't marking time — it's marking location. Specific coordinates. They correspond to a point in the tidal caves' deepest chamber. The one that floods completely at high tide."
+      "coordinates": "It took me two weeks to decode it as a spatial pattern rather than a temporal one. The beam isn't marking time — it's marking location. Specific coordinates. They correspond to a point in the tidal caves' deepest chamber. The one that floods completely at high tide.",
+      "item": {
+        "chart": "These notations are not standard. The tides on this chart are annotated with biological markers — blooming cycles, migration routes, decomposition rates. Someone was using the tidal rhythm as a clock. Every seventh high tide, something was due. I cross-referenced it with the herb cycles I track for remedies. They align exactly. Whatever this island is timing, it has been running without interruption since before any of us arrived here."
+      }
     },
     "tobias": {
       "name": "Tobias",
@@ -284,6 +296,9 @@
       },
       "binding": {
         "ritual": "The ritual is written in the chapel. Behind the saint's plaster face — there's older text. I can read some of it. It requires three things: a keeper's willing presence, the mechanism's full activation, and something the text calls 'the genuine question.' Not asked aloud. Genuinely wondered. I don't know what happens if the question isn't genuine. I suspect the mechanism does."
+      },
+      "item": {
+        "flare": "Father kept a crate of those on the boat. Said the coast patrol would see the red and come within the hour. He fired one the night the lighthouse went dark — the night everything changed. Nobody came. I've been watching the horizon ever since. Something out there prevents the signal from crossing. You can try, but the smoke bends back over the island. I've seen it happen three times now."
       }
     }
   },
@@ -345,7 +360,12 @@
       "ask_transcendence": "Ask about transcendence",
       "ask_break_binding": "Ask how the binding could be undone",
       "ask_original_imprisonment": "Ask who imprisoned them and why",
-      "ask_the_choice": "Ask what choice remains"
+      "ask_the_choice": "Ask what choice remains",
+      "show_logbook": "I found the old keeper's logbook...",
+      "show_compass": "This compass washed up near the dock.",
+      "show_flare": "I found a signal flare on the cliff.",
+      "show_key": "Does this rusted key mean anything to you?",
+      "show_chart": "I recovered a tide chart from the caves."
     }
   }
 }

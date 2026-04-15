@@ -45,7 +45,15 @@ export class SynthAudioProvider implements IAudioProvider {
         { type: 'noise', filterType: 'bandpass', filterFreq: 800, filterQ: 15, gain: 0.02 },
       ],
     },
-    day: {
+    morning: {
+      layers: [
+        { type: 'triangle', frequency: 120, gain: 0.06, lfoFreq: 0.1, lfoDepth: 3, lfoTarget: 'frequency' },
+        { type: 'sine', frequency: 240, gain: 0.03 },
+        { type: 'noise', filterType: 'lowpass', filterFreq: 400, gain: 0.03 },
+        { type: 'sine', frequency: 480, gain: 0.015, lfoFreq: 0.25, lfoDepth: 0.01, lfoTarget: 'gain' },
+      ],
+    },
+    afternoon: {
       layers: [
         { type: 'triangle', frequency: 120, gain: 0.06, lfoFreq: 0.1, lfoDepth: 3, lfoTarget: 'frequency' },
         { type: 'sine', frequency: 240, gain: 0.03 },

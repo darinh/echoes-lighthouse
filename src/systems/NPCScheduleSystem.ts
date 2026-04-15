@@ -44,7 +44,7 @@ export class NPCScheduleSystem implements ISystem {
   update(state: IGameState, _dt: number): IGameState {
     if (state.phase === this.lastPhase) return state
     this.lastPhase = state.phase
-    const schedulable = ['dawn', 'day', 'dusk', 'night_safe', 'night_dark']
+    const schedulable = ['dawn', 'morning', 'afternoon', 'dusk', 'night_safe', 'night_dark']
     if (!schedulable.includes(state.phase)) return state
     return this.applySchedules(state, state.phase)
   }

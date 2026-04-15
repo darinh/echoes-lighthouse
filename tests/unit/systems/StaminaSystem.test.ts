@@ -24,13 +24,14 @@ describe('[GDD §4] StaminaSystem', () => {
   })
 
   describe('location.moved', () => {
-    it('drains stamina by 10 per move', () => {
-      const next = system.onEvent(makeEvent('location.moved', { from: 'keepers_cottage', to: 'harbor' }), state)
-      expect(next.player.stamina).toBe(90)
+    it('drains stamina by 1 per move', () => {
+      const s = withStamina(state, 10)
+      const next = system.onEvent(makeEvent('location.moved', { from: 'keepers_cottage', to: 'harbor' }), s)
+      expect(next.player.stamina).toBe(9)
     })
 
     it('floors stamina at 0', () => {
-      const s = withStamina(state, 5)
+      const s = withStamina(state, 1)
       const next = system.onEvent(makeEvent('location.moved', { from: 'keepers_cottage', to: 'harbor' }), s)
       expect(next.player.stamina).toBe(0)
     })
@@ -38,20 +39,20 @@ describe('[GDD §4] StaminaSystem', () => {
     it('emits player.exhausted when stamina hits 0', () => {
       const events: unknown[] = []
       bus.on('player.exhausted', e => events.push(e))
-      const s = withStamina(state, 10)
+      const s = withStamina(state, 1)
       system.onEvent(makeEvent('location.moved', { from: 'keepers_cottage', to: 'harbor' }), s)
       expect(events).toHaveLength(1)
     })
 
-    it('emits player.stamina.low when stamina drops below 20', () => {
+    it('emits player.stamina.low when stamina drops to ≤2', () => {
       const events: unknown[] = []
       bus.on('player.stamina.low', e => events.push(e))
-      const s = withStamina(state, 25)
+      const s = withStamina(state, 3)
       system.onEvent(makeEvent('location.moved', { from: 'keepers_cottage', to: 'harbor' }), s)
       expect(events).toHaveLength(1)
     })
 
-    it('does not emit player.stamina.low when stamina remains >= 20', () => {
+    it('does not emit player.stamina.low when stamina remains > 2', () => {
       const events: unknown[] = []
       bus.on('player.stamina.low', e => events.push(e))
       system.onEvent(makeEvent('location.moved', { from: 'keepers_cottage', to: 'harbor' }), state)
@@ -81,10 +82,10 @@ describe('[GDD §4] StaminaSystem', () => {
   })
 
   describe('player.rested', () => {
-    it('restores stamina to 100', () => {
-      const s = withStamina(state, 30)
+    it('restores stamina to 10', () => {
+      const s = withStamina(state, 3)
       const next = system.onEvent(makeEvent('player.rested'), s)
-      expect(next.player.stamina).toBe(100)
+      expect(next.player.stamina).toBe(10)
     })
   })
 
