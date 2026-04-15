@@ -15,23 +15,42 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏯</text></svg>" />
 
   <title>Echoes of the Lighthouse</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      width: 100%; height: 100%;
-      background: #0d0d0f;
-      overflow: hidden;
-      -webkit-tap-highlight-color: transparent;
-    }
-    #app { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-    canvas { display: block; image-rendering: pixelated; touch-action: none; }
-    /* Prevent iOS bounce */
-    body { overscroll-behavior: none; }
-  </style>
+  <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
   <div id="app">
-    <canvas id="game-canvas" role="application" aria-label="Echoes of the Lighthouse — use keyboard or touch to play"></canvas>
+    <!-- Loading screen -->
+    <div id="loading">
+      <div id="loading-inner">
+        <div id="loading-title">ECHOES OF THE LIGHTHOUSE</div>
+        <div id="loading-bar"><div id="loading-bar-fill"></div></div>
+        <div id="loading-status">Loading...</div>
+      </div>
+    </div>
+
+    <!-- Game container -->
+    <div id="game-container">
+      <!-- Canvas: visuals/atmosphere only (background, weather, map) -->
+      <canvas id="game-canvas" role="application" aria-label="Echoes of the Lighthouse — use keyboard or touch to play"></canvas>
+
+      <!-- HTML UI overlay: all panels, buttons, text -->
+      <div id="game-ui">
+        <!-- HUD bar -->
+        <div id="hud"></div>
+
+        <!-- Main content area (flex row/column via CSS) -->
+        <div id="main-area">
+          <div id="content-panel"></div>
+          <div id="action-panel"></div>
+        </div>
+
+        <!-- Overlay panels: journal, codex, map, vision, death, ending -->
+        <div id="overlay-panel"></div>
+
+        <!-- Notifications: hints, achievement toasts -->
+        <div id="notifications"></div>
+      </div>
+    </div>
   </div>
   <script type="module" src="/src/main.ts"></script>
 </body>

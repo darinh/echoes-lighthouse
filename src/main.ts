@@ -2,8 +2,12 @@ import { EventBus, GameEngine } from '@/engine/index.js'
 import { InputHandler } from '@/engine/InputHandler.js'
 import { I18nService } from '@/i18n/index.js'
 import { SynthAudioProvider } from '@/providers/audio/SynthAudioProvider.js'
-import { CanvasTextRenderer } from '@/providers/renderer/CanvasTextRenderer.js'
-import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, SaveSystem, AudioFeedbackSystem, NPCScheduleSystem, WeatherSystem, MilestoneSystem } from '@/systems/index.js'
+import { CanvasRenderer } from '@/providers/renderer/CanvasRenderer.js'
+import { UIManager } from '@/providers/ui/UIManager.js'
+import { HybridRenderer } from '@/providers/renderer/HybridRenderer.js'
+import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, SaveSystem, AudioFeedbackSystem, NPCScheduleSystem, MilestoneSystem, WeatherSystem } from '@/systems/index.js'
+import { AchievementSystem } from '@/systems/AchievementSystem.js'
+import { AmbientAudioSystem } from '@/systems/AmbientAudioSystem.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
 
 async function boot(): Promise<void> {
@@ -21,12 +25,15 @@ async function boot(): Promise<void> {
   await i18n.setLocale('en')
 
   setProgress(30, 'Initialising systems...')
-  const audio    = new SynthAudioProvider()
-  const renderer = new CanvasTextRenderer()
-  renderer.setI18n(i18n)
-  const eventBus = new EventBus()
-  const engine   = new GameEngine(eventBus, renderer, audio)
-  const movement = new MovementSystem(eventBus)
+  const audio      = new SynthAudioProvider()
+  const canvasRend = new CanvasRenderer()
+  canvasRend.setI18n(i18n)
+  const uiManager  = new UIManager()
+  uiManager.setI18n(i18n)
+  const renderer   = new HybridRenderer(canvasRend, uiManager)
+  const eventBus   = new EventBus()
+  const engine     = new GameEngine(eventBus, renderer, audio)
+  const movement   = new MovementSystem(eventBus)
 
   engine.setMovementSystem(movement)
   engine.registerSystem(new LoopSystem(eventBus))
@@ -39,21 +46,20 @@ async function boot(): Promise<void> {
   engine.registerSystem(new AudioFeedbackSystem(audio, eventBus))
   engine.registerSystem(new NPCScheduleSystem())
   engine.registerSystem(new WeatherSystem(eventBus))
+  engine.registerSystem(new AchievementSystem(eventBus))
+  engine.registerSystem(new AmbientAudioSystem(eventBus))
 
   setProgress(80, 'Preparing world...')
   const canvas = document.getElementById('game-canvas') as HTMLCanvasElement
 
-  // Wire renderer action handler (canvas click regions)
-  renderer.setActionHandler(action => engine.handleAction(action))
+  uiManager.setActionHandler(action => engine.handleAction(action))
 
-  // Wire InputHandler (keyboard + first-click audio unlock)
   const input = new InputHandler(canvas, eventBus)
   input.init(action => engine.handleAction(action))
 
   setProgress(100, 'Ready.')
   await engine.start(canvas)
 
-  // Fade out loading screen
   if (loadingEl) {
     loadingEl.classList.add('hidden')
     setTimeout(() => { loadingEl.style.display = 'none' }, 600)
