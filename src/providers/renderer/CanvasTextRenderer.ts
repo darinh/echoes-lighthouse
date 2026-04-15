@@ -2193,6 +2193,60 @@ export class CanvasTextRenderer implements IRenderer {
       }
     }
 
+    // ── NPC location markers ──────────────────────────────────────────────────
+    const NPC_INITIALS: Partial<Record<import('@/interfaces/types.js').NPCId, string>> = {
+      maren:  'Ma',
+      vael:   'Va',
+      silas:  'Si',
+      petra:  'Pe',
+      tobias: 'To',
+      elara:  'El',
+      corvin: 'Co',
+      aldric: 'Al',
+      isolde: 'Is',
+      brynn:  'Br',
+      fenn:   'Fe',
+    }
+
+    // Group NPCs by location (only those with a known location on the map)
+    const npcsByLocation = new Map<LocId, string[]>()
+    for (const [npcId, npcState] of Object.entries(state.npcStates)) {
+      const loc = npcState.currentLocation as LocId | null
+      if (!loc || !(loc in NODE_POS)) continue
+      const initials = NPC_INITIALS[npcId as import('@/interfaces/types.js').NPCId]
+      if (!initials) continue
+      const bucket = npcsByLocation.get(loc) ?? []
+      bucket.push(initials)
+      npcsByLocation.set(loc, bucket)
+    }
+
+    const NPC_DOT_R = 4
+    const NPC_SPACING = 12
+
+    for (const [locId, initialsArr] of npcsByLocation) {
+      const np = NODE_POS[locId]
+      const nx = px(np.x)
+      const ny = py(np.y)
+      const totalW = initialsArr.length * NPC_SPACING
+      const startX = nx - totalW / 2 + NPC_SPACING / 2
+
+      const nodeRadius = cur === locId ? CUR_R : NODE_R
+      initialsArr.forEach((init, i) => {
+        const mx = startX + i * NPC_SPACING
+        const my = ny - nodeRadius - 8
+
+        ctx.fillStyle = '#f59e0b'
+        ctx.beginPath()
+        ctx.arc(mx, my, NPC_DOT_R, 0, Math.PI * 2)
+        ctx.fill()
+
+        this.setFont(8)
+        ctx.fillStyle = '#fbbf24'
+        ctx.textAlign = 'center'
+        ctx.fillText(init, mx, my - NPC_DOT_R - 2)
+      })
+    }
+
     // ── Legend ────────────────────────────────────────────────────────────────
     const legendY = panelY + panelH - legendH
     ctx.fillStyle = this.colors.borderDim
@@ -2231,6 +2285,14 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fill()
     ctx.fillStyle = this.colors.textDim
     ctx.fillText('unknown', lx + 200, legendY + 18)
+
+    // NPC marker
+    ctx.fillStyle = '#f59e0b'
+    ctx.beginPath()
+    ctx.arc(lx + 272, legendY + 14, 4, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.fillStyle = this.colors.textDim
+    ctx.fillText('NPC', lx + 282, legendY + 18)
 
     // Footer
     const footerY = panelY + panelH - 8
