@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Echoes of the Lighthouse — UI Mockup</title>
+<!--
+  ╔═══════════════════════════════════════════════════════════════╗
+  ║  ECHOES OF THE LIGHTHOUSE — AAAA Mobile-First UI Mockup      ║
+  ║                                                               ║
+  ║  Aesthetic: Deep Nautical Gothic                              ║
+  ║  Metaphor: Ship's bridge at 3 AM, one oil lamp burning        ║
+  ║                                                               ║
+  ║  This is a design reference for downstream implementation.    ║
+  ║  Every screen, every component, every interaction the game    ║
+  ║  needs is here. Open in a browser. Click through everything.  ║
+  ║                                                               ║
+  ║  Coverage: 17 screens (GDD §5a–§5h, §6, §7, §10)            ║
+  ╚═══════════════════════════════════════════════════════════════╝
+-->
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   TOKENS — The palette of a ship's bridge at night
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  /* Depths — darkest to lightest surface */
+  --void: #040810;
+  --abyss: #081018;
+  --hull: #0c1a28;
+  --deck: #142232;
+  --bulkhead: #1c2e42;
+  --gunmetal: #26394f;
+
+  /* The one warm thing — lantern light */
+  --lantern: #c8a96e;
+  --lantern-hot: #e4c47e;
+  --lantern-glow: rgba(200,169,110,0.15);
+  --lantern-dim: #8a7448;
+
+  /* Signal colors */
+  --kelp: #4a9e8a;        /* safe / positive */
+  --kelp-dim: #2d6658;
+  --rust: #9e5a5a;         /* danger */
+  --rust-dim: #6b3d3d;
+  --resonance: #5b8ebd;    /* resonance / emotional */
+  --resonance-dim: #2e4f6e;
+  --corruption: #6a9e6d;   /* corruption green */
+  --night-ink: #3d3358;    /* night purple */
+
+  /* Text — steel in lamplight */
+  --bone: #d8dfe8;
+  --pewter: #9baab8;
+  --slate: #6a7a8c;
+  --graphite: #485868;
+
+  /* Structure */
+  --rivet: #2a3c52;
+  --seam: #1a2a3c;
+  --hairline: rgba(138,155,176,0.12);
+
+  /* Typography — three voices */
+  --font-log: "Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,"Georgia",serif;
+  --font-bridge: "Avenir Next","Segoe UI","Trebuchet MS",system-ui,sans-serif;
+  --font-signal: "Menlo","Consolas","SF Mono","Courier New",monospace;
+
+  /* Spatial rhythm */
+  --gap-xs: 4px;
+  --gap-sm: 8px;
+  --gap-md: 14px;
+  --gap-lg: 22px;
+  --gap-xl: 36px;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-pill: 999px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════════════════════ */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { 
+  height:100%;
+  background: var(--void);
+  color: var(--pewter);
+  font-family: var(--font-bridge);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  min-height:100%;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 8%, rgba(200,169,110,0.07), transparent),
+    radial-gradient(ellipse 50% 50% at 85% 5%, rgba(74,158,138,0.04), transparent),
+    linear-gradient(170deg, var(--abyss) 0%, var(--void) 60%);
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+button { font:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+input[type="range"] { accent-color: var(--lantern); }
+:focus-visible { outline: 2px solid var(--lantern); outline-offset: 2px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SHELL — The app frame
+   ═══════════════════════════════════════════════════════════════ */
+#app {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--gap-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  min-height: 100vh;
+}
+
+/* ── State Navigator ─────────────────────────────────────────── */
+.nav-rail {
+  display: flex;
+  gap: var(--gap-xs);
+  overflow-x: auto;
+  padding: var(--gap-xs) 0;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  flex-shrink: 0;
+}
+.nav-rail::-webkit-scrollbar { display:none; }
+.nav-pill {
+  flex-shrink: 0;
+  padding: 6px 13px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--seam);
+  background: var(--abyss);
+  color: var(--slate);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: all 160ms ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.nav-pill:hover { border-color:var(--rivet); color:var(--pewter); }
+.nav-pill[aria-current="true"] {
+  border-color: var(--lantern);
+  color: var(--lantern-hot);
+  background: rgba(200,169,110,0.08);
+}
+
+/* ── Screen Container ────────────────────────────────────────── */
+.screen {
+  flex: 1;
+  border: 1px solid var(--seam);
+  border-radius: var(--radius);
+  background: linear-gradient(178deg, rgba(12,26,40,0.92), rgba(8,16,24,0.96));
+  overflow: hidden;
+  position: relative;
+}
+.screen-pad { padding: var(--gap-md); }
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENTS — Reusable across screens
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Action Button (the signature element) ───────────────────── */
+.act {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 11px 14px;
+  border: 1px solid rgba(200,169,110,0.22);
+  border-left: 4px solid var(--lantern);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, rgba(200,169,110,0.12) 0%, rgba(200,169,110,0.03) 100%);
+  color: var(--bone);
+  font-size: 13px;
+  line-height: 1.35;
+  transition: all 160ms ease;
+  min-height: 44px;
+}
+.act:hover, .act:focus-visible {
+  background: linear-gradient(135deg, rgba(200,169,110,0.22) 0%, rgba(200,169,110,0.08) 100%);
+  border-color: rgba(200,169,110,0.4);
+  transform: translateY(-1px);
+}
+.act:active { transform: translateY(0); }
+.act.safe   { border-left-color:var(--kelp); }
+.act.danger { border-left-color:var(--rust); }
+.act.ghost  { background:transparent; border-color:var(--seam); border-left-color:var(--rivet); color:var(--slate); }
+.act.ghost:hover { border-color:var(--rivet); color:var(--pewter); }
+.act .cost  { float:right; font-size:11px; color:var(--rust); font-family:var(--font-signal); }
+.act .gain  { float:right; font-size:11px; color:var(--kelp); font-family:var(--font-signal); }
+.act .sub   { display:block; font-size:11px; color:var(--slate); margin-top:2px; }
+.act[disabled] { opacity:0.35; pointer-events:none; }
+
+/* ── Panel ───────────────────────────────────────────────────── */
+.panel {
+  border: 1px solid var(--seam);
+  border-radius: var(--radius-sm);
+  background: rgba(8,16,24,0.6);
+  padding: var(--gap-md);
+}
+.panel-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lantern-dim);
+  margin-bottom: var(--gap-sm);
+}
+.panel-title {
+  font-family: var(--font-log);
+  font-size: 17px;
+  color: var(--bone);
+  margin-bottom: var(--gap-sm);
+}
+
+/* ── Bar (progress / stat) ───────────────────────────────────── */
+.bar { height:6px; border-radius:3px; background:var(--hull); overflow:hidden; }
+.bar-fill { height:100%; border-radius:3px; transition: width 400ms ease; }
+.bar-fill.amber { background: linear-gradient(90deg,var(--lantern-dim),var(--lantern)); }
+.bar-fill.teal  { background: linear-gradient(90deg,var(--kelp-dim),var(--kelp)); }
+.bar-fill.blue  { background: linear-gradient(90deg,var(--resonance-dim),var(--resonance)); }
+.bar-fill.red   { background: linear-gradient(90deg,var(--rust-dim),var(--rust)); }
+
+/* ── Entry row ───────────────────────────────────────────────── */
+.entry {
+  border-left: 3px solid var(--seam);
+  padding: var(--gap-sm) var(--gap-md);
+  background: rgba(4,8,16,0.5);
+  margin-bottom: var(--gap-xs);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.entry b { display:block; color:var(--bone); font-size:13px; font-weight:500; }
+.entry span { font-size:12px; color:var(--slate); }
+.entry.sealed { border-left-color: var(--lantern); }
+.entry.active { border-left-color: var(--lantern-dim); }
+
+/* ── Tabs ────────────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  gap: var(--gap-xs);
+  margin-bottom: var(--gap-md);
+}
+.tab {
+  flex: 1;
+  padding: 8px 6px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--seam);
+  background: var(--abyss);
+  color: var(--slate);
+  transition: all 140ms ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tab:hover { color:var(--pewter); border-color:var(--rivet); }
+.tab.on {
+  color: var(--lantern-hot);
+  border-color: var(--lantern);
+  background: rgba(200,169,110,0.06);
+}
+
+/* ── HUD Strip ───────────────────────────────────────────────── */
+.hud {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  gap: var(--gap-xs);
+  padding: var(--gap-sm);
+  border: 1px solid var(--seam);
+  border-radius: var(--radius-sm);
+  background: rgba(4,8,16,0.7);
+}
+.hud-cell {
+  min-height: 38px;
+  display:flex; flex-direction:column; justify-content:center;
+}
+.hud-cell .label { font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--lantern-dim); }
+.hud-cell .value { font-size:13px; color:var(--bone); font-family:var(--font-signal); }
+.hud-cell .hearts { color:var(--rust); font-size:14px; letter-spacing:2px; }
+
+/* ── Chip / Hotspot ──────────────────────────────────────────── */
+.chips { display:flex; flex-wrap:wrap; gap:var(--gap-xs); }
+.chip {
+  padding: 4px 10px;
+  border: 1px solid var(--rivet);
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  color: var(--pewter);
+  cursor: pointer;
+  transition: all 140ms ease;
+}
+.chip:hover { border-color:var(--lantern); color:var(--lantern-hot); }
+
+/* ── NPC Card ────────────────────────────────────────────────── */
+.npc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border: 1px solid var(--seam);
+  border-radius: var(--radius-sm);
+  background: rgba(8,16,24,0.5);
+  margin-bottom: var(--gap-xs);
+  cursor: pointer;
+  transition: background 140ms ease;
+  min-height: 44px;
+}
+.npc-row:hover { background:rgba(20,34,50,0.6); }
+.npc-name { font-size:13px; color:var(--bone); }
+.npc-sub { font-size:11px; color:var(--slate); }
+.npc-dots { color:var(--lantern); font-size:11px; letter-spacing:2px; }
+.npc-ready { color:var(--lantern); text-shadow:0 0 6px rgba(200,169,110,0.5); }
+
+/* ── Map Node ────────────────────────────────────────────────── */
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-sm);
+}
+.map-node {
+  min-height: 56px;
+  border: 1px solid var(--seam);
+  border-radius: var(--radius-sm);
+  background: rgba(8,16,24,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 11px;
+  color: var(--slate);
+  padding: var(--gap-sm);
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+.map-node:hover { background:rgba(20,34,50,0.5); border-color:var(--rivet); color:var(--pewter); }
+.map-node.here {
+  border-color: var(--lantern);
+  color: var(--lantern-hot);
+  box-shadow: 0 0 0 1px rgba(200,169,110,0.2), inset 0 0 12px rgba(200,169,110,0.06);
+}
+.map-node.fog { color:var(--graphite); border-style:dashed; }
+.map-conn { font-size:9px; color:var(--graphite); text-align:center; padding:2px 0; }
+
+/* ── Insight Card ────────────────────────────────────────────── */
+.insight-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--gap-sm); }
+.insight-card {
+  border: 1px solid var(--seam);
+  border-radius: var(--radius-sm);
+  padding: var(--gap-sm) var(--gap-md);
+  background: rgba(8,16,24,0.5);
+  text-align: center;
+}
+.insight-card.sealed {
+  border-color: var(--lantern);
+  box-shadow: 0 0 8px rgba(200,169,110,0.12);
+}
+.insight-card .ic-icon { font-family:var(--font-signal); font-size:18px; color:var(--lantern); margin-bottom:4px; }
+.insight-card .ic-title { font-size:11px; color:var(--bone); margin-bottom:2px; }
+.insight-card .ic-status { font-size:10px; color:var(--slate); }
+.insight-card.sealed .ic-status { color:var(--lantern-dim); }
+
+/* ── Seal Card (archive desk) ────────────────────────────────── */
+.seal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid var(--seam);
+  border-radius: var(--radius-sm);
+  background: rgba(4,8,16,0.5);
+  margin-bottom: var(--gap-xs);
+  min-height: 44px;
+}
+.seal-row.can-seal { cursor:pointer; border-color:var(--rivet); }
+.seal-row.can-seal:hover { background:rgba(20,34,50,0.5); }
+.seal-row.done { opacity:0.5; }
+.seal-title { font-size:12px; color:var(--bone); }
+.seal-cost { font-size:11px; font-family:var(--font-signal); color:var(--lantern); }
+.seal-cost.locked { color:var(--graphite); }
+
+/* ── Dial (signal puzzle) ────────────────────────────────────── */
+.dials { display:flex; gap:var(--gap-lg); justify-content:center; }
+.dial { display:flex; flex-direction:column; align-items:center; gap:var(--gap-xs); }
+.dial-btn {
+  width:44px; height:44px;
+  border:1px solid var(--rivet);
+  border-radius:var(--radius-sm);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--pewter);
+  font-size:16px;
+  transition: all 140ms ease;
+}
+.dial-btn:hover { border-color:var(--lantern); color:var(--lantern); }
+.dial-val { font-family:var(--font-signal); font-size:28px; color:var(--lantern-hot); }
+
+/* ── Codex / Archive entry ───────────────────────────────────── */
+.codex-entry {
+  border: 1px solid var(--seam);
+  border-radius: var(--radius-sm);
+  padding: var(--gap-sm) var(--gap-md);
+  background: rgba(8,16,24,0.5);
+  margin-bottom: var(--gap-xs);
+}
+.codex-entry.unlocked { border-left: 3px solid var(--lantern-dim); }
+.codex-entry .ce-title { font-size:12px; color:var(--bone); }
+.codex-entry .ce-body { font-size:11px; color:var(--slate); margin-top:2px; }
+.codex-bar { display:flex; align-items:center; gap:var(--gap-sm); margin-bottom:var(--gap-sm); }
+.codex-bar .label { font-size:11px; color:var(--slate); width:80px; flex-shrink:0; }
+
+/* ── Settings Row ────────────────────────────────────────────── */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-md);
+  padding: var(--gap-sm) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.setting-row label { font-size:13px; color:var(--bone); flex-shrink:0; }
+.setting-row input[type="range"] { flex:1; max-width:160px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   ATMOSPHERIC ELEMENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Starfield ───────────────────────────────────────────────── */
+.starfield { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.star {
+  position:absolute;
+  width:2px; height:2px;
+  border-radius:50%;
+  background: rgba(206,215,227,0.8);
+  animation: twinkle var(--t,4s) ease-in-out infinite;
+  animation-delay: var(--d,0s);
+}
+@keyframes twinkle {
+  0%,100% { opacity:0.15; transform:scale(0.8); }
+  50% { opacity:0.85; transform:scale(1.3); }
+}
+
+/* ── Lighthouse beam ─────────────────────────────────────────── */
+.beam-wrap {
+  position:absolute; inset:0;
+  pointer-events:none;
+  transform-origin: 50% 65%;
+  animation: sweep 10s ease-in-out infinite alternate;
+}
+.beam-wrap::before {
+  content:"";
+  position:absolute;
+  left:42%; top:12%;
+  width: min(80vw,400px);
+  height: min(80vw,400px);
+  background: conic-gradient(from 25deg, transparent 0deg 315deg, rgba(200,169,110,0.45) 340deg 360deg);
+  filter: blur(1px);
+}
+@keyframes sweep { from{transform:rotate(-16deg)} to{transform:rotate(20deg)} }
+
+/* ── Vignette ────────────────────────────────────────────────── */
+.vignette {
+  position:absolute; inset:0;
+  pointer-events:none;
+  background: radial-gradient(ellipse 70% 60% at 50% 35%, transparent 20%, rgba(4,8,16,0.85) 100%);
+}
+
+/* ── Lighthouse silhouette ───────────────────────────────────── */
+.lighthouse-sil {
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.lighthouse-sil .tower {
+  width: 44px; height: 160px;
+  margin: 0 auto;
+  border: 1px solid rgba(138,155,176,0.3);
+  border-bottom: 4px solid rgba(138,155,176,0.35);
+  background: linear-gradient(180deg, rgba(200,169,110,0.08), transparent 60%);
+  position: relative;
+}
+.lighthouse-sil .lantern-room {
+  position: absolute;
+  top: -14px; left: -6px; right: -6px;
+  height: 16px;
+  border: 1px solid rgba(138,155,176,0.3);
+  background: rgba(200,169,110,0.15);
+}
+.lighthouse-sil .base {
+  width: 62px; height: 20px;
+  margin: 0 auto;
+  border: 1px solid rgba(138,155,176,0.25);
+  border-top: none;
+  background: rgba(12,26,40,0.4);
+}
+
+/* ── Scanlines (CRT) ────────────────────────────────────────── */
+.scanlines {
+  position:absolute; inset:0;
+  pointer-events:none;
+  background: repeating-linear-gradient(0deg, rgba(138,155,176,0.03) 0px, rgba(138,155,176,0.03) 1px, transparent 1px, transparent 4px);
+}
+
+/* ── Portrait (ASCII) ────────────────────────────────────────── */
+.portrait {
+  width:60px; min-height:60px;
+  border:1px solid var(--rivet);
+  border-radius: var(--radius-sm);
+  background: rgba(4,8,16,0.6);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-signal);
+  font-size:10px; line-height:1.15;
+  color:var(--lantern);
+  white-space:pre;
+  flex-shrink:0;
+}
+
+/* ── Full-screen cinematic ───────────────────────────────────── */
+.cinematic {
+  min-height: 70vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+}
+.cin-card {
+  position:relative; z-index:1;
+  width: min(640px,100%);
+  margin: var(--gap-md);
+  border: 1px solid var(--seam);
+  border-radius: var(--radius);
+  background: rgba(6,12,20,0.82);
+  backdrop-filter: blur(4px);
+  padding: var(--gap-lg);
+}
+.cin-card h2 {
+  font-family: var(--font-log);
+  font-size: clamp(20px, 5vw, 32px);
+  color: var(--bone);
+  margin-bottom: var(--gap-sm);
+  letter-spacing: -0.01em;
+}
+.cin-card .subtitle {
+  font-size: 13px;
+  color: var(--pewter);
+  margin-bottom: var(--gap-md);
+  line-height: 1.6;
+}
+.cin-card .actions { display:grid; gap:var(--gap-sm); }
+
+/* ── Centered stage (death, vision, etc.) ────────────────────── */
+.stage {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.stage-card {
+  position:relative; z-index:1;
+  width: min(580px,100%);
+  margin: var(--gap-md);
+  border: 1px solid var(--seam);
+  border-radius: var(--radius);
+  background: rgba(6,12,20,0.82);
+  padding: var(--gap-lg);
+  text-align: center;
+}
+.stage-card h2 {
+  font-family: var(--font-log);
+  font-size: clamp(18px,4.5vw,28px);
+  color: var(--lantern);
+  margin-bottom: var(--gap-sm);
+}
+.stage-card .desc {
+  font-family: var(--font-signal);
+  font-size: 13px;
+  color: var(--pewter);
+  line-height: 1.7;
+  margin-bottom: var(--gap-md);
+}
+
+/* ── NPC Trust indicator (abstract dots) ─────────────────────── */
+.trust-dots { display:flex; gap:3px; }
+.trust-dot {
+  width:8px; height:8px;
+  border-radius:50%;
+  border:1px solid var(--rivet);
+}
+.trust-dot.filled { background:var(--lantern); border-color:var(--lantern); }
+.trust-dot.half { background:var(--lantern-dim); border-color:var(--lantern-dim); }
+
+/* ── Overlay ─────────────────────────────────────────────────── */
+.overlay-bg {
+  position:fixed; inset:0;
+  background: rgba(4,8,16,0.92);
+  display:flex; align-items:center; justify-content:center;
+  z-index:50;
+}
+.overlay-panel {
+  width: min(400px,90vw);
+  border:1px solid var(--rivet);
+  border-radius:var(--radius);
+  background: var(--hull);
+  padding: var(--gap-lg);
+}
+.overlay-panel h3 {
+  font-family:var(--font-log);
+  font-size:18px;
+  color:var(--bone);
+  margin-bottom:var(--gap-md);
+}
+
+/* ── Scroll container ────────────────────────────────────────── */
+.scroll-box {
+  max-height: 260px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hull) transparent;
+}
+
+/* ── Archetype Card ──────────────────────────────────────────── */
+.archetype-grid { display:grid; gap:var(--gap-sm); }
+.archetype-card {
+  border: 2px solid var(--seam);
+  border-radius: var(--radius);
+  padding: var(--gap-md);
+  background: rgba(8,16,24,0.6);
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+.archetype-card:hover { border-color:var(--rivet); background:rgba(20,34,50,0.4); }
+.archetype-card.selected {
+  border-color: var(--lantern);
+  background: rgba(200,169,110,0.05);
+  box-shadow: 0 0 0 1px rgba(200,169,110,0.15);
+}
+.archetype-card .arch-icon {
+  font-family:var(--font-signal);
+  font-size:24px;
+  color:var(--lantern);
+  margin-bottom:var(--gap-sm);
+  text-align:center;
+}
+.archetype-card .arch-name {
+  font-family:var(--font-log);
+  font-size:17px;
+  color:var(--bone);
+  text-align:center;
+  margin-bottom:var(--gap-xs);
+}
+.archetype-card .arch-desc {
+  font-size:12px;
+  color:var(--pewter);
+  text-align:center;
+  line-height:1.5;
+  margin-bottom:var(--gap-sm);
+}
+.archetype-card .arch-stats {
+  font-family:var(--font-signal);
+  font-size:11px;
+  color:var(--slate);
+  text-align:center;
+}
+
+/* ── Gameplay layout (mobile: stacked, desktop: side-by-side) ── */
+.game-layout { display:grid; gap:var(--gap-sm); }
+.game-main { min-width:0; }
+.game-side { min-width:0; }
+
+/* ── Scene text (narrative voice) ────────────────────────────── */
+.scene-text {
+  font-family: var(--font-signal);
+  font-size: 13px;
+  color: var(--bone);
+  line-height: 1.7;
+  margin-bottom: var(--gap-md);
+}
+
+/* ── Dialogue layout ─────────────────────────────────────────── */
+.dlg-header { display:flex; gap:var(--gap-md); align-items:flex-start; margin-bottom:var(--gap-md); }
+.dlg-speaker {
+  font-family:var(--font-log);
+  font-size:15px;
+  color:var(--lantern-hot);
+  letter-spacing:0.03em;
+}
+.dlg-text {
+  font-family:var(--font-signal);
+  font-size:13px;
+  color:var(--bone);
+  line-height:1.7;
+  margin-bottom:var(--gap-md);
+}
+
+/* ── GDD reference badge ─────────────────────────────────────── */
+.gdd-ref {
+  font-size:10px;
+  color:var(--graphite);
+  font-family:var(--font-signal);
+  margin-top:var(--gap-md);
+  padding-top:var(--gap-sm);
+  border-top:1px solid var(--hairline);
+}
+
+/* ── Ending-specific mood backgrounds ────────────────────────── */
+.ending-truth    .stage-card { border-color:rgba(255,255,255,0.2); }
+.ending-truth    .stage-card h2 { color:var(--bone); }
+.ending-keeper   .stage-card h2 { color:var(--lantern); }
+.ending-loop     { background:linear-gradient(180deg,var(--night-ink),var(--void)); }
+.ending-loop     .stage-card h2 { color:var(--rust); }
+.ending-corrupt  { background:linear-gradient(180deg,rgba(20,40,24,0.3),var(--void)); }
+.ending-corrupt  .stage-card h2 { color:var(--corruption); }
+.ending-witness  .stage-card h2 { color:var(--lantern-hot); }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile-first, then wider
+   ═══════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .archetype-grid { grid-template-columns: repeat(3,1fr); }
+  .game-layout { grid-template-columns: 1.6fr 1fr; }
+}
+@media (min-width: 1024px) {
+  #app { padding: var(--gap-md); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   REDUCED MOTION
+   ═══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .star { animation:none !important; opacity:0.4; }
+  .beam-wrap { animation:none !important; }
+  * { transition-duration:0ms !important; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <nav class="nav-rail" id="nav" aria-label="Screen navigator"></nav>
+  <main class="screen" id="screen"></main>
+  <div id="announcer" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   STATE MACHINE
+   ═══════════════════════════════════════════════════════════════ */
+const SCREENS = [
+  { id:'title',       label:'Title',        gdd:'§5a' },
+  { id:'archetype',   label:'Archetype',    gdd:'§5b' },
+  { id:'gameplay',    label:'Day',          gdd:'§5c' },
+  { id:'dialogue',    label:'Dialogue',     gdd:'§5c.2, §6.9' },
+  { id:'journal',     label:'Journal',      gdd:'§5c.3' },
+  { id:'map',         label:'Map',          gdd:'§5c.4' },
+  { id:'status',      label:'Status',       gdd:'§5c.5' },
+  { id:'archive',     label:'Codex',        gdd:'§5c.6' },
+  { id:'desk',        label:'Desk',         gdd:'—' },
+  { id:'puzzle',      label:'Puzzle',       gdd:'—' },
+  { id:'night_safe',  label:'Night ☽',      gdd:'§5d' },
+  { id:'night_dark',  label:'Night ☠',      gdd:'§5d' },
+  { id:'vision',      label:'Vision',       gdd:'§5e' },
+  { id:'death',       label:'Death',        gdd:'§5f' },
+  { id:'ending1',     label:'End: Truth',   gdd:'§5g' },
+  { id:'ending2',     label:'End: Keeper',  gdd:'§5g' },
+  { id:'ending3',     label:'End: Loop',    gdd:'§5g' },
+  { id:'ending4',     label:'End: Corrupt', gdd:'§5g' },
+  { id:'ending5',     label:'End: Witness', gdd:'§5g' },
+  { id:'pause',       label:'Pause',        gdd:'§5h' },
+  { id:'settings',    label:'Settings',     gdd:'§10' },
+];
+
+const S = {
+  screen: 'title',
+  archetype: 'Seeker',
+  sideTab: 'journal',
+  journalSub: 'entries',
+  dialVal: [3, 7, 1],
+};
+
+const $nav = document.getElementById('nav');
+const $screen = document.getElementById('screen');
+const $announcer = document.getElementById('announcer');
+
+function go(id) {
+  if (!SCREENS.find(s => s.id === id)) return;
+  S.screen = id;
+  render();
+}
+
+function render() {
+  // Nav
+  $nav.innerHTML = SCREENS.map(s =>
+    `<button class="nav-pill" ${s.id===S.screen?'aria-current="true"':''} data-go="${s.id}">${s.label}</button>`
+  ).join('');
+  // Screen
+  const fn = R[S.screen] || R.title;
+  $screen.innerHTML = fn();
+  // Announce screen change to assistive tech
+  const meta = SCREENS.find(s => s.id === S.screen);
+  if ($announcer && meta) $announcer.textContent = meta.label + ' screen';
+  // Seed stars
+  $screen.querySelectorAll('.starfield').forEach(seedStars);
+}
+
+function seedStars(el) {
+  if (el.dataset.seeded) return;
+  el.dataset.seeded = '1';
+  const n = +(el.dataset.count || 80);
+  let html = '';
+  for (let i = 0; i < n; i++) {
+    const x = (Math.random()*100).toFixed(1);
+    const y = (Math.random()*100).toFixed(1);
+    const t = (3 + Math.random()*4).toFixed(1);
+    const d = (Math.random()*3).toFixed(1);
+    html += `<span class="star" style="left:${x}%;top:${y}%;--t:${t}s;--d:${d}s"></span>`;
+  }
+  el.innerHTML = html;
+}
+
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── Event delegation ────────────────────────────────────────────
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-go]');
+  if (btn) { go(btn.dataset.go); return; }
+  const arch = e.target.closest('[data-arch]');
+  if (arch) { S.archetype = arch.dataset.arch; render(); return; }
+  const tab = e.target.closest('[data-tab]');
+  if (tab) { S.sideTab = tab.dataset.tab; render(); return; }
+  const jtab = e.target.closest('[data-jtab]');
+  if (jtab) { S.journalSub = jtab.dataset.jtab; render(); return; }
+  const dial = e.target.closest('[data-dial]');
+  if (dial) {
+    const i = +dial.dataset.dial;
+    const dir = +dial.dataset.dir;
+    S.dialVal[i] = ((S.dialVal[i] + dir) % 10 + 10) % 10;
+    render();
+    return;
+  }
+});
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input,textarea,select,[contenteditable]')) return;
+  if (e.key === 'ArrowRight') { const i = SCREENS.findIndex(s=>s.id===S.screen); go(SCREENS[(i+1)%SCREENS.length].id); }
+  if (e.key === 'ArrowLeft')  { const i = SCREENS.findIndex(s=>s.id===S.screen); go(SCREENS[(i-1+SCREENS.length)%SCREENS.length].id); }
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   SCREEN RENDERERS — one function per screen
+   ═══════════════════════════════════════════════════════════════ */
+const R = {};
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 1. TITLE SCREEN [GDD §5a]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.title = () => `
+<div class="cinematic">
+  <div class="starfield" data-count="100"></div>
+  <div class="beam-wrap"></div>
+  <div class="vignette"></div>
+  <div class="lighthouse-sil">
+    <div class="tower"><div class="lantern-room"></div></div>
+    <div class="base"></div>
+  </div>
+  <div class="cin-card">
+    <p class="panel-label">A Mystery in Loops</p>
+    <h2>Echoes of the Lighthouse</h2>
+    <p class="subtitle">You are the new Keeper. The journal is empty. The beam must not go dark. Something in the water remembers what you have forgotten.</p>
+    <div class="actions">
+      <button class="act" data-go="archetype">NEW GAME</button>
+      <button class="act ghost">CONTINUE <span class="sub">Loop 8 · 73% Knowledge</span></button>
+      <button class="act ghost">ABOUT</button>
+    </div>
+    <div class="gdd-ref">GDD §5a · Title Screen · Beam rotates 360° over 8s · Buttons fade in at t=1.0s</div>
+  </div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 2. ARCHETYPE SELECTION [GDD §5b]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.archetype = () => {
+  const archetypes = [
+    { id:'Seeker',  icon:'⌕', desc:'Driven by curiosity. +2 Insight on first location discovery. Can use the Analyze action to reveal hidden hotspots.', stats:'INSIGHT: 60 · RESONANCE: 40' },
+    { id:'Keeper',  icon:'☀', desc:'Protector of knowledge. +1 Resonance each time you seal an Insight. Can use Preserve to bank Insight without visiting the Archive.', stats:'INSIGHT: 50 · RESONANCE: 50' },
+    { id:'Witness', icon:'◉', desc:'Observer of truth. Hidden hotspots visible by default. +10% detail in Journal entries. Can see NPC trust shifts in real time.', stats:'INSIGHT: 40 · RESONANCE: 60' },
+  ];
+  return `
+  <div class="screen-pad">
+    <div class="panel-label">Choose Your Path</div>
+    <p style="font-family:var(--font-log);font-size:16px;color:var(--bone);margin-bottom:var(--gap-md);">Your archetype shapes how you experience each loop. There is no wrong choice — only different ways of seeing.</p>
+    <div class="archetype-grid">
+      ${archetypes.map(a => `
+        <button class="archetype-card ${S.archetype===a.id?'selected':''}" data-arch="${a.id}">
+          <div class="arch-icon">${a.icon}</div>
+          <div class="arch-name">${a.id}</div>
+          <div class="arch-desc">${a.desc}</div>
+          <div class="arch-stats">${a.stats}</div>
+        </button>
+      `).join('')}
+    </div>
+    <div style="margin-top:var(--gap-md);">
+      <button class="act" data-go="gameplay">BEGIN JOURNEY AS ${S.archetype.toUpperCase()}</button>
+    </div>
+    <div class="gdd-ref">GDD §5b · Card 180×360 · Selected: border insight-gold 3px · Confirm appears after selection</div>
+  </div>`;
+};
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 3. GAMEPLAY DAY [GDD §5c]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.gameplay = () => `
+<div class="screen-pad">
+  <!-- HUD [GDD §5c.2 Location Header] -->
+  <div class="hud">
+    <div class="hud-cell"><span class="label">Loop</span><span class="value">8</span></div>
+    <div class="hud-cell"><span class="label">Phase</span><span class="value">AFTERNOON</span></div>
+    <div class="hud-cell"><span class="label">Hearts</span><span class="hearts">♥♥♡</span></div>
+    <div class="hud-cell"><span class="label">Stamina</span><span class="value">7/10</span><div class="bar" style="margin-top:3px"><div class="bar-fill teal" style="width:70%"></div></div></div>
+    <div class="hud-cell"><span class="label">Light</span><span class="value">58%</span><div class="bar" style="margin-top:3px"><div class="bar-fill amber" style="width:58%"></div></div></div>
+    <div class="hud-cell"><span class="label">Insight</span><span class="value" style="color:var(--lantern)">◈ 72</span></div>
+    <div class="hud-cell"><span class="label">Location</span><span class="value">Lighthouse Office</span></div>
+    <div class="hud-cell"><span class="label">Day Timer</span><div class="bar" style="margin-top:6px"><div class="bar-fill blue" style="width:53%"></div></div></div>
+  </div>
+
+  <div class="game-layout" style="margin-top:var(--gap-sm)">
+    <!-- MAIN CONTENT -->
+    <div class="game-main">
+      <div class="panel" style="margin-bottom:var(--gap-sm)">
+        <div class="panel-label">Scene · Turn 14 / 30</div>
+        <p class="scene-text">The office smells of brine and old paper. Ledgers line the shelves, their spines cracked from decades of use. The desk is covered in maritime charts, weighted down by a brass compass that no longer points true north.<br><br>Through the salt-stained window, you can see the beam sweeping across the harbor. Something large disturbs the water near the breakwater.</p>
+        <div class="chips" style="margin-top:var(--gap-sm)">
+          <span class="chip">📋 Maritime Charts</span>
+          <span class="chip">🧭 Brass Compass</span>
+          <span class="chip">📖 Tide Ledger</span>
+        </div>
+      </div>
+
+      <!-- NPCs present [GDD §5c.2] -->
+      <div class="panel-label">PRESENT</div>
+      <button class="npc-row" data-go="dialogue">
+        <div><div class="npc-name">Maren</div><div class="npc-sub">The Light-Keeper's Daughter · Tier 3</div></div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="npc-ready">●</span>
+          <span class="npc-dots">◈◈◈○</span>
+        </div>
+      </button>
+      <button class="npc-row">
+        <div><div class="npc-name">Dov</div><div class="npc-sub">The Mechanic · Tier 2</div></div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="color:var(--graphite)">●</span>
+          <span class="npc-dots">◈◈○○</span>
+        </div>
+      </button>
+
+      <!-- Examine [GDD §5c.2] -->
+      <div class="panel-label" style="margin-top:var(--gap-md)">EXAMINE</div>
+      <button class="act ghost" style="margin-bottom:var(--gap-xs)">✓ Keeper's Diary (page 1)<span class="sub">Already examined</span></button>
+      <button class="act ghost" style="margin-bottom:var(--gap-xs)">Tide Ledger<span class="sub">Something is scratched out with a nail</span></button>
+      <button class="act ghost">Lens Housing<span class="sub">The mechanism looks wrong</span></button>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="game-side">
+      <div class="tabs">
+        ${['journal','map','status','archive'].map(t =>
+          `<button class="tab ${S.sideTab===t?'on':''}" data-tab="${t}">${t.charAt(0).toUpperCase()+t.slice(1)}</button>`
+        ).join('')}
+      </div>
+      <div class="scroll-box">${sideContent()}</div>
+    </div>
+  </div>
+
+  <!-- ACTION BAR [GDD §5c.7] -->
+  <div style="display:grid;gap:var(--gap-xs);margin-top:var(--gap-sm)">
+    <div class="panel-label">MOVE TO</div>
+    <button class="act">Cliffs<span class="sub">1 turn · Discovered</span></button>
+    <button class="act">★ Mechanism Room<span class="sub">2 turns · Requires key</span><span class="cost">🔒</span></button>
+    <button class="act ghost">⏸ Wait (skip turn)</button>
+    <button class="act safe">◈ Light the Beacon<span class="sub">Needs 30% LGT + 2 STA</span></button>
+  </div>
+  <div class="gdd-ref">GDD §5c · Permanent Layout · Main Panel 600×540 · Sidebar 260×540 · Action Bar 600×50</div>
+</div>`;
+
+function sideContent() {
+  if (S.sideTab === 'journal') return journalContent();
+  if (S.sideTab === 'map') return mapContent();
+  if (S.sideTab === 'status') return statusContent();
+  if (S.sideTab === 'archive') return archiveContent();
+  return '';
+}
+
+function journalContent() {
+  const subs = ['entries','threads','insights'];
+  return `
+    <div class="tabs" style="margin-bottom:var(--gap-sm)">
+      ${subs.map(t => `<button class="tab ${S.journalSub===t?'on':''}" data-jtab="${t}">${t.charAt(0).toUpperCase()+t.slice(1)}</button>`).join('')}
+    </div>
+    ${S.journalSub === 'entries' ? `
+      <div class="entry active"><b>Loop 8 · Lighthouse Office</b><span>Maren left a note under the tide chart: "The beam does not warn. It calls."</span></div>
+      <div class="entry"><b>Loop 8 · Harbour</b><span>Cael's ledger has pages salted shut. The low-tide entries are deliberately hidden.</span></div>
+      <div class="entry"><b>Loop 7 · Chapel</b><span>Oren admits the first keepers did not build a warning light. They built a feeding apparatus.</span></div>
+      <div class="entry"><b>Loop 7 · Forge</b><span>Dov found markings on the mechanism gear that don't match any lighthouse manufacturer.</span></div>
+    ` : S.journalSub === 'threads' ? `
+      <div class="entry active"><b>The Lighthouse Chain</b><span>Key Insights sealed: 5/7</span>
+        <div class="bar" style="margin-top:4px"><div class="bar-fill amber" style="width:71%"></div></div>
+      </div>
+      <div class="entry active"><b>Maren's Loss</b><span>Evidence: 3/5 — Need Beacon Room entry</span>
+        <div class="bar" style="margin-top:4px"><div class="bar-fill amber" style="width:60%"></div></div>
+      </div>
+      <div class="entry"><b>The Fisherman's Ledger</b><span>✓ Complete</span></div>
+    ` : `
+      <div class="insight-grid">
+        <div class="insight-card sealed"><div class="ic-icon">☀</div><div class="ic-title">The Beam Calls</div><div class="ic-status">SEALED</div></div>
+        <div class="insight-card sealed"><div class="ic-icon">⚓</div><div class="ic-title">Spirit Binding</div><div class="ic-status">SEALED</div></div>
+        <div class="insight-card"><div class="ic-icon">⚙</div><div class="ic-title">Mechanism Purpose</div><div class="ic-status">3/5 Evidence</div></div>
+        <div class="insight-card"><div class="ic-icon">🏝</div><div class="ic-title">Island History</div><div class="ic-status">2/5 Evidence</div></div>
+      </div>
+    `}
+  `;
+}
+
+function mapContent() {
+  return `
+    <div class="map-grid">
+      <div class="map-node here">Lighthouse ◀</div>
+      <div class="map-node">Cliffs</div>
+      <div class="map-node">Harbour</div>
+      <div class="map-node">Village</div>
+      <div class="map-node">Chapel</div>
+      <div class="map-node">Forge</div>
+      <div class="map-node">Apothecary</div>
+      <div class="map-node">Manor Ruins</div>
+      <div class="map-node fog">??? Mechanism</div>
+    </div>
+    <div style="margin-top:var(--gap-sm);font-size:11px;color:var(--graphite)">
+      Tap a location to see travel cost. Dashed = undiscovered.
+    </div>`;
+}
+
+function statusContent() {
+  return `
+    <div class="panel" style="margin-bottom:var(--gap-sm)">
+      <div style="display:flex;align-items:center;gap:var(--gap-md)">
+        <div style="font-size:28px">⌕</div>
+        <div>
+          <div style="font-family:var(--font-log);font-size:15px;color:var(--bone)">${S.archetype}</div>
+          <div style="font-size:11px;color:var(--slate)">Curiosity weaponizes map certainty</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-label">Insight · 72 / 150</div>
+    <div class="bar" style="margin-bottom:var(--gap-md)"><div class="bar-fill amber" style="width:48%"></div></div>
+    <div class="panel-label">Resonance · 134 / 200</div>
+    <div class="bar" style="margin-bottom:var(--gap-md)"><div class="bar-fill blue" style="width:67%"></div></div>
+    <div class="panel-label">Loop 8 · Deaths: 7</div>
+    <div class="panel-label" style="margin-top:var(--gap-md)">CONNECTIONS</div>
+    ${[
+      {name:'Maren',dots:3,clr:'var(--kelp)'},
+      {name:'Dov',dots:2,clr:'var(--lantern)'},
+      {name:'Oren',dots:2,clr:'var(--lantern)'},
+      {name:'Vael',dots:1,clr:'var(--rust)'},
+      {name:'Silas',dots:1,clr:'var(--slate)'},
+    ].map(n => `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0">
+        <span style="font-size:12px;color:var(--pewter)">${n.name}</span>
+        <div class="trust-dots">
+          ${'<div class="trust-dot filled"></div>'.repeat(n.dots)}
+          ${'<div class="trust-dot"></div>'.repeat(4-n.dots)}
+        </div>
+      </div>
+    `).join('')}
+  `;
+}
+
+function archiveContent() {
+  return `
+    <div style="font-size:11px;color:var(--slate);margin-bottom:var(--gap-sm)">Spend Insight to unlock permanent abilities.</div>
+    <div class="codex-bar"><span class="label">History</span><div class="bar" style="flex:1"><div class="bar-fill amber" style="width:60%"></div></div><span style="font-size:10px;color:var(--slate);margin-left:6px">6/10</span></div>
+    <div class="codex-bar"><span class="label">Maritime</span><div class="bar" style="flex:1"><div class="bar-fill amber" style="width:40%"></div></div><span style="font-size:10px;color:var(--slate);margin-left:6px">4/10</span></div>
+    <div class="codex-bar"><span class="label">Occult</span><div class="bar" style="flex:1"><div class="bar-fill amber" style="width:30%"></div></div><span style="font-size:10px;color:var(--slate);margin-left:6px">3/10</span></div>
+    <div class="codex-entry unlocked"><div class="ce-title">The Founding Charter</div><div class="ce-body">They arrived knowing what was beneath the island. The first keeper's log confirms it.</div></div>
+    <div class="codex-entry unlocked"><div class="ce-title">Tidal Navigation</div><div class="ce-body">Low tide exposes the original pier boards — and the names carved into them.</div></div>
+    <div class="codex-entry"><div class="ce-title">???</div><div class="ce-body">Locked — requires Maritime Adept (6/10 pages)</div></div>
+  `;
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 4. DIALOGUE [GDD §5c.2 Dialogue Box + §6.9 DialogueOption]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.dialogue = () => `
+<div class="screen-pad">
+  <div class="hud" style="margin-bottom:var(--gap-sm)">
+    <div class="hud-cell"><span class="label">Speaking to</span><span class="value">Maren</span></div>
+    <div class="hud-cell"><span class="label">Trust</span><span class="value">62 / 100</span></div>
+    <div class="hud-cell"><span class="label">Tier</span><span class="value">3</span></div>
+    <div class="hud-cell"><span class="label">Insight</span><span class="value" style="color:var(--lantern)">◈ 72</span></div>
+  </div>
+  <div class="panel">
+    <div class="dlg-header">
+      <div class="portrait"> /~\\\n| o |\n( - )\n \\V/\n / \\</div>
+      <div>
+        <div class="dlg-speaker">MAREN</div>
+        <div style="font-size:11px;color:var(--slate)">The Light-Keeper's Daughter · Resonance 3</div>
+      </div>
+    </div>
+    <div class="dlg-text">"If the beam is mercy, why does it always find the same patch of water first? My father asked that question the night before he disappeared. Nobody wanted to hear the answer."</div>
+  </div>
+  <div style="display:grid;gap:var(--gap-xs);margin-top:var(--gap-sm)">
+    <button class="act">Ask about the old lens markings<span class="cost">−10 ◈</span></button>
+    <button class="act">● "What did your father find?"<span class="sub">● = reveals new information</span></button>
+    <button class="act safe">Offer reassurance<span class="gain">+Trust</span></button>
+    <button class="act danger">Accuse her of hiding his records</button>
+    <button class="act ghost" data-go="gameplay">← Leave conversation</button>
+  </div>
+  <div class="gdd-ref">GDD §5c.2 · Dialogue Box slides up · NPC Portrait 40×40 · Typewriter 30ms/char · §6.9 DialogueOption with cost/new-info indicators</div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 5. JOURNAL OVERLAY [GDD §5c.3]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.journal = () => `
+<div class="screen-pad">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--gap-md)">
+    <div class="panel-label" style="margin:0">◆ JOURNAL</div>
+    <button class="act ghost" style="width:auto;min-height:44px;padding:6px 14px" data-go="gameplay">✕ Close</button>
+  </div>
+  <div class="tabs">
+    ${['entries','threads','insights'].map(t => `<button class="tab ${S.journalSub===t?'on':''}" data-jtab="${t}">${t.charAt(0).toUpperCase()+t.slice(1)}</button>`).join('')}
+  </div>
+  <div class="scroll-box" style="max-height:50vh">
+    ${S.journalSub === 'entries' ? `
+      <div class="panel-label">Loop 8</div>
+      <div class="entry active"><b>Lighthouse Office</b><span>Maren: "The beam does not warn. It calls." Found beneath the tide chart, folded into thirds.</span></div>
+      <div class="entry"><b>Harbour</b><span>Cael's ledger has pages salted shut. The low-tide entries from 1825 are deliberately hidden.</span></div>
+      <div class="panel-label" style="margin-top:var(--gap-sm)">Loop 7</div>
+      <div class="entry"><b>Chapel</b><span>Oren admits the first keepers didn't build a warning light. They built a feeding apparatus. He won't say more without trust.</span></div>
+      <div class="entry"><b>Forge</b><span>Dov found markings on the mechanism gear. No manufacturer stamp. The gear was hand-cast by someone on the island.</span></div>
+      <div class="entry"><b>Cottage</b><span>Woke with a new entry I didn't write: "He is closer now." The handwriting is not mine.</span></div>
+      <div class="panel-label" style="margin-top:var(--gap-sm)">Loop 6</div>
+      <div class="entry"><b>Cliffs</b><span>The Watching Stone faces east, toward the mainland. Offerings left here dissolve by morning.</span></div>
+    ` : S.journalSub === 'threads' ? `
+      <div class="entry active"><b>The Lighthouse Chain (Main Quest)</b><span>Key Insights sealed: 5/7 — Missing: mechanism_purpose, final_signal</span>
+        <div class="bar" style="margin-top:6px"><div class="bar-fill amber" style="width:71%"></div></div></div>
+      <div class="entry active"><b>Maren: What the Light Took</b><span>Evidence: 3/5 — Find father's journal in Beacon Room, return before loop reset</span>
+        <div class="bar" style="margin-top:6px"><div class="bar-fill amber" style="width:60%"></div></div></div>
+      <div class="entry active"><b>Dov: The Mechanic's Confession</b><span>Evidence: 4/5 — Needs trust 70+ and light_source_truth sealed</span>
+        <div class="bar" style="margin-top:6px"><div class="bar-fill amber" style="width:80%"></div></div></div>
+      <div class="entry" style="border-left-color:var(--kelp)"><b>✓ Silas: The Fisherman's Ledger</b><span>Complete — revealed feeding pattern data</span></div>
+      <div class="entry" style="border-left-color:var(--kelp)"><b>✓ Petra: The Elder's Burden</b><span>Complete — unlocked island founding documents</span></div>
+    ` : `
+      <div class="insight-grid">
+        <div class="insight-card sealed"><div class="ic-icon">☀</div><div class="ic-title">The Beam Calls</div><div class="ic-status">SEALED · Loop 5</div></div>
+        <div class="insight-card sealed"><div class="ic-icon">👤</div><div class="ic-title">Keeper Betrayal</div><div class="ic-status">SEALED · Loop 6</div></div>
+        <div class="insight-card sealed"><div class="ic-icon">⚓</div><div class="ic-title">Spirit Binding</div><div class="ic-status">SEALED · Loop 4</div></div>
+        <div class="insight-card sealed"><div class="ic-icon">🗺</div><div class="ic-title">Vael Origin</div><div class="ic-status">SEALED · Loop 8</div></div>
+        <div class="insight-card sealed"><div class="ic-icon">🏝</div><div class="ic-title">Island History</div><div class="ic-status">SEALED · Loop 7</div></div>
+        <div class="insight-card"><div class="ic-icon">⚙</div><div class="ic-title">Mechanism Purpose</div><div class="ic-status">3/5 Evidence</div></div>
+        <div class="insight-card" style="opacity:0.4"><div class="ic-icon">📡</div><div class="ic-title">Final Signal</div><div class="ic-status">Requires all 6 others</div></div>
+      </div>
+    `}
+  </div>
+  <div class="gdd-ref">GDD §5c.3 · Sub-tabs: Entries / Threads / Insights · Entries newest-first · Cards 110×140 · Sealed pulse glow</div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 6. MAP OVERLAY [GDD §5c.4]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.map = () => `
+<div class="screen-pad">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--gap-md)">
+    <div class="panel-label" style="margin:0">◆ ISLAND MAP — VAEL'S REST</div>
+    <button class="act ghost" style="width:auto;min-height:44px;padding:6px 14px" data-go="gameplay">✕ Close</button>
+  </div>
+  <div class="map-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="map-node here">◀ Lighthouse<div class="map-conn">2 turns ↕ Mechanism</div></div>
+    <div class="map-node">Cliffs<div class="map-conn">1 turn</div></div>
+    <div class="map-node">Harbour<div class="map-conn">Pier at low tide</div></div>
+    <div class="map-node">Village Square<div class="map-conn">Hub · 1 turn to most</div></div>
+    <div class="map-node">Chapel</div>
+    <div class="map-node">Forge</div>
+    <div class="map-node">Apothecary</div>
+    <div class="map-node">Manor Ruins<div class="map-conn">⚠ Dangerous</div></div>
+    <div class="map-node">Cottage<div class="map-conn">Start location</div></div>
+    <div class="map-node fog">??? Mechanism<div class="map-conn">🔒 Locked</div></div>
+    <div class="map-node fog">??? Pier Boards<div class="map-conn">Low tide only</div></div>
+    <div class="map-node fog">???</div>
+  </div>
+  <div class="gdd-ref">GDD §5c.4 · Fog of war: undiscovered = not shown · Current = text-highlight >> marker · Visited = text-primary · Discovered = text-muted</div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 7. STATUS OVERLAY [GDD §5c.5]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.status = () => `
+<div class="screen-pad">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--gap-md)">
+    <div class="panel-label" style="margin:0">◆ STATUS</div>
+    <button class="act ghost" style="width:auto;min-height:44px;padding:6px 14px" data-go="gameplay">✕ Close</button>
+  </div>
+  <div class="panel" style="margin-bottom:var(--gap-md)">
+    <div style="display:flex;align-items:center;gap:var(--gap-md)">
+      <div style="font-size:36px">⌕</div>
+      <div><div style="font-family:var(--font-log);font-size:18px;color:var(--bone)">${S.archetype}</div><div style="font-size:12px;color:var(--slate)">+2 Insight on first discovery · Analyze action available</div></div>
+    </div>
+  </div>
+  <div class="panel-label">Insight · 72 / 150</div>
+  <div class="bar" style="height:10px;margin-bottom:var(--gap-md)"><div class="bar-fill amber" style="width:48%"></div></div>
+  <div class="panel-label">Resonance · 134 / 200</div>
+  <div class="bar" style="height:10px;margin-bottom:var(--gap-md)"><div class="bar-fill blue" style="width:67%"></div></div>
+  <div class="panel" style="margin-bottom:var(--gap-md)">
+    <div style="display:flex;justify-content:space-between">
+      <div><div class="panel-label" style="margin:0">Loop</div><div style="font-family:var(--font-signal);font-size:22px;color:var(--bone)">8</div></div>
+      <div><div class="panel-label" style="margin:0">Deaths</div><div style="font-family:var(--font-signal);font-size:22px;color:var(--rust)">7</div></div>
+      <div><div class="panel-label" style="margin:0">Insights</div><div style="font-family:var(--font-signal);font-size:22px;color:var(--lantern)">5/7</div></div>
+    </div>
+  </div>
+  <div class="panel-label">CONNECTIONS</div>
+  ${[
+    {name:'Maren',trust:3,expr:'warmth'},
+    {name:'Dov',trust:2,expr:'cautious'},
+    {name:'Oren',trust:2,expr:'guarded'},
+    {name:'Silas',trust:3,expr:'open'},
+    {name:'Petra',trust:3,expr:'grateful'},
+    {name:'Vael',trust:1,expr:'unknowable'},
+    {name:'Cal',trust:1,expr:'silent'},
+  ].map(n => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--hairline)">
+      <div><span style="font-size:13px;color:var(--bone)">${n.name}</span> <span style="font-size:11px;color:var(--graphite)">· ${n.expr}</span></div>
+      <div class="trust-dots">${'<div class="trust-dot filled"></div>'.repeat(n.trust)}${'<div class="trust-dot"></div>'.repeat(4-n.trust)}</div>
+    </div>
+  `).join('')}
+  <div class="gdd-ref">GDD §5c.5 · Archetype badge · Insight/Resonance bars · NPC trust abstract (no numbers shown to player)</div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 8. ARCHIVE / CODEX [GDD §5c.6]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.archive = () => `
+<div class="screen-pad">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--gap-md)">
+    <div class="panel-label" style="margin:0">◆ CODEX</div>
+    <button class="act ghost" style="width:auto;min-height:44px;padding:6px 14px" data-go="gameplay">✕ Close</button>
+  </div>
+  <div class="tabs">
+    <button class="tab on">All</button>
+    <button class="tab">History</button>
+    <button class="tab">Maritime</button>
+    <button class="tab">Occult</button>
+  </div>
+  <input type="text" placeholder="Search entries…" aria-label="Search codex entries" style="width:100%;padding:8px 12px;background:var(--abyss);border:1px solid var(--rivet);border-radius:var(--radius-sm);color:var(--bone);font-family:var(--font-signal);font-size:13px;margin-bottom:var(--gap-sm);outline:none;min-height:44px;">
+  <div style="font-size:11px;color:var(--graphite);margin-bottom:var(--gap-sm)">13 entries · 3 domains</div>
+  <div class="codex-bar"><span class="label">History</span><div class="bar" style="flex:1"><div class="bar-fill amber" style="width:60%"></div></div><span style="font-size:10px;color:var(--slate);margin-left:6px">6/10</span></div>
+  <div class="codex-bar"><span class="label">Maritime</span><div class="bar" style="flex:1"><div class="bar-fill amber" style="width:40%"></div></div><span style="font-size:10px;color:var(--slate);margin-left:6px">4/10</span></div>
+  <div class="codex-bar"><span class="label">Occult</span><div class="bar" style="flex:1"><div class="bar-fill amber" style="width:30%"></div></div><span style="font-size:10px;color:var(--slate);margin-left:6px">3/10</span></div>
+  <div class="scroll-box" style="margin-top:var(--gap-sm)">
+    <div class="codex-entry unlocked"><div class="ce-title">The Founding Charter (History)</div><div class="ce-body">The island was settled in 1623 by a group who knew what lived beneath the water. The charter names the first four keepers and the "covenant of the beam."</div></div>
+    <div class="codex-entry unlocked"><div class="ce-title">Tidal Patterns (Maritime)</div><div class="ce-body">Low tide exposes the original pier boards from the pre-1780 construction. Names are carved into the wood. One of them is crossed out with a knife.</div></div>
+    <div class="codex-entry unlocked"><div class="ce-title">The Binding Ritual (Occult)</div><div class="ce-body">Described in the ruins inscription. Requires three components, specific timing, and knowledge of the true name. Oren knows the words.</div></div>
+    <div class="codex-entry"><div class="ce-title">??? (History)</div><div class="ce-body">Locked — requires History Adept</div></div>
+    <div class="codex-entry"><div class="ce-title">??? (Maritime)</div><div class="ce-body">Locked — requires Maritime Novice</div></div>
+  </div>
+  <div class="gdd-ref">GDD §5c.6 · Domain tabs + search · Unlock nodes with cost/lock/purchased states · Mastery bars per domain</div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 9. ARCHIVE DESK (in-location) [GDD §5c — archive_basement]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.desk = () => `
+<div class="screen-pad">
+  <div class="panel-label">◆ ARCHIVE DESK — Lighthouse Basement</div>
+  <div class="panel" style="margin-bottom:var(--gap-md)">
+    <div style="display:flex;justify-content:space-between;font-size:13px">
+      <span style="color:var(--bone)">Banked Insight: <b style="color:var(--lantern)">142</b></span>
+      <span style="color:var(--pewter)">Current Loop: <b>72</b></span>
+    </div>
+    <button class="act" style="margin-top:var(--gap-sm)">BANK ALL INSIGHT (72 → Banked)</button>
+  </div>
+  <div class="panel-label">SEALABLE KNOWLEDGE</div>
+  <div class="seal-row done"><span class="seal-title">◈ The Beam Does Not Warn</span><span class="seal-cost">✓ SEALED</span></div>
+  <div class="seal-row done"><span class="seal-title">◈ The Keeper's Betrayal</span><span class="seal-cost">✓ SEALED</span></div>
+  <div class="seal-row done"><span class="seal-title">◈ Spirit Binding</span><span class="seal-cost">✓ SEALED</span></div>
+  <div class="seal-row can-seal"><span class="seal-title">◈ Mechanism Purpose</span><span class="seal-cost">SEAL — 80</span></div>
+  <div class="seal-row"><span class="seal-title">◈ Island History</span><span class="seal-cost locked">Need 45 more banked</span></div>
+  <div class="seal-row"><span class="seal-title">◈ Vael Origin</span><span class="seal-cost locked">Requires spirit_binding sealed</span></div>
+  <div class="seal-row"><span class="seal-title">◈ Final Signal</span><span class="seal-cost locked">Requires all 6 others</span></div>
+  <div class="gdd-ref">GDD — Archive Desk at archive_basement · Bank Insight button · Sealable knowledge with cost/prerequisite states</div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 10. SIGNAL PUZZLE [GDD — lighthouse_top]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.puzzle = () => `
+<div class="screen-pad">
+  <div class="panel-label">SIGNAL TUNER — Lighthouse Top</div>
+  <p style="font-size:12px;color:var(--slate);margin-bottom:var(--gap-md);text-align:center">Tune the three dials to the frequency that unmakes bindings.</p>
+  <div class="dials">
+    ${S.dialVal.map((v,i) => `
+      <div class="dial">
+        <button class="dial-btn" data-dial="${i}" data-dir="1">▲</button>
+        <div class="dial-val">${v}</div>
+        <button class="dial-btn" data-dial="${i}" data-dir="-1">▼</button>
+      </div>
+    `).join('')}
+  </div>
+  <div style="text-align:center;margin-top:var(--gap-md)">
+    <button class="act" style="max-width:280px;margin:0 auto">TRANSMIT SIGNAL</button>
+  </div>
+  <div class="gdd-ref">GDD — Signal Puzzle at lighthouse_top · 3 dials · Correct frequency dismantles the mechanism · Requires all 7 Key Insights sealed for THE TRUTH ending</div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 11. NIGHT SAFE [GDD §5d]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.night_safe = () => `
+<div class="cinematic" style="align-items:center;background:linear-gradient(180deg,var(--night-ink),var(--void))">
+  <div class="starfield" data-count="90"></div>
+  <div class="beam-wrap"></div>
+  <div class="vignette"></div>
+  <div class="stage-card">
+    <div class="panel-label">Night Phase · Lighthouse Lit</div>
+    <h2>Safe Harbour</h2>
+    <div class="desc">You shelter in the lighthouse as night falls. The beam sweeps steadily over dark water. In the warmth of the lantern room, fragments surface — memories that aren't quite yours.<br><br>You remember… the smell of saltwater. The feel of rough rope in your hands. A voice calling from the base of the tower.<br><br>Who was calling?</div>
+    <div class="actions">
+      <button class="act safe">Remember the voice (Vision)</button>
+      <button class="act">Let the memory drift</button>
+      <button class="act ghost">Await dawn →</button>
+    </div>
+    <div class="gdd-ref">GDD §5d · No HUD visible · Starfield 60-80 stars · Beam sweeps 180° · Thought panel body-mono 16px · Choice buttons after text completes</div>
+  </div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 12. NIGHT DARK [GDD §5d]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.night_dark = () => `
+<div class="stage" style="background:var(--void)">
+  <div class="starfield" data-count="40"></div>
+  <div class="vignette" style="background:radial-gradient(ellipse 50% 40% at 50% 50%,transparent 10%,rgba(4,8,16,0.95) 80%)"></div>
+  <div class="stage-card" style="border-color:var(--rust-dim)">
+    <div class="panel-label" style="color:var(--rust)">Night Phase · Lighthouse DARK</div>
+    <h2 style="color:var(--rust)">⚠ Darkness Falls</h2>
+    <div class="desc">You are caught in the open at the harbour as night descends. The lighthouse is dark — you failed to light it. Something large moves through the water. The pier boards creak beneath your feet, though you are standing still.</div>
+    <div class="actions">
+      <button class="act danger">Try to hide</button>
+      <button class="act danger">Accept fate</button>
+    </div>
+    <div class="gdd-ref">GDD §5d · Dark night variant · Fewer stars · Deeper vignette · Player caught outside</div>
+  </div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 13. VISION SEQUENCE [GDD §5e]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.vision = () => `
+<div class="stage" style="background:linear-gradient(180deg,var(--void),var(--night-ink))">
+  <div class="vignette"></div>
+  <div class="lighthouse-sil" style="opacity:0.15"></div>
+  <div class="stage-card" style="background:transparent;border:none;text-align:center">
+    <div style="font-family:var(--font-signal);font-size:15px;color:var(--bone);line-height:2.4;text-shadow:0 0 12px rgba(200,169,110,0.3)">
+      A hand reaches for the lamp.<br><br>
+      The glass is cold. The wick is dry.<br><br>
+      The flame will not catch.<br><br>
+      You hear footsteps on the stair.<br><br>
+      <span style="color:var(--lantern);font-style:italic">They are not your footsteps.</span>
+    </div>
+    <div style="margin-top:var(--gap-xl);font-size:11px;color:var(--graphite)">Press SPACE to continue</div>
+    <div class="gdd-ref" style="text-align:center">GDD §5e · Floating text, body-mono 18px, glow shadow · Faint lighthouse bg · Auto-advance after 3s or SPACE</div>
+  </div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 14. DEATH / LOOP END [GDD §5f]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.death = () => `
+<div class="stage" style="background:var(--void)">
+  <div class="scanlines"></div>
+  <div class="stage-card">
+    <h2 style="color:var(--rust);letter-spacing:4px;font-size:clamp(20px,5vw,36px)">THE LOOP CLOSES</h2>
+    <div class="desc">You reached the cliffs after dark. The signal failed. The island remembered you before you remembered yourself.</div>
+    <div class="panel" style="text-align:left;margin:var(--gap-md) auto;max-width:280px">
+      <div style="font-family:var(--font-signal);font-size:12px;color:var(--pewter)">
+        Loop: 8<br>
+        Insights Sealed: 5 / 7<br>
+        Locations Discovered: 9 / 12<br>
+        Resonance: 134<br>
+        Banked Insight: 142
+      </div>
+    </div>
+    <div class="actions" style="max-width:320px;margin:0 auto">
+      <button class="act">BEGIN AGAIN (Loop 9)</button>
+      <button class="act ghost" data-go="title">RETURN TO TITLE</button>
+    </div>
+    <div class="gdd-ref">GDD §5f · Scanlines every 4px · "THE LOOP CLOSES" title-lg 40px · Stats summary · Retry increments loop</div>
+  </div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 15–19. ENDINGS [GDD §5g]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.ending1 = () => endingScreen('ending-truth', 'ECHOES SILENCED', 'The Truth',
+  'You dismantled the mechanism and sent the final signal. The frequency that unmakes bindings rippled outward through stone and water. The Vael stirred once — and was free. The beam no longer sweeps the harbour. The lighthouse stands dark, and for the first time in centuries, the island is simply an island.',
+  {maren:'Found peace in her father\'s last words',dov:'Rebuilt the mechanism room as a museum',oren:'Confessed to the village — was forgiven',vael:'Returned to the deep, no longer hungry'});
+
+R.ending2 = () => endingScreen('ending-keeper', 'THE KEEPER REMAINS', 'The Sacrifice',
+  'You chose to remain. The mechanism hums. The beam sweeps. The Vael feeds on schedule, and Vael\'s Rest endures another century. You will not age. You will not leave. But the journal is full, and someday another keeper will read it — and understand.',
+  {maren:'Visits the lighthouse each dawn',dov:'Maintains the mechanism in silence',oren:'Prays for your release'});
+
+R.ending3 = () => endingScreen('ending-loop', 'ECHOES ETERNAL', 'The Loop',
+  'You failed to break the cycle. Dawn comes again. The cottage. The empty journal. The note: "Keep the light burning." But this time — do you hear it? — the handwriting is yours.',
+  {});
+
+R.ending4 = () => endingScreen('ending-corrupt', 'THE LIGHTHOUSE DROWNS', 'The Corruption',
+  'You accepted the Vael\'s gift. Power flowed — insight beyond measure, vision beyond sight. But the beam turned green, and the feeding intensified. The island sinks, inch by inch, into water that glows with something that was never meant to surface.',
+  {maren:'Fled on the last boat',vael:'Merged with you. You are the new hunger.'});
+
+R.ending5 = () => endingScreen('ending-witness', 'THE STORY CONTINUES', 'The Witness',
+  'You chose neither to save nor to condemn. You observed. You recorded. The journal is the most complete account of Vael\'s Rest ever written. The island persists. The mystery persists. But now someone knows — and knowledge, once gained, cannot be unlearned.',
+  {maren:'Reads the journal each evening',silas:'Publishes a sanitized version on the mainland'});
+
+function endingScreen(cls, title, subtitle, text, npcs) {
+  const npcHtml = Object.keys(npcs).length > 0
+    ? `<div style="text-align:left;margin-top:var(--gap-md)"><div class="panel-label">Consequences</div>${Object.entries(npcs).map(([name,fate])=>`<div class="entry"><b>${name.charAt(0).toUpperCase()+name.slice(1)}</b><span>${fate}</span></div>`).join('')}</div>`
+    : '';
+  return `
+  <div class="stage ${cls}">
+    <div class="starfield" data-count="60"></div>
+    <div class="vignette"></div>
+    <div class="stage-card">
+      <div class="panel-label">${esc(subtitle)}</div>
+      <h2>${esc(title)}</h2>
+      <div class="desc">${esc(text)}</div>
+      <div class="panel" style="text-align:left;margin:0 auto;max-width:300px"><div style="font-family:var(--font-signal);font-size:12px;color:var(--pewter)">Knowledge Discovered: 84%<br>Insights Sealed: 5 / 7<br>Loops Completed: 8<br>NPCs at max trust: 3</div></div>
+      ${npcHtml}
+      <div style="margin-top:var(--gap-md)"><button class="act ghost" data-go="title">RETURN TO LIGHTHOUSE</button></div>
+      <div class="gdd-ref">GDD §5g · Each ending has unique bg/beam/mood · Credits after 8s · SPACE to return</div>
+    </div>
+  </div>`;
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 20. PAUSE OVERLAY [GDD §5h]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.pause = () => `
+<div class="stage">
+  <div style="position:absolute;inset:0;background:rgba(4,8,16,0.92)"></div>
+  <div class="overlay-panel" style="position:relative;z-index:1">
+    <h3 style="text-align:center;letter-spacing:2px">PAUSED</h3>
+    <div style="display:grid;gap:var(--gap-sm)">
+      <button class="act" data-go="gameplay">RESUME</button>
+      <button class="act ghost">SAVE GAME</button>
+      <button class="act ghost" data-go="settings">SETTINGS</button>
+      <button class="act ghost" data-go="title">QUIT TO TITLE</button>
+    </div>
+    <div class="gdd-ref" style="text-align:center">GDD §5h · ESC toggles · 90% opacity bg-deep overlay · Resume/Save/Settings/Quit</div>
+  </div>
+</div>`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 21. SETTINGS [GDD §10]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+R.settings = () => `
+<div class="screen-pad">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--gap-md)">
+    <div class="panel-label" style="margin:0">◆ SETTINGS</div>
+    <button class="act ghost" style="width:auto;min-height:44px;padding:6px 14px" data-go="gameplay">✕ Close</button>
+  </div>
+  <div class="panel">
+    <div class="setting-row"><label for="vol-master">Master Volume</label><input id="vol-master" type="range" min="0" max="100" value="75"></div>
+    <div class="setting-row"><label for="vol-ambient">Ambient Volume</label><input id="vol-ambient" type="range" min="0" max="100" value="60"></div>
+    <div class="setting-row"><label for="vol-ui">UI Volume</label><input id="vol-ui" type="range" min="0" max="100" value="80"></div>
+    <div class="setting-row"><label for="vol-narr">Narrative Volume</label><input id="vol-narr" type="range" min="0" max="100" value="70"></div>
+    <div class="setting-row"><span style="font-size:13px;color:var(--bone)">Reduce Motion</span><button class="act ghost" style="width:auto;min-height:44px;padding:6px 14px" aria-label="Reduce motion: off">OFF</button></div>
+    <div class="setting-row"><span style="font-size:13px;color:var(--bone)">Text Scale</span><div class="tabs" role="group" aria-label="Text scale" style="margin:0;gap:4px"><button class="tab" style="min-height:44px;padding:4px 8px">0.8×</button><button class="tab on" style="min-height:44px;padding:4px 8px" aria-pressed="true">1.0×</button><button class="tab" style="min-height:44px;padding:4px 8px">1.2×</button><button class="tab" style="min-height:44px;padding:4px 8px">1.5×</button></div></div>
+    <div class="setting-row" style="border:none"><label>Clear Save Data</label><button class="act danger" style="width:auto;min-height:44px;padding:6px 14px">CLEAR</button></div>
+  </div>
+  <div class="gdd-ref">GDD §10 · 4 volume channels · Reduce motion toggle · Text scale 0.8–1.5× · Colorblind mode (default palette is already safe) · Clear save with confirmation</div>
+</div>`;
+
+/* ═══════════════════════════════════════════════════════════════
+   HANDOFF METADATA — for downstream implementation agents
+   ═══════════════════════════════════════════════════════════════ */
+window.__HANDOFF__ = {
+  variant: 'nautical-gothic',
+  file: 'public/mockups/nautical-gothic.html',
+  aesthetic: 'Deep Nautical Gothic — ship bridge at 3 AM, one oil lamp',
+  screens: SCREENS.map(s => ({
+    id: s.id,
+    gdd: s.gdd,
+    renderer: `R.${s.id}`,
+  })),
+  productionMapping: {
+    title:       { target: 'UIManager.updateTitleUI',       css: '#game-ui.title-screen' },
+    archetype:   { target: 'UIManager (new screen needed)', css: '—' },
+    gameplay:    { target: 'UIManager.updateHUD + renderLocationPanel + renderActionPanel', css: '#hud, #content-panel, #action-panel' },
+    dialogue:    { target: 'UIManager.renderDialogue',      css: '#content-panel .dialogue-*' },
+    journal:     { target: 'UIManager.renderJournal',       css: '#overlay-panel (journal)' },
+    map:         { target: 'UIManager.renderMapOverlay',    css: '#overlay-panel (map)' },
+    status:      { target: 'UIManager.updateHUD (expanded)',css: '#overlay-panel (new)' },
+    archive:     { target: 'UIManager.renderCodex',         css: '#overlay-panel (codex)' },
+    desk:        { target: 'UIManager.archiveDeskHTML',      css: '#content-panel .archive-desk' },
+    puzzle:      { target: 'UIManager.signalPuzzleHTML',     css: '#content-panel .puzzle-*' },
+    night_safe:  { target: 'UIManager.renderNightSafe',     css: '#content-panel .night-safe' },
+    night_dark:  { target: 'UIManager.renderNightDark',     css: '#content-panel .night-dark' },
+    vision:      { target: 'UIManager.renderVisionScreen',  css: '#content-panel (vision)' },
+    death:       { target: 'UIManager.renderDeathScreen',   css: '#content-panel .death-screen' },
+    ending1:     { target: 'UIManager.renderEndingScreen',  css: '#content-panel .ending-screen' },
+    pause:       { target: 'UIManager.renderSettings (overlay)', css: '#overlay-panel (settings)' },
+    settings:    { target: 'UIManager.renderSettings',      css: '#overlay-panel .settings-*' },
+  },
+  designTokenMapping: {
+    '--void':         'replaces #07090e (body bg)',
+    '--abyss':        'replaces #0a0e14 (bg-deep)',
+    '--hull':         'replaces #1a1f29 (bg-panel)',
+    '--deck':         'replaces #242b38 (bg-elevated)',
+    '--lantern':      'replaces #e8a830/#f0c040 (insight-gold)',
+    '--kelp':         'replaces #28a070 (gain-green / safe)',
+    '--rust':         'replaces #c03838 (cost-red / danger)',
+    '--bone':         'replaces #c4cfe0 (text-primary)',
+    '--pewter':       'replaces #465a72/#c4cfe0 (text-secondary)',
+    '--slate':        'replaces #465a72 (text-muted)',
+  },
+  buttonLanguage: 'Left 4px accent strip + gradient fill. .act class. Variants: .safe (teal), .danger (rust), .ghost (transparent). All left-aligned text.',
+  notes: [
+    'Single-file mockup — inline CSS + JS, no build step, works at file://',
+    'Mobile-first: default is single-column, 768px+ adds side-by-side gameplay layout',
+    'All touch targets ≥44px. Keyboard nav: ←→ cycles screens, Tab cycles buttons',
+    'prefers-reduced-motion disables beam, stars, all transitions',
+    'Every screen includes GDD section references in .gdd-ref elements',
+    'Demo data is realistic — pulled from actual GDD quest/NPC/location content',
+  ],
+};
+
+// ── Boot ────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
