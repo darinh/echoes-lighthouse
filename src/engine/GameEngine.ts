@@ -325,6 +325,8 @@ export class GameEngine {
       case 'take': {
         const item = getItemAtLocation(this.state.player.currentLocation)
         if (!item || item.id !== action.itemId) break
+        const searchedFlag = `searched:${this.state.player.currentLocation}`
+        if (this.state.difficulty !== 'easy' && !this.state.worldFlags.has(searchedFlag)) break
         if (this.state.inventory.has(item.id)) break
         const newInventory = new Set(this.state.inventory)
         newInventory.add(item.id)
@@ -338,6 +340,32 @@ export class GameEngine {
         }
         this.eventBus.emit('item.taken', { itemId: item.id, locationId: this.state.player.currentLocation })
         this.applyEvent('item.taken', { itemId: item.id, locationId: this.state.player.currentLocation })
+        break
+      }
+
+      case 'search': {
+        if (this.state.player.stamina === 0) {
+          this.state = { ...this.state, phase: 'death', deathCause: 'death.stamina_depleted' }
+          break
+        }
+        const locationId = this.state.player.currentLocation
+        const searchedFlag = `searched:${locationId}`
+        const newFlags = new Set(this.state.worldFlags)
+        newFlags.add(searchedFlag)
+        const newSearched = new Set(this.state.player.searchedLocations)
+        newSearched.add(locationId)
+        this.state = {
+          ...this.state,
+          worldFlags: newFlags,
+          player: {
+            ...this.state.player,
+            stamina: Math.max(0, this.state.player.stamina - 1),
+            searchedLocations: newSearched,
+          },
+        }
+        if (this.state.player.stamina === 0) {
+          this.state = { ...this.state, phase: 'death', deathCause: 'death.stamina_depleted' }
+        }
         break
       }
 
@@ -437,6 +465,10 @@ export class GameEngine {
         break
       }
 
+      case 'settings.difficulty':
+        this.state = { ...this.state, difficulty: action.value }
+        break
+
       case 'night.hide': {
         if (Math.random() < 0.5) {
           const newDanger = Math.max(0, this.state.nightDangerLevel - 20)
@@ -458,6 +490,10 @@ export class GameEngine {
           activeEncounter: null,
           nightEncounterShown: 0,
           worldFlags: newFlags,
+          player: {
+            ...this.state.player,
+            searchedLocations: new Set(),
+          },
         }
         this.applyEvent('loop.dawn', {})
         this.eventBus.emit('loop.dawn', {})

@@ -24,11 +24,13 @@ export type GameAction =
   | { type: 'main.menu' }
   | { type: 'examine'; itemId: string; locationId: string }
   | { type: 'take'; itemId: string }
+  | { type: 'search' }
   | { type: 'rest' }
   | { type: 'wait' }
   | { type: 'investigate' }
   | { type: 'ignore_encounter' }
   | { type: 'setting.volume'; key: 'masterVolume' | 'ambientVolume' | 'uiVolume' | 'narrativeVolume'; value: number }
+  | { type: 'settings.difficulty'; value: 'easy' | 'normal' | 'hard' }
   | { type: 'save.clear' }
   | { type: 'new.game' }
 
