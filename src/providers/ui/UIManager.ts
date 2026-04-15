@@ -3,6 +3,7 @@ import type { GameAction } from '@/engine/InputHandler.js'
 import type { II18n } from '@/interfaces/index.js'
 import { getAdjacentLocations } from '@/data/locations/phase1Locations.js'
 import { EXAMINE_DATA } from '@/data/locations/examineData.js'
+import { LOCATION_SECRET_BY_ID, secretSeenFlag } from '@/data/locations/secrets.js'
 import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 import { SaveSystem } from '@/systems/SaveSystem.js'
 import { CODEX_PAGES } from '@/data/codex/pages.js'
@@ -206,12 +207,18 @@ export class UIManager {
 
     const items = EXAMINE_DATA[locId]
     if (items && items.length > 0) {
+      const locationSecret = LOCATION_SECRET_BY_ID.get(locId)
+      const secretUnseen = locationSecret
+        ? !state.worldFlags.has(secretSeenFlag(locationSecret.secretKey))
+        : false
+      const showSecretHint = secretUnseen && (state.player.examineHistory[locId] ?? 0) >= 2
+      const secretGlyph = showSecretHint ? ' ◈' : ''
       html += `<div class="examine-list"><h3>EXAMINE</h3>`
       for (const item of items) {
         const examined = state.worldFlags.has(item.worldFlag)
-        const label = this.t(item.labelKey)
+        const label = `${this.t(item.labelKey)}${secretGlyph}`
         if (examined) {
-          html += `<button class="examine-btn done" disabled>✓ ${this.esc(label)}</button>`
+          html += `<button class="examine-btn done" data-action='{"type":"examine","itemId":"${item.id}","locationId":"${locId}"}'>✓ ${this.esc(label)}</button>`
         } else {
           html += `<button class="examine-btn" data-action='{"type":"examine","itemId":"${item.id}","locationId":"${locId}"}'>
             ${this.esc(label)}

@@ -57,6 +57,7 @@ const DEFAULT_PLAYER: IPlayerState = {
   activeJournalThreads: new Set(),
   journalEntries: [],
   currentLocation: 'keepers_cottage',
+  examineHistory: {},
   relationshipFlags: {},
   shownRelationshipDialogue: [],
 }

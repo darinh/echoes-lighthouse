@@ -92,6 +92,15 @@
       "text": "The beam sweeps the water. Something vast stirs beneath. You feel the island shudder, grateful and afraid."
     }
   },
+  "secret": {
+    "lighthouse_base": "On the third pass your fingers find an inscription hidden under tar: \"THE FOUNDATION HUMS BEFORE THE LENS.\" The stone is warm despite the salt wind, as if something beneath still answers the tower.",
+    "lighthouse_lantern": "When you tilt the lens just so, the glass sings at a pitch you can feel in your teeth. A second rhythm rises from below, synchronized like a reply from the buried mechanism.",
+    "keepers_cottage": "Behind the warped dresser panel is a stitched map of loops, each marked with initials and strike-throughs. Your own path is penciled in at the margin, as if someone expected you to arrive exactly like this.",
+    "archive": "A cipher strip hidden in the ledger spine resolves the erased names into one phrase: \"THE SIGNAL WAS A SUMMONS.\" Every crossing-out in the record aligns to nights when the fog came inland.",
+    "sea_cave": "Between the tide pulses, the cave walls answer your breathing with delayed echoes. The pattern repeats in groups of seven, matching the lens frequencies etched into keeper notes.",
+    "cliff_path": "The rope scars in the stone form a deliberate ladder route no map records. At the final notch, someone carved a warning: \"DO NOT LIGHT WHILE THE WATER LISTENS.\"",
+    "village_square": "Under the dry well cap sits an old signal drum wrapped in oilcloth and prayer thread. Its brass ring bears the crest of the first keepers, not the village council that replaced them."
+  },
   "codex": {
     "history_01": {
       "title": "The First Keeper: Field Notes of the Commission",

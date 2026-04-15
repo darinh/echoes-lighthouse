@@ -33,6 +33,7 @@ interface SaveSnapshot {
     archiveMastery: Record<string, number>
     loopCount: number
     moralWeight: number
+    examineHistory: Record<string, number>
     relationshipFlags: Record<string, boolean>
     shownRelationshipDialogue: string[]
     discoveredLocations: string[]
@@ -178,6 +179,7 @@ export class SaveSystem implements ISystem {
         archiveMastery: { ...state.player.archiveMastery },
         loopCount: state.player.loopCount,
         moralWeight: state.player.moralWeight,
+        examineHistory: { ...state.player.examineHistory },
         relationshipFlags: { ...state.player.relationshipFlags },
         shownRelationshipDialogue: [...state.player.shownRelationshipDialogue],
         discoveredLocations: [...state.player.discoveredLocations],
@@ -233,6 +235,7 @@ export class SaveSystem implements ISystem {
         archiveMastery: snapshot.player.archiveMastery as IGameState['player']['archiveMastery'],
         loopCount: snapshot.player.loopCount,
         moralWeight: snapshot.player.moralWeight,
+        examineHistory: (snapshot.player.examineHistory ?? {}) as IGameState['player']['examineHistory'],
         relationshipFlags: (snapshot.player.relationshipFlags ?? {}) as IGameState['player']['relationshipFlags'],
         shownRelationshipDialogue: (snapshot.player.shownRelationshipDialogue ?? []) as IGameState['player']['shownRelationshipDialogue'],
         discoveredLocations: new Set(snapshot.player.discoveredLocations) as IGameState['player']['discoveredLocations'],
