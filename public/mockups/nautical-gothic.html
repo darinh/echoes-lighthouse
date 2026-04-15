@@ -220,10 +220,7 @@ input[type="range"]{accent-color:var(--amber)}
 @keyframes sweep{from{transform:rotate(-18deg)}to{transform:rotate(22deg)}}
 
 .vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 65% 55% at 50% 40%,transparent 20%,rgba(5,10,15,0.9) 100%)}
-.lighthouse-sil{position:absolute;bottom:18%;left:50%;transform:translateX(-50%);pointer-events:none;opacity:0.4}
-.lighthouse-sil .tower{width:30px;height:120px;margin:0 auto;border:1px solid var(--text-gone);background:linear-gradient(180deg,rgba(200,169,110,0.05),transparent 60%);position:relative}
-.lighthouse-sil .lantern-room{position:absolute;top:-10px;left:-4px;right:-4px;height:12px;border:1px solid var(--text-gone);background:rgba(200,169,110,0.10)}
-.lighthouse-sil .base{width:44px;height:14px;margin:0 auto;border:1px solid var(--text-gone);border-top:none}
+.lighthouse-sil{position:absolute;bottom:14%;left:50%;transform:translateX(-50%);pointer-events:none;opacity:0.5;width:60px;height:180px}
 .scanlines{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(138,155,176,0.02) 0px,rgba(138,155,176,0.02) 1px,transparent 1px,transparent 3px)}
 
 /* ═══ LAYOUTS ═══ */
@@ -344,7 +341,35 @@ const R={};
 
 R.title=()=>`<div class="cinematic">
   <div class="starfield" data-n="80"></div><div class="beam-wrap"></div><div class="vignette"></div>
-  <div class="lighthouse-sil"><div class="tower"><div class="lantern-room"></div></div><div class="base"></div></div>
+  <div class="lighthouse-sil"><svg viewBox="0 0 60 180" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+    <!-- Base/rocks -->
+    <path d="M5 175 L15 160 H45 L55 175 Z" stroke="#3a4858" stroke-width="0.5" fill="#0a1520" opacity="0.6"/>
+    <!-- Tower body — tapers upward -->
+    <path d="M18 160 L22 50 H38 L42 160 Z" stroke="#3a4858" stroke-width="0.7" fill="none"/>
+    <!-- Gallery rail -->
+    <rect x="19" y="46" width="22" height="4" stroke="#3a4858" stroke-width="0.5" fill="none"/>
+    <!-- Gallery platform -->
+    <rect x="16" y="44" width="28" height="3" stroke="#3a4858" stroke-width="0.7" fill="#0a1520" opacity="0.4"/>
+    <!-- Lantern room -->
+    <rect x="22" y="28" width="16" height="16" stroke="#3a4858" stroke-width="0.7" fill="rgba(200,169,110,0.06)"/>
+    <!-- Lantern glass panes -->
+    <line x1="26" y1="28" x2="26" y2="44" stroke="#3a4858" stroke-width="0.3"/>
+    <line x1="30" y1="28" x2="30" y2="44" stroke="#3a4858" stroke-width="0.3"/>
+    <line x1="34" y1="28" x2="34" y2="44" stroke="#3a4858" stroke-width="0.3"/>
+    <!-- Dome/cap -->
+    <path d="M22 28 Q23 20 30 16 Q37 20 38 28" stroke="#3a4858" stroke-width="0.7" fill="none"/>
+    <!-- Spire -->
+    <line x1="30" y1="16" x2="30" y2="8" stroke="#3a4858" stroke-width="0.7"/>
+    <!-- Light glow -->
+    <circle cx="30" cy="36" r="4" fill="rgba(200,169,110,0.15)"/>
+    <circle cx="30" cy="36" r="8" fill="rgba(200,169,110,0.05)"/>
+    <!-- Window slits on tower -->
+    <rect x="28" y="70" width="4" height="6" stroke="#3a4858" stroke-width="0.3" fill="none"/>
+    <rect x="28" y="100" width="4" height="6" stroke="#3a4858" stroke-width="0.3" fill="none"/>
+    <rect x="28" y="130" width="4" height="6" stroke="#3a4858" stroke-width="0.3" fill="none"/>
+    <!-- Door -->
+    <path d="M27 160 L27 148 Q30 145 33 148 L33 160" stroke="#3a4858" stroke-width="0.5" fill="none"/>
+  </svg></div>
   <div class="cin-card">
     <div class="rule-ornament">— ✦ —</div>
     <div class="title" style="text-align:center">Echoes of the Lighthouse</div>
@@ -510,7 +535,7 @@ R.night_dark=()=>`<div class="stage" style="background:var(--ocean-deep)">
 </div>`;
 
 R.vision=()=>`<div class="stage" style="background:linear-gradient(180deg,var(--ocean-deep),var(--bruise))">
-  <div class="vignette"></div><div class="lighthouse-sil" style="opacity:0.08"></div>
+  <div class="vignette"></div><div class="lighthouse-sil" style="opacity:0.08"><svg viewBox="0 0 60 180" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><path d="M5 175 L15 160 H45 L55 175 Z" stroke="#3a4858" stroke-width="0.5" fill="none"/><path d="M18 160 L22 50 H38 L42 160 Z" stroke="#3a4858" stroke-width="0.7" fill="none"/><rect x="16" y="44" width="28" height="3" stroke="#3a4858" stroke-width="0.7" fill="none"/><rect x="22" y="28" width="16" height="16" stroke="#3a4858" stroke-width="0.7" fill="none"/><path d="M22 28 Q23 20 30 16 Q37 20 38 28" stroke="#3a4858" stroke-width="0.7" fill="none"/><line x1="30" y1="16" x2="30" y2="8" stroke="#3a4858" stroke-width="0.7"/><circle cx="30" cy="36" r="4" fill="rgba(200,169,110,0.10)"/></svg></div>
   <div style="position:relative;z-index:2;text-align:center;padding:20px">
     <div style="font-family:var(--font-body);font-size:15px;font-weight:300;font-style:italic;color:var(--text-bright);line-height:2.2;text-shadow:0 0 16px rgba(200,169,110,0.15)">
       A hand reaches for the lamp.<br><br>The glass is cold. The wick is dry.<br><br>The flame will not catch.<br><br>You hear footsteps on the stair.<br><br><span style="color:var(--amber)">They are not your footsteps.</span>
