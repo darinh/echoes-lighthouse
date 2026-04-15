@@ -1,61 +1,61 @@
 {
   "location": {
     "keepers_cottage": {
-      "enter": "A small stone cottage. The fire went out. The last Keeper's journal lies open on the table.",
+      "enter": "The cottage smells of salt and old paper. A journal sits on the table — not mine. The handwriting is steady until the last entry, where it becomes a series of crossed-out lines and then, finally, a single sentence I don't understand yet. I copy it down. I have a feeling I'll need it.",
       "examine_journal": "The final entry reads: 'The mechanism won't hold. Three nights, three failures. It knows when I'm close.'",
       "examine_fire": "Cold ash. At least three days since it was lit.",
       "desc": "A modest dwelling near the cliff path. The smell of old paper and sea salt. Maren tends the archive here."
     },
     "lighthouse_base": {
-      "enter": "The lighthouse rises above you. The door is unlocked, but something about the threshold resists you.",
+      "enter": "The lighthouse rises above me, taller than it looks from the village. The door is unlocked, which surprises me — I expected resistance, a lock, a reason not to enter. The only resistance is the threshold itself: I stand here for a moment longer than I need to. Something about crossing this line feels significant. I cross it.",
       "examine_door": "Salt-crusted iron hinges. Fresh scratch marks around the lock.",
       "desc": "The base of the great tower. Its shadow falls long across the rocks. The mechanism hums faintly."
     },
     "lighthouse_top": {
-      "enter": "The lens burns with a cold light. From up here, the whole island looks like a diagram of something.",
+      "enter": "The view from here changes everything. I can see the whole island laid out below me like a map of itself — every path, every building, every dark patch of water at the cliff base. From up here, it looks deliberate. It looks like it was designed to be seen this way. I write down what I can see. I'm not sure what I'm looking for, but I think I'll know it when I find it.",
       "desc": "The lens room. From here you can see the whole island — and something in the water below."
     },
     "harbor": {
-      "enter": "The harbour is quiet. Too quiet for a working port. A single lantern burns at the harbormaster's office.",
+      "enter": "The harbour smells of salt water and something else — oil, or old rope, or the particular smell of a working place that has stopped working. The boats are still here. The people are not, mostly. One lantern burns at the harbourmaster's window. I note the time. I note that the harbour is quieter than a harbour should be.",
       "examine_boats": "The boats are tied down. Supplies are still aboard.",
       "desc": "Weathered boats creak against the dock. Silas watches the horizon. The fog is thick this morning."
     },
     "village_square": {
-      "enter": "The village square. A few residents hurry past without making eye contact.",
+      "enter": "The square is the heart of the village, and it feels hollow. People pass through it quickly, without stopping, without meeting eyes. I stand in the centre for a while, trying to read the space. The notice board draws my attention first. Then the well. Something about the well is wrong, and I find myself walking toward it before I've decided to.",
       "examine_well": "The well has been sealed with planks. Nailed shut from above.",
       "desc": "The heart of the island. Villagers move with purpose, eyes cast low. The well stands dry."
     },
     "ruins": {
-      "enter": "Older than the village. Older, perhaps, than the island itself. The stones don't fit together right.",
+      "enter": "The ruins are older than anything else on this island. I can feel it in the stones — not dramatically, not in any way I can explain, just the specific weight of something that has been standing longer than any living person has been alive. The stones don't fit together right; they're not the style or scale of any building I know. Someone built this for a reason I don't have a word for yet.",
       "examine_stones": "Maritime runes. But they predate any known maritime civilisation.",
       "desc": "Crumbled walls of what was once a manor. The east wing still stands, barely. The smell of old smoke that will not quite leave."
     },
     "mechanism_room": {
-      "enter": "Gears the size of millstones. Whatever drove them once, it wasn't wind or water.",
+      "enter": "Gears the size of millstones, connected by shafts that disappear into the floor and the ceiling. Whatever drove this mechanism once, it wasn't wind or water — there's no intake, no channel, no means of external power I can identify. The room smells of metal and something else, something older. The walls are covered in symbols. I start drawing them. It will take several visits to get them all.",
       "desc": "Gears the size of millstones turn without apparent power. The hum from above is louder here. The walls are covered in symbols no one on the island claims to recognise."
     },
     "chapel": {
-      "enter": "St. Maret's Chapel. The doors are never locked. Someone has been lighting candles.",
+      "enter": "St. Maret's Chapel: doors open, candles lit, no one in attendance. The candles are fresh. Someone lit them today, perhaps this morning. I sit for a while in one of the pews and try to think, but the chapel doesn't allow neutral thinking — there's too much of it, pressing in, the weight of what happened here and what didn't. I notice, when I finally look, that my name is on the wall.",
       "desc": "The pews are empty but the candles are lit. Someone tends this place. The stained glass is cracked; the saint's face replaced with rough plaster."
     },
     "mill": {
-      "enter": "The old mill creaks in a wind that isn't there. The wheel hasn't turned in years.",
+      "enter": "The old mill creaks in a wind that isn't there. I stop and listen to be sure: the air is still, the trees at the forest's edge are not moving, but the mill groans and settles as if under pressure from something I can't see. The wheel hasn't turned in years — the axle is rusted, the paddles warped. Something else is turning. I write this down before I can talk myself out of it.",
       "desc": "The wheel still turns though the stream has been dry for years. The miller's log is open on the table, the last entry three weeks ago."
     },
     "forest_path": {
-      "enter": "The treeline begins here. Strange how the path seems different every time you walk it.",
+      "enter": "The path begins at the village edge and leads into a treeline that should, by my count, only take ten minutes to cross. It always takes longer than that. The path itself seems cooperative — it goes where I need to go — but the relationship between distance walked and distance covered is unreliable here. I've stopped trying to track it precisely. I mark where I notice things instead.",
       "desc": "The trees press close. Roots cross the path like sleeping fingers. You hear movement that stops when you stop."
     },
     "cliffside": {
-      "enter": "The cliff edge drops sharply to the cove below. At certain hours, something moves in the water.",
+      "enter": "The cliff edge drops sharply, the cove far below glittering in whatever light is available. I keep a careful distance from the edge — not from fear exactly, more from respect for a place that has claimed things. At certain hours, in certain light, something moves in the water far below. I've stopped pretending it's a seal. I watch it. It has not yet looked back, but I have the impression it's aware that I'm here.",
       "desc": "Wind tears at your coat. The cliff drops eighty feet to the rocks below. You can see the lighthouse from here — and the shape beneath the water."
     },
     "archive_basement": {
-      "enter": "Row upon row of stone shelves. Whatever is catalogued here predates the village by centuries.",
+      "enter": "Row upon row of stone shelves, catalogued in a system I don't fully understand, holding documents in materials that range from paper to vellum to something that might be cured skin. The smell is overwhelming at first — age, damp, the specific musk of things that have not been disturbed in a long time. I spend the first few minutes just reading labels. Whatever is in this archive, it predates everything I thought I knew about this place.",
       "desc": "Stone steps descending into cold air. Rows of iron shelving. Maren's domain. Water stains mark the walls at hip height — the flood came this far, once."
     },
     "tidal_caves": {
-      "enter": "The tide retreats to reveal caves no one has mapped. The walls are covered in writing.",
+      "enter": "The tide has retreated far enough to allow entry — I'll have perhaps two hours before it comes back. The walls of the cave are covered in writing, both carved and what appears to be bioluminescent growth, both glowing faintly in the dark. I'm not sure which came first. I bring my notebook and begin at the entrance, working inward. I'm aware that the light at the back of the cave is not reflected from outside. It has its own source.",
       "desc": "Seawater pools on the cave floor, lit from below by something bioluminescent. The tide is coming in. You have perhaps an hour."
     }
   },
@@ -94,405 +94,405 @@
   },
   "codex": {
     "history_01": {
-      "title": "The First Keeper",
-      "body": "Fragmentary records of the lighthouse's first appointed keeper, whose name has been struck from the official register. What remains suggests someone who arrived already knowing things they should not have known. The register does not say who made the deletion, or when."
+      "title": "The First Keeper: Field Notes of the Commission",
+      "body": "The lighthouse's first appointed keeper, Elias Vane, is referenced in three separate administrative records but appears in no census, no baptismal register, no immigration document. The Commission hired him in 1741 with the notation 'recommended by prior arrangement' — the prior arrangement is not described and the recommending party is not named. He operated the lighthouse without relief for eleven years. No correspondence from this period survives except a single requisition for lamp oil, in which he notes: 'I have found a more reliable fuel source. Please cancel future deliveries.'"
     },
     "history_02": {
-      "title": "Founding Charter",
-      "body": "A partial transcription of the island's founding charter. Several clauses have been deliberately obscured — not damaged, but carefully redacted with a practised hand. The surviving language binds future keepers to obligations that are never fully described."
+      "title": "Founding Charter: Recovered Fragment",
+      "body": "A partial transcription of the island's founding charter, recovered from the archive basement in deteriorated condition. Several clauses have been excised — cut from the parchment with a blade, not lost to decay. What survives establishes the lighthouse as a 'station of primary importance to the Crown's navigational interests,' then immediately contradicts itself with a second clause declaring the island 'sovereign and sealed, exempt from maritime inspection for reasons of operational sensitivity.' No other Crown installation carries this exemption. The document is signed but the signature is not the one printed beneath it."
     },
     "history_03": {
-      "title": "The Great Storm",
-      "body": "Accounts of the storm of 1743 diverge significantly. Some speak of a light that never went out despite the mechanism being reported destroyed. Three separate journals record the same dream on the same night: the lighthouse walking into the sea."
+      "title": "The Great Storm of 1743: Divergent Accounts",
+      "body": "Accounts of the storm of 1743 diverge significantly from any meteorological record of the period. The official log describes a standard North Atlantic squall lasting six hours and causing minor structural damage. Three private accounts, each written independently and never compared until now, describe a storm that lasted nine days, during which the lighthouse beam rotated counterclockwise — which is mechanically impossible — and during which something moved along the cliff edge at night making sounds described variously as 'singing,' 'counting,' and 'listing names.' One account ends with: 'We do not speak of the ninth day.'"
     },
     "history_04": {
-      "title": "The Survey",
-      "body": "An old surveyor's report noting geological anomalies beneath the ruins that do not appear in the final submitted version. The original draft was found inside a sealed wall cavity during unrelated repairs. Someone had read it — the margins are annotated."
+      "title": "Geological Survey Report, 1887",
+      "body": "An old surveyor's report noting geological anomalies beneath the ruins that do not correspond to any known formation type. The surveyor, one R. Aldis, describes voids beneath the foundation stones that 'exhibit signs of deliberate excavation predating the ruins above them by an estimated four centuries or more.' He recommends further investigation. A marginal note in a different hand reads: 'Investigation conducted. Report sealed. R. Aldis relocated to mainland posting.' The relocation papers are filed in the same folder. He requested the transfer himself, effective immediately, citing personal reasons."
     },
     "history_05": {
-      "title": "Keeper's Log: Year One",
-      "body": "The first keeper wrote with the cautious pride of someone new to responsibility. By year's end the handwriting had changed — not the hand of a different person, but the same hand aged by something other than time. The final entry is dated three months before the official departure."
+      "title": "Keeper's Log: Year One — Annotated Copy",
+      "body": "The first keeper's Year One log is the most widely cited primary source for the lighthouse's early period — but this copy, held in the archive, is not the original. It is a transcription made by a later hand, and the transcription has been annotated throughout in pencil by someone who had access to the original: corrections, deletions, small insertions. The most significant alteration is on page forty-four, where the transcriber has replaced three paragraphs with a single sentence: 'Normal operations continued.' The original pages, wherever they are, have not been found."
     },
     "history_06": {
-      "title": "The Rotation",
-      "body": "Lighthouse keepers were meant to rotate every three years. Records show some stayed considerably longer — one for eleven years, another for what the log ambiguously records as 'continuing service.' The mainland authority has no record of extending any of their contracts."
+      "title": "The Rotation Records: Anomalous Tenures",
+      "body": "Lighthouse keepers were meant to rotate every three years by standing regulation. Of the twenty-three keepers assigned to this lighthouse since its founding, seventeen stayed longer than their mandated term. Nine stayed indefinitely. The reasons given range from 'awaiting replacement' to 'at own request' to, in four cases, simply a dash where the reason should be. Notably, the keepers who stayed indefinitely show no correspondence with the mainland administration after their initial extension request — as if, having agreed to stay, they ceased to exist in any administrative sense."
     },
     "history_07": {
-      "title": "Last Official Correspondence",
-      "body": "The final letter to the mainland authority describes routine operations and requests a supply shipment. It was never answered. The supply shipment arrived six weeks later, was offloaded by persons unknown, and the ship's log records no contact with any resident."
+      "title": "Final Official Correspondence: Sealed Letter",
+      "body": "The final letter to the mainland authority before communications lapsed describes routine operations and requests a routine resupply — lamp oil, provisions, a replacement for a cracked lens element. The tone is meticulous and correct, giving nothing away. What is unusual is the postscript, added in a different pen after the signature: 'If this letter arrives, do not reply. If you reply, the reply will not reach us. If it does reach us, we will not be the ones who read it. Treat this posting as concluded.' The resupply was sent. It never returned to report delivery."
     },
     "history_08": {
-      "title": "The Parish Record",
-      "body": "Births and deaths recorded by the chapel. The death entries stop abruptly in a particular year — not because deaths ceased, but because whoever was recording them did. The final entry reads: 'I no longer know what to call this.'"
+      "title": "Parish Record: The Interrupted Register",
+      "body": "Births and deaths recorded by the chapel register span two hundred and forty years without interruption — until they stop. The final entry is a death, cause listed as 'the night,' which is not a medical term and appears nowhere else in the register. After that entry, the remaining pages of the register are blank except for a single line written on the very last page, as if someone skipped ahead to leave a message: 'The register is closed. What comes after this is not death. We do not have a word for what comes after this.'"
     },
     "history_09": {
-      "title": "The Annexe",
-      "body": "A small room behind the chapel altar is not on any official plan of the building. It is on every unofficial one. The door has no lock but has never been found open by anyone who did not arrive intending to open it."
+      "title": "The Annexe: Room Not on Plan",
+      "body": "A small room behind the chapel altar is not shown on any official plan of the building, though the building is otherwise well-documented. It measures roughly four metres by three, with a low vaulted ceiling and a single sealed niche in the north wall. The room contains a table, two chairs, and a locked iron box. The floor stones are worn smooth in a pattern consistent with two people sitting across from each other over many years — two spots of wear, facing each other, worn by the same repeated motion. The box has never been opened. It is warm to the touch."
     },
     "history_10": {
-      "title": "Oral Histories",
-      "body": "Three contradictory accounts of what happened when the last Keeper disappeared. All three are probably true — the events they describe are not mutually exclusive, only impossible to have occurred simultaneously under normal conditions. The island does not always operate under normal conditions."
+      "title": "Oral Histories: Three Versions of the Disappearance",
+      "body": "Three contradictory accounts of what happened when the last Keeper disappeared. The first says he walked into the water and did not come back; the second says he simply was not there one morning, no sign of departure, no missing belongings; the third — told by the oldest resident in a single sitting and never repeated — says he did not disappear at all, that he is still there, that you have to know how to look. The third account was not given voluntarily. The woman who told it was not aware she was speaking aloud. She has no memory of the conversation."
     },
     "occult_01": {
-      "title": "The Binding Marks",
-      "body": "The symbols carved into the ruins predate any known written language. They share structural features with musical notation — intervals, rests, and something that may indicate duration. Played at the right frequency, a recording of them causes equipment interference."
+      "title": "The Binding Marks: Preliminary Analysis",
+      "body": "The symbols carved into the ruins predate any known written language by at minimum four centuries, based on weathering patterns and the depth of sediment in the cuts. They share structural features with three other pre-literate symbol systems found on Atlantic islands, none of which have been satisfactorily decoded. What is distinctive about this system is its recursive structure: certain symbols contain smaller versions of themselves, which contain smaller versions still, down to a scale only visible under magnification. Whatever was being communicated, it was meant to be read at multiple levels simultaneously."
     },
     "occult_02": {
-      "title": "Resonance Theory",
-      "body": "Whoever carved these marks understood something about sound, light, and attention that we do not. The marks are not decorative and not linguistic — they are instructional. The instructions are for something that has not yet been attempted, or has been attempted and not survived."
+      "title": "Resonance Theory: A Working Hypothesis",
+      "body": "Whoever carved these marks understood something about the relationship between sound, light, and directed attention that current natural philosophy has not formalised. The marks appear at specific acoustic nodes in the ruins — points where sound naturally concentrates due to the geometry of the stones. When a sustained tone is produced at these nodes, observers report unusual perceptual effects: temporal displacement, involuntary memory recall, the sensation of being watched by something that does not have eyes. The effects are consistent across independent observers. No mundane explanation has been proposed that accounts for all data."
     },
     "occult_03": {
-      "title": "The Loop Index",
-      "body": "A set of tally marks at the ruins that no one has been able to explain. The count is very high — higher than any plausible human lifespan would permit. Beside the tallies, in newer marks, someone has written: 'still not finished.'"
+      "title": "The Loop Index: Tally Marks at the Ruins",
+      "body": "A set of tally marks at the ruins that no investigator has explained. They are carved at a height of approximately 1.7 metres on the eastern wall, in groups of five, in at least eleven distinct hands. The count, when totalled across all marks, comes to four hundred and twelve. A separate set of marks, lower on the same wall and made by a single hand in a finer tool, appears to be a subset count — a count within the count. That number is fourteen. No record exists of what these numbers were meant to track. The marks are still being added to."
     },
     "occult_04": {
-      "title": "The Old Name",
-      "body": "The entity beneath has a name in the old script. It roughly translates as 'the one that remembers the drowned.' This is considered a description rather than a proper name — the entity's actual designation, if it has one, appears only in a text that has not been found."
+      "title": "The Old Name: Translation Attempt",
+      "body": "The entity beneath has a name in the old script. It appears in the ruins inscriptions three times, in the tidal cave writings twice, and once — very small — on the underside of the lighthouse lens housing, which required partial disassembly to discover. The name translates approximately as 'the one who waits beneath the calling light,' though the grammatical structure of the old script allows for a simultaneous reading: 'the light that calls because something is waiting.' The distinction matters. One reading describes a trap. The other describes a door."
     },
     "occult_05": {
-      "title": "The Cliff Vigil",
-      "body": "Someone has been keeping watch from the cliffside for a very long time. The worn stone suggests decades of the same posture, the same position. Whatever they were watching for either arrived or they gave up — the depression in the rock stops being renewed at some point."
+      "title": "The Cliff Vigil: Evidence of Long Watch",
+      "body": "Someone has been keeping watch from the cliffside for a very long time. The worn stone at the cliff's highest point shows a pattern of use inconsistent with casual visitors — two depressions at standing distance, angled toward the water, worn by the same two feet returning to the same position over decades or longer. A small stone shelf nearby holds the remnants of what were once regular offerings: dried seaweed, a corroded coin, a single smooth pebble placed with evident care. The offerings are never the same twice, though the shelf is never empty."
     },
     "occult_06": {
-      "title": "The Feeding Pattern",
-      "body": "The entity does not sleep. It simply waits for the beam to align — a specific angle that occurs twice in the lighthouse's rotation, lasting approximately four seconds each time. During those four seconds, instruments in the archive show readings they have no scale for."
+      "title": "The Feeding Pattern: Observation Log",
+      "body": "The entity does not sleep. It waits. The waiting is not passive — it involves a specific alignment, a particular angle of the lighthouse beam during the hour before dawn, in certain weather conditions, on certain tidal configurations. These configurations repeat on a cycle that is not quite lunar and not quite solar, as if calibrated to some third astronomical body whose influence is subtle. During the alignment, the water beneath the cliff exhibits bioluminescence of unusual intensity. Marine life avoids the area. The keeper's stamina drains faster during these windows. The mechanism room grows warm."
     },
     "occult_07": {
-      "title": "Echo Residue",
-      "body": "Echoes of prior keepers concentrate near the cliff edge. The resonance is measurable if you know what to measure. Three separate investigators have recorded the same whispered phrase — each thought it was their own thought until they compared notes."
+      "title": "Echo Residue: Field Measurement",
+      "body": "Echoes of prior keepers concentrate near the cliff edge in measurable ways — instruments sensitive to electromagnetic variance show consistent anomalous readings at a radius of approximately twelve metres from the cliff's highest point. The readings spike during the hour after the loop resets and again in the hour before dawn. Prior keepers' voices have been recorded here under controlled conditions — not as distinct speech, but as interference patterns in recorded audio that, when filtered and processed, resolve into fragments of conversation in at least three different accents. They are all asking the same question."
     },
     "occult_08": {
-      "title": "The Tide Script",
-      "body": "The writing on the cave walls is rewritten by the tides. Something underneath keeps restoring it — the same words, the same placement, with minor variations that suggest refinement rather than damage. The text has been improving for as long as anyone has been watching."
+      "title": "The Tide Script: Living Writing",
+      "body": "The writing on the cave walls is rewritten by the tides. Observers have documented this: at low tide, the walls bear one text; at high tide, a different text occupies the same surface; at the exact moment of turning, both texts are visible simultaneously in double exposure. Something beneath the water is responsible — not passive erosion but active inscription. What is more troubling is that the two texts are in dialogue: one asks, the other answers. The exchange has been ongoing for as long as anyone has been recording it. Neither speaker has finished making their point."
     },
     "occult_09": {
-      "title": "The Deep Chamber",
-      "body": "Behind the main cave there is a chamber that only opens under specific tidal conditions. What is inside has been documented three times. All three accounts agree on the geometry but disagree entirely on the contents."
+      "title": "The Deep Chamber: Access Conditions",
+      "body": "Behind the main cave there is a chamber that opens only under specific tidal conditions — a window of approximately forty minutes, twice per lunar cycle. The chamber's existence was first documented by a keeper who left a note claiming to have entered it. The note describes a space 'larger than the rock above it could contain,' with walls that 'remember everyone who has stood in here' and a central depression filled with water so still it reflects what is above it rather than what is in front of it. The note was found in the keeper's room after his disappearance. He had not been to the caves."
     },
     "occult_10": {
-      "title": "The Final Binding",
-      "body": "The original binding required three keepers. The seal has never been properly completed — only two ever agreed simultaneously. The third position has been vacant since the third year of the lighthouse's operation, waiting for someone who understands what they are agreeing to."
+      "title": "The Final Binding: Incomplete Seal",
+      "body": "The original binding of the entity beneath required three keepers acting simultaneously — one to hold the mechanism, one to maintain the light, one to speak the closing formula. Records suggest it was accomplished once, imperfectly, in 1798. The seal has never been properly completed: the third keeper faltered, the formula was broken mid-utterance, and what resulted was not a binding but a pause. The entity did not break free. It simply began to wait for the pause to end. Three hundred loops later, the pause is ending. The mechanism room has been vibrating at a frequency consistent with the old binding formula. It is counting down, not up."
     },
     "maritime_01": {
-      "title": "Shipping Manifests",
-      "body": "The last recorded arrival was seventeen months ago. The manifest lists cargo that was never offloaded — it remains, presumably, aboard a ship that has also not been accounted for. The harbour shows no signs of unusual occupation."
+      "title": "Shipping Manifests: Last Recorded Arrivals",
+      "body": "The last recorded arrival at this harbour was seventeen months ago. The manifest lists cargo described as 'standard provisioning plus one secured package, recipient: the Keeper, to be delivered directly and not inventoried.' The ship's log for that voyage is not in the harbour archive, though the ship itself is registered as having returned to port safely. The captain made no further voyages to this island. When asked why, he reportedly said: 'Because I delivered what was asked of me and I am not asked again.' He refused to elaborate."
     },
     "maritime_02": {
-      "title": "The Harbour Depth",
-      "body": "The harbour was dredged three times in the last century. Each time they found something and stopped. The dredging reports are filed under administrative delay pending further review — a status that has persisted for forty years."
+      "title": "The Harbour Depth: Dredging Records",
+      "body": "The harbour was dredged three times in the last century — 1889, 1923, and 1951. Each time, the dredgers found the harbour had silted to a depth inconsistent with normal tidal action, as if something beneath was pushing material upward. In 1923, the dredge recovered an object that was not silting material: a locked iron box of the same type found in the chapel annexe. The dredge crew's report describes the box as 'warm, vibrating slightly, and humming at a pitch below the range of comfortable hearing.' The box is not in the archive. The dredge crew filed no further reports of any kind."
     },
     "maritime_03": {
-      "title": "Navigation Anomalies",
-      "body": "Compasses behave strangely within half a league of the island. The lighthouse beam does not correct for this — it amplifies it at certain angles, creating false bearings that lead ships toward the tidal caves rather than the open harbour."
+      "title": "Navigation Anomalies: Instrument Survey",
+      "body": "Compasses behave strangely within half a league of the island. This is documented in at least forty-seven independent captain's logs spanning three centuries, consistently enough that modern charts carry a notation warning of 'irregular magnetic variation in the approaches.' What the charts do not note is that the variation is not random: it follows a pattern, redirecting compasses toward a specific bearing that would bring a vessel directly over the submerged door at the base of the cliff. The lighthouse beam, theoretically a navigational aid, operates on the same bearing. The lighthouse was built to call ships toward that point, not away from it."
     },
     "maritime_04": {
-      "title": "The Wrecks",
-      "body": "Twelve wrecks are on record. Local lore suggests there are forty more that were never reported — ships that arrived, were quietly taken apart, and whose crews were absorbed into the village population without formal registration. Silas knows more than he records."
+      "title": "The Wrecks: Official and Unofficial Record",
+      "body": "Twelve wrecks are on the official record — ships lost to weather, to the rocks, to mechanical failure. Local lore consistently suggests forty or more, though the additional wrecks are absent from any administrative account. The discrepancy is explained, in one document, by the notation: 'Vessels lost to the anomaly are not to be recorded as wrecks, as the ships are not destroyed but redirected. Their ultimate disposition is unknown.' Redirected to where, the document does not say. Three of the officially recorded wrecks were found with all cargo intact and all crew absent, with no sign of evacuation."
     },
     "maritime_05": {
-      "title": "The Harbormaster's Book",
-      "body": "Silas maintains meticulous records with one exception. The three-month gap is filled with a single word, repeated across twenty-two pages. The word is in the old script. When translated, it means: witness."
+      "title": "The Harbormaster's Book: The Missing Quarter",
+      "body": "Silas maintains records going back thirty years — daily entries, tide charts, vessel logs, weather observations. The recordkeeping is impeccable and in some ways obsessive, the handwriting unwavering through all seasons and events. The exception is a three-month gap, its pages torn cleanly from the binding. What falls on either side of the gap: before, increasingly terse entries that seem to be building toward something; after, a resumption of normal notation but with a subtle change in the handwriting — slightly smaller, slightly more controlled, as if written by a man who has learned to be careful. Silas has never acknowledged the gap exists."
     },
     "maritime_06": {
-      "title": "Cave Tidal Charts",
-      "body": "Handmade charts of tidal patterns in the caves, more precise than anything the Navy has produced. They predict patterns four cycles in advance with complete accuracy. They were made by someone who understood the caves from the inside."
+      "title": "Cave Tidal Charts: Handmade Survey",
+      "body": "Handmade charts of the tidal patterns in the caves, rendered with a precision that exceeds any official hydrographic survey of the area. The charts show not just tide height and timing but current direction, temperature variance, and bioluminescence intensity across a sixty-day cycle. Whoever made them lived in or near the caves for at least two months — the paper shows moisture damage consistent with prolonged underground exposure. The charts are annotated with observations like 'the light is brightest when the mechanism room is active' and 'she comes to the edge during the third current.' No explanation of who 'she' refers to."
     },
     "maritime_07": {
-      "title": "The Swimmer's Path",
-      "body": "A series of markers leads from the cave entrance toward deeper water. They were not made by human hands — the material is unknown and the placement required access to depths no diver has returned from. The markers are evenly spaced. They are still being added to."
+      "title": "The Swimmer's Path: Marker Survey",
+      "body": "A series of small markers — iron pins driven into submerged rock — leads from the cave entrance toward deeper water, then bends sharply toward the base of the cliff and the submerged door. The markers are too regular and too precisely placed to be accidental; they form a navigable route for someone moving underwater. The materials are of indeterminate age. The route ends at a depth that would require equipment not available until the last century, or an ability to remain underwater far longer than any known creature can manage. The route was not made for human swimmers. It was made to guide something else."
     },
     "maritime_08": {
-      "title": "Bioluminescence Log",
-      "body": "Notes on unusual light emissions from the cave water. The pattern matches the lighthouse beam exactly — not approximately, but with a precision that would require real-time communication between the beam and whatever is producing the underwater light."
+      "title": "Bioluminescence Log: Light Emission Study",
+      "body": "Notes on unusual light emissions from the cave water, maintained by an unnamed observer over approximately three years. The light pattern matches the mechanism room's sequence of symbols — not in appearance but in timing, pulses corresponding to the rotation of the lens and the rhythm of the mechanism's gears. The observer concludes: 'The water is responding to the lighthouse. Or the lighthouse is responding to the water. I cannot determine which initiated the exchange.' The final entry adds: 'I believe it knows I am here. I believe it has known for some time. I find I do not mind.'"
     },
     "maritime_09": {
-      "title": "The Current",
-      "body": "There is a persistent current that runs from the tidal caves toward open water. It flows uphill in places, which is not possible. Hydrological surveys have confirmed the measurements and declined to offer an explanation."
+      "title": "The Current: Hydrographic Anomaly",
+      "body": "There is a persistent current running from the tidal caves toward open water — steady, consistent, unchanged across decades of measurement. The current should not exist given the local bathymetry; there is no pressure differential that would produce it. It flows at a rate that would carry a small vessel from the cave mouth to the edge of the mapped zone in approximately six hours. Flotsam released at the cave entrance consistently washes up on the mainland forty miles northeast, regardless of prevailing wind and tide. The current is predictable. It is, some have suggested, purposeful."
     },
     "maritime_10": {
-      "title": "The Missing Boats",
-      "body": "Three fishing boats are known to have entered the caves voluntarily. None returned. Their owners left documentation suggesting they knew this was likely. Each left the same destination in their personal records: 'the place beneath the light.'"
+      "title": "The Missing Boats: Voluntary Entry Log",
+      "body": "Three fishing boats are on record as having entered the tidal caves voluntarily — not driven by storm or accident but sailing in under calm conditions with apparent intent. None returned to report. Two of the three boats were later found intact on the mainland coast, anchored carefully in small coves, with all gear stowed and all catches landed as if the crew had simply walked ashore and continued their lives elsewhere. The third boat was never found. The crews of the first two were never identified. The third crew's families maintain, consistently, that their men are 'not gone — somewhere else.'"
     },
     "ecology_01": {
-      "title": "The Forest Edge",
-      "body": "The treeline has moved. Old maps show the forest beginning half a mile further from the lighthouse — it has advanced steadily over the last century at a rate inconsistent with natural growth. The trees at the new edge are not saplings."
+      "title": "The Forest Edge: Treeline Displacement",
+      "body": "The treeline has moved. Comparing the current forest edge to maps from fifty years ago shows a contraction of approximately a quarter mile — the forest is retreating from the lighthouse, has been retreating for decades. The rate of retreat is not constant; it accelerates during periods of lighthouse activity and slows when the mechanism is inactive. Soil samples from the retreated zone show no evidence of disease, drought, or any standard cause of forest die-back. The trees did not die. They withdrew. The distinction matters to the ecologist who made this observation, though she could not explain why she found it significant."
     },
     "ecology_02": {
-      "title": "Fungal Network",
-      "body": "The root network beneath the forest path is unlike anything documented. It pulses — a slow rhythm that, when measured, matches the rotation period of the lighthouse beam. The botanist who first noted this retired from field work immediately after."
+      "title": "Fungal Network: Subterranean Survey",
+      "body": "The root network beneath the forest path is unlike anything documented in mycological literature. Standard fungal mycelium is present, but interwoven with it is a secondary network of a material that resists classification — neither plant nor fungus nor any known organism, exhibiting both biological and crystalline properties under microscopy. The network pulses at a slow rhythm: once every eleven seconds, matching the rotation of the lighthouse lens. Samples removed from the soil retain the pulse for up to thirty-six hours before stopping. They cannot be cultured. They do not decay. They simply stop."
     },
     "ecology_03": {
-      "title": "The Boundary Plants",
-      "body": "Certain plants grow only at the exact perimeter of the lighthouse beam's reach. Nowhere else — not inside the beam's range, not outside it. They appear to mark the boundary with the precision of a surveying instrument."
+      "title": "The Boundary Plants: Species at the Beam's Perimeter",
+      "body": "Certain plants grow only at the exact perimeter of the lighthouse beam's maximum reach — a narrow band, perhaps two metres wide, circumscribing the entire beam radius. They are not native to this climate, this latitude, or any adjacent region; the closest known relatives grow in the deep Pacific. They appear to thrive specifically in the zone of transition between full beam exposure and shadow. No seeds or spores have been found outside this band. They do not spread. They persist precisely at the threshold between light and dark, as if that boundary is their only viable habitat."
     },
     "ecology_04": {
-      "title": "Animal Behaviour",
-      "body": "No birds nest within the beam's range. Those that fly through it do not fly straight afterward — they curve, as though the beam's passage left a physical impression in the air that persists. The curves are always in the same direction."
+      "title": "Animal Behaviour: Avoidance Study",
+      "body": "No birds nest within the lighthouse beam's full range. Those that fly through it do not fly straight — they veer, they climb, they alter course in ways inconsistent with normal wind response. Animals native to the island — foxes, rabbits, the small shore birds that should occupy the cliffside — are present in healthy populations on the west side of the island and entirely absent on the east, where the beam is strongest. The line of avoidance is not gradual; it is precise, as if the animals know to within a few metres where the affected zone begins. They have been teaching their young to observe this boundary for many generations."
     },
     "ecology_05": {
-      "title": "The Path Changes",
-      "body": "The forest path reroutes itself between visits. Locals accept this as normal and adapt their routes accordingly. Those who insist on following their original path find it does not lead where it once did, or where they intended to go."
+      "title": "The Path Changes: Observer's Notes",
+      "body": "The forest path reroutes itself between visits. This observation has been independently made by at least six people, none of whom were initially willing to put it in writing. Triangulation measurements taken on successive days confirm it: specific points on the path shift by amounts up to thirty metres between observations. The path's overall character — its entrance, its exit, its approximate length — remains consistent. Only the middle section changes. What is particularly troubling is that the changes appear to be navigational: the path always leads where you need to go, even if where you need to go has changed since your last visit."
     },
     "ecology_06": {
-      "title": "Cliff Flora",
-      "body": "The plants growing from the cliff face have no known species classification. They flower at night, exclusively, and the flowers emit a faint luminescence. Petra has been cultivating specimens in controlled conditions — the results are sealed."
+      "title": "Cliff Flora: Unclassified Species",
+      "body": "The plants growing from the cliff face below the vigil point have no known species classification despite multiple collection attempts by qualified botanists. They have been submitted to three separate academic institutions for identification; all three returned the specimens as 'insufficiently preserved for classification,' though the specimens were fresh and intact at submission. A fourth botanist, who examined them in situ, made detailed drawings but refused to submit them for publication, writing privately that she 'would not be responsible for drawing attention to this location.' Her drawings are in the archive. They show, among the botanical detail, what appear to be faces in the leaf structures."
     },
     "ecology_07": {
-      "title": "The Lichen",
-      "body": "A specific lichen pattern covers the south face of the cliff. Under magnification it resolves into text — the same text that appears on the cave walls, the ruin inscriptions, and, reportedly, in the sleep imagery of anyone who spends more than a week on the island."
+      "title": "The Lichen: Cartographic Pattern",
+      "body": "A specific lichen pattern covers the south face of the cliff with unusual regularity. Under magnification, the distribution of the lichen's lobes resolves into a map — a recognisable rendering of the island's coastline, complete with depth markings for the harbour approach. The map includes features not present in any official chart: a structure shown beneath the island that corresponds to the void spaces found in the 1887 geological survey, and a symbol at the map's centre that matches the binding rune in the mechanism room. The lichen is alive. It has been growing this map for longer than the island has been settled."
     },
     "ecology_08": {
-      "title": "Sea Life Concentration",
-      "body": "Marine life clusters beneath the cliff in numbers that shouldn't be sustainable. They are not feeding — their stomach contents show nothing. They are gathered, oriented, facing upward, toward the lighthouse. They have been there for as long as the fishermen can remember."
+      "title": "Sea Life Concentration: Anomalous Aggregation",
+      "body": "Marine life clusters beneath the cliff in numbers that should not be sustainable given the available food resources. Fish species that do not normally share habitat are present in close proximity, apparently without conflict. They circle the area below the submerged door in a slow, consistent pattern that does not correspond to feeding or mating behaviour. Divers who have entered the aggregation zone report that the fish do not flee — they maintain their formation and adjust to incorporate the diver into the circle, as if the diver is simply another element in an ongoing arrangement. Two divers refused to continue below fifteen metres. They describe the same sensation: being recognised."
     },
     "ecology_09": {
-      "title": "The Mill Mold",
-      "body": "A species of mold is consuming the mill's timbers. It has the structural properties of bone — rigid, load-bearing, and capable of regeneration when damaged. Tobias refuses to address it. He says it is keeping the building standing."
+      "title": "The Mill Mold: Structural Study",
+      "body": "A species of mold is consuming the mill's supporting timbers with unusual efficiency — not the chaotic pattern of standard rot but a systematic removal that follows the timber's grain, weakening the structure from the inside in a sequence that will cause specific members to fail first, then second, in an engineered order. The mold is not eating the timber randomly. It is redesigning the structure. Mycologists who examined the samples estimate the mold has been working for approximately eight years. The mill's current state of structural compromise is precisely what a competent engineer would specify if asked to cause controlled, slow collapse."
     },
     "ecology_10": {
-      "title": "Grain Mutations",
-      "body": "The grain stored in the mill has been growing. In the dark, without soil, without water. The new growth is not grain — it is something else that has adopted grain's structure as a template. Tobias grinds it regardless. It makes adequate flour."
+      "title": "Grain Mutations: Growth Without Light",
+      "body": "The grain stored in the mill has been growing. In the dark, without soil, without water, without any identifiable nutrient source, the grain is germinating — slowly, but measurably, and with unusual morphology. The sprouts do not seek light. They grow horizontally, then turn, then intersect with each other, forming a three-dimensional lattice that under examination resolves into a pattern matching the mechanism room symbols. The grain is not growing toward anything. It is writing something. The full text will take approximately six more months to complete, assuming the rate of growth is consistent."
     },
     "alchemy_01": {
-      "title": "The Preparation",
-      "body": "A formula for a compound that, when burned, produces a light visible only to those who have died and returned. The formula requires three standard ingredients and one that is listed only as 'what the mechanism does not consume.' The instruction notes that this ingredient is abundant on the island."
+      "title": "The Preparation: Partial Formula",
+      "body": "A formula for a compound that, when burned, produces a light visible only to those who have experienced at least one loop reset — invisible to others, appearing as ordinary darkness to anyone who has not died and returned. The formula is incomplete: three ingredients are listed with precise measurements, a fourth is listed as 'the residue of iteration, which cannot be weighed but accumulates.' An addendum, in different handwriting, notes: 'The fourth ingredient can be approximated using crystallised seawater from below the cliffside cove. The approximation works for approximately forty minutes before wearing off. Use it carefully. What you will see is accurate.'"
     },
     "alchemy_02": {
-      "title": "Memory Distillation",
-      "body": "Notes on extracting the residue of repeated experiences — actions performed in multiple loops leave a physical trace that can be concentrated. The process requires a loop to be in progress during extraction. The product degrades rapidly but can be fixed with certain cliff flora."
+      "title": "Memory Distillation: Process Notes",
+      "body": "Notes on extracting residue from repeated experiences — actions performed in multiple loops that leave a kind of trace in the objects involved. The theory holds that physical objects retain impressions of all the events they've witnessed, accessible under the right chemical conditions. The process described involves a solvent prepared from local plant material and a specific mineral found only in the archive basement. The resulting compound, when applied to an object, apparently causes the object to 'remember' events in the presence of the applicant. The notes include a warning: 'Some objects remember more than you will want to know. There is no way to stop the memory once it begins.'"
     },
     "alchemy_03": {
-      "title": "The Anchor Compound",
-      "body": "A substance described as capable of anchoring an echo to a specific location permanently. Ingredients: plant matter, tidal water, and one that is listed only as 'a person who agrees.' The archive holds three sealed vials of completed compound."
+      "title": "The Anchor Compound: Stability Formula",
+      "body": "A substance described as capable of anchoring an echo — a loop-residue version of a person — to a specific location, preventing it from dissipating at the loop reset. The formula requires material from the tidal caves and a preparation step involving the lighthouse lens. The compound works by making the echo's resonance frequency match the island's fundamental frequency, effectively binding it to the same substrate that keeps the island stable between loops. Three applications of the compound have been documented. In two cases, the echo persisted and communicated useful information. In the third case, what persisted was not the intended echo."
     },
     "alchemy_04": {
-      "title": "Resonance Amplifiers",
-      "body": "Small objects that increase the sympathetic resonance between two beings — allowing partial sharing of memory, perception, and loop-experience. The Archivist has several. She does not acknowledge having them. Their manufacture is documented in Petra's sealed notes."
+      "title": "Resonance Amplifiers: Construction Notes",
+      "body": "Small objects that increase sympathetic resonance between two beings — allowing partial transfer of memory, intention, and perception across the loop boundary, or between a living person and an echo. Construction requires materials available on the island and a period of preparation during which the object must be kept within the lighthouse beam's range for at least one full rotation cycle. The objects, when complete, are described as 'warm to the touch and slightly heavier than their materials would suggest.' They cannot be taken off the island — three attempts to remove them for study resulted in the objects becoming inert beyond the beam's reach and reactivating when returned."
     },
     "alchemy_05": {
-      "title": "Chapel Herbs",
-      "body": "Several unusual herbs grow in the chapel garden that are not native to this climate and were planted deliberately. Their pharmaceutical properties remain active indefinitely after drying. The chapel records describe their ritual use in terms that could equally describe chemistry."
+      "title": "Chapel Herbs: Pharmacological Survey",
+      "body": "Several unusual herbs grow in the chapel garden that are not native to this climate. Pharmacological analysis reveals compounds that, in combination, produce effects consistent with what the archive documents describe as 'loop clarity' — enhanced recall of previous iterations, reduced temporal confusion, increased sensitivity to residual echoes. The herbs are tended by someone: they are pruned, watered, and harvested on a regular schedule. The chapel's current occupant claims no knowledge of their properties. The pruning schedule, however, matches the pattern of the keeper's waking hours."
     },
     "alchemy_06": {
-      "title": "The Candle Formula",
-      "body": "The candles in the chapel are not ordinary wax. When burned in an enclosed space, the smoke carries encoded information accessible to any present who have experienced loop-memory. The formula is in plain sight in the vestry, labelled as a standard supply order."
+      "title": "The Candle Formula: Chapel Wax Analysis",
+      "body": "The candles in the chapel are not ordinary beeswax. Chemical analysis identifies a blend including compounds from at least four plants, two of which are the unclassified cliff flora. When burned in an enclosed space, the candles produce trace amounts of the loop-clarity compound identified in the chapel herbs. Whoever has been keeping the chapel lit — and the candles are always lit, fresh ones replacing spent ones between visits — is maintaining a continuous low-level exposure to the compound for anyone who spends time there. The effect is mild and cumulative. It takes weeks to notice. By the time you notice, you have already been changed."
     },
     "alchemy_07": {
-      "title": "Sacramental Chemistry",
-      "body": "The original chapel rites were pharmaceutical as well as spiritual — the two were not distinguished in the founding community's practice. What the congregation understood as spiritual experience was in part chemically induced, and what they understood as chemistry was in part something else."
+      "title": "Sacramental Chemistry: Historical Convergence",
+      "body": "The original chapel rites were pharmaceutical as well as spiritual — the two were not distinguished in the founding period of the settlement. The incense formulae, the ritual wine recipe, the anointing oil composition: all contain pharmacologically active compounds that would produce altered states of perception in participants. This was not considered unusual at the time; many religious traditions of the period used similar preparations. What is unusual is the specificity of the compounds chosen: they are precisely targeted at the neurological correlates of loop memory recall, as if whoever designed the rites knew exactly what they were preparing worshippers to perceive."
     },
     "alchemy_08": {
-      "title": "The Suppressor",
-      "body": "A compound that prevents loop-memory from surfacing in those who have experienced multiple loops. Someone has been adding it to the village water supply for at least forty years. The concentration is precisely calibrated — enough to suppress memory, not enough to cause any other effect."
+      "title": "The Suppressor: Memory-Blocking Compound",
+      "body": "A compound that prevents loop memory from surfacing in those who have experienced multiple iterations — not by erasing the memories, but by preventing access to them. It produces in the subject a confident sense of being on a first iteration, of encountering the island fresh, without the accumulated weight of prior loops. The formula is precise and requires a specific catalyst available only in the mechanism room. Most disturbingly, the compound appears in trace amounts in the village water supply, administered at a concentration sufficient for mild suppression. Someone has been maintaining this supply. Someone wants the villagers to keep forgetting."
     },
     "alchemy_09": {
-      "title": "Antidote Notes",
-      "body": "Incomplete notes on reversing the suppressor compound. The last page is missing. What remains suggests the reversal is straightforward but requires administration during a specific phase of the loop — the narrow window between the mechanism's last firing and the reset."
+      "title": "Antidote Notes: Partial Reversal",
+      "body": "Incomplete notes on reversing the suppressor compound's effects, written by someone who was clearly working against time and under stress — the handwriting is less controlled than the formula entries, words crossed out and rewritten, marginal corrections. The reversal process is described in general terms: the subject must consume a specific preparation, remain within the lighthouse beam's range for one full rotation, and 'allow the memories to surface without resistance, which will be uncomfortable.' The last page is missing. Whether the process was completed or what it required as a final step is unknown. The author knew the notes might be found. They left them anyway."
     },
     "alchemy_10": {
-      "title": "The Final Reagent",
-      "body": "The one ingredient that cannot be synthesised. It must be freely given — the act of giving under duress or deception renders it inert. The notes describe every other component in precise quantities. This one is listed simply as: 'enough.'"
+      "title": "The Final Reagent: What Cannot Be Synthesised",
+      "body": "The one ingredient that cannot be synthesised, manufactured, extracted, or substituted. It must be freely given — the act of giving being as essential as the substance itself. The documents are consistent on this point across three separate traditions represented in the archive: the old script sources, the keeper's formularies, and the chapel's sacramental records all name the same ingredient in different languages, and all specify the same condition. What the ingredient is, the documents do not state directly. One source says it is 'the thing that persists between loops.' Another says it is 'what a keeper gives that cannot be taken back.' The chapel record simply says: 'You already know what it is.'"
     },
     "cartography_01": {
-      "title": "The True Map",
-      "body": "A map of the island that shows locations which do not appear to exist in physical space as currently experienced. Several are marked as dangerous, two as inaccessible without specific preparation. One location is marked only with the notation: 'do not name this.'"
+      "title": "The True Map: Non-Physical Locations",
+      "body": "A map of the island that shows locations which do not appear to exist in physical space — or which exist only at certain times, under certain conditions, visible to certain people. The cartographer has marked these with a secondary symbol set and provided a key: triangle for 'accessible during loop reset,' circle for 'accessible to those with prior iteration memory,' star for 'accessible only once.' The star locations are the most numerous. Some of them are crossed out. The crossing-out appears to have been done at different times, by different hands — as if successive keepers visited the star locations and marked them off. Two are still uncrossed."
     },
     "cartography_02": {
-      "title": "Sightline Analysis",
-      "body": "The lighthouse was positioned to create specific sightlines to every significant location on the island. This was not incidental — the structural records show multiple rebuilds to achieve precise angles. Each sightline, when followed from the lighthouse, terminates at something that was there before the lighthouse was built."
+      "title": "Sightline Analysis: Intentional Placement",
+      "body": "The lighthouse was positioned to create specific sightlines to every significant location on the island — not for navigation but for observation. From the lighthouse top, with the right instrument, each of the major sites is visible at a specific compass bearing. The sightlines are not accidental: the lighthouse is set back from the optimal coastal position for maritime use and forward from the optimal position for land administration. Its actual position is a compromise that optimises for neither purpose but perfectly centres it as an observation point for the full island perimeter. The architect knew what they were placing and why."
     },
     "cartography_03": {
-      "title": "The Beam's Reach",
-      "body": "A precise calculation of the lighthouse beam's maximum reach under various atmospheric conditions. Under certain fog densities the beam extends further than physics should permit. The calculations note this without comment, as though the anomaly were expected."
+      "title": "The Beam's Reach: Atmospheric Calculations",
+      "body": "A precise calculation of the lighthouse beam's maximum reach under various atmospheric conditions — fog, clear sky, high humidity — and a secondary table showing the beam's effect on the island's interior under each condition. The calculations are correct for a navigational lighthouse. What they reveal incidentally is that under clear-sky conditions during spring and autumn, the beam's reflected light illuminates the island's eastern ruins at an angle that makes certain carvings on the stones visible only from the cliffside at precisely those times. This appears in the calculations as an unremarked side effect. It is not unremarked in the keeper's personal log."
     },
     "cartography_04": {
-      "title": "Underground Map",
-      "body": "A partial map of what lies beneath the island. The lower levels are marked with a symbol meaning do not continue — but the map continues anyway, in a different hand, in a different medium, as though someone found the original and felt compelled to complete it despite the warning."
+      "title": "Underground Map: Partial Survey of Below",
+      "body": "A partial map of what lies beneath the island, based on percussion surveys, the 1887 geological investigation, and what appears to be first-hand observation of at least the upper level. The lower levels are marked with a notation that reads 'not surveyed by standard means.' The overall structure shown is a series of connected chambers descending from beneath the ruins to a lowest point directly under the lighthouse foundation, where the map ends with a mark that is neither a chamber nor a passage but a solid symbol that also appears in the mechanism room's binding rune. The surveyor wrote beside it: 'Here it waits. The lighthouse sits over it like a lid.'"
     },
     "cartography_05": {
-      "title": "The Cliff Survey",
-      "body": "A survey of the cliff face noting entry points. Several are accessible only at specific phases of the tide. One entry point is marked with the notation: 'accessible only when the lighthouse is not in rotation' — a condition that has never been officially recorded as occurring."
+      "title": "The Cliff Survey: Entry Point Analysis",
+      "body": "A survey of the cliff face noting every possible entry point to the water below — handholds, ledges, descent routes, tidal access windows. Several routes are accessible only at specific tidal states. One route, marked in red, is annotated: 'accessible only to one who has descended before' — a note that makes no physical sense but is elaborated in a margin entry: 'the cliff remembers passage. On a second descent it opens differently. There is a path that does not appear on the first visit.' The survey was conducted by someone who made multiple descents. The annotations grow more detailed with each documented attempt. The last entry simply says: 'It is further down than the map shows.'"
     },
     "cartography_06": {
-      "title": "The Offshore Markers",
-      "body": "Submerged markers at specific distances from the cliff. Their purpose is not navigational — ships following them would be led away from safety rather than toward it. The distances match the intervals between the old script characters on the cave walls."
+      "title": "The Offshore Markers: Submerged Survey",
+      "body": "Submerged markers at specific distances from the cliff — iron pins driven into the seabed at thirty-metre intervals along three radials from the base of the cliff. Their purpose is demonstrably not navigational: they are too deep and too precisely positioned to serve as hazard markers. Plotting them on a chart reveals that the three radials, extended to their intersection, point to a single spot on the seabed at the edge of the survey zone — a spot that corresponds, when overlaid with the underground map, to a chamber that the underground survey marked but could not reach. The markers were placed by someone in small boats, over many sessions. Someone mapping from the outside in."
     },
     "cartography_07": {
-      "title": "The Dead Zone",
-      "body": "A region of sea between the cliff and the nearest shipping lane where all instruments fail completely. Compasses, chronometers, echo-sounders — all read zero, or read values that have no physical interpretation. Ships that pass through it report no awareness of the passage."
+      "title": "The Dead Zone: Instrument Failure Region",
+      "body": "A region of sea between the cliff and the nearest shipping lane where all navigational instruments fail simultaneously — compass, chronometer, barometer, depth sounder. The zone is roughly circular, centred on the point indicated by the offshore markers. Ships passing through it report various experiences: loss of time, false landfall sightings, the sensation of having already made this passage before. No vessel has been lost in the dead zone, which is itself anomalous given the frequency of instrument failure. It is as if the zone preserves vessels within it while disordering their ability to navigate — catching them, holding them briefly, releasing them. A filter, not a danger."
     },
     "cartography_08": {
-      "title": "Village Original Plan",
-      "body": "The original plan of the village differs from what was built. The deviations are not random — each building was shifted to a position that maintains a specific angular relationship to the lighthouse. The village is a diagram. The lighthouse is the subject."
+      "title": "Village Original Plan: Deviations Survey",
+      "body": "The original plan of the village differs from what was built in ways that are not explained by the usual practical adjustments of construction. The planned village was arranged around a central well and oriented along a north-south axis. What was built is arranged around the current square and oriented approximately eleven degrees off north — the exact bearing of the lighthouse from the village centre. The deviations are not random; each building was rotated individually to maintain its own specific sightline to the lighthouse, creating a village that, viewed from above, resembles spokes of a wheel with the lighthouse as the hub. The architect did not note this in the construction record."
     },
     "cartography_09": {
-      "title": "The Routes",
-      "body": "A map of paths through the village and island with markings showing which routes are safe at which times of day and phase of the loop. The map appears to have been made by someone who tested every route multiple times, in multiple loops, and recorded the variance."
+      "title": "The Routes: Marked Path Study",
+      "body": "A map of paths through the village and across the island, with markings showing which routes are affected by the forest path displacement phenomenon and which remain stable. The stable routes are the ones that do not pass within the lighthouse beam's full range. The unstable routes are all within it. An additional set of markings, in a different colour, shows which routes are passable at night versus during the day — the classifications are sometimes counterintuitive, with several daylight-only routes passing through areas that appear open and unobstructed, while apparently clear nighttime routes are marked impassable. The reason for the impassability is noted in the legend as: 'not for this map.'"
     },
     "cartography_10": {
-      "title": "Overlay Analysis",
-      "body": "When all known maps are overlaid, a pattern emerges in the white space between them — the uncharted area forms a shape that corresponds to no feature on the island as currently mapped. The shape moves slightly between versions. Something is being tracked."
+      "title": "Overlay Analysis: The Pattern in White Space",
+      "body": "When all known maps of the island are overlaid — the official survey, the underground map, the true map, the path study, the offshore survey, the cliff survey — a pattern emerges in the white space between them, in the areas that no individual map claims to document. The overlapping absences form a shape. The shape is a symbol. The symbol is the same one that appears on the underside of the lighthouse lens housing, in the mechanism room, at the centre of the lichen map on the cliff face. Whatever this symbol represents, it is present in the island's geography at a scale that required the entire mapped area to reveal. Someone knew. Someone arranged this. Someone wanted one person, eventually, to put all the maps together."
     },
     "linguistics_01": {
-      "title": "Pre-Settlement Script",
-      "body": "A script predating the settlement of the island by at least four centuries. It uses the lighthouse as a reference point despite the lighthouse not existing at the time the script was created. This is either evidence of extreme antiquity in the lighthouse's origins, or the script is not as old as it appears."
+      "title": "Pre-Settlement Script: Structural Analysis",
+      "body": "A script predating the settlement of the island by at least four centuries, found on the ruins stones, the cave walls, and the lower courses of the lighthouse foundation. It uses a syllabary of forty-two characters with a recursive modifier system that allows any character to be embedded within any other, creating a theoretical vocabulary of unbounded size from a finite symbol set. The script encodes not just meaning but instruction: certain sequences, when read aloud at the correct pace, produce acoustic effects in the rooms where they were written. The rooms were designed around the texts. The texts and their containers are a single artifact."
     },
     "linguistics_02": {
-      "title": "The Archive Catalogue",
-      "body": "A catalogue of what the archive once contained. Most items are listed as removed or destroyed. The destruction dates cluster around three specific years, widely separated. Each cluster corresponds to a period when the lighthouse's official keeper roster shows a gap."
+      "title": "The Archive Catalogue: A Record of Removals",
+      "body": "A catalogue of what the archive once contained — perhaps three times the current holding. Most items are listed as 'removed for conservation,' 'transferred to mainland repository,' or 'returned to depositor.' None of these dispositions can be verified; the receiving institutions have no record of the materials, and in several cases, the 'depositors' named were deceased before the date of return. One section of the catalogue has a single note beside every entry: 'by order of the Keeper.' Not a keeper — the Keeper. As if there is only ever one, or as if the role is singular enough that qualification is unnecessary."
     },
     "linguistics_03": {
-      "title": "Translation Notes",
-      "body": "Maren's personal translation notes for the old script documents. The margin comments are more revealing than the translations — they record her reactions, her growing understanding, and, in the later pages, a deliberate decision to stop recording what she has understood."
+      "title": "Maren's Translation Notes: Marginal Commentary",
+      "body": "Maren's personal translation notes for the old script documents fill three notebooks in the archive basement, accumulated over what must be decades of work. The translations are careful and methodical. The marginal commentary is something else entirely: personal reactions, doubts, crossed-out interpretations, small drawings of symbols with arrows indicating connections to other symbols. In the margins of the binding formula translation, she has written and then heavily crossed out: 'I have translated this before. I have translated it differently before. I don't know which translation was correct and I am afraid to find out.' The crossing-out is not complete. She wanted it to be legible."
     },
     "linguistics_04": {
-      "title": "The Cipher",
-      "body": "A cipher used in the more sensitive archive documents. The key is a number that changes each loop — specifically, the number of times the lighthouse has completed a full rotation since the loop began. The cipher self-updates. The messages in it change accordingly."
+      "title": "The Cipher: Administrative Encoding",
+      "body": "A cipher used in the more sensitive archive documents — correspondence between keepers and the mainland authority, certain codex pages, the sealed ledger's index. The key is a number that changes with each lunar cycle, derived from a formula based on the tidal chart. Cracking the cipher reveals that the 'sensitive' documents are not sensitive in any administrative sense — they contain no operational secrets, no dangerous instructions. What they contain is personal: letters between keepers across different loops, evidence of attempted communication backward through time, and in one case, a letter addressed to no one, explaining the writer's choice to stay on the island permanently rather than attempt another reset."
     },
     "linguistics_05": {
-      "title": "Comparative Glossary",
-      "body": "A glossary comparing the old script to modern terms. The word for keeper and the word for sacrifice are the same. So are the words for light and debt. The word for loop has no modern equivalent — the closest translation offered is: 'the breath held between question and answer.'"
+      "title": "Comparative Glossary: Keeper and Warden",
+      "body": "A glossary comparing the old script to modern terms reveals an unexpected translation: the old script word for 'keeper' and the old script word for 'warden' are the same word, differentiated only by context. In contexts referring to the lighthouse role, the word means keeper — one who tends, maintains, continues. In contexts referring to the entity beneath, the same word means warden — one who confines, restrains, prevents escape. The title of the lighthouse role is not occupational. It is a description of function. The keeper keeps the light. The keeper also keeps the thing beneath from leaving. These are not two duties. They are one."
     },
     "linguistics_06": {
-      "title": "Ruin Inscription A",
-      "body": "The longest continuous inscription at the ruins. It appears to be instructions, written in the imperative, for a process that takes multiple iterations to complete. The instructions assume the reader has already failed at least once and adjust their language accordingly."
+      "title": "Ruin Inscription A: Instruction Set",
+      "body": "The longest continuous inscription at the ruins, running along the full length of the eastern wall in characters averaging twenty centimetres in height. It appears to be a set of instructions — operational rather than ceremonial, using an imperative grammatical mood throughout. The instructions describe a process in seven stages, of which stages one through four are legible and involve physical actions at specific locations on the island. Stage five is partially obscured by damage. Stages six and seven are intact but use vocabulary not found elsewhere in the corpus — words that have no established translation, which the archive's glossary lists simply as: 'cannot be rendered in any subsequent language.'"
     },
     "linguistics_07": {
-      "title": "Ruin Inscription B",
-      "body": "A shorter inscription, written in a different hand, that is a direct response to Inscription A. It says no — but specifically, it says no to one clause while accepting all others. The disputed clause, when translated, concerns what happens to the keeper after the process completes."
+      "title": "Ruin Inscription B: The Response",
+      "body": "A shorter inscription, written in a different hand in a slightly later period, positioned directly across from Inscription A as if in dialogue with it. Where Inscription A uses the imperative, Inscription B uses the conditional — 'if you do this, then' — framing everything as negotiation rather than instruction. Linguistically it is a counter-proposal: it accepts the framework of Inscription A's process but challenges the stated outcome, arguing that the seven-stage sequence will not achieve its stated goal and proposing an alternative. The alternative's description ends mid-sentence. Either the stone ran out or the writer was interrupted. The break in the sentence occurs precisely at the word that, in the comparative glossary, translates as 'instead.'"
     },
     "linguistics_08": {
-      "title": "The Name Tablets",
-      "body": "Stone tablets listing names. Some names appear on multiple tablets, in different hands, separated by what appear to be centuries — not as records of different people with the same name, but as continuations of a single record. One name appears on every tablet. It is not legible."
+      "title": "The Name Tablets: Multiple Iterations",
+      "body": "Stone tablets listing names — personal names, rendered in the old script. Some names appear on multiple tablets, in different scripts, as if the same person was recorded by different cataloguers over different periods. One name appears eleven times across tablets spanning what the dating evidence suggests is approximately three centuries. The name, when translated through the comparative glossary, means 'the one who returns' or, in the warden context, 'the one who cannot leave.' Beside the eleventh occurrence, someone has added — in modern handwriting, in pencil, recently — a question mark. Below the question mark, an answer: 'Yes. Still.'"
     },
     "linguistics_09": {
-      "title": "Chapel Marginalia",
-      "body": "Tiny writing in the margins of the chapel's record books, written by someone with access to the old script and awareness of its meaning. It offers corrections to the official record — not to the facts, but to what the facts mean. The corrections are consistently darker in tone than the original text."
+      "title": "Chapel Marginalia: Hidden Commentary",
+      "body": "Tiny writing in the margins of the chapel's record books, written by someone with access over a long period — the style changes slightly decade by decade, consistent with one person aging. The marginalia is a running commentary on the official records, noting discrepancies, adding information the official record omits, occasionally contradicting the main text entirely. The writer never identifies themselves. The only identifying mark is a small symbol they use as a personal sigil in the margins — a symbol that, when checked against the comparative glossary, translates approximately as 'the one who was here before the records began.'"
     },
     "linguistics_10": {
-      "title": "The Repeating Phrase",
-      "body": "A phrase that appears in every document in the archive, in every language and script, without exception. It means approximately: it is not finished. The phrase appears in places where it could not have been added after the document's original creation — embedded in the paper itself in some cases, legible only under specific light."
+      "title": "The Repeating Phrase: Universal Constant",
+      "body": "A phrase that appears in every document in the archive — in every language, in every period, in every genre from operational log to love letter to contract of employment. It appears in the old script inscriptions, in the keeper's formularies, in the village's founding charter, in Maren's private translation notes. In some documents it is prominent, titled; in others it is buried in a footnote or written in the margin. In three documents it appears to have been added after the fact by a different hand than the main text, as if someone was completing a collection. The phrase, in any translation, means approximately: 'The light does not end here. The light asks a question. The light is still waiting for an answer.'"
     }
   },
   "examine": {
     "keepers_cottage": {
       "old_journal": {
         "label": "Old Journal",
-        "text": "The final entry reads: 'The mechanism won't hold. Three nights, three failures. It knows when I'm close.'"
+        "text": "The final entry reads: 'The mechanism won't hold. Three nights, three failures. It knows when I'm close.' The handwriting is precise through forty years of daily entries, right up to that last line, where the pen skips and drags as if the hand was shaking. Below the entry, in a different ink — fresher, darker — someone has added a single sentence: 'He was right. It does know.'"
       },
       "mechanism_diagram": {
         "label": "Mechanism Diagram",
-        "text": "A hand-drawn diagram of interlocking gears and rune-marked stones. Someone has circled one node in red ink and written: 'THIS ONE FIRST.'"
+        "text": "A hand-drawn diagram of interlocking gears and rune-marked stones. Someone has circled one node in red ink and written: 'THIS ONE FIRST.' What catches your attention is the outer margin, where a series of small sketches shows the same mechanism in different configurations — each one crossed out, each one marked with a date and the word FAILED. The last sketch is not crossed out. Beneath it, in small letters: 'Almost.'"
       }
     },
     "lighthouse_top": {
       "lens_inscription": {
         "label": "Lens Inscription",
-        "text": "Etched around the base of the lens housing: 'Light does not travel. Light remembers.' Below that, in a different hand: 'She was right.'"
+        "text": "The inscription circles the base of the lens in a script older than the lighthouse itself. It does not say 'keep the light burning.' It says 'keep the light calling.' Someone changed the translation — the official placard at the base of the stairs gives the sanitised version, the one they wanted you to read. Someone wanted you to think it was a warning. It was always an invitation."
       },
       "keepers_last_log": {
         "label": "Keeper's Last Log",
-        "text": "The last entry is dated three loops ago by your count. It ends mid-sentence: 'The light went out and something came through the —'"
+        "text": "The last entry is dated three loops ago by your count. It ends mid-sentence: 'The light went out and something came through the —' The remaining pages are blank, though the paper is warped as if they were once saturated and then dried. Whatever came through, the Keeper didn't write it down. Or couldn't. You count the loops since that entry. The number matches yours exactly."
       }
     },
     "archive_basement": {
       "sealed_ledger": {
         "label": "Sealed Ledger",
-        "text": "The ledger is sealed with wax bearing a mark you don't recognise. When you break it, the pages inside are filled with names — hundreds of names — and beside each one, a date and the word: LOOP."
+        "text": "The ledger is sealed with wax bearing a mark you don't recognise — a sigil that seems to shift when you look at it from different angles. When you break the seal, the pages inside are filled with names — hundreds of names — and beside each one, a date and the word LOOP. Your own name is there. The date beside it is tomorrow."
       },
       "water_line_mark": {
         "label": "Water Line Mark",
-        "text": "The stain on the wall reaches to your hip. The flood came from below, not above. Something in the lower chambers holds water — or held it back."
+        "text": "The stain on the wall reaches to your hip. The flood came from below, not above — the water line is higher near the floor, lower near the ceiling, the inverse of any storm damage you've ever seen. Something in the lower chambers holds water, or held it back, or brings it up when conditions are right. You notice the mark is slightly lower than when you last stood here. Whatever is below is draining. Slowly, deliberately, draining."
       }
     },
     "harbor": {
       "manifest_discrepancy": {
         "label": "Manifest Discrepancy",
-        "text": "The supply manifest lists seventeen crates of 'astronomical instruments.' The dock record shows only four arrived. The rest are logged as 'retained by order of the Keeper.'"
+        "text": "The supply manifest lists seventeen crates of 'astronomical instruments.' The dock record shows only four arrived — the rest are logged as 'retained by order of the Keeper.' The discrepancy was flagged three times by the harbour authority and dismissed three times with a curt reply bearing the lighthouse seal. The flagging officer's name appears nowhere in subsequent records. The position was quietly abolished."
       },
       "silas_logbook": {
         "label": "Silas's Logbook",
-        "text": "Silas has been recording the tides for years. They don't match the charts. The pattern matches something else — a rhythm you've heard before, from the mechanism room."
+        "text": "Silas's logbook records every crossing for thirty years. The entries are meticulous until three months ago, where a page has been torn out cleanly. The binding shows it was removed with care, not haste — the stitching at the spine is intact, the tear made along a fold. He knew someone would look. He wanted them to know that he knew they would look. The next entry after the gap reads, without context: 'Let them find it. It's already too late to matter.'"
       }
     },
     "mechanism_room": {
       "mechanism_symbols": {
         "label": "Mechanism Symbols",
-        "text": "The symbols cover every surface. You recognise three of them from the ruins. Three more from the chapel. One you have only seen in your own reflection, in the moment before the loop resets."
+        "text": "The symbols cover every surface. You recognise three of them from the ruins, three more from the chapel — but here they're arranged in sequence, like sentences rather than isolated words. One symbol you have only seen in your own reflection, in the moment before the loop resets, lasting less than a heartbeat. It is carved here in stone, permanent, waiting. Someone built this room around that symbol. Everything else is commentary."
       },
       "binding_rune": {
         "label": "Binding Rune",
-        "text": "This rune is different from the others — newer, cut with a different tool. Someone added it. Someone who came after the original builders. Someone who was trying to stop something, or seal it in."
+        "text": "This rune is different from the others — newer, cut with a different tool, the edges still sharp where the others have worn smooth over centuries. Someone added it. Someone who came after the original builders, who studied what they'd made and understood enough to be frightened. The rune is a seal of some kind. You trace its lines with your finger and feel, very briefly, a resistance — as if something on the other side of the stone is pressing back."
       }
     },
     "ruins": {
       "burned_portrait": {
         "label": "Burned Portrait",
-        "text": "The portrait is burned at the edges, the face obscured. The posture, the clothing — it could be anyone. But the ring on the painted hand matches the one Maren wears."
+        "text": "The portrait is burned at the edges, the face deliberately obscured — the damage is too precise to be accidental. The posture, the clothing — it could be anyone who lived here before the fire. But the ring on the painted hand matches the one Maren wears. She has never mentioned sitting for a portrait. When you describe it to her later, her expression does not change, which tells you more than any answer would."
       },
       "east_wing_door": {
         "label": "East Wing Door",
-        "text": "The door is sealed from the inside. You can feel warmth through the wood — the warmth of a fire, or something older. There is no keyhole. The door opens from the inside, or not at all."
+        "text": "The door is sealed from the inside — the bolt mechanism is visible through a gap in the frame, thrown by someone who stayed behind. You can feel warmth through the wood, the warmth of a fire that should have gone cold decades ago, or something that generates heat without burning. There is no keyhole. The door opens from the inside, or not at all. You put your ear to the wood and hear, just once, something that might be breathing."
       }
     },
     "chapel": {
       "hidden_names": {
         "label": "Hidden Names",
-        "text": "Behind the altar cloth: names scratched into the stone. Some you recognise — NPC names, your own name spelled three different ways, and one name you have never heard but which feels, somehow, like your own."
+        "text": "Behind the altar cloth: names scratched into the stone with a nail or a key, carved by different hands over what must be many years. Some you recognise — Silas, Elara, Tobias. Your own name appears three times, in three different scripts, as if three different people all arrived at the same chapel in three different loops and left the same mark. One name you have never heard before, but which feels, somehow, like a name you chose and then forgot."
       },
       "cracked_saint": {
         "label": "Cracked Saint",
-        "text": "The saint's face has been replaced with rough plaster. Beneath the plaster, something different — not a saint, but a figure with its hands raised not in blessing but in warning."
+        "text": "The saint's face has been replaced with rough plaster, applied in haste — the trowel marks are still visible, the surface uneven. Beneath the plaster, something different: not a saint, but a figure with its hands raised not in blessing but in warning, one palm facing outward, one facing up. The gesture is a command, not a prayer. Someone whitewashed it over, decided the congregation was better off not understanding what was being asked of them."
       }
     },
     "cliffside": {
       "shape_in_water": {
         "label": "Shape in Water",
-        "text": "At certain angles the shape beneath the water becomes clear: it is a door. A vast door set into the rock of the island's foundation. It is open. It has always been open."
+        "text": "At certain angles, in certain light, the shape beneath the water becomes unmistakably clear: it is a door. A vast door set into the rock of the island's foundation, worked stone framed by carved pillars, resting at the bottom of the cove. It is open. It has always been open — you can see the darkness beyond the threshold, a darkness that doesn't move with the current. Something lives in that darkness. Something that has learned to be patient."
       },
       "rope_marks_on_rock": {
         "label": "Rope Marks on Rock",
-        "text": "The grooves in the rock are worn deep — decades of use, at least. Someone has been lowering things into the cove, or raising them. The most recent marks are fresh."
+        "text": "The grooves in the rock are worn deep — decades of use, at minimum. Someone has been lowering things into the cove, or raising them, using a rope against this exact point on the cliff edge. The most recent marks are fresh, the rock still pale where the rope abraded it. Whatever the operation was, it continued until very recently. You look down into the water and see nothing. You note that the rope is gone."
       }
     },
     "tidal_caves": {
       "bioluminescent_symbols": {
         "label": "Bioluminescent Symbols",
-        "text": "The symbols glow in the same pattern as the mechanism room's walls. But here they are alive — pulsing, shifting. They are not carved. They grew here."
+        "text": "The symbols glow in the same pattern as the mechanism room's walls — the same sequence, the same grammar of forms. But here they are alive, pulsing with a slow rhythm that you recognise after a moment as the rhythm of the tide. They did not grow naturally — the edges are too deliberate, the spacing too precise — but they are not carved either. They were cultivated here, encouraged, fed. Something has been tending these walls for a very long time."
       },
       "waterlogged_chest": {
         "label": "Waterlogged Chest",
-        "text": "Inside the chest: three lighthouse keeper's logs, each from a different loop, each describing the same final day from a different perspective. All three end with the same word: 'Again.'"
+        "text": "Inside the chest: three lighthouse keeper's logs, each wrapped in oilskin, each from a different loop, each describing the same final day from a slightly different angle — the same storm, the same decision, the same ending. All three end with the same word: 'Again.' Beneath the logs, wrapped separately, is a fourth document. It is a set of instructions for breaking the cycle. The final page is missing. Someone tore it out before they left this chest to be found."
       }
     },
     "forest_path": {
       "disturbed_earth": {
         "label": "Disturbed Earth",
-        "text": "Something has been buried here recently. The soil is dark and fresh. You don't dig it up. You're not sure you want to know what's there — but you mark it in your mind."
+        "text": "Something has been buried here recently — the soil is dark and loose, tamped down with hands rather than a tool, quickly and without ceremony. A faint smell rises from it that you can't identify: not decay, not earth, something chemical and faintly sweet. You don't dig it up. You're not sure you want to know, and you've learned not to disturb things on this island that haven't asked to be disturbed. You mark the spot anyway."
       },
       "carved_tree": {
         "label": "Carved Tree",
-        "text": "The carving reads: 'I WAS HERE BEFORE YOU. I WILL BE HERE AFTER. DO NOT LIGHT THE LIGHT.' Beneath it, in smaller letters: 'Ignore this. Light it anyway. — K'"
+        "text": "The carving reads: 'I WAS HERE BEFORE YOU. I WILL BE HERE AFTER. DO NOT LIGHT THE LIGHT.' The words are deep-cut and old, the bark long healed around them. Beneath, in newer, smaller letters, a response: 'Ignore this. Light it anyway. — K.' Below that, in the most recent hand, still raw enough to be white: 'K was wrong. But I understand why.' No initial this time. Whoever left the last message did not want to be named."
       }
     },
     "village_square": {
       "dry_well": {
         "label": "Dry Well",
-        "text": "The well is sealed with planks nailed from above. You pry one loose and shine your light down. The well doesn't have a bottom you can see — but you can hear, from very far below, the sound of water, and something else moving through it."
+        "text": "The well is sealed with planks nailed from above — someone wanted nothing going down, or nothing coming up. You pry one loose and shine your light down. The shaft is older than the village, the stones worked in a style that predates anything else on the island. The well doesn't have a bottom you can see. From very far below, the sound of water — and beneath that, slower, the sound of something moving through it with deliberate, unhurried strokes."
       },
       "notice_board": {
         "label": "Notice Board",
-        "text": "Most notices are mundane — tides, market days. One is different: 'MISSING: The third loop. If found, do not return it. Burn it.' No signature. The notice looks new."
+        "text": "Most notices are mundane — tides, market days, a lost cat. One is different: printed on heavy paper in formal type, it reads: 'MISSING: The third loop. If found, do not return it. Burn it.' No signature, no date, no explanation of what the third loop is or how one would recognise it if found. The notice looks new — crisp, unweathered. Someone put it here this morning. Someone who knew you would read it."
       }
     },
     "mill": {
       "millers_last_log": {
         "label": "Miller's Last Log",
-        "text": "The log ends three weeks ago with: 'The wheel turns without water. I have stopped trying to explain it. I have started writing down what it says.' The following pages are filled with symbols."
+        "text": "The log ends three weeks ago with an entry that reads: 'The wheel turns without water. I have stopped trying to explain it. I have started writing down what it says.' The following pages are filled with symbols — the same symbols from the mechanism room and the chapel and the caves, rendered here in the careful hand of a man trying to be a faithful transcriptionist rather than an interpreter. He was not trying to understand. He was trying to leave a record. The last page is a single phrase, repeated thirty-seven times."
       },
       "hidden_trapdoor": {
         "label": "Hidden Trapdoor",
-        "text": "The trapdoor leads down to a small chamber containing nothing except a chair, a burned-out candle, and scratched into the floor: the same loop-count you are currently on."
+        "text": "The trapdoor leads down to a small chamber containing nothing except a chair, a burned-out candle, and scratched into the floor: the same loop-count you are currently on. Not an earlier count. Not a past keeper's count. Your count, exact, as of this moment. You stand very still for a while. Then you notice the candle is not entirely cold."
       }
     }
   },
