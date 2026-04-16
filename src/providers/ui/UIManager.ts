@@ -181,23 +181,15 @@ export class UIManager {
     const mutedIcon = state.audioMuted ? '🔇' : '🔊'
 
     const hudHtml = `
-      <span class="hud-loop">LOOP <span>${player.loopCount}</span></span>
-      <span class="hud-phase">${phase.replace('_', ' ').toUpperCase()}</span>
-      <span class="hud-hearts">${'♥'.repeat(player.hearts)}${'♡'.repeat(Math.max(0, 3 - player.hearts))}</span>
-      <span class="hud-stamina">
-        ⚡${player.stamina}/10
-        <span class="bar-track"><span class="bar-fill" style="width:${player.stamina * 10}%"></span></span>
-      </span>
-      <span class="hud-light">
-        LGT
-        <span class="bar-track"><span class="bar-fill" style="width:${player.lightReserves}%"></span></span>
-      </span>
-      <span class="hud-insight">◈ ${player.insight}</span>
+      <div class="hud-cell"><span class="lbl">LOOP</span><span class="val">${player.loopCount}</span></div>
+      <div class="hud-cell"><span class="lbl">PHASE</span><span class="val">${phase.replace('_', ' ').toUpperCase()}</span></div>
+      <div class="hud-cell"><span class="lbl">HULL</span><span class="val hearts">${'♥'.repeat(player.hearts)}${'♡'.repeat(Math.max(0, 3 - player.hearts))}</span></div>
+      <div class="hud-cell"><span class="lbl">STA</span><span class="val">⚡${player.stamina}<span class="bar-track"><span class="bar-fill stamina" style="width:${player.stamina * 10}%"></span></span></span></div>
+      <div class="hud-cell"><span class="lbl">LGT</span><span class="val"><span class="bar-track"><span class="bar-fill light" style="width:${player.lightReserves}%"></span></span></span></div>
+      <div class="hud-cell"><span class="lbl">◈</span><span class="val insight">${player.insight}</span></div>
       ${warnGlyph}
-      <span class="hud-location">${this.locationName(player.currentLocation)}</span>
-      <span class="hud-timer">
-        <span class="bar-track"><span class="bar-fill ${timerClass}" style="width:${Math.round(dayTimeRemaining * 100)}%"></span></span>
-      </span>
+      <div class="hud-cell"><span class="lbl">LOC</span><span class="val location">${this.locationName(player.currentLocation)}</span></div>
+      <div class="hud-cell"><span class="lbl">DAY</span><span class="val"><span class="bar-track timer"><span class="bar-fill time ${timerClass}" style="width:${Math.round(dayTimeRemaining * 100)}%"></span></span></span></div>
       <button class="hud-mute" data-action='{"type":"pause.toggle"}' title="Toggle audio">${mutedIcon}</button>
       <span class="hud-version">v${(import.meta as { env?: Record<string, string> }).env?.VITE_APP_VERSION ?? '?'}</span>
     `
