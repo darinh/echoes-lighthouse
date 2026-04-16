@@ -57,6 +57,81 @@
         "talk_to_elara": "Find someone else who knows about the harbour.",
         "confront_silas": "Confront Silas with what you've learned."
       }
+    },
+    "vael_origin": {
+      "title": "Echoes in the Deep",
+      "description": "Something ancient stirs beneath the island. Vael knows what it is — but will not say freely.",
+      "step": {
+        "examine_symbols": "Examine the bioluminescent symbols in the tidal caves.",
+        "examine_binding": "Study the binding rune in the mechanism room.",
+        "talk_vael_again": "Return to Vael and ask about what you've found."
+      }
+    },
+    "keeper_betrayal": {
+      "title": "The Last Entry",
+      "description": "The previous Keeper's final log holds a secret the island has been protecting for decades.",
+      "step": {
+        "talk_maren": "Ask Maren what she knows about the previous Keeper.",
+        "examine_ledger": "Find the sealed ledger in the archive basement.",
+        "visit_mechanism": "Visit the mechanism room."
+      }
+    },
+    "spirit_binding": {
+      "title": "Chains Beneath the Stone",
+      "description": "The mechanism's symbols are not decorative. They are a record of a crime.",
+      "step": {
+        "examine_binding_rune": "Examine the binding rune in the mechanism room.",
+        "examine_hidden_names": "Find the hidden names in the chapel.",
+        "talk_elara": "Talk to Elara about what the names mean."
+      }
+    },
+    "island_history": {
+      "title": "What the Archives Forgot",
+      "description": "The archive's gaps are not accidental. Someone decided what the island would remember.",
+      "step": {
+        "examine_portrait": "Examine the burned portrait in the ruins.",
+        "examine_hidden_names": "Find the hidden names in the chapel.",
+        "talk_maren": "Return to Maren with what you've found."
+      }
+    },
+    "final_signal": {
+      "title": "The Last Frequency",
+      "description": "You have gathered what there is to know. The lighthouse has been waiting for this moment since before you arrived.",
+      "step": {
+        "light_lighthouse": "Light the lighthouse at night.",
+        "visit_top_night": "Ascend to the lighthouse top while it burns.",
+        "talk_vael_tier3": "Find Vael and speak with them one final time."
+      }
+    }
+  },
+  "insight": {
+    "vael_origin": {
+      "title": "The Vael's True Nature",
+      "desc": "Not a monster. An ancient intelligence, wrongly imprisoned within the mechanism a century ago by keepers who feared what they did not understand."
+    },
+    "mechanism_purpose": {
+      "title": "The Mechanism's Purpose",
+      "desc": "The lighthouse does not merely guide ships. The mechanism beneath it is a binding engine — it exists to trap, not illuminate."
+    },
+    "light_source_truth": {
+      "title": "The Light's Source",
+      "desc": "The lighthouse burns on no oil, no gas. It feeds on something else entirely. The lens inscription names it: 'borrowed life.'"
+    },
+    "keeper_betrayal": {
+      "title": "The Keeper's Fate",
+      "desc": "The previous Keeper discovered the truth and tried to leave. They never reached the mainland. The last log entry is dated three weeks before anyone reported them missing."
+    },
+    "spirit_binding": {
+      "title": "The Binding Ritual",
+      "desc": "The runes in the mechanism room are not decorative. They are a cage. Whoever conducted the original binding knew exactly what they were doing — and chose to do it anyway."
+    },
+    "island_history": {
+      "title": "What This Island Was",
+      "desc": "Before the lighthouse, before the village, there was a place of convergence. The Vael was not summoned here — it was born here. The island was built around it."
+    },
+    "final_signal": {
+      "title": "The Final Transmission",
+      "desc": "On the night the mechanism fails completely, the lighthouse sends one last signal. Not to ships. To something much further away. You have seen it. You cannot unsee it."
     }
   },
   "location": {

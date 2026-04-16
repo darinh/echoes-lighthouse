@@ -455,11 +455,44 @@ export class UIManager {
     if (!state.endingId) return
     const narrative = ENDING_NARRATIVES[state.endingId]
     const title = narrative ? this.t(narrative.titleKey) : 'THE END'
-    const text = narrative ? this.t(narrative.openingKey) : ''
+
+    if (!narrative) {
+      this.setHtml(this.contentPanel, `
+        <div class="ending-screen">
+          <div class="ending-title">${this.esc(title)}</div>
+          <button class="ending-btn" data-action='{"type":"main.menu"}'>RETURN TO LIGHTHOUSE</button>
+        </div>
+      `, '_lastContentHtml')
+      return
+    }
+
+    const subtitle = this.t(narrative.subtitleKey)
+    const opening = this.t(narrative.openingKey)
+    const closing = this.t(narrative.closingKey)
+
+    const epilogueHtml = narrative.epilogueKeys.map(key => {
+      const npcId = key.split('.').pop() ?? ''
+      const npcName = this.t(`npc.${npcId}.name`)
+      const epilogueText = this.t(key)
+      return `<div class="ending-epilogue-entry">
+        <div class="ending-epilogue-name">${this.esc(npcName.toUpperCase())}</div>
+        <p class="ending-epilogue-text">${this.esc(epilogueText)}</p>
+      </div>`
+    }).join('')
+
     this.setHtml(this.contentPanel, `
       <div class="ending-screen">
         <div class="ending-title">${this.esc(title)}</div>
-        <p class="ending-text">${this.esc(text)}</p>
+        <p class="ending-subtitle">${this.esc(subtitle)}</p>
+        <div class="ending-rule"></div>
+        <p class="ending-text">${this.esc(opening)}</p>
+        <div class="ending-rule"></div>
+        <div class="ending-epilogue-heading">WHAT BECAME OF THEM</div>
+        <div class="ending-epilogue">
+          ${epilogueHtml}
+        </div>
+        <div class="ending-rule"></div>
+        <p class="ending-closing">${this.esc(closing)}</p>
         <button class="ending-btn" data-action='{"type":"main.menu"}'>RETURN TO LIGHTHOUSE</button>
       </div>
     `, '_lastContentHtml')
