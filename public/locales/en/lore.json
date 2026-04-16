@@ -5,7 +5,7 @@
       "enter": "The cottage smells of salt and old paper. A journal sits on the table — not mine. The handwriting is steady until the last entry, where it becomes a series of crossed-out lines and then, finally, a single sentence I don't understand yet. I copy it down. I have a feeling I'll need it.",
       "examine_journal": "The final entry reads: 'The mechanism won't hold. Three nights, three failures. It knows when I'm close.'",
       "examine_fire": "Cold ash. At least three days since it was lit.",
-      "desc": "A modest dwelling near the cliff path. The smell of old paper and sea salt. Maren tends the archive here."
+      "desc": "A modest dwelling near the cliff path. The smell of old paper and sea salt. The Keeper's belongings remain undisturbed, as though someone expects them to return."
     },
     "lighthouse_base": {
       "name": "Lighthouse",
@@ -22,13 +22,13 @@
       "name": "The Harbour",
       "enter": "The harbour smells of salt water and something else — oil, or old rope, or the particular smell of a working place that has stopped working. The boats are still here. The people are not, mostly. One lantern burns at the harbourmaster's window. I note the time. I note that the harbour is quieter than a harbour should be.",
       "examine_boats": "The boats are tied down. Supplies are still aboard.",
-      "desc": "Weathered boats creak against the dock. Silas watches the horizon. The fog is thick this morning."
+      "desc": "Weathered boats creak against the dock. Silas watches the horizon. Elara works nearby, her eyes always moving toward the open water."
     },
     "village_square": {
       "name": "Village Square",
       "enter": "The square is the heart of the village, and it feels hollow. People pass through it quickly, without stopping, without meeting eyes. I stand in the centre for a while, trying to read the space. The notice board draws my attention first. Then the well. Something about the well is wrong, and I find myself walking toward it before I've decided to.",
       "examine_well": "The well has been sealed with planks. Nailed shut from above.",
-      "desc": "The heart of the island. Villagers move with purpose, eyes cast low. The well stands dry."
+      "desc": "The heart of the island. Villagers move with purpose, eyes cast low. Petra lingers near the well, her herb basket close at hand. The well itself stands dry."
     },
     "ruins": {
       "name": "The Old Ruins",
@@ -49,7 +49,7 @@
     "mill": {
       "name": "The Old Mill",
       "enter": "The old mill creaks in a wind that isn't there. I stop and listen to be sure: the air is still, the trees at the forest's edge are not moving, but the mill groans and settles as if under pressure from something I can't see. The wheel hasn't turned in years — the axle is rusted, the paddles warped. Something else is turning. I write this down before I can talk myself out of it.",
-      "desc": "The wheel still turns though the stream has been dry for years. The miller's log is open on the table, the last entry three weeks ago."
+      "desc": "The wheel still turns though the stream has been dry for years. Tobias stands at the grindstone, jaw set, asking no questions. The miller's log is open on the table, the last entry three weeks ago."
     },
     "forest_path": {
       "name": "Forest Path",
@@ -59,7 +59,7 @@
     "cliffside": {
       "name": "Cliffside",
       "enter": "The cliff edge drops sharply, the cove far below glittering in whatever light is available. I keep a careful distance from the edge — not from fear exactly, more from respect for a place that has claimed things. At certain hours, in certain light, something moves in the water far below. I've stopped pretending it's a seal. I watch it. It has not yet looked back, but I have the impression it's aware that I'm here.",
-      "desc": "Wind tears at your coat. The cliff drops eighty feet to the rocks below. You can see the lighthouse from here — and the shape beneath the water."
+      "desc": "Wind tears at your coat. The cliff drops eighty feet to the rocks below. Vael stands at the edge, motionless, watching the shape beneath the water."
     },
     "archive_basement": {
       "name": "Archive Basement",
