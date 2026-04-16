@@ -45,11 +45,13 @@ export class UIManager {
   setI18n(i18n: II18n): void { this._i18n = i18n }
   private t(key: string): string { return this._i18n ? this._i18n.t(key) : key }
 
-  /** Only set innerHTML when content actually changed — keeps buttons in the live DOM. */
-  private setHtml(el: HTMLElement, html: string, cache: '_lastHudHtml' | '_lastContentHtml' | '_lastActionHtml' | '_lastOverlayHtml'): void {
-    if (this[cache] === html) return
+  /** Only set innerHTML when content actually changed — keeps buttons in the live DOM.
+   *  Returns true if the DOM was actually updated. */
+  private setHtml(el: HTMLElement, html: string, cache: '_lastHudHtml' | '_lastContentHtml' | '_lastActionHtml' | '_lastOverlayHtml'): boolean {
+    if (this[cache] === html) return false
     this[cache] = html
     el.innerHTML = html
+    return true
   }
 
   init(container: HTMLElement = document.body): void {
@@ -681,7 +683,9 @@ export class UIManager {
       ${entriesHtml}
     `
 
-    this.setHtml(this.overlayPanel, this.overlayWrap('◆ CODEX', body, 'codex'), '_lastOverlayHtml')
+    // Wire search, tabs, and Escape only when DOM was actually replaced — prevents
+    // listener accumulation on the same elements across repeated render frames.
+    if (!this.setHtml(this.overlayPanel, this.overlayWrap('◆ CODEX', body, 'codex'), '_lastOverlayHtml')) return
 
     // Wire search input
     const searchEl = this.overlayPanel.querySelector<HTMLInputElement>('.codex-search')
@@ -760,7 +764,7 @@ export class UIManager {
         <button class="settings-btn" data-action='{"type":"save.clear"}'>CLEAR SAVE</button>
       </div>
     `
-    this.setHtml(this.overlayPanel, this.overlayWrap('◆ SETTINGS', body, 'settings'), '_lastOverlayHtml')
+    if (!this.setHtml(this.overlayPanel, this.overlayWrap('◆ SETTINGS', body, 'settings'), '_lastOverlayHtml')) return
 
     const ranges = this.overlayPanel.querySelectorAll<HTMLInputElement>('input[type="range"]')
     ranges.forEach(input => {
