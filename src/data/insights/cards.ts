@@ -34,7 +34,7 @@ export const INSIGHT_CARDS: InsightCard[] = [
     titleKey: 'insight.light_source_truth.title',
     descKey: 'insight.light_source_truth.desc',
     cost: 70,
-    worldFlagRequired: 'examined_lens_inscription',
+    worldFlagRequired: 'vael_surfacing_pattern',
   },
   {
     id: 'keeper_betrayal',

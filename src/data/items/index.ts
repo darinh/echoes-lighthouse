@@ -6,6 +6,7 @@ export type ItemId =
   | 'signal_flare'
   | 'rusted_key'
   | 'tide_chart'
+  | 'brass_coupling'
 
 export interface ItemDefinition {
   readonly id: ItemId
@@ -56,6 +57,14 @@ export const ITEMS: readonly ItemDefinition[] = [
     descKey: 'item.tide_chart.desc',
     pickupKey: 'item.tide_chart.pickup',
     dialogueUnlocks: { petra: 'petra.item.chart' },
+  },
+  {
+    id: 'brass_coupling',
+    locationId: 'village_square',
+    nameKey: 'item.brass_coupling.name',
+    descKey: 'item.brass_coupling.desc',
+    pickupKey: 'item.brass_coupling.pickup',
+    dialogueUnlocks: { bram: 'bram.item.coupling' },
   },
 ]
 

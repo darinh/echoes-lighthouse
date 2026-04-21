@@ -104,6 +104,7 @@ export type ItemId =
   | 'signal_flare'
   | 'rusted_key'
   | 'tide_chart'
+  | 'brass_coupling'
 
 /** Achievement identifiers — one per milestone. */
 export type AchievementId =
