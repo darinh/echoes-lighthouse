@@ -720,6 +720,39 @@
         "ritual": "The freeing words are these. Speak them to what is bound. As you were before the word was spoken. So you are released. Say it as if you mean it. If you do not mean it — if you speak the words as formula rather than as acknowledgment — the binding will not hear them. This is not metaphor. The binding recognizes intent.",
         "vael_lore": "Vael is not entirely bound in the way the others are. There is an interval — a specific frequency in the lighthouse beam — that Vael can receive as an act of will. If you activate the mechanism at the precise moment the bound soul’s distress is highest, the binding weakens briefly. That is the window. It lasts as long as the moment of genuine question. You will know the moment. It is the one that feels like there is no answer."
       }
+    },
+    "sera": {
+      "name": "Sera",
+      "title": "The Lost Child",
+      "greeting": {
+        "tier0": "The air in the cave is wrong. Too still. The sound of water slows and then does not. Something is here that was not here before.",
+        "tier1": "There is something in the corner. Not a shadow -- shadows do not wait. It turns and it has the shape of a child. It looks at you like it has been looking for a long time. You smell like the light, it says. I like that smell.",
+        "tier2": "She is watching you when you come in. She does not pretend not to be watching. You came back, she says. I thought you might not. Most things do not come back.",
+        "tier3": "She is sitting on the cave floor. Her feet do not quite touch it. She looks up when you enter. I have been thinking, she says. About what happens next. I think something is supposed to happen next. Do you know what it is?",
+        "tier4": "She looks different. The cave looks different. Something has settled or something has shifted. You are not sure which."
+      },
+      "first_contact": {
+        "who": "I am Sera. I was sent to get water. That was before. I do not know how long before. I still have not got the water.",
+        "light_smell": "The light on the hill. It smells warm. Before, the Keeper used to let me stand near the glass. I liked it. You have that smell on you. Did you come from there?",
+        "how_long": "I do not know how long. The sky starts over a lot. I counted for a while and then I stopped. Counting did not change anything."
+      },
+      "history": {
+        "before": "Before is small. I had a dog. Its name was Patch because it had a patch. I had a bed that smelled like rosemary because my mother put sprigs in. I was going to fetch water. That is the last before thing I remember.",
+        "nothing_then": "Then nothing. And then this. The cave. The sound of water. I thought I was still going to fetch it for a long time. Then I understood I was not going anywhere.",
+        "cave_forever": "I do not know why here. Nobody told me. There is no one to ask. The fish do not talk. I tried.",
+        "sky_loops": "The sky starts at the beginning and goes to the end and then starts again. I think it is the same sky. I think it is a different sky. I cannot tell. Is that strange? I used to think it was strange. Now I just think it is what the sky does."
+      },
+      "choice": {
+        "accept": "She listens very carefully. Her face does not change. Okay, she says. I think I understand. She does not sound afraid. She sounds like someone who has been waiting a long time to be told something simple.",
+        "resist": "She goes very still. The water sound in the cave changes. The air gets colder. Why? she asks. The word is quiet and precise. Why would you do that.",
+        "free": "She stands up very slowly. Her eyes are wide but her mouth is a small, careful line. She says: I have been waiting. Not for the water. For someone who knew the words. Do you know them?"
+      },
+      "resolution": {
+        "peace": "Her outline softens at the edges. Thank you, she says. I understand now. I fell. The Keeper needed the piece and I went to get it and I fell and I did not finish the task. She pauses. I think that is all right. I think I am allowed to not finish now.",
+        "rage": "The cave walls shudder. Small stones drop from the ceiling. She does not scream -- she just stands there, and the world goes wrong around her. I waited so long, she says. I was so patient. And you came and you knew and you chose to leave me here.",
+        "freed": "She takes one step and then another and then she is not there. Not gone like sleep. Gone like a window opened. The air in the cave is different now. Emptier. Cleaner. The water sounds normal.",
+        "linger": "She is still here, or the echo of her is. The shape of a child, watching the water. I am not sure what I am yet, she says. I am still deciding."
+      }
     }
   },
   "dialogue": {
@@ -870,7 +903,20 @@
       "present_inscription": "Present the inscription from the ruins",
       "offer_absolution": "I don't condemn you for what you did",
       "condemn_him": "You are responsible for the suffering here",
-      "ask_ritual_words": "Ask for the words of the ritual"
+      "ask_ritual_words": "Ask for the words of the ritual",
+      "ask_who_are_you": "Who are you?",
+      "ask_light_smell": "What do you mean -- smell like the light?",
+      "ask_before": "What was it like? Before?",
+      "ask_sky_loops": "Does the sky keep starting over?",
+      "ask_why_caves": "Why this cave?",
+      "sera_accept": "There is peace to be found here. Let me help you find it.",
+      "sera_resist": "You do not have to accept this.",
+      "sera_free": "I know words that can release you.",
+      "confirm_accept": "You can rest now. You have waited long enough.",
+      "confirm_resist": "The binding was wrong. Rage against it.",
+      "confirm_free": "I speak the ritual. I ask for your release.",
+      "ask_still_here": "You are still here.",
+      "witness_departure": "I watch her go."
     }
   }
 }

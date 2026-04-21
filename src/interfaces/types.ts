@@ -60,6 +60,7 @@ export type NPCId =
   | 'ysel'            // The Pattern Keeper — Harbor pier
 | 'cal'             // The Former Keeper's Silence
 | 'oren'            // The Priest — Ruins (The Priest's Penance)
+| 'sera'            // The Lost Child -- Tidal Caves (spirit, hidden until spirit_binding)
 
 /** All explorable location identifiers. */
 export type LocationId =
