@@ -34,7 +34,7 @@ export type ArchiveDomain =
   | 'cartography'
   | 'linguistics'
 
-/** All NPC identifiers. The 19 named characters of the island. */
+/** All NPC identifiers. The 21 named characters of the island. */
 export type NPCId =
   | 'maren'           // The Archivist
   | 'vael'            // The Echo (prior Keeper, trapped)
@@ -55,6 +55,8 @@ export type NPCId =
   | 'thalia'          // The Herbalist
   | 'rudd'            // The Smuggler
   | 'ina'             // The Innkeeper (village square)
+  | 'bram'            // The Blacksmith — Village Square forge
+  | 'ysel'            // The Pattern Keeper — Harbor pier
 
 /** All explorable location identifiers. */
 export type LocationId =
