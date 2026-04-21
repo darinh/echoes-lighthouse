@@ -753,6 +753,140 @@
         "freed": "She takes one step and then another and then she is not there. Not gone like sleep. Gone like a window opened. The air in the cave is different now. Emptier. Cleaner. The water sounds normal.",
         "linger": "She is still here, or the echo of her is. The shape of a child, watching the water. I am not sure what I am yet, she says. I am still deciding."
       }
+    },
+    "isolde": {
+      "name": "Isolde",
+      "title": "The Innkeeper",
+      "greeting": {
+        "tier0": "Welcome to the inn. Room's clean, fire's warm, and I don't ask questions. Three things I can promise.",
+        "tier1": "Back again. I notice that. Some people make a habit of asking questions all over the island, and then they come here. Usually means they want to know what I've overheard.",
+        "tier2": "I've been watching how you work. You listen more than you talk. That's rarer than it sounds.",
+        "tier3": "I've decided I've been too careful. That's not something I say often.",
+        "tier4": "I've been sitting with what I told you. There's one more thing."
+      },
+      "rooms": {
+        "available": "Always a room if you need one. Keepers get the east room — the one with the lamp facing the lighthouse. Previous guests said it helped them sleep. I've never slept in it myself."
+      },
+      "news": {
+        "deflect": "I run an inn, not a news house. What I hear, I keep. House rule."
+      },
+      "honest": {
+        "ask": "At least you're honest about it. I'll give you this: I've heard things. Whether I share them depends on whether I trust the person who's asking.",
+        "deflect": "Just stopping in. I appreciate that. Most of the questioners are less polite about it."
+      },
+      "night": {
+        "hint": "Three months ago. Two figures in the corner booth — late, after I'd told everyone else to clear out. A woman and a man I didn't recognize. They spoke quietly. I caught three words: 'before the light.'",
+        "press": "That's all I heard. I moved away when I realized what kind of conversation it was. I have children who sleep upstairs."
+      },
+      "secret": {
+        "hint": "Every inn on every island has a secret. Mine is that I know more about the people here than anyone suspects, and I've chosen not to use it. That choice gets harder when keepers start disappearing."
+      },
+      "overheard": {
+        "full": "'Before the light comes on, it needs to be done. The Keeper won't speak if the chest is gone.' That's the sentence. Word for word. I've rehearsed it because I knew someday someone would need to hear it."
+      },
+      "figure": {
+        "description": "The woman. Older. Carried herself like someone used to being listened to. She wore a ring — an old keeper's seal. I've seen one before, in a portrait in the chapel. Whoever she was, she had authority over that lighthouse."
+      }
+    },
+    "brynn": {
+      "name": "Brynn",
+      "title": "The Butcher",
+      "greeting": {
+        "tier0": "You need something? I'm busy.",
+        "tier1": "You're still alive. Good sign for a keeper. Most of them don't make it past the second week.",
+        "tier2": "I've decided you're worth talking to. That's a short list.",
+        "tier3": "My grandmother kept notes. I found them last winter. I think she knew more than she told anyone.",
+        "tier4": "You've got the look my grandmother had. Like you've figured out the shape of something you wish you hadn't."
+      },
+      "work": {
+        "intro": "Same thing I do every day. Same thing I'll do tomorrow. Useful work, unlike most of what passes for work on this island."
+      },
+      "island": {
+        "dismissal": "Island's fine. Lighthouse is fine. People are fine. Everything's fine."
+      },
+      "keepers": {
+        "observation": "I've buried three keepers in twenty years. None from old age. The island says they left, I say the lighthouse takes what it needs."
+      },
+      "animals": {
+        "first": "You keep animals, you learn to read them. Mine know things people don't. When the eastern pasture goes quiet — really quiet — that's when things get strange around the lighthouse."
+      },
+      "pattern": {
+        "observation": "Three weeks before a keeper disappears, the cattle stop grazing east of the mill. Two weeks before, the dogs start sleeping facing the lighthouse. One week before, the chickens stop laying.",
+        "recent": "Six months ago, they started moving again. Three months ago, the last keeper was gone. You tell me what that means."
+      },
+      "lighthouse": {
+        "theory": "Something lives in it or under it. Something that affects the air, the ground, the water table — enough that the animals feel it before we do. I don't know what it is. But I know it breathes."
+      },
+      "grandmother": {
+        "notes": "She wrote: 'The light is not for ships. The light is for the thing below. When the light goes dark, it stops being satisfied with the small offerings.' She didn't say what the offerings were."
+      },
+      "offerings": {
+        "revelation": "She wrote more. On the last page, in smaller writing, she wrote: 'The keepers are not tenders. They are feeders. The light controls the hunger. Without it, the hunger controls the light.' She underlined that last part twice."
+      }
+    },
+    "corvin": {
+      "name": "Corvin",
+      "title": "The Ferryman",
+      "greeting": {
+        "tier0": "Tide's out. Boat's not running.",
+        "tier1": "You're still here. Most keepers don't last two weeks.",
+        "tier2": "You've been asking questions I've been avoiding.",
+        "tier3": "You're the only one who's asked the right questions. I've been waiting for someone to ask.",
+        "tier4": "I know what I did. I know it looks like I helped someone disappear a keeper. Maybe I did. I've lived with that."
+      },
+      "ferry": {
+        "schedule": "Weather permitting. Tides permitting. That's all."
+      },
+      "mainland": {
+        "closed": "Nothing out there you need."
+      },
+      "keepers": {
+        "history": "Three keepers before you. None of them stayed. None of them... finished."
+      },
+      "last_keeper": {
+        "deflect": "Not my place to say. Ask around.",
+        "knew": "I knew him well enough to carry him a crate of fresh water every Monday. That's all."
+      },
+      "cargo": {
+        "hint": "Three months back. Middle of the night. Someone hired me to carry a locked chest to the mainland. Paid double and told me not to open it. I didn't.",
+        "press": "I didn't ask who. I didn't look inside. I've been telling myself that makes it better. It doesn't.",
+        "suspicion": "I've thought about it every day since. The weight was wrong for cargo. Too light on one end. Too quiet. I think whatever was in that chest didn't want to make noise."
+      },
+      "employer": {
+        "hint": "Came at night. Wore a hood. Paid in old coin — the kind the lighthouse keepers used to carry. That's all I can say without saying what I'm not ready to say."
+      },
+      "full_truth": "A woman came. Tall. Older than me. She said: 'The keeper knows what's beneath the light. He told someone who shouldn't know. This chest goes to the mainland tonight.' I asked if he was alive. She said: 'He made his choices.' I took the coin and I rowed.",
+      "compassion": "I was afraid. I'm still afraid. But I think I owe you what I know."
+    },
+    "aldric": {
+      "name": "Aldric",
+      "title": "The Miller",
+      "greeting": {
+        "tier0": "New keeper! Good, good. I was wondering when I'd meet you. Name's Aldric. I run the mill. Anything you need ground, strained, or measured, I'm your man.",
+        "tier1": "Good to see you again. I've been telling the wife about you — says I shouldn't gossip, but I told her it's not gossip if it's useful.",
+        "tier2": "I've been thinking about what you've been asking around the village. I have something that might help.",
+        "tier3": "I've been thinking about those ledger gaps. I think I know what they mean. I'm not sure I want to.",
+        "tier4": "I told my wife last night. She said: 'You've always known something was off about that lighthouse.' Thirty years and I've never disagreed with her. Figured now was too late to start."
+      },
+      "customs": {
+        "first": "Been here thirty years and I still don't understand the half of it. But I've learned: don't ask about the lighthouse at night, don't pick flowers from the cliffside, and never take the east path when there's no moon. Simple enough."
+      },
+      "mill": {
+        "intro": "Six families depend on my mill for their flour, three for feed grain. Honestly it's more work than it sounds. The wheel needs constant attention."
+      },
+      "previous_keeper": {
+        "mention": "He used to come by for flour, same as everyone. Quiet man. Stopped coming about four months ago. I assumed he'd found a different supplier — that happens."
+      },
+      "lighthouse": {
+        "history": "Keepers come and keepers go. I've seen six in thirty years. None of them seemed to last. Some left, some... well, the island says they left."
+      },
+      "records": {
+        "offer": "Three years back, the lighthouse started ordering double the standard flour ration. Then six months ago it stopped entirely. I kept the ledger — I keep all ledgers. Want to see?",
+        "examine": "Here. The gaps are what matter — two months where nothing was delivered but the order stayed open. Someone was covering the books."
+      },
+      "suspicion": "The lighthouse had extra grain going somewhere. Not to the keeper — his regular order never changed. Somewhere else in the lighthouse. Something was being fed.",
+      "conclusion": "Something in that lighthouse eats. And the keepers have been feeding it. The records prove it, if you know what you're looking at. I don't know what it is. But I know it's hungry.",
+      "thank": "Just doing what a neighbor does. Thirty years on this island — I figure I owe the truth a little more than I've been paying."
     }
   },
   "dialogue": {
@@ -916,7 +1050,16 @@
       "confirm_resist": "The binding was wrong. Rage against it.",
       "confirm_free": "I speak the ritual. I ask for your release.",
       "ask_still_here": "You are still here.",
-      "witness_departure": "I watch her go."
+      "witness_departure": "I watch her go.",
+      "ask_honestly": "Ask honestly — say what you came to find out",
+      "ask_night_before": "Ask about the night before the Keeper vanished",
+      "ask_figure_seen": "Ask about the figure she saw",
+      "ask_animals": "Ask about the animals",
+      "ask_animal_pattern": "Ask about the pattern she has noticed",
+      "ask_offerings": "Ask what she knows about the offerings",
+      "ask_ferry_cargo": "Ask about the cargo you transported",
+      "ask_mill_records": "Ask to see the mill records",
+      "thank_him": "Thank him for his honesty"
     }
   }
 }

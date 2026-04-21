@@ -37,6 +37,10 @@ dov:    'lighthouse_base',
 oren:   'ruins',
 cal:    'cliffside',
 sera:   'tidal_caves',
+  isolde: 'village_inn',
+  brynn:  'village_square',
+  corvin: 'harbor',
+  aldric: 'mill',
 }
 
 const NPC_DEFAULT_ATTITUDES: Partial<Record<NPCId, NPCAttitude>> = {
