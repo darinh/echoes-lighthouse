@@ -22,8 +22,6 @@ import { CAL_NPC }    from '@/data/npcs/cal.js'
 import { SERA_NPC }   from '@/data/npcs/sera.js'
 import { ISOLDE_NPC } from '@/data/npcs/isolde.js'
 import { BRYNN_NPC }  from '@/data/npcs/brynn.js'
-import { CORVIN_NPC } from '@/data/npcs/corvin.js'
-import { ALDRIC_NPC } from '@/data/npcs/aldric.js'
 
 const NPC_REGISTRY: Record<string, NPCFullData> = {
   maren:  MAREN_NPC  as unknown as NPCFullData,
@@ -43,8 +41,6 @@ cal:    CAL_NPC    as unknown as NPCFullData,
 sera:   SERA_NPC   as unknown as NPCFullData,
   isolde: ISOLDE_NPC as unknown as NPCFullData,
   brynn:  BRYNN_NPC  as unknown as NPCFullData,
-  corvin: CORVIN_NPC as unknown as NPCFullData,
-  aldric: ALDRIC_NPC as unknown as NPCFullData,
 }
 
 function hasDialogueKey(key: string): boolean {
