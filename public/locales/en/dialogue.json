@@ -300,6 +300,88 @@
       "item": {
         "flare": "Father kept a crate of those on the boat. Said the coast patrol would see the red and come within the hour. He fired one the night the lighthouse went dark — the night everything changed. Nobody came. I've been watching the horizon ever since. Something out there prevents the signal from crossing. You can try, but the smoke bends back over the island. I've seen it happen three times now."
       }
+    },
+    "dov": {
+      "name": "Dov",
+      "title": "The Mechanic",
+      "greeting": {
+        "tier0": "The mechanism doesn't need tending tonight. Come back when it does.",
+        "tier1": "You're still here. Most strangers leave before the second tide.",
+        "tier2": "I've been expecting someone to come with questions. I don't know if I have the right answers.",
+        "tier3": "You heard what I told you. I hope you've been careful with it.",
+        "tier4": "Thirty years I kept this machine running. I never once asked what it was for. I think that was a choice, not ignorance."
+      },
+      "mechanism": {
+        "basic": "I keep it running. Gears, oil, the occasional replacement part. I don't ask what it does beyond light the lamp.",
+        "sounds": "It makes sounds it shouldn't. Low harmonics — not mechanical. I've logged them for years. The frequency changes with the tides, not with the engine. I stopped recording after the twelfth loop.",
+        "purpose_late": "The schematics showed a secondary function — something beneath the visible mechanism. The lamp is just the surface of it. Whatever it truly operates, it needs more than oil."
+      },
+      "lighthouse": {
+        "observation": "Older than the village, this tower. You can see the stonework changes halfway up. Different hands built the top. Different century, maybe different purpose."
+      },
+      "maintenance": {
+        "years": "Thirty-one years this past winter. My father before me did twenty-two. When he died he said: keep it running, don't look too deep. I thought that was grief talking. Now I'm less sure."
+      },
+      "schematics": {
+        "hint": "I found something once. In a hidden compartment behind the third gear housing. Papers — old, very old. I put them back. I've been trying to forget them ever since.",
+        "hidden": "Diagrams. Not of the mechanism as I know it — of what the mechanism connects to. Something below the base. Something with a different kind of energy requirement than oil.",
+        "final": "I kept one page. Just one. In the lining of my coat for three years. It shows a chamber beneath the foundation — a resonance point. I don't know what it resonates with. But the keeper's cottage is directly above it."
+      },
+      "confession": {
+        "compassionate": "I knew. Not at first — but I knew for seven years before I said anything to anyone, and I said nothing because I was afraid. The mechanism consumes something. Something from the keeper. I watched two keepers age strangely and I told myself it was the salt air. I told myself that until I couldn't.",
+        "practical": "The schematics showed an energy transfer loop. The lamp output feeds back into a secondary coil beneath the base. Whatever runs through that coil — the papers called it 'continuance.' I don't know the technical term. I just know the keeper never lasts as long as they should.",
+        "accusatory": "You think I could have stopped it? I'm a mechanic. I keep things running. If I'd said anything, they would have found another mechanic, and I'd be at the bottom of the harbor. I made a choice. It's not a good one. I live with it.",
+        "reveal": "The schematics showed a sealed compartment behind the main housing — small, locked. I have the key. I always had the key. I was too afraid to use it. If you need what's inside, I'll give you the key. That's the only thing I can do now that isn't cowardice."
+      },
+      "aftermath": {
+        "bram": "Bram at the inn — he knows more than he lets on. I've seen him and the old archivist meet after dark, near the base. If I'd confessed to Bram instead of you, I think he would have buried it. He's been burying things for years."
+      }
+    },
+    "thalia": {
+      "name": "Thalia",
+      "title": "The Herbalist",
+      "greeting": {
+        "tier0": "I don't sell remedies to strangers. Not without knowing who they're for.",
+        "tier1": "You've been careful around the village. I notice careful people.",
+        "tier2": "I have a problem and not much time. If you're willing to listen, it might matter to both of us.",
+        "tier3": "You did something that cost you something. I want you to know I see that.",
+        "tier4": "This island keeps secrets in its soil. The plants know things that people have forgotten. I've been translating for thirty years."
+      },
+      "herbs": {
+        "general": "The mill carries dried goods for cooking. The medicinal plants I keep elsewhere — properly stored, properly labelled. What I grow here isn't for sale. It's for use."
+      },
+      "lighthouse": {
+        "distance": "The lighthouse concerns me in the way a fever concerns me — not because I understand it, but because everything near it seems just slightly wrong. The plants on that side of the island fruit out of season. I've documented it for years."
+      },
+      "patient": {
+        "mention": "I have a patient. I won't name them. They need something I can't grow here — a root that only survives in the ruins, in the shadow of the old chapel wall. I've been unable to leave the mill long enough to retrieve it.",
+        "outcome": "They're better. Not because of anything miraculous — because the right plant, in the right preparation, given at the right time, is not miraculous. It is simply knowledge applied carefully. I'm grateful you helped me apply it."
+      },
+      "shadow_root": {
+        "explain": "It grows only in the ruins, on the north-facing stones. The root concentrates trace minerals from the old mortar. It needs specific conditions — you'd have to go between the twelfth and eighteenth turn, when the shadow angle is right, before the twenty-second turn at the latest or it's past use."
+      },
+      "knowledge": {
+        "origin": "My grandmother. And her grandmother before her. And a library of pressed specimens and careful notes going back six generations. Knowledge doesn't spring from nothing — it accumulates, it gets tested, it gets corrected. That's what medicine is."
+      },
+      "quest": {
+        "accept": "If you'll go — truly go, not just say it — I can tell you exactly where to look and what to carry it in. The ruins are not safe after dark, so go before the eighteenth turn.",
+        "negotiate": "You want the schematic first. I understand the logic. I even respect it. But I need you to understand what you're asking me to risk if you don't come back.",
+        "substitute": "A substitute. You know enough to suggest that? Most people barely know what the plant looks like. Tell me what you're thinking."
+      },
+      "substitute": {
+        "knowledge": "Two parts dried tidal-moss to one part rendered lamp-oil residue — yes. Yes, that would work. How do you know that? That preparation is in one text, one text, and it's been in my family's keeping for a century. Where did you encounter it? The mechanism room? The archive? Either answer is troubling, but I want to know."
+      },
+      "ruins": {
+        "directions": "North face of the old chapel foundation. Look for where the stone is discoloured — grey-green. The root grows at the base, usually buried a hand's width. Bring a cloth to wrap it — metal will taint it. Go when the sun is still above the cliffside, not after."
+      },
+      "schematic": {
+        "mention": "The schematic I have is old — older than this mill, I think. It shows a component of the mechanism and something else alongside it: a biological system. An organ, almost. I found it pressed between plant records in my grandmother's archive. I don't know what it means. I suspect you might.",
+        "meaning": "The schematic shows the mechanism paired with something organic. My grandmother's notes beside it say only: 'feeds on persistence.' I've looked at every plant on this island that feeds on stored energy. None of them match the diagram. It isn't a plant."
+      },
+      "cycles": {
+        "awareness": "I've kept records of which plants flower at impossible times. Twice now I've found entries in my own handwriting describing seasons I don't remember living through. My grandmother had the same phenomenon in her journals. We both called it 'discontinuity.' I think we were being polite.",
+        "survives": "The roots survive. The deep-growing ones — the ones that anchor into old stone. Whatever resets here, the deep roots remember. I've been taking cuttings of my records and pressing them into the soil near the ruins. If something in me doesn't make it through the next turn, maybe something of what I knew will."
+      }
     }
   },
   "dialogue": {
@@ -365,7 +447,21 @@
       "show_compass": "This compass washed up near the dock.",
       "show_flare": "I found a signal flare on the cliff.",
       "show_key": "Does this rusted key mean anything to you?",
-      "show_chart": "I recovered a tide chart from the caves."
+      "show_chart": "I recovered a tide chart from the caves.",
+      "ask_how_long": "How long have you worked here?",
+      "ask_what_you_found": "You found something, didn't you.",
+      "let_him_speak": "Say nothing. Let him speak.",
+      "ask_schematics": "Tell me exactly what the schematics showed.",
+      "blame_him": "You knew. You said nothing.",
+      "ask_bram": "Does Bram know any of this?",
+      "ask_mechanism_purpose": "What do you think it was truly for?",
+      "ask_herbs": "What do you know of herbs and remedies?",
+      "ask_shadow_root": "The shadow root — what is it, and why do you need it?",
+      "ask_patient": "Who is the patient?",
+      "ask_knowledge": "How did you learn all of this?",
+      "fetch_herb": "I'll find the shadow root for you.",
+      "negotiate_upfront": "Give me the schematic first, then I'll fetch it.",
+      "suggest_substitute": "There may be a substitute herb."
     }
   }
 }
