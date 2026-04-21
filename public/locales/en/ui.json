@@ -316,6 +316,11 @@
       "name": "Tide Chart",
       "desc": "A laminated nautical chart with handwritten annotations in two different inks.",
       "pickup": "You pick up the Tide Chart. The annotations make no immediate sense, but the dates go back decades."
+    },
+    "brass_coupling": {
+      "name": "Brass Coupling",
+      "desc": "A precisely machined coupling from Bram's forge — a custom fit for the lighthouse mechanism.",
+      "pickup": "You pocket the brass coupling. It has the heft of careful craftsmanship."
     }
   },
   "achievement": {
