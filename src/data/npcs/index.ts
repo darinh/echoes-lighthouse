@@ -9,8 +9,6 @@ import { TOBIAS_NPC } from './tobias.js'
 import { ELARA_NPC } from './elara.js'
 import { DOV_NPC } from './dov.js'
 import { THALIA_NPC } from './thalia.js'
-import { RUDD_NPC } from './rudd.js'
-import { INA_NPC } from './ina.js'
 
 export async function loadNPCData(): Promise<Record<string, NPCData>> {
   return {
@@ -22,7 +20,5 @@ export async function loadNPCData(): Promise<Record<string, NPCData>> {
     elara:  ELARA_NPC  as unknown as NPCData,
     dov:    DOV_NPC    as unknown as NPCData,
     thalia: THALIA_NPC as unknown as NPCData,
-    rudd:   RUDD_NPC   as unknown as NPCData,
-    ina:    INA_NPC    as unknown as NPCData,
   }
 }
