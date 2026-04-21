@@ -1,4 +1,4 @@
-import type { IGameState, IPlayerState, INPCState, NPCId, LocationId, EndingId, AchievementId } from '@/interfaces/index.js'
+import type { IGameState, IPlayerState, INPCState, NPCId, LocationId, EndingId, AchievementId, NPCAttitude } from '@/interfaces/index.js'
 
 const NPC_IDS: NPCId[] = [
   'maren','vael','silas','petra','tobias','elara','corvin',
@@ -6,6 +6,7 @@ const NPC_IDS: NPCId[] = [
 'the_warden','mirror_keeper','dov','thalia','rudd','ina','bram','ysel',
 'the_warden','mirror_keeper','oren',
 'the_warden','mirror_keeper','cal',
+'the_warden','mirror_keeper','sera',
 ]
 
 const DEFAULT_RESONANCE = Object.fromEntries(
@@ -36,6 +37,11 @@ dov:    'lighthouse_base',
   ysel:   'harbor',
 oren:   'ruins',
 cal:    'cliffside',
+sera:   'tidal_caves',
+}
+
+const NPC_DEFAULT_ATTITUDES: Partial<Record<NPCId, NPCAttitude>> = {
+  sera: 'hidden',
 }
 
 const DEFAULT_NPC_STATES: Record<NPCId, INPCState> = Object.fromEntries(
@@ -46,7 +52,7 @@ const DEFAULT_NPC_STATES: Record<NPCId, INPCState> = Object.fromEntries(
     dialogueTier: 0,
     revealedFacts: new Set<string>(),
     lastInteractionLoop: 0,
-    attitude: 'neutral' as const,
+    attitude: (NPC_DEFAULT_ATTITUDES[id] ?? 'neutral') as NPCAttitude,
     currentLocation: NPC_START_LOCATIONS[id] ?? null,
   }])
 ) as unknown as Record<NPCId, INPCState>
