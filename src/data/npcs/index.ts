@@ -18,6 +18,8 @@ import { CAL_NPC } from './cal.js'
 import { SERA_NPC } from './sera.js'
 import { ISOLDE_NPC } from './isolde.js'
 import { BRYNN_NPC } from './brynn.js'
+import { CORVIN_NPC } from './corvin.js'
+import { ALDRIC_NPC } from './aldric.js'
 
 export async function loadNPCData(): Promise<Record<string, NPCData>> {
   return {
@@ -38,5 +40,7 @@ cal:    CAL_NPC    as unknown as NPCData,
 sera:   SERA_NPC   as unknown as NPCData,
     isolde: ISOLDE_NPC as unknown as NPCData,
     brynn:  BRYNN_NPC  as unknown as NPCData,
+    corvin: CORVIN_NPC as unknown as NPCData,
+    aldric: ALDRIC_NPC as unknown as NPCData,
   }
 }
