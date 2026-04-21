@@ -260,12 +260,14 @@ export class GameEngine {
         }
         break
 
-      case 'insight.bank':
-        if (this.state.player.insight > 0) {
-          this.applyEvent('insight.banked', { amount: this.state.player.insight })
-          this.eventBus.emit('insight.banked', { amount: this.state.player.insight })
+      case 'insight.bank': {
+        const amountToBank = this.state.player.insight
+        if (amountToBank > 0) {
+          this.applyEvent('insight.banked', { amount: amountToBank })
+          this.eventBus.emit('insight.banked', { amount: amountToBank })
         }
         break
+      }
 
       case 'seal.insight': {
         const sealAction = action as { type: 'seal.insight'; cardId: string }

@@ -80,6 +80,7 @@ export class SaveSystem implements ISystem {
     'loop.reset',
     'lighthouse.lit',
     'examine.completed' as IGameEvent['type'],
+    'insight.banked' as IGameEvent['type'],
   ])
 
   constructor(_eventBus: IEventBus) {}
