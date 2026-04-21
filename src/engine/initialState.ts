@@ -1,12 +1,11 @@
 import type { IGameState, IPlayerState, INPCState, NPCId, LocationId, EndingId, AchievementId, NPCAttitude } from '@/interfaces/index.js'
 
 const NPC_IDS: NPCId[] = [
-  'maren','vael','silas','petra','tobias','elara','corvin',
-  'aldric','isolde','brynn','fenn','keeper_petra','keeper_tobias',
-'the_warden','mirror_keeper','dov','thalia','rudd','ina','bram','ysel',
-'the_warden','mirror_keeper','oren',
-'the_warden','mirror_keeper','cal',
-'the_warden','mirror_keeper','sera',
+  'maren','vael','silas','petra','tobias','elara',
+  'corvin','aldric','isolde','brynn','fenn','keeper_petra','keeper_tobias',
+  'the_warden','mirror_keeper',
+  'dov','thalia','rudd','ina','bram','ysel',
+  'oren','cal','sera',
 ]
 
 const DEFAULT_RESONANCE = Object.fromEntries(
