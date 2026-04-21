@@ -15,6 +15,8 @@ import { DOV_NPC }    from '@/data/npcs/dov.js'
 import { THALIA_NPC } from '@/data/npcs/thalia.js'
 import { RUDD_NPC }   from '@/data/npcs/rudd.js'
 import { INA_NPC }    from '@/data/npcs/ina.js'
+import { BRAM_NPC }   from '@/data/npcs/bram.js'
+import { YSEL_NPC }   from '@/data/npcs/ysel.js'
 
 const NPC_REGISTRY: Record<string, NPCFullData> = {
   maren:  MAREN_NPC  as unknown as NPCFullData,
@@ -27,6 +29,8 @@ const NPC_REGISTRY: Record<string, NPCFullData> = {
   thalia: THALIA_NPC as unknown as NPCFullData,
   rudd:   RUDD_NPC   as unknown as NPCFullData,
   ina:    INA_NPC    as unknown as NPCFullData,
+  bram:   BRAM_NPC   as unknown as NPCFullData,
+  ysel:   YSEL_NPC   as unknown as NPCFullData,
 }
 
 function hasDialogueKey(key: string): boolean {

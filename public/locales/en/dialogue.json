@@ -537,6 +537,115 @@
       "petra": {
         "deeper": "Petra carries more than the apothecary's burden. She has knowledge that predates her practice here. The lighthouse records — the real ones, not the ones in the archive — she's seen them. I know because she once let slip a detail that isn't in any document the public can reach."
       }
+    },
+    "bram": {
+      "name": "Bram",
+      "title": "The Blacksmith",
+      "greeting": {
+        "tier0": "I don't take on new commissions without knowing what they're for. Had enough years of forging blind. What brings you to the square?",
+        "tier1": "Still here. I've been watching you ask questions around the village. Figured eventually you'd come back with one I actually want to answer.",
+        "tier2": "You've been asking questions all over the island. Whatever you're trying to understand — I have a piece of it. I know I have a piece of it. Tell me what you know. I'll tell you what I have.",
+        "tier3": "I've had time to sit with what you told me. The weight hasn't gone anywhere, but I understand it better now. Understanding doesn't always make things easier. Sometimes it just tells you why the weight is the right shape.",
+        "tier4": "The island keeps its secrets a long time and then gives them up all at once. I've been on the receiving end of that all week. What else is left to know?"
+      },
+      "forge": {
+        "work": "Iron fittings, mostly. The lighthouse gate hinges. Anchor chains that need re-linking. Routine things — until about fifteen years ago, when a commission came through that I still don't have a name for. Brass coupling. Tolerance on it like a watchmaker's fever dream."
+      },
+      "island": {
+        "first": "Third generation at this forge. My grandfather built it the year the lighthouse was completed. He always said the timing wasn't coincidence. Never explained what he meant by that."
+      },
+      "commission": {
+        "intro": "Brass isn't my usual material. But the tolerances were precise enough that whoever drew the plans knew mechanism work. The kind of precision you'd find inside a clock — or inside the lighthouse. Paid well. Asked for silence.",
+        "early_deflect": "You'll forgive me for measuring my words. The commission came with the expectation of discretion, and I've held that expectation — until recently, when I began to wonder whether I've been protecting the wrong thing.",
+        "burden": "I forged a brass coupling. Specific dimensions — I kept the specs because I always keep specs on unusual work. The fitting matches nothing in any standard mechanism I've ever serviced. But it matches — to the millimetre — an old technical drawing I found years later in the archives. A drawing of the lighthouse mechanism room."
+      },
+      "coupling": {
+        "purpose": "That's what I've been carrying for fifteen years. The plans showed where the piece would sit — seated between two larger housings — but not what it would do once installed. I don't like building things without knowing their purpose. I've always believed a smith should understand what their work is for. This one, I never understood.",
+        "spare": "I keep spares of every unusual commission. It's a habit — the work that can't be repeated should always have a backup in the drawer. Yes. I have one. Whether I hand it over depends on what you're planning to do with it."
+      },
+      "mechanism": {
+        "suspicion": "There are rumours about the ironwork under the lighthouse. That it shouldn't exist by any engineering principle the island's smiths would recognise. I've wondered for fifteen years whether what I made contributed to it. I don't know whether I want the answer."
+      },
+      "dov": {
+        "mention": "There was a man — Dov, they called him — who worked the mechanism room in the old days. Not a keeper, exactly. More like a keeper of the keeper's tools. My father knew him. Said Dov could read the mechanism the way you'd read a letter. Understood every component's purpose. Disappeared before I was born.",
+        "disappeared": "My father said Dov didn't disappear the way men disappear. He said Dov was absorbed. His word — absorbed — and he never explained it further, and I was too young and too certain it was metaphor to press him. I'm not certain of much anymore."
+      },
+      "quest": {
+        "door": "I want to know what I built. Fifteen years is long enough to carry a commission without context. Tell me — whatever you've found, whatever you think it means. I can hear it."
+      },
+      "truth": {
+        "full": "A long silence. He sets down the hammer he has been holding. So. What I made regulates a feeding cycle. Whatever Vael is, whatever it needs — I helped calibrate when it gets it. Another silence. I've been waiting fifteen years for an answer. I didn't expect one that heavy. Take the coupling. I have spares — I always keep spares of unusual work. Use it for whatever will undo this. That's what I want it used for now.",
+        "partial": "Part of the lighthouse mechanism. He turns this over slowly. That's something. Not everything — I can see from your face there's more you're not saying. That's all right. I've waited fifteen years. I can wait a little longer. Take what I have. Come back when you're ready to say the rest.",
+        "lie": "Ship repair. He holds your gaze for longer than is comfortable. The tolerances on that coupling aren't configured for any vessel I've heard of. The fitting geometry is specific to fixed installations. A pause. But I'll hear it as ship repair. For now."
+      },
+      "aftermath": {
+        "full": "I keep thinking about Dov. About what my father said — absorbed. I think he meant it literally. I think the mechanism needed someone to understand it fully, and Dov understood it too well, and the mechanism kept him for knowing. And I spent fifteen years contributing to the instrument of that without any idea what I was holding. Quietly: I'd like to help put it right. If there's a way to help. Tell me what it would take.",
+        "partial": "The lighthouse mechanism. All right. I've been living next to this island's secrets for forty years and that's the most honest answer anyone's given me about that commission. I can accept partial truth. I've offered enough of it myself.",
+        "lie": "You told me it was ship repair. Quiet. I knew it wasn't. I've been sitting with that since we spoke, and I find I'd rather know the real thing — whatever it is — than carry a lie on top of everything else."
+      },
+      "dismantle": {
+        "offer": "I can't go up there — I won't, the forge is my place and I know my limits. But I can tell you every tolerance, every fitting, every component I forged and where it was supposed to seat. That knowledge has to be worth something to someone trying to dismantle it. Consider it yours."
+      },
+      "lie": {
+        "confess": "There it is. He exhales. That's what I suspected from the tolerances — the coupling feeds something's cycle. Something bound to the mechanism. That's heavier than ship repair. But it's the truth, and I'm grateful for it. The coupling is yours. All my spares are yours. Whatever helps."
+      },
+      "father": {
+        "keeper": "My grandfather worked the lighthouse in his youth. Not as Keeper — as maintenance crew, the ones who kept the mechanism calibrated. He told my father the mechanism wasn't built by anyone on the island. That it arrived here before the lighthouse was built around it. That the lighthouse was built to house something that was already here. I thought that was an old man's story. I think about it differently now."
+      }
+    },
+    "ysel": {
+      "name": "Ysel",
+      "title": "The Pattern Keeper",
+      "greeting": {
+        "tier0": "She doesn't look up immediately. The water holds her attention for a breath longer before she turns. You're the new Keeper. The water knows it before you do, usually. It's been restless since you arrived.",
+        "tier1": "Another morning. You're making a habit of the pier. Almost approvingly: Most Keepers don't come near the water their first week. They stay up the hill where they think they can see everything. You can't see anything from the hill.",
+        "tier2": "You've been back every morning. She finally looks directly at you. I've been waiting to see whether you'd ask. Most people ask about the creature. You haven't. You've been watching the water. That's the right instinct. Would you like to actually understand what you're looking at?",
+        "tier3": "She's already watching the water when you arrive. Without turning: You came back. Good. The second register is harder to hear. Bring patience.",
+        "tier4": "She doesn't speak immediately when you arrive. She's holding her notebook, open to a page dense with notation. I've been looking at this all morning. The third register. The new pattern. I think I finally understand what it is. I need someone else to hear it — to tell me I'm not wrong."
+      },
+      "watching": {
+        "first": "Patterns. The creature in the deep channel — the one the fishers call the Pale One, when they call it anything at all — surfaces according to a schedule. Not a simple one. I've been recording the intervals for twenty years. Most people don't stay long enough to see it as a pattern.",
+        "how_long": "Twenty-two years now. I came to the island to document the tidal migration charts and didn't leave. The patterns kept getting more interesting. I keep telling myself I'll finish the work and go. A long pause. The work isn't finished."
+      },
+      "island": {
+        "first": "The harbor holds the island's oldest secrets. The village has records. The archive has records. The harbor has the sea, which remembers differently — in pressure and in pull. More honestly, I've always thought."
+      },
+      "patterns": {
+        "intro": "The surfacing pattern has three registers. A main cycle — thirty-one days, consistent as a tide table. An exception cycle — seven days, irregular, weather-adjacent but not weather-driven. And one pattern I haven't categorised yet. Something new. Started within the last year.",
+        "detail": "The main cycle is almost certainly Vael's biological rhythm — if biological is the right word for a bound entity. The creature surfaces to align with whatever process the lighthouse regulates. The exception days are different. On exception days, the surfacing is urgent. Not feeding. Something closer to alarm."
+      },
+      "feeding": {
+        "pattern": "Not feeding — I want to be careful about that word. The creature doesn't surface to eat. It surfaces to witness. The moment the lighthouse beam sweeps the water, it rises. As if it needs confirmation that the light is still operating. Whether that's hope or terror, I've never been able to decide."
+      },
+      "change": {
+        "hint": "Something changed last year. The exception days — they're multiplying. When I started, there were two per month, on average. Now there are five, sometimes six. The interval is compressing. Whatever the exception days signal, it's becoming more frequent.",
+        "detail": "I don't know what to make of it yet. The data is clear — the rate is increasing. But I don't know what the exception days actually represent. I know what they look like from the surface: the creature surfaces and stays up for longer than usual, oriented east toward the lighthouse, and then submerges fast. As if it made a decision and acted on it."
+      },
+      "exception": {
+        "days": "The exception days are the part I can't fully explain yet. They fall outside the main cycle. Not randomly — there's structure to them, but it's a structure I haven't cracked in twenty-two years. Something triggers them that I can't measure from the pier. Something that happens inside the lighthouse, I think. Or under it.",
+        "increase": "Six in the last thirty days. That's twice the rate from three years ago. Whatever is driving the exception days is accelerating. The lighthouse mechanism, maybe — something in its operation is changing. Or something in Vael is changing. Or both. The pier doesn't tell me which. It only tells me the frequency."
+      },
+      "session1": {
+        "open": "I'll show you the first register. The main cycle. Twenty-two years of observations, reduced to intervals. Don't write it down yet — just listen. The numbers will mean more once you understand the shape of them. Ready?",
+        "record": "She speaks for a long time, tracing intervals in the air with one weathered finger. The pattern emerges slowly — a thirty-one-day pulse, consistent and unhurried, like the breathing of something enormous. That's the first layer. You've started to understand the rhythm. Come back. There's more."
+      },
+      "session2": {
+        "open": "The exception register. What I know and what I suspect — I'll tell you both, clearly labelled. A scientist's honesty: the data ends where interpretation begins. She turns. Are you ready to hear where my certainty runs out?",
+        "record": "She speaks more carefully this time, pausing to distinguish fact from inference. The exception days emerge not as anomalies but as a response pattern — something happening inside the lighthouse triggers them within hours. The creature is reacting to something the lighthouse does, not to the sea. That's everything I can demonstrate. Come back for the last piece. That one I'll need your help with."
+      },
+      "session3": {
+        "open": "The new pattern started fourteen months ago. I know the exact date because I remember being baffled by the first occurrence. Three surfacings within six hours, aligned with no cycle I'd documented. I logged it as anomaly. Then it happened again. And again. Now it happens every twelve to eighteen days without fail. She turns to you. I need you to help me record the rest. Not because my hands are failing — because this is the kind of knowledge that should have a witness.",
+        "complete": "When she finishes speaking, the harbor is very quiet. The numbers she's given you describe something like a countdown — not to a date, but to a threshold. The exception days will exceed the ordinary days before long. The pattern will invert. That's the full record. Everything I have. Twenty-two years of watching something that most people decided not to see. She closes the notebook. Now you know what I know."
+      },
+      "scholar": {
+        "map": "She looks at your map for a long time before speaking. You've got the channel depths marked here. And the bearing variations. Someone taught you to look carefully. All right. I can compress what took me two months into two conversations, for someone who can read a chart. Show me what you have.",
+        "session1": "She works quickly once she understands your fluency with cartography — tracing the pattern overlays directly onto your map, annotating intervals, marking the exception clusters. The thirty-one-day cycle resolves itself onto the paper with unexpected clarity. That's register one. Come back tomorrow. Register two is harder to map, but you'll manage.",
+        "complete": "She finishes the second overlay and leans back. There it is. Everything I've spent twenty-two years watching, reduced to two pages of your chart. I'm not sure whether to be pleased or bereaved. She taps the paper lightly. The pattern is yours now. The knowledge travels with you."
+      },
+      "pattern": {
+        "sealed": "I don't know what you'll do with it. I find I'm past caring about that — the knowledge should travel. I've kept it on this pier long enough. Whatever Vael is preparing for — whatever the inversion means — you'll understand it better than I do now. You've seen the lighthouse from the inside.",
+        "meaning": "My best reading? The pattern is Vael counting. Not in time — in cycles. Each exception day marks a moment when the binding weakens fractionally. The new pattern marks when the weakening becomes cumulative. Something is happening to the mechanism that isn't supposed to happen. I've watched it from the sea for twenty-two years. You're the first Keeper who's actually asked about it. That tells me something about the other Keepers. I'm not sure what."
+      }
     }
   },
   "dialogue": {
@@ -603,6 +712,18 @@
       "show_flare": "I found a signal flare on the cliff.",
       "show_key": "Does this rusted key mean anything to you?",
       "show_chart": "I recovered a tide chart from the caves.",
+      "ask_forge_work": "Ask about the forge work",
+      "ask_commission": "Ask about the commission",
+      "ask_dov": "Ask about Dov",
+      "tell_full_truth": "Tell him everything you know",
+      "tell_partial_truth": "Tell him it controls the lighthouse mechanism",
+      "tell_lie": "Invent an innocent explanation",
+      "ask_surfacing_patterns": "Ask about the surfacing patterns",
+      "ask_what_changed": "Ask what has changed recently",
+      "offer_to_record": "Offer to help record the patterns",
+      "begin_second_session": "Ask to continue the pattern work",
+      "begin_final_session": "Ask to complete the pattern record",
+      "show_map": "Show her your map of the harbor",
       "ask_how_long": "How long have you worked here?",
       "ask_what_you_found": "You found something, didn't you.",
       "let_him_speak": "Say nothing. Let him speak.",
