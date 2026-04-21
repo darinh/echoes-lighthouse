@@ -11,8 +11,6 @@ import { SILAS_NPC }  from '@/data/npcs/silas.js'
 import { PETRA_NPC }  from '@/data/npcs/petra.js'
 import { TOBIAS_NPC } from '@/data/npcs/tobias.js'
 import { ELARA_NPC }  from '@/data/npcs/elara.js'
-import { RUDD_NPC }   from '@/data/npcs/rudd.js'
-import { INA_NPC }    from '@/data/npcs/ina.js'
 import { DOV_NPC }    from '@/data/npcs/dov.js'
 import { THALIA_NPC } from '@/data/npcs/thalia.js'
 
@@ -25,8 +23,6 @@ const NPC_REGISTRY: Record<string, NPCFullData> = {
   elara:  ELARA_NPC  as unknown as NPCFullData,
   dov:    DOV_NPC    as unknown as NPCFullData,
   thalia: THALIA_NPC as unknown as NPCFullData,
-  rudd:   RUDD_NPC   as unknown as NPCFullData,
-  ina:    INA_NPC    as unknown as NPCFullData,
 }
 
 function hasDialogueKey(key: string): boolean {
