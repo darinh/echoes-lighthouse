@@ -382,6 +382,161 @@
         "awareness": "I've kept records of which plants flower at impossible times. Twice now I've found entries in my own handwriting describing seasons I don't remember living through. My grandmother had the same phenomenon in her journals. We both called it 'discontinuity.' I think we were being polite.",
         "survives": "The roots survive. The deep-growing ones — the ones that anchor into old stone. Whatever resets here, the deep roots remember. I've been taking cuttings of my records and pressing them into the soil near the ruins. If something in me doesn't make it through the next turn, maybe something of what I knew will."
       }
+    },
+    "rudd": {
+      "name": "Rudd",
+      "title": "The Smuggler",
+      "greeting": {
+        "tier0": "You're the new Keeper. I heard. This path isn't for sightseeing.",
+        "tier1": "I have an errand. You look like someone who asks fewer questions than most.",
+        "tier2": "You did what you were asked. Or you didn't. Either way, here we are.",
+        "tier3": "I've run this route since before the last Keeper disappeared. There are things on this island that don't move in daylight. I've learned to move with them."
+      },
+      "path": {
+        "business": "I know these woods. The harbor, too. I move things that need moving, quietly. That's all you need to know."
+      },
+      "forest": {
+        "shortcut": "There's a path through the elder firs — shaves twenty minutes off the cliff walk. I use it. Most people don't know it exists, and I prefer that arrangement."
+      },
+      "harbor": {
+        "road": "The harbor road's watched. Three points of observation, all connected. I learned that the hard way. The forest is slower but reliable."
+      },
+      "package": {
+        "accepted": "Old Mill to Cliff Top. Don't open it. Don't stop to talk to anyone. Leave it under the second cairn from the path's end. I'll know if it arrived.",
+        "refused": "Your choice. I'll find another arrangement. But the forest shortcut stays closed to you until I decide otherwise.",
+        "deflect": "Goods. The kind the harbor manifest doesn't mention. I'm not asking you to understand the arrangement — only to honour it."
+      },
+      "cliff": {
+        "route": "Stay left of the split oak. The right fork ends at a drop that's claimed two men. Left brings you out above the cairns — you'll see the second one from there."
+      },
+      "delivery": {
+        "complete": "You're more reliable than you look. I appreciate that. Ask me what was in it, if you need to. But understand the answer changes what you owe me."
+      },
+      "contents": {
+        "reveal": "Lighthouse components. Gear-stock, copper fitting, a length of sealed cable. Old pattern — the kind that stopped being made forty years ago. Someone's been quietly restoring the mechanism. I don't know who hired them. I only move the parts."
+      },
+      "shortcut": {
+        "marked": "The elder fir path is yours now. There's a knot marker at the first fork — three loops, tight, left-handed. That's mine. If you see another like it elsewhere on the island, it means I've been there before you."
+      },
+      "opened": {
+        "aftermath": "You're part of this now whether you want to be. Those components don't belong to the supply chain anyone has documented. Which means either someone's working outside the official record, or the official record is incomplete. I suspect both.",
+        "stalemate": "Keep the components. They'll mean something to you eventually, if you live long enough. We're done here."
+      },
+      "non": {
+        "ally": {
+          "cold": "I said my piece. You made your decision. The forest path stays closed. Don't ask again."
+        }
+      },
+      "lighthouse": {
+        "supply": "The components I move have been coming in small consignments for four loops now. Always through the same network. Always sealed. Whoever's assembling them knows what they're building. I don't ask. That's the arrangement."
+      },
+      "supply": {
+        "chain": {
+          "silent": "I don't name clients. That's not how this works. You know what the components are now. Follow them yourself if you want the rest of it."
+        }
+      },
+      "motive": {
+        "reveal": "You want to know why I do it. Survival, mostly. This island doesn't reward the cautious — it devours them. I found a system that works and I operate within it. The lighthouse is part of something larger than any of us understand. I move the pieces. I don't ask what the picture is."
+      },
+      "knot": {
+        "marker": "The three-loop knot is a signal. It means: I was here, I saw what was here, I left it undisturbed. If you find one near the inn — near the record-room door — then you know what I saw there."
+      },
+      "ina": {
+        "confronted": "So you found it. I wondered how long that would take. Yes. I know what she did with the inn's ledger. I know which season she falsified the entries. I haven't decided yet whether the information has more value spent or held. What's it worth to you?"
+      },
+      "blackmail": {
+        "dropped": "Fine. The leverage is gone. Consider the debt cleared. But if you think this makes us allies, you're wrong. It makes us even. That's a different thing."
+      },
+      "mediation": {
+        "offer": "A conversation. The three of us. She says what she did. I say what I know. We agree on a quiet arrangement that doesn't require me to hold anything over anyone. I can work with that, if she can.",
+        "agreed": "Then we're agreed. Tell her to come to the inn at dusk. I'll be there. Whatever she says, I'll listen. That's all I can promise."
+      },
+      "loop": {
+        "wisdom": "Every loop I've watched this island, I've learned one thing: the people who try to control what happens here end up inside what happens here. I move through it. I try not to become part of it. So far that's worked. So far."
+      }
+    },
+    "ina": {
+      "name": "Ina",
+      "title": "The Innkeeper",
+      "greeting": {
+        "tier0": "Welcome, Keeper. The inn's full most nights, but I always find room for someone who needs it.",
+        "tier1": "You've been about the village. I see most of what passes through here — the square is better than any window.",
+        "tier2": "I need to tell you something. I've needed to tell someone for a very long time.",
+        "tier3": "I sleep better since we spoke. I hadn't realised how much it weighed until some of it was gone."
+      },
+      "village": {
+        "news": "There's been a strange mood this week. People gather and then scatter without finishing their sentences. The light does something to conversation, I think — it makes people start things they don't know how to end."
+      },
+      "rumour": {
+        "petra": "The Elder knows something about those lighthouse records — the ones the archive doesn't hold. I've heard her mention a name in her sleep. Not any name on the official rolls. Whatever she carries, she's been carrying it a long time."
+      },
+      "elder": {
+        "records": "Petra keeps a ledger of her own — separate from the apothecary's stock list. I saw it once when I brought her tea and she forgot to close it. Dates and initials. The dates go back further than she should have been alive to record.",
+        "secret": "She mentioned a date — a specific date — for when the lighthouse mechanism was last fully activated. Not the ceremonial lightings. The real activation. That date isn't in any record I've ever found. But Petra knew it. Which means either she was there, or someone who was there told her. And if they told her, there's a reason she never told anyone else."
+      },
+      "inn": {
+        "rooms": "The inn's stood since before my grandmother's time. Three rooms, two fireplaces, and a cellar that floods in spring. Not grand, but it keeps the rain out and the company in.",
+        "history": "My grandmother built this place the season the lighthouse was first lit. She said the builders needed somewhere to sleep — there were more of them than anyone expected, and they stayed longer than the commission said they would."
+      },
+      "lighthouse": {
+        "deflect": "The lighthouse is the lighthouse. It lights. It goes dark. People talk about it more than I'd like.",
+        "rumour": "They say the last three Keepers all asked the same question their first week here. I don't know what the question was. I know that none of them asked it twice."
+      },
+      "trouble": {
+        "surface": "Nothing I can speak of. Not yet. Some burdens don't lift just by being named.",
+        "deflect": "Please. I'm not ready. Don't press me — I'll lose my nerve entirely and then where will either of us be?"
+      },
+      "help": {
+        "offered": "That's kind. I haven't had someone offer that in a while. I'll remember it."
+      },
+      "strangers": {
+        "seen": "There's a man who comes through at dusk — forest-road side. He doesn't stay, doesn't eat. Just checks something by the door and leaves. I've learned not to ask."
+      },
+      "rudd": {
+        "mention": "His name is Rudd. He's not from the village — or he is, in the way that things wash in and don't quite wash out. He moves goods. Everyone knows and no one says."
+      },
+      "old": {
+        "guests": "A commissioner stayed here for two weeks the season before the last Keeper arrived. Asked questions about the lighthouse construction. Left without paying the final week's bill. I think that was deliberate. I think he didn't want me to remember him fondly."
+      },
+      "blackmail": {
+        "confession": "Someone knows what I did. What I changed in the records. They haven't gone to the council — not yet — but they've let me know they could. The threat is enough. It's been enough for two years."
+      },
+      "blackmailer": {
+        "hinted": "It's Rudd. I know it's Rudd. He found the altered ledger in the record room — I saw his knot-mark on the door. He's never accused me directly. He doesn't need to. Knowing is enough, for him."
+      },
+      "expose": {
+        "rudd": {
+          "ready": "You found it. You found the proof. I — I don't know whether to weep with relief or dread. Thank you. Truly. Now we see whether proof is enough to make a man like Rudd stand down."
+        }
+      },
+      "buyout": {
+        "complete": "You'd do that? Pay the silence yourself? I accept — though I tell you honestly, it sits wrong with me. The debt was mine to carry.",
+        "warning": "You're right. It may not hold. Men like Rudd find leverage the way water finds cracks. But I have time, now, to think. To prepare. That's more than I had before."
+      },
+      "mediation": {
+        "begin": "You've spoken to him. And he agreed to meet? I didn't think he'd agree to meet. Perhaps — perhaps there is a version of this that doesn't end in ruin for everyone."
+      },
+      "records": {
+        "falsified": "I altered the supply entries for the autumn season three years ago. The discrepancy — the missing goods — it wasn't theft. It was redirected. I was asked to redirect it, and I was young enough and frightened enough to comply. The person who asked me is no longer on the island. I have no proof they ever were."
+      },
+      "investigate": {
+        "guidance": "Look for a three-loop knot. Left-handed, tight. Rudd leaves that mark when he's been somewhere and wants it known. Find it, and you have evidence he's been in the record room. That's the thread worth pulling."
+      },
+      "relief": {
+        "felt": "I didn't expect it to feel like this — lighter. Not because the problem is solved, exactly. But because someone else knows. The knowing was the worst of it. Carrying it alone."
+      },
+      "future": {
+        "open": "I think I'll sleep well tonight. For the first time in a long while, when I close my eyes, I won't be rehearsing what I'd say if the council came. I'll just — sleep."
+      },
+      "falsification": {
+        "reason": "Fear. That's the honest answer. I was afraid of what the person would do if I refused. I was afraid of being connected to whatever they were doing. So I made myself complicit instead. A coward's arithmetic."
+      },
+      "council": {
+        "shadow": "The person who asked me — they used a council seal. But when I described them to a visiting clerk later, he looked at the council rolls and found no such member. The seal was real. The person it belonged to had either been removed from the record or never truly existed on it."
+      },
+      "petra": {
+        "deeper": "Petra carries more than the apothecary's burden. She has knowledge that predates her practice here. The lighthouse records — the real ones, not the ones in the archive — she's seen them. I know because she once let slip a detail that isn't in any document the public can reach."
+      }
     }
   },
   "dialogue": {
@@ -461,7 +616,47 @@
       "ask_knowledge": "How did you learn all of this?",
       "fetch_herb": "I'll find the shadow root for you.",
       "negotiate_upfront": "Give me the schematic first, then I'll fetch it.",
-      "suggest_substitute": "There may be a substitute herb."
+      "suggest_substitute": "There may be a substitute herb.",
+      "ask_what_doing": "What are you doing out here?",
+      "ask_forest": "Ask about the forest path",
+      "ask_harbor_road": "Why avoid the harbor road?",
+      "ask_lighthouse_supply": "Ask about the lighthouse components",
+      "ask_why_smuggle": "Ask why he does this",
+      "ask_knot_marker": "Ask about the knot marker",
+      "ask_ina_blackmail": "Confront him about the innkeeper",
+      "ask_reconsider": "Ask to reconsider the arrangement",
+      "rudd_accept_package": "I'll carry it",
+      "rudd_refuse_package": "I want no part of this",
+      "rudd_delivered_package": "I delivered it as promised",
+      "rudd_opened_package": "I opened it. I needed to know.",
+      "admit_curiosity": "I was curious. I make no apology for it.",
+      "deny_intent": "I didn't mean to betray your trust",
+      "ask_cliff_route": "Tell me the safe route",
+      "demand_stop": "This ends now",
+      "press_mediate": "There is another way through this",
+      "accept_mediation": "Agreed. I will arrange the meeting.",
+      "ask_village_news": "What is the mood in the village?",
+      "ask_inn_rooms": "Do you have rooms available?",
+      "ask_about_petra": "Ask what you know about Petra",
+      "ask_what_heard": "What have people been saying?",
+      "ask_whats_wrong": "Something is troubling you",
+      "ask_strangers": "Have you seen any unusual visitors?",
+      "ask_inn_history": "Tell me about the inn's history",
+      "ask_old_guests": "Who stayed here in the old days?",
+      "ask_real_problem": "Tell me what is really going on",
+      "ask_who_blackmails": "Who would do this?",
+      "ina_expose_rudd": "I have evidence against Rudd",
+      "ina_buyout_blackmail": "I will settle the debt myself",
+      "ina_mediate_resolution": "I have spoken to Rudd — he will meet",
+      "investigate_first": "I will look into this before deciding",
+      "warn_may_return": "The threat may return",
+      "ask_records_truth": "Tell me what truly happened with the records",
+      "ask_how_feel_now": "How are you feeling now?",
+      "ask_falsification_why": "Why did you falsify them?",
+      "ask_what_elder_knows": "What does Petra know?",
+      "ask_about_rudd": "Ask about the man at the door",
+      "accept_reward": "I will take what you are offering",
+      "ask_who_ordered": "Ask who gave the order"
     }
   }
 }

@@ -29,7 +29,7 @@ function makeNPCState(id: NPCId, overrides: Partial<INPCState> = {}): INPCState 
 }
 
 function makeState(overrides: Partial<IGameState> = {}): IGameState {
-  const npcIds: NPCId[] = ['maren','vael','silas','petra','tobias','elara','corvin','aldric','isolde','brynn','fenn','keeper_petra','keeper_tobias','the_warden','mirror_keeper']
+  const npcIds: NPCId[] = ['maren','vael','silas','petra','tobias','elara','corvin','aldric','isolde','brynn','fenn','keeper_petra','keeper_tobias','the_warden','mirror_keeper','dov','thalia','rudd','ina']
   const resonance = Object.fromEntries(npcIds.map(id => [id, 0])) as Record<NPCId, number>
   const trust = Object.fromEntries(npcIds.map(id => [id, 0])) as Record<NPCId, number>
   const npcStates = Object.fromEntries(npcIds.map(id => [id, makeNPCState(id)])) as Record<NPCId, INPCState>

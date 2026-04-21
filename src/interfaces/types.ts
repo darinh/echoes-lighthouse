@@ -34,7 +34,7 @@ export type ArchiveDomain =
   | 'cartography'
   | 'linguistics'
 
-/** All NPC identifiers. The 17 named characters of the island. */
+/** All NPC identifiers. The 19 named characters of the island. */
 export type NPCId =
   | 'maren'           // The Archivist
   | 'vael'            // The Echo (prior Keeper, trapped)
@@ -53,6 +53,8 @@ export type NPCId =
   | 'mirror_keeper'   // The player's own echo (late-game)
   | 'dov'             // The Mechanic
   | 'thalia'          // The Herbalist
+  | 'rudd'            // The Smuggler
+  | 'ina'             // The Innkeeper (village square)
 
 /** All explorable location identifiers. */
 export type LocationId =
