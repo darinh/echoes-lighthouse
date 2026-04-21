@@ -59,7 +59,7 @@ export type NPCId =
   | 'bram'            // The Blacksmith — Village Square forge
   | 'ysel'            // The Pattern Keeper — Harbor pier
 | 'cal'             // The Former Keeper's Silence
-  | 'oren'            // The Priest — Ruins (The Priest's Penance)
+| 'oren'            // The Priest — Ruins (The Priest's Penance)
 
 /** All explorable location identifiers. */
 export type LocationId =
