@@ -646,6 +646,80 @@
         "sealed": "I don't know what you'll do with it. I find I'm past caring about that — the knowledge should travel. I've kept it on this pier long enough. Whatever Vael is preparing for — whatever the inversion means — you'll understand it better than I do now. You've seen the lighthouse from the inside.",
         "meaning": "My best reading? The pattern is Vael counting. Not in time — in cycles. Each exception day marks a moment when the binding weakens fractionally. The new pattern marks when the weakening becomes cumulative. Something is happening to the mechanism that isn't supposed to happen. I've watched it from the sea for twenty-two years. You're the first Keeper who's actually asked about it. That tells me something about the other Keepers. I'm not sure what."
       }
+    },
+    "cal": {
+      "name": "Cal",
+      "title": "The Former Keeper's Silence",
+      "greeting": {
+        "tier0": "A figure stands at the cliff edge, facing the water. She does not turn when you approach. The wind takes whatever she might be saying before it reaches you.",
+        "tier1": "You found it, then. The — yes. I have been waiting. Three loops, maybe more. ... You know what I am, or you would not be here.",
+        "tier2": "There are things I have not said yet. You need the context before the conclusion. Before I give you — there is an order to this.",
+        "tier3": "I have rehearsed this conversation for years. What I would say. How much I would give. ... Here we are. Ask me what you need to ask.",
+        "tier4": "You are still here. I hoped you would come back. There are things I should have said before you left."
+      },
+      "identity": "The keeper before the keeper before you. That is the — the simplest way to put it. I ran it, and then I did not. I was replaced. I left. Those two things happened in the same week. They were not the same choice.",
+      "driven_away": "You do not have enough. You are guessing at something you have not earned yet. Come back when you know what you are accusing me of. ... She is at the cliff edge, and then she is not.",
+      "handover": {
+        "what_left": "A sealed record. Third course of the foundation stones, north wall — I put it there the night before I left. I thought: someone will find this in a week. Someone will need it. ... That was three keepers ago.",
+        "what_told": "The council said the mechanism maintained the light. Structural support. Automated. They gave me a manual — forty pages of technical language, and three pages at the back I was not supposed to read. I read them. That was where it started.",
+        "what_found": "What they told me it did and what I watched it do were — ... The light called something. Something from the water. When the beam swept the bay at the right angle, there was movement. Not chance. A pattern. I have no name for what came up. I am not sure I ever did.",
+        "left_behind": "The original schematics. Before the modifications. I photographed every page. The photographs are in the sealed record. If you have the record, you have what I knew."
+      },
+      "path": {
+        "accept_truth": "Then I will tell you everything. Not — not the version I have been telling myself. The actual sequence. From the beginning. ... It takes a long time. She speaks with the precision of someone who has been cutting every sentence down to its minimum for twenty years.",
+        "reject_truth": "... That is — yes. All right. You have decided the cost is too high. I understand that. I made the same calculation, once. I chose differently. I wonder, sometimes, which of us was right.",
+        "hidden_room": "You have spoken with Dov. ... I can hear it — the way you are framing this. Yes. There is a room. Not on the surface — in the rock, below the path, behind the second overhang. I sealed it when I left. I will tell you how to open it.",
+        "schematic_revealed": "The last schematics. The complete ones. He built something in that room that was not on any official record — the keeper before me. A failsafe. Or — I called it a failsafe, then. I think now it may have been a trap. The distinction matters if you are planning to use it."
+      },
+      "aftermath": {
+        "keeper_history": "He knew what it cost. From the first loop — he could see further than the rest of us, forward and back. He chose to keep the light anyway. That is not — I have been trying to find the right word for it for twenty years. It might be that there is not one.",
+        "dismantling": "There is a sequence. Three components — you take the stabilisers first, both of them, before you touch the drive mechanism. If you take the drive first, it does not just stop. It completes. One final cycle. The stabilisers first. That part is not optional."
+      }
+    },
+    "oren": {
+      "name": "Oren",
+      "title": "The Priest's Penance",
+      "greeting": {
+        "tier0": "This place does not receive visitors. Nor do I.",
+        "tier1": "You have returned more than once. That suggests either persistence or a purpose you have not yet named. I am uncertain which I prefer.",
+        "tier2": "You ask better questions than most who have come here. I performed a ritual in these ruins. I will say that much. What it accomplished — or failed to accomplish — is a longer answer.",
+        "tier3": "I believe you have come weighted. Not with guilt, perhaps. With purpose. I have been waiting for someone who carries the weight correctly. I will tell you what I know.",
+        "tier4": "The account is given. What remains is the work. If you require the words again, I will speak them."
+      },
+      "why": {
+        "here": "I am here because I have not yet completed what I came to do. The work was begun. It was not finished. I stay until it is finished, or until I understand that it cannot be."
+      },
+      "ruins": {
+        "history": "These were a chapel. Before that, a gathering place for older observances. Before that, something I have found no record of. Each age builds over what the previous age could not understand and called dangerous instead.",
+        "older": "The older practice involved binding. Not sealing — those are different things. What is sealed may be opened. What is bound persists until someone with the knowledge and the will undoes it. The binding requires consent, in theory. In practice, this was not always observed."
+      },
+      "identity": "I was a priest. Thirty years ago, perhaps forty. I came to this island to perform a service. I have not left because the service was not completed as it was intended. I remain. I catalogue. I wait.",
+      "service": {
+        "evasion": "A ritual. Sanctioned, I told myself, by the authority that sent me. I have had many years in which to consider whether that sanction was genuine. The conclusion I have reached is not comfortable."
+      },
+      "ritual": {
+        "admission": "It was a binding. A practitioner’s binding — not metaphor, not symbol. The words, spoken correctly, constrain a soul. Prevent its passage. Hold it between what it was and what it should become. I believed, when I performed it, that I had been given consent. I am less certain now.",
+        "who_bound": "That is the question that requires an answer I am not yet prepared to speak aloud. It has one. I have known it for thirty years. When I can say it without flinching — without making it a confession rather than a fact — I will say it.",
+        "persisted": "Something that should have dissolved. Every binding, properly performed, releases at death — the spirit passes and the words lose their hold. This one did not release. The soul remained. Whether that is because I erred, or because the soul was unwilling, or because the words were wrong — I have been examining that question since the morning after.",
+        "wrong": "Yes. Something persisted that should not have persisted. That is the short answer. The longer answer involves thirty years of notes and a great deal of uncertainty about what it means for a ritual to have gone wrong when the effect continues.",
+        "teaching": "The words are few. Speak directly to what is bound — not about it, not around it. Address it as you would address a person wrongfully confined. Acknowledge its presence. Then: As you were before the word was spoken. So you are released. Say it as though you mean it. The ritual has no use for ceremony if the intent is absent."
+      },
+      "confession": {
+        "full": "What I bound was not willing. I told myself it was. I had documentation — consent forms, signatures, a record sealed with the church's mark. I have examined those documents many times since. I do not believe the consent was genuine. A soul is not freed by the ritual's expiration. It is held, and it waits. What I performed here holds something that wished to move on. I am the reason it cannot."
+      },
+      "path_a": {
+        "argument": "The inscription. You have read the inscription. Then you know what I had only suspected. The original binding — not mine, the one that predates me by a century — was also performed without genuine consent. I perpetuated a practice I had been told was consecrated. I see now it was merely old, and age had been mistaken for sanctity. You have given me something. I will give you what I have."
+      },
+      "path_b": {
+        "condemn": "You may say so. I have not required absolution of strangers — I did not think I had earned the right to ask for it. I require it of myself, and I have not provided it. What you say may be true. I will sit with it. I ask only that you not return until I have considered whether your accounting is more precise than mine."
+      },
+      "path_c": {
+        "confess": "Then hear the full account. There was a second ritual. Years after the first — unsanctioned, performed alone. A spirit was in distress. I believed I could ease it with a partial re-binding, one that would hold it more gently. I did not know how to complete the second ritual properly. It is still incomplete. That incompleteness is a wound in the original binding. The spirit you may have sensed is not at peace — it is caught between two sets of instructions, neither of which was correctly given. That is my error. The first and the second. I am the author of both."
+      },
+      "absolved": {
+        "ritual": "The freeing words are these. Speak them to what is bound. As you were before the word was spoken. So you are released. Say it as if you mean it. If you do not mean it — if you speak the words as formula rather than as acknowledgment — the binding will not hear them. This is not metaphor. The binding recognizes intent.",
+        "vael_lore": "Vael is not entirely bound in the way the others are. There is an interval — a specific frequency in the lighthouse beam — that Vael can receive as an act of will. If you activate the mechanism at the precise moment the bound soul’s distress is highest, the binding weakens briefly. That is the window. It lasts as long as the moment of genuine question. You will know the moment. It is the one that feels like there is no answer."
+      }
     }
   },
   "dialogue": {
@@ -777,7 +851,26 @@
       "ask_what_elder_knows": "What does Petra know?",
       "ask_about_rudd": "Ask about the man at the door",
       "accept_reward": "I will take what you are offering",
-      "ask_who_ordered": "Ask who gave the order"
+      "ask_who_ordered": "Ask who gave the order",
+      "ask_identity": "Ask who you are",
+      "confront_accusations": "Confront her with accusations",
+      "ask_what_left": "Ask what you left behind",
+      "ask_what_told": "Ask what you were told",
+      "ask_what_found": "Ask what you actually found",
+      "accept_truth": "I want to hear everything",
+      "reject_truth": "The truth is not worth the cost",
+      "ask_hidden_room": "Ask about the hidden room",
+      "ask_what_is_inside": "Ask what is inside",
+      "ask_dismantling": "Ask how to dismantle it safely",
+      "ask_why_here": "Ask why he is here",
+      "ask_ruins": "Ask about the ruins",
+      "ask_older_practice": "Ask about the older practice",
+      "ask_who_was_bound": "Ask who was bound",
+      "ask_what_persisted": "Ask what persisted after the ritual",
+      "present_inscription": "Present the inscription from the ruins",
+      "offer_absolution": "I don't condemn you for what you did",
+      "condemn_him": "You are responsible for the suffering here",
+      "ask_ritual_words": "Ask for the words of the ritual"
     }
   }
 }
