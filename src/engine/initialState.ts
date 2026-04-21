@@ -5,6 +5,7 @@ const NPC_IDS: NPCId[] = [
   'aldric','isolde','brynn','fenn','keeper_petra','keeper_tobias',
 'the_warden','mirror_keeper','dov','thalia','rudd','ina','bram','ysel',
 'the_warden','mirror_keeper','oren',
+'the_warden','mirror_keeper','cal',
 ]
 
 const DEFAULT_RESONANCE = Object.fromEntries(
@@ -34,6 +35,7 @@ dov:    'lighthouse_base',
   bram:   'village_square',
   ysel:   'harbor',
 oren:   'ruins',
+cal:    'cliffside',
 }
 
 const DEFAULT_NPC_STATES: Record<NPCId, INPCState> = Object.fromEntries(

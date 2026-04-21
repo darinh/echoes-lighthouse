@@ -14,6 +14,7 @@ import { INA_NPC } from './ina.js'
 import { BRAM_NPC } from './bram.js'
 import { YSEL_NPC } from './ysel.js'
 import { OREN_NPC } from './oren.js'
+import { CAL_NPC } from './cal.js'
 
 export async function loadNPCData(): Promise<Record<string, NPCData>> {
   return {
@@ -30,5 +31,6 @@ dov:    DOV_NPC    as unknown as NPCData,
     bram:   BRAM_NPC   as unknown as NPCData,
     ysel:   YSEL_NPC   as unknown as NPCData,
 oren:   OREN_NPC   as unknown as NPCData,
+cal:    CAL_NPC    as unknown as NPCData,
   }
 }
