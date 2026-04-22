@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { SaveSystem } from '@/systems/SaveSystem.js'
 import { EventBus } from '@/engine/EventBus.js'
 import { createInitialState } from '@/engine/initialState.js'
-import type { IGameState } from '@/interfaces/index.js'
+import type { IGameState, EndingId } from '@/interfaces/index.js'
 
 // Mock localStorage.
 const localStorageMock = (() => {
@@ -157,11 +157,11 @@ describe('[Phase 3] SaveSystem', () => {
     it('round-trips populated endingsSeen across save/load', () => {
       const modified: IGameState = {
         ...state,
-        endingsSeen: new Set(['liberation', 'transcendence']),
+        endingsSeen: new Set(['keepers_bargain', 'transcendence']) as ReadonlySet<EndingId>,
       }
       SaveSystem.saveState(modified)
       const loaded = SaveSystem.loadState()
-      expect(loaded!.endingsSeen.has('liberation')).toBe(true)
+      expect(loaded!.endingsSeen.has('keepers_bargain')).toBe(true)
       expect(loaded!.endingsSeen.has('transcendence')).toBe(true)
       expect(loaded!.endingsSeen.size).toBe(2)
     })
@@ -174,12 +174,12 @@ describe('[Phase 3] SaveSystem', () => {
     it('loadEndingsSeen returns persisted endings without full deserialise', () => {
       const modified: IGameState = {
         ...state,
-        endingsSeen: new Set(['sacrifice', 'corruption']),
+        endingsSeen: new Set(['drowned_truth', 'light_restored']) as ReadonlySet<EndingId>,
       }
       SaveSystem.saveState(modified)
       const seen = SaveSystem.loadEndingsSeen()
-      expect(seen.has('sacrifice')).toBe(true)
-      expect(seen.has('corruption')).toBe(true)
+      expect(seen.has('drowned_truth')).toBe(true)
+      expect(seen.has('light_restored')).toBe(true)
       expect(seen.size).toBe(2)
     })
 

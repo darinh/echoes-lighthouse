@@ -595,16 +595,31 @@ export class GameEngine {
     }
   }
 
-  /** Resolve the winning ending based on sealedInsights priority order. */
+  /** Resolve the winning ending based on GDD priority order. */
   private resolveEnding(state: IGameState): string {
-    const sealed = state.player.sealedInsights
+    const { player, worldFlags } = state
+    const sealed = player.sealedInsights
+
+    // SECRET — Transcendence: all 7 insight cards sealed
     const allSeven = ['light_source_truth', 'vael_origin', 'keeper_betrayal', 'spirit_binding', 'mechanism_purpose', 'island_history', 'final_signal']
-    const hasAll = allSeven.every(id => sealed.has(id))
-    if (hasAll) return 'transcendence'
-    if (sealed.has('vael_origin') && sealed.has('mechanism_purpose')) return 'liberation'
-    if (sealed.has('keeper_betrayal') && sealed.has('spirit_binding')) return 'sacrifice'
-    if (sealed.has('island_history')) return 'corruption'
-    return 'sacrifice'
+    if (allSeven.every(id => sealed.has(id))) return 'transcendence'
+
+    // The Light Restored: ≥5 sealed + lighthouse_repaired flag + moralWeight ≤ 30
+    if (sealed.size >= 5 && worldFlags.has('lighthouse_repaired') && player.moralWeight <= 30) return 'light_restored'
+
+    // The Sunken Accord: vael_request_granted + maren trust ≥ 5 + balanced moralWeight
+    const marenTrust = player.trust['maren' as keyof typeof player.trust] ?? 0
+    if (worldFlags.has('vael_request_granted') && marenTrust >= 5 && player.moralWeight >= -20 && player.moralWeight <= 20) return 'sunken_accord'
+
+    // The Keeper's Bargain: ≥7 loops, no insights sealed, moralWeight ≤ 20
+    if (player.loopCount >= 7 && sealed.size === 0 && player.moralWeight <= 20) return 'keepers_bargain'
+
+    // The Drowned Truth: ≥3 sealed + total NPC trust ≤ 10
+    const totalTrust = Object.values(player.trust).reduce((a, b) => a + b, 0)
+    if (sealed.size >= 3 && totalTrust <= 10) return 'drowned_truth'
+
+    // The Endless Loop: default / gave-up ending
+    return 'endless_loop'
   }
 
   private setFlag(flag: string): void {
