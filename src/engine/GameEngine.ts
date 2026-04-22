@@ -606,8 +606,17 @@ export class GameEngine {
         if (this.state.activeMinigame !== 'lighthouse_repair') break
         const elapsed = Date.now() - (this.state.minigameTimerStart ?? 0)
         if (elapsed > 30000) {
-          // Timer expired — fail
-          this._failLighthouseRepair()
+          // Timer expired — fail: reset minigame, cost 1 stamina
+          this.state = {
+            ...this.state,
+            phase: this.state.priorPhase ?? 'morning',
+            priorPhase: null,
+            activeMinigame: null,
+            lighthouseRepairStep: 0,
+            minigameTimerStart: 0,
+            player: { ...this.state.player, stamina: Math.max(0, this.state.player.stamina - 1) },
+          }
+          this.eventBus.emit('lighthouse.repair.failed', {})
           break
         }
         const step = this.state.lighthouseRepairStep ?? 0
