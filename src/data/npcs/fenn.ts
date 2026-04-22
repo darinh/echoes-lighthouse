@@ -2,6 +2,7 @@ import type { NPCFullData } from './dialogueTypes.js'
 
 export const FENN_NPC: NPCFullData = {
   id: 'fenn',
+  secret: 'He was the last keeper to sustain the mechanism by choice — feeding it his own persistence to keep the light burning, unable to stop now that the cycle depends on him.',
   nameKey: 'npc.fenn.name',
   titleKey: 'npc.fenn.title',
   defaultLocation: 'mechanism_room',
@@ -33,6 +34,7 @@ export const FENN_NPC: NPCFullData = {
       choices: [
         { id: 'ask_who_built',   textKey: 'dialogue.choice.ask_who_built_this', nextNodeId: 'fenn.mechanism.builder',  insightGain: 6, trustGain: 3 },
         { id: 'ask_what_sound',  textKey: 'dialogue.choice.ask_about_sound',    nextNodeId: 'fenn.mechanism.sound',    insightGain: 4 },
+        { id: 'ask_tides',       textKey: 'dialogue.choice.ask_the_tides',      nextNodeId: 'fenn.tides.current',      insightGain: 5, trustGain: 2 },
         { id: 'leave',           textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -58,6 +60,7 @@ export const FENN_NPC: NPCFullData = {
       choices: [
         { id: 'ask_the_light',   textKey: 'dialogue.choice.ask_the_light_purpose', nextNodeId: 'fenn.light.purpose',   insightGain: 10, trustGain: 5 },
         { id: 'ask_his_end',     textKey: 'dialogue.choice.ask_what_happened',     nextNodeId: 'fenn.elias.death',     insightGain: 8,  trustGain: 3 },
+        { id: 'ask_family',      textKey: 'dialogue.choice.ask_about_family',      nextNodeId: 'fenn.family.before',   insightGain: 8,  trustGain: 4 },
         { id: 'leave',           textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -91,6 +94,7 @@ export const FENN_NPC: NPCFullData = {
       choices: [
         { id: 'ask_cycle',      textKey: 'dialogue.choice.ask_about_cycle',    nextNodeId: 'fenn.cycle.explanation', insightGain: 15, trustGain: 8, worldFlagRequired: 'fenn_death_known' },
         { id: 'ask_stop_it',    textKey: 'dialogue.choice.ask_how_to_stop',    nextNodeId: 'fenn.cycle.impossible',  insightGain: 12, trustGain: 5 },
+        { id: 'ask_night_seen',  textKey: 'dialogue.choice.ask_night_visions',  nextNodeId: 'fenn.night.visions',     insightGain: 14, trustGain: 6 },
         { id: 'leave',          textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -131,6 +135,28 @@ export const FENN_NPC: NPCFullData = {
       speakerKey: 'npc.fenn.stayed.reason',
       choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+    // ── Depth topics: tides, family, night visions ────────────────────────
+
+    'fenn.tides.current': {
+      speakerKey: 'npc.fenn.tides.current',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+
+    'fenn.family.before': {
+      speakerKey: 'npc.fenn.family.before',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'fenn_family_known' },
+      ],
+    },
+
+    'fenn.night.visions': {
+      speakerKey: 'npc.fenn.night.visions',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'fenn_night_visions_known' },
       ],
     },
 

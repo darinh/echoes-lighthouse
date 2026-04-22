@@ -36,5 +36,6 @@ export interface NPCFullData {
   greetingNodes: string[]
   nodes: Record<string, DialogueNode>
   /** Hidden truth about this NPC, used by narrator/journal systems. Never shown directly in dialogue. */
+  /** One-sentence hidden truth used by the narrator/journal system. Not shown in dialogue. */
   secret?: string
 }

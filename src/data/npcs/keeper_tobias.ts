@@ -2,6 +2,7 @@ import type { NPCFullData } from './dialogueTypes.js'
 
 export const KEEPER_TOBIAS_NPC: NPCFullData = {
   id: 'keeper_tobias',
+  secret: 'Tobias lit the lamp on the night the mechanism had signalled darkness, overriding the cycle by thirteen minutes — the compounding error is the root of the current loop instability.',
   nameKey: 'npc.keeper_tobias.name',
   titleKey: 'npc.keeper_tobias.title',
   defaultLocation: 'lighthouse_top',
@@ -33,6 +34,7 @@ export const KEEPER_TOBIAS_NPC: NPCFullData = {
       choices: [
         { id: 'ask_the_light',    textKey: 'dialogue.choice.ask_the_light_purpose', nextNodeId: 'keeper_tobias.light.truth',    insightGain: 7, trustGain: 3 },
         { id: 'ask_what_he_saw',  textKey: 'dialogue.choice.ask_what_you_saw',      nextNodeId: 'keeper_tobias.saw.first',      insightGain: 5, trustGain: 2 },
+        { id: 'ask_came_to_role', textKey: 'dialogue.choice.ask_how_you_came_here', nextNodeId: 'keeper_tobias.came_to_role.origin', insightGain: 5, trustGain: 3 },
         { id: 'leave',            textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -58,6 +60,7 @@ export const KEEPER_TOBIAS_NPC: NPCFullData = {
       choices: [
         { id: 'ask_last_night',   textKey: 'dialogue.choice.ask_what_happened',    nextNodeId: 'keeper_tobias.last_night.what',  insightGain: 12, trustGain: 5 },
         { id: 'ask_the_darkness', textKey: 'dialogue.choice.ask_about_darkness',   nextNodeId: 'keeper_tobias.darkness.seen',    insightGain: 10, trustGain: 4 },
+        { id: 'ask_logs',         textKey: 'dialogue.choice.ask_lighthouse_logs',  nextNodeId: 'keeper_tobias.lighthouse_logs.found', insightGain: 10, trustGain: 4 },
         { id: 'leave',            textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -91,6 +94,7 @@ export const KEEPER_TOBIAS_NPC: NPCFullData = {
       choices: [
         { id: 'ask_his_attempt',   textKey: 'dialogue.choice.ask_what_you_tried',  nextNodeId: 'keeper_tobias.attempt.made',    insightGain: 18, trustGain: 8, worldFlagRequired: 'tobias_last_night_known' },
         { id: 'ask_why_failed',    textKey: 'dialogue.choice.ask_why_it_failed',   nextNodeId: 'keeper_tobias.attempt.failed',  insightGain: 14, trustGain: 5 },
+        { id: 'ask_what_scares',   textKey: 'dialogue.choice.ask_what_scares_you', nextNodeId: 'keeper_tobias.what_scares.truth', insightGain: 14, trustGain: 6 },
         { id: 'leave',             textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -131,6 +135,29 @@ export const KEEPER_TOBIAS_NPC: NPCFullData = {
       speakerKey: 'npc.keeper_tobias.need.nothing',
       choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'keeper_tobias_witnessed' },
+      ],
+    },
+
+    // ── Depth topics: origin, logs, deepest fear ──────────────────────────
+
+    'keeper_tobias.came_to_role.origin': {
+      speakerKey: 'npc.keeper_tobias.came_to_role.origin',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+
+    'keeper_tobias.lighthouse_logs.found': {
+      speakerKey: 'npc.keeper_tobias.lighthouse_logs.found',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'tobias_logs_known' },
+      ],
+    },
+
+    'keeper_tobias.what_scares.truth': {
+      speakerKey: 'npc.keeper_tobias.what_scares.truth',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'tobias_fear_known' },
       ],
     },
 

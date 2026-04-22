@@ -2,6 +2,7 @@ import type { NPCFullData } from './dialogueTypes.js'
 
 export const BRYNN_NPC: NPCFullData = {
   id: 'brynn',
+  secret: "Brynn has been sleepwalking to the lighthouse top since childhood — her grandmother's suppressed notes document fourteen episodes, each coinciding with a keeper's final week.",
   nameKey: 'npc.brynn.name',
   titleKey: 'npc.brynn.title',
   defaultLocation: 'village_square',
@@ -54,6 +55,7 @@ export const BRYNN_NPC: NPCFullData = {
       choices: [
         { id: 'ask_keepers',  textKey: 'dialogue.choice.press_harder',   nextNodeId: 'brynn.keepers.observation', insightGain: 8, trustGain: 3 },
         { id: 'ask_animals',  textKey: 'dialogue.choice.ask_animals',    nextNodeId: 'brynn.animals.first',       insightGain: 8, trustGain: 3 },
+        { id: 'ask_dreams',   textKey: 'dialogue.choice.ask_what_you_dream', nextNodeId: 'brynn.dreams.current',     insightGain: 7, trustGain: 3 },
         { id: 'leave',        textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -78,7 +80,8 @@ export const BRYNN_NPC: NPCFullData = {
       speakerKey: 'npc.brynn.greeting.tier2',
       choices: [
         { id: 'ask_pattern',     textKey: 'dialogue.choice.ask_animal_pattern',  nextNodeId: 'brynn.pattern.observation', insightGain: 12, trustGain: 5, worldFlagSet: 'brynn_animal_pattern_known' },
-        { id: 'ask_lighthouse',  textKey: 'dialogue.choice.ask_lighthouse',       nextNodeId: 'brynn.lighthouse.theory',   insightGain: 8,  trustGain: 3 },
+        { id: 'ask_lighthouse',  textKey: 'dialogue.choice.ask_lighthouse',      nextNodeId: 'brynn.lighthouse.theory',    insightGain: 8,  trustGain: 3 },
+        { id: 'ask_figure',      textKey: 'dialogue.choice.ask_figure_in_light', nextNodeId: 'brynn.figure_in_light.seen',  insightGain: 11, trustGain: 5 },
         { id: 'leave',           textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -110,8 +113,9 @@ export const BRYNN_NPC: NPCFullData = {
     'brynn.greeting.tier3': {
       speakerKey: 'npc.brynn.greeting.tier3',
       choices: [
-        { id: 'ask_notes',  textKey: 'dialogue.choice.ask_notebook',  nextNodeId: 'brynn.grandmother.notes', insightGain: 15, trustGain: 8, worldFlagSet: 'brynn_grandmother_notes_known' },
-        { id: 'leave',      textKey: 'dialogue.choice.leave' },
+        { id: 'ask_notes', textKey: 'dialogue.choice.ask_notebook',        nextNodeId: 'brynn.grandmother.notes',   insightGain: 15, trustGain: 8, worldFlagSet: 'brynn_grandmother_notes_known' },
+        { id: 'ask_home',  textKey: 'dialogue.choice.ask_about_going_home', nextNodeId: 'brynn.going_home.revelation', insightGain: 13, trustGain: 7 },
+        { id: 'leave',     textKey: 'dialogue.choice.leave' },
       ],
     },
 
@@ -136,6 +140,29 @@ export const BRYNN_NPC: NPCFullData = {
       speakerKey: 'npc.brynn.offerings.revelation',
       choices: [
         { id: 'leave',  textKey: 'dialogue.choice.leave' },
+      ],
+    },
+
+    // ── Depth topics: dreams, figure in the light, going home ─────────────
+
+    'brynn.dreams.current': {
+      speakerKey: 'npc.brynn.dreams.current',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+
+    'brynn.figure_in_light.seen': {
+      speakerKey: 'npc.brynn.figure_in_light.seen',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'brynn_figure_known' },
+      ],
+    },
+
+    'brynn.going_home.revelation': {
+      speakerKey: 'npc.brynn.going_home.revelation',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'brynn_cannot_leave_known' },
       ],
     },
 

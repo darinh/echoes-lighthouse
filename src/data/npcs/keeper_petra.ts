@@ -2,6 +2,7 @@ import type { NPCFullData } from './dialogueTypes.js'
 
 export const KEEPER_PETRA_NPC: NPCFullData = {
   id: 'keeper_petra',
+  secret: "Petra found Ina's margin note reading 'I have answered it' beside the deciphered lighthouse signal — and was erased before she could document what answering the signal cost Ina.",
   nameKey: 'npc.keeper_petra.name',
   titleKey: 'npc.keeper_petra.title',
   defaultLocation: 'archive_basement',
@@ -33,6 +34,7 @@ export const KEEPER_PETRA_NPC: NPCFullData = {
       choices: [
         { id: 'ask_research',     textKey: 'dialogue.choice.ask_what_you_found',  nextNodeId: 'keeper_petra.research.what',       insightGain: 8, trustGain: 3 },
         { id: 'ask_who_she_was',  textKey: 'dialogue.choice.ask_who_are_you',     nextNodeId: 'keeper_petra.identity.before',     insightGain: 5, trustGain: 2 },
+        { id: 'ask_last_keeper',  textKey: 'dialogue.choice.ask_prev_keeper',     nextNodeId: 'keeper_petra.last_keeper.tobias',  insightGain: 6, trustGain: 3 },
         { id: 'leave',            textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -58,6 +60,7 @@ export const KEEPER_PETRA_NPC: NPCFullData = {
       choices: [
         { id: 'ask_the_pattern',  textKey: 'dialogue.choice.ask_about_pattern',   nextNodeId: 'keeper_petra.pattern.found',      insightGain: 12, trustGain: 5 },
         { id: 'ask_the_notes',    textKey: 'dialogue.choice.ask_about_the_notes', nextNodeId: 'keeper_petra.notes.location',     insightGain: 10, trustGain: 4 },
+        { id: 'ask_mechanism',    textKey: 'dialogue.choice.ask_mechanism',         nextNodeId: 'keeper_petra.mechanism.details',   insightGain: 10, trustGain: 4 },
         { id: 'leave',            textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -91,6 +94,7 @@ export const KEEPER_PETRA_NPC: NPCFullData = {
       choices: [
         { id: 'ask_final_entry',    textKey: 'dialogue.choice.ask_about_the_end',     nextNodeId: 'keeper_petra.end.what_happened', insightGain: 18, trustGain: 8, worldFlagRequired: 'petra_notes_location_known' },
         { id: 'ask_warning',        textKey: 'dialogue.choice.ask_what_to_avoid',     nextNodeId: 'keeper_petra.warning.given',     insightGain: 12, trustGain: 5 },
+        { id: 'ask_what_protected', textKey: 'dialogue.choice.ask_what_you_protect',  nextNodeId: 'keeper_petra.what_you_protect.truth', insightGain: 16, trustGain: 7, worldFlagRequired: 'keeper_petra_fate_known' },
         { id: 'leave',              textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -131,6 +135,29 @@ export const KEEPER_PETRA_NPC: NPCFullData = {
       speakerKey: 'npc.keeper_petra.witnessed',
       choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'keeper_petra_witnessed' },
+      ],
+    },
+
+    // ── Depth topics: last keeper, mechanism, what she protects ──────────
+
+    'keeper_petra.last_keeper.tobias': {
+      speakerKey: 'npc.keeper_petra.last_keeper.tobias',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+
+    'keeper_petra.mechanism.details': {
+      speakerKey: 'npc.keeper_petra.mechanism.details',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'keeper_petra_mechanism_known' },
+      ],
+    },
+
+    'keeper_petra.what_you_protect.truth': {
+      speakerKey: 'npc.keeper_petra.what_you_protect.truth',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'keeper_petra_ina_truth_known' },
       ],
     },
 

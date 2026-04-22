@@ -786,6 +786,15 @@
       },
       "figure": {
         "description": "The woman. Older. Carried herself like someone used to being listened to. She wore a ring — an old keeper's seal. I've seen one before, in a portrait in the chapel. Whoever she was, she had authority over that lighthouse."
+      },
+      "who_youve_lost": {
+        "admission": "My first patient on this island died of something I had no name for. Not fever, not infection — a fading. Like a candle someone was holding their palm over. I wrote it as cardiac failure. That was the only box that fit. I have used that box three more times since."
+      },
+      "sickness_here": {
+        "pattern": "Three villagers. Same symptom set, different months. Memory gaps — specific ones. Not gradual loss. Surgical. They remember breakfast but cannot account for specific dates. Always the same dates. Dates that correspond to anomalous entries in the lighthouse log."
+      },
+      "body_remembers": {
+        "dark_knowledge": "The three villagers — their hands shake in the same way. At the same hour of day. They do not know each other's patterns. I know because I measure. Whatever happened to them on those dates, the body has not released it. The body is still there, in whatever that moment was."
       }
     },
     "brynn": {
@@ -822,6 +831,15 @@
       },
       "offerings": {
         "revelation": "She wrote more. On the last page, in smaller writing, she wrote: 'The keepers are not tenders. They are feeders. The light controls the hunger. Without it, the hunger controls the light.' She underlined that last part twice."
+      },
+      "dreams": {
+        "current": "Salt and height. Always those two. I am looking down from somewhere very high and the sea is directly below and I know — absolutely know — that I am supposed to jump. Not because I am in danger. Because that is the right thing to do next. I wake up before I find out if I am right."
+      },
+      "figure_in_light": {
+        "seen": "Three times. Always at the second hour. Standing in the beam at the lighthouse window — not moving, just standing in it. Not the keeper. Too tall. Wearing something that caught the light wrong. I stopped looking after the third time because I was afraid the fourth time it would look back."
+      },
+      "going_home": {
+        "revelation": "I was born here. My mother was born here. Her mother before her. None of us ever left. We say we could leave, but we never do. Last year I packed a bag. Got to the harbor. Corvin looked at me like he had seen it before. He said: you will be back by dark. I was. I do not know why."
       }
     },
     "corvin": {
@@ -856,7 +874,16 @@
         "hint": "Came at night. Wore a hood. Paid in old coin — the kind the lighthouse keepers used to carry. That's all I can say without saying what I'm not ready to say."
       },
       "full_truth": "A woman came. Tall. Older than me. She said: 'The keeper knows what's beneath the light. He told someone who shouldn't know. This chest goes to the mainland tonight.' I asked if he was alive. She said: 'He made his choices.' I took the coin and I rowed.",
-      "compassion": "I was afraid. I'm still afraid. But I think I owe you what I know."
+      "compassion": "I was afraid. I'm still afraid. But I think I owe you what I know.",
+      "charts": {
+        "current": "Current charts are sound. I add what I observe — the deeps here shift, not always the same. Some of what I mark I do not show to the harbor authority. Not because it is wrong. Because I am not sure they would know what to do with it."
+      },
+      "route_never_took": {
+        "admission": "Due north, past the stack rocks, there is a current that does not appear on any chart. I have found the approach four times in thirty years. Each time I have gone inside it, the island looks wrong — different shape, different light. I have turned back every time. I am not proud of that."
+      },
+      "what_hiding": {
+        "full": "I have a chart thirty years old showing the lighthouse on the west cliff. Not where it stands now. I drew it myself, standing on the east promontory — I was certain. I showed it to my father. He took it and burned it and said: the lighthouse has always been on the west cliff. He said it like he was begging me to agree."
+      }
     },
     "aldric": {
       "name": "Aldric",
@@ -886,7 +913,16 @@
       },
       "suspicion": "The lighthouse had extra grain going somewhere. Not to the keeper — his regular order never changed. Somewhere else in the lighthouse. Something was being fed.",
       "conclusion": "Something in that lighthouse eats. And the keepers have been feeding it. The records prove it, if you know what you're looking at. I don't know what it is. But I know it's hungry.",
-      "thank": "Just doing what a neighbor does. Thirty years on this island — I figure I owe the truth a little more than I've been paying."
+      "thank": "Just doing what a neighbor does. Thirty years on this island — I figure I owe the truth a little more than I've been paying.",
+      "trade_conditions": {
+        "current": "Fair, mostly. Ships from the mainland come twice a month. The lighthouse household used to buy directly from me — good steady income. Then the orders stopped. No word, no cancellation. Just stopped. Three months before the last keeper was gone."
+      },
+      "controls_supplies": {
+        "hint": "The council sets the supply orders. In theory. In practice, there is a ledger at the harbor office that does not match the council ledger. Someone has been adjusting quantities since before I came here. Not by much — just enough that a careful eye would miss it. I have a careful eye."
+      },
+      "what_you_owe": {
+        "debt": "My millstone. Imported. Expensive. The money came from a lending arrangement — not the bank, someone else. Payments went fine for two years. Then they stopped taking my money. Said the debt was transferred. To what, to whom — they would not say. Three years ago. No one has come to collect. I think about it every day."
+      }
     },
     "fenn": {
       "name": "Elias",
@@ -918,6 +954,15 @@
       },
       "stayed": {
         "reason": "I stayed because the mechanism is wrong and I am the only one who knows how it is supposed to work. I stayed because I could not leave while it was wrong. I have been here for a very long time. I am ready to leave now, if you will fix it."
+      },
+      "tides": {
+        "current": "The tide does not change here. Not the way it should. High water came at six, then four, then three. Now it arrives when the mechanism decides. The sea has been listening to the gears."
+      },
+      "family": {
+        "before": "A wife. Two children — a boy and a girl, both with her dark eyes. I brought them here for a summer, in my third year. The girl asked why the lighthouse hummed. I told her it was a song. I have had a long time to regret that lie."
+      },
+      "night": {
+        "visions": "At the third hour, every third night, something moves through the walls. Not a person. Not an animal. The mechanism slows when it passes — I feel it in the gears. It counts the keepers. I think it has been counting for a very long time."
       }
     },
     "keeper_petra": {
@@ -954,6 +999,15 @@
       },
       "witnessed": {
         "peer": "She is still. Then: no one has ever asked me that before. Everyone asks what I found. No one asks how I am. She looks at her hands. I am tired, she says. I am very tired. I have been thorough for so long. I think I am allowed to be done now."
+      },
+      "last_keeper": {
+        "tobias": "Keeper Tobias. Before me. He left — or they say he left. I found three annotations in his hand in the archive logs, all crossed out, all saying the same thing: the mechanism requires a voluntary witness. I did not understand what that meant until I came to understand what I was."
+      },
+      "mechanism": {
+        "details": "There is a component beneath the lamp assembly not on any blueprint I found. Hexagonal. Old — older than the rest of the device. It hums at a frequency that is not mechanical. I described it in my notes the night before I stopped being able to write new notes."
+      },
+      "what_you_protect": {
+        "truth": "Ina. I protect the record of what Ina discovered — and what she became. She found the frequency the light uses to speak to the thing below. She translated it. Then she stepped into the beam and answered it. The archive has her notes. The lighthouse has her."
       }
     },
     "keeper_tobias": {
@@ -988,6 +1042,15 @@
       },
       "need": {
         "nothing": "He is quiet for a long time. Then: nothing. I did not know that was the answer until you asked the question. I kept thinking I needed to do something — finish the calculation, warn the next keeper, correct my mistake. But the next keeper is here, and the warning is given, and what I needed was for someone to ask if there was anything I needed. He looks out at the glass. I think I am done now."
+      },
+      "came_to_role": {
+        "origin": "I applied for the position. That is the honest answer and it still seems absurd to me. There was an advertisement on the harbor notice board. I was between voyages. The wage was decent. I have spent a great deal of time since then considering what I thought a lighthouse keeper did."
+      },
+      "lighthouse_logs": {
+        "found": "The logs before me have gaps. Not accidents — deliberate. Entries torn out, dates skipped, whole months reduced to: light maintained, no incidents. Someone was very carefully editing the record. By my fourth year I understood why. I began editing mine the same way."
+      },
+      "what_scares": {
+        "truth": "Not the dark. Not the thing below the water. What frightens me is the moment I realized I was glad to be staying. The mechanism makes you want to stay. It starts to feel like home. That is how it works. That is what I needed eleven years to understand."
       }
     },
     "the_warden": {
@@ -1022,6 +1085,17 @@
         "price": "Not a price. An exchange. You complete the calibration — the full calibration, the original frequency, using Elias's key — and the thing below receives the question it has been waiting for. It answers. The cycle completes. The echoes are released. The hunger is satisfied for another interval. In exchange: you remember. You carry the memory across the next loop. You are the only keeper who has ever been offered that.",
         "accepted": "Good. The Warden records the agreement. Do not mistake this for protection. You will still have to complete the calibration. You will still have to ask the question. The only difference is that when the thing answers, you will be present for the answer rather than consumed by it. That is the exchange.",
         "refused": "That is also acceptable. The Warden records the refusal. Other keepers have refused. Most of them still completed the calibration eventually — some instinct, some understanding they could not articulate, drove them to it even without the exchange. The record shows three who did not. They are still here. They are very tired."
+      },
+      "laws": {
+        "here": {
+          "statement": "The keeper tends the light. The light speaks to the deep. The deep waits on the schedule. These are not rules made by men. They predate men. They will continue after men. Interference is the only crime that matters here."
+        }
+      },
+      "answers_to": {
+        "admission": "I answer to the interval. To the pattern that existed before either of us had a name for it. The keepers call it a cycle. I have no word for it — it is simply what is. I enforce what is. If you are asking who gave me authority: nothing gave it. It accrued."
+      },
+      "what_youve_buried": {
+        "confession": "A keeper. The one before Tobias. He found a way to delay the signal by three days. The deep grew agitated. Three days later, seventeen people on this island forgot one year of their lives. I buried what he had done so no keeper after him would try the same. You are the first to ask."
       }
     },
     "mirror_keeper": {
@@ -1056,6 +1130,15 @@
       "truth": {
         "accepted": "It is very still. Then: good. That is all. Just good. Then it begins to lose coherence — not disappearing, not fading, but becoming less specific, less defined, as if the particular shape of it was only necessary until this moment. The wrong light straightens. The cliff edge is just a cliff edge. You are alone. But you are not the same alone as before.",
         "rejected": "Its expression does not change. I know, it says. I rejected it too, the first time. The second time. I am not sure how many times. What I can tell you is that each time I rejected it, I came back here. To this cliff. To this conversation. I do not know when I started accepting things instead of rejecting them. I know that I started because I got tired of the cliff."
+      },
+      "mirrors_show": {
+        "truth": "They show what you have already decided. Not the future — you misunderstand. The mirrors are not prophetic. They reflect the choices you have committed to in the moment before you knew you had made them. That is why looking is dangerous. Not because you will see something false."
+      },
+      "original_name": {
+        "partial": "I had one. I am certain of it. It is gone now — not forgotten. Gone. The lighthouse took it when I chose to stay. Names are tethers. The mechanism needed someone without a tether. I was not coerced. That is the part I want you to understand. I was not coerced."
+      },
+      "why_stay": {
+        "revelation": "Because if I leave, there is no reflection. The lighthouse needs the mirror for the light to have weight — for the beam to mean something, not just pass through. I am the mechanism's conscience. A lighthouse without conscience is just a lamp. I stay because a lamp is not enough."
       }
     }
   },
@@ -1136,7 +1219,7 @@
       "begin_final_session": "Ask to complete the pattern record",
       "show_map": "Show her your map of the harbor",
       "ask_how_long": "How long have you worked here?",
-      "ask_what_you_found": "You found something, didn't you.",
+      "ask_what_you_found": "Ask what you found",
       "let_him_speak": "Say nothing. Let him speak.",
       "ask_schematics": "Tell me exactly what the schematics showed.",
       "blame_him": "You knew. You said nothing.",
@@ -1236,7 +1319,6 @@
       "ask_about_cycle": "Ask about the cycle",
       "ask_about_the_key": "Ask about the key",
       "ask_why_stayed": "Ask why you stayed",
-      "ask_what_you_found": "Ask what you found",
       "ask_about_pattern": "Ask about the pattern",
       "ask_about_the_notes": "Ask about the notes",
       "ask_about_the_end": "What happened to you?",
@@ -1262,7 +1344,32 @@
       "turn_away": "Turn and walk away",
       "reject_the_reflection": "This is not real",
       "ask_how_to_stop": "Ask how to stop the cycle",
-      "accept_the_truth": "Yes. I understand."
+      "accept_the_truth": "Yes. I understand.",
+      "ask_the_tides": "Ask about the tides",
+      "ask_about_family": "Ask about your family",
+      "ask_night_visions": "Ask what you have seen at night",
+      "ask_what_you_protect": "Ask what you protect",
+      "ask_how_you_came_here": "Ask how you came to this role",
+      "ask_lighthouse_logs": "Ask about the lighthouse logs",
+      "ask_what_scares_you": "Ask what frightens you",
+      "ask_the_laws": "Ask about the laws here",
+      "ask_who_you_answer_to": "Ask who you answer to",
+      "ask_what_youve_buried": "Ask what you have buried",
+      "ask_what_mirrors_show": "Ask what the mirrors show",
+      "ask_your_original_name": "Ask your original name",
+      "ask_why_you_stay": "Ask why you stay",
+      "ask_trade_conditions": "Ask about trade conditions",
+      "ask_who_controls_supplies": "Ask who controls the supplies",
+      "ask_what_you_owe": "Ask what you owe",
+      "ask_what_you_dream": "Ask what you dream about",
+      "ask_figure_in_light": "Ask about the figure in the light",
+      "ask_about_going_home": "Ask about going home",
+      "ask_your_charts": "Ask about your charts",
+      "ask_route_never_took": "Ask about the route you never took",
+      "ask_what_youre_hiding": "Ask what you are hiding",
+      "ask_who_youve_lost": "Ask who you have lost",
+      "ask_sickness_here": "Ask about the sickness here",
+      "ask_what_body_remembers": "Ask what the body remembers"
     }
   }
 }
