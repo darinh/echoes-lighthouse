@@ -12,4 +12,6 @@ export interface LocationData {
   readonly archiveHint?: { domain: import('@/interfaces/index.js').ArchiveDomain; minLevel: number }
   /** If true, this location is dangerous at night (light drain increases) */
   readonly dangerousAtNight: boolean
+  /** World flag that must be set before this location can be entered */
+  readonly requiredWorldFlag?: string
 }

@@ -103,7 +103,7 @@ export class EndingSystem implements ISystem {
 
     if (requires.minNPCTrust) {
       const { npcId, minTrust } = requires.minNPCTrust
-      const trust = player.resonance[npcId as keyof typeof player.resonance] ?? 0
+      const trust = player.trust[npcId as keyof typeof player.trust] ?? 0
       if (trust < minTrust) return false
     }
 

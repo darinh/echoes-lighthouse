@@ -13,6 +13,7 @@ import { HINTS } from '@/data/hints/index.js'
 import { getItemAtLocation, itemTakenFlag } from '@/data/items/index.js'
 import { NIGHT_ENCOUNTERS, pickRandomEncounter } from '@/data/encounters/index.js'
 import { SIGNAL_SOLUTION, SIGNAL_DIAL_MAX } from '@/data/puzzle/signalPuzzle.js'
+import { LOCATIONS } from '@/data/locations/index.js'
 
 /**
  * GameEngine — Owns game state, coordinates systems, drives the render loop.
@@ -91,6 +92,13 @@ export class GameEngine {
         if (this.movement) {
           if (this.state.player.stamina === 0) {
             this.state = { ...this.state, phase: 'death', deathCause: 'death.stamina_depleted' }
+            break
+          }
+          // Check location access gate before moving
+          const targetLocation = LOCATIONS[action.target as string]
+          if (targetLocation?.requiredWorldFlag && !this.state.worldFlags.has(targetLocation.requiredWorldFlag)) {
+            // Location is locked — emit a blocked event but don't move
+            this.eventBus.emit('location.access.blocked', { locationId: action.target, requiredFlag: targetLocation.requiredWorldFlag })
             break
           }
           const wasDiscovered = this.state.player.discoveredLocations.has(action.target)

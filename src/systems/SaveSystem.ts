@@ -27,6 +27,8 @@ interface SaveSnapshot {
     signalDials: number[]
     signalSolved: boolean
   }
+  pendingVisions: string[]
+  priorPhase: IGameState['phase'] | null
   player: {
     stamina: number
     lightReserves: number
@@ -180,6 +182,8 @@ export class SaveSystem implements ISystem {
         signalDials: [...state.puzzleState.signalDials],
         signalSolved: state.puzzleState.signalSolved,
       },
+      pendingVisions: [...state.pendingVisions],
+      priorPhase: state.priorPhase,
       player: {
         stamina: state.player.stamina,
         lightReserves: state.player.lightReserves,
@@ -265,8 +269,8 @@ export class SaveSystem implements ISystem {
       endingId: null,
       lastExaminedKey: null,
       nightDangerLevel: 0,
-      pendingVisions: [],
-      priorPhase: null,
+      pendingVisions: (snapshot.pendingVisions ?? []) as IGameState['pendingVisions'],
+      priorPhase: (snapshot.priorPhase ?? null) as IGameState['priorPhase'],
       lighthouseLitThisLoop: false,
       deathCause: null,
       inventory: new Set(snapshot.inventory ?? []) as IGameState['inventory'],

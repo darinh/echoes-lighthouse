@@ -42,6 +42,7 @@ export type GameEventType =
   | 'location.discovered'
   | 'location.moved'
   | 'location.searched'
+  | 'location.access.blocked'
   | 'player.moved'
   // Loop
   | 'loop.started'
