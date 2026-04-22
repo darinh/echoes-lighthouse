@@ -13,6 +13,7 @@ import { HINTS } from '@/data/hints/index.js'
 import { getItemAtLocation } from '@/data/items/index.js'
 import { RELATIONSHIP_UNLOCKS } from '@/data/npcs/relationships.js'
 import type { ArchiveDomain, LocationId } from '@/interfaces/types.js'
+import { ArchiveMasterySystem, MASTERY_UNLOCKS, MASTERY_TIERS, ALL_DOMAINS } from '@/systems/ArchiveMasterySystem.js'
 import { DILEMMAS } from '@/data/dilemmas/index.js'
 
 export class UIManager {
@@ -876,6 +877,7 @@ export class UIManager {
     const body = `
       <div class="codex-tabs">${tabHtml}</div>
       <input class="codex-search" type="text" placeholder="Search entries…" value="${this.esc(this._codexSearchTerm)}">
+      ${this._codexActiveTab === 'all' ? this.masteryOverviewHtml(state) : ''}
       <div class="codex-count">${visible.length} ${visible.length === 1 ? 'entry' : 'entries'}</div>
       ${entriesHtml}
     `
@@ -913,6 +915,61 @@ export class UIManager {
       }
     }
     window.addEventListener('keydown', this._codexEscListener)
+  }
+
+  /**
+   * Renders the mastery unlock tree overview panel (shown on the 'ALL' tab).
+   * Displays per-domain progress bars with tier badges and unlock descriptions.
+   * Format: HISTORY ████████░░ 8/10 [ADEPT]
+   */
+  private masteryOverviewHtml(state: IGameState): string {
+    const TOTAL_PAGES = 10   // each domain has 10 codex pages
+    const FILLED = '█'
+    const EMPTY  = '░'
+    const BAR_WIDTH = 10
+
+    const isComplete = state.worldFlags.has('archive_mastery_complete')
+    const headerBadge = isComplete
+      ? `<div class="mastery-complete-badge">◆ ARCHIVE MASTERY COMPLETE ◆</div>`
+      : ''
+
+    const domainRows = ALL_DOMAINS.map(domain => {
+      const count  = state.player.archiveMastery[domain] ?? 0
+      const tier   = ArchiveMasterySystem.tierFromCount(count)
+      const next   = ArchiveMasterySystem.nextThreshold(count)
+      const filled = Math.round((count / TOTAL_PAGES) * BAR_WIDTH)
+      const bar    = FILLED.repeat(filled) + EMPTY.repeat(BAR_WIDTH - filled)
+      const label  = domain.toUpperCase().padEnd(12)
+      const tierBadge = tier ? `<span class="mastery-tier-badge mastery-${tier}">[${tier.toUpperCase()}]</span>` : ''
+      const nextHint  = next !== null ? `<span class="mastery-next-hint">next: ${next}</span>` : ''
+
+      const unlockRows = MASTERY_UNLOCKS[domain].map(u => {
+        const reached = count >= MASTERY_TIERS[u.tier]
+        return `<div class="mastery-unlock-row ${reached ? 'reached' : 'locked'}">
+          <span class="mastery-unlock-tier">${u.tier.toUpperCase()}</span>
+          <span class="mastery-unlock-label">${this.esc(u.label)}</span>
+        </div>`
+      }).join('')
+
+      return `
+        <div class="mastery-domain-row">
+          <div class="mastery-bar-line">
+            <span class="mastery-domain-label">${label}</span>
+            <span class="mastery-bar">${bar}</span>
+            <span class="mastery-count">${count}/${TOTAL_PAGES}</span>
+            ${tierBadge}
+            ${nextHint}
+          </div>
+          <div class="mastery-unlocks">${unlockRows}</div>
+        </div>`
+    }).join('')
+
+    return `
+      <section class="mastery-overview">
+        <h3 class="mastery-overview-title">◈ ARCHIVE MASTERY</h3>
+        ${headerBadge}
+        ${domainRows}
+      </section>`
   }
 
   private renderMapOverlay(state: IGameState): void {
