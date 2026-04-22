@@ -7,6 +7,7 @@ export const PHASE2_LOCATIONS: Record<string, LocationData> = {
     descKey: 'location.mechanism_room.desc',
     adjacentLocations: ['lighthouse_top'],
     dangerousAtNight: false,
+    requiredWorldFlag: 'examined_mechanism_symbols',
   },
   chapel: {
     id: 'chapel',
