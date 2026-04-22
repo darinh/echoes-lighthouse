@@ -139,7 +139,7 @@ export const CORVIN_NPC: NPCFullData = {
     'corvin.greeting.tier4': {
       speakerKey: 'npc.corvin.greeting.tier4',
       choices: [
-        { id: 'ask_full_truth',  textKey: 'dialogue.choice.ask_what_happened', nextNodeId: 'corvin.full_truth', insightGain: 25, trustGain: 10, requiresTier: 4 },
+        { id: 'ask_full_truth',  textKey: 'dialogue.choice.ask_what_happened', nextNodeId: 'corvin.full_truth', insightGain: 25, trustGain: 10, requiresResonance: 4 },
         { id: 'show_compassion', textKey: 'dialogue.choice.offer_absolution',  nextNodeId: 'corvin.compassion', insightGain: 10, trustGain: 8 },
         { id: 'leave',           textKey: 'dialogue.choice.leave' },
       ],

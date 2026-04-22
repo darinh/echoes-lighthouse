@@ -185,7 +185,7 @@ export const DOV_NPC: NPCFullData = {
           id: 'ask.schematics.final',
           textKey: 'dialogue.choice.ask_what_irreversible',
           nextNodeId: 'dov.schematics.final',
-          requiresTier: 4,
+          requiresResonance: 4,
           insightGain: 15,
           trustGain: 5,
         },

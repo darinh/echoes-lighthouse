@@ -99,7 +99,7 @@ export const VAEL_NPC: NPCFullData = {
     'vael.transcendence.clue': {
       speakerKey: 'npc.vael.transcendence.clue',
       choices: [
-        { id: 'ask.all_seven', textKey: 'dialogue.choice.ask_archive_deeper', nextNodeId: 'vael.seven.insights', insightGain: 15, trustGain: 5, requiresTier: 2 },
+        { id: 'ask.all_seven', textKey: 'dialogue.choice.ask_archive_deeper', nextNodeId: 'vael.seven.insights', insightGain: 15, trustGain: 5, requiresResonance: 2 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -115,7 +115,7 @@ export const VAEL_NPC: NPCFullData = {
         { id: 'ask.mechanism', textKey: 'dialogue.choice.ask_mechanism', nextNodeId: 'vael.mechanism.reset', insightGain: 12, trustGain: 4 },
         { id: 'ask.echo', textKey: 'dialogue.choice.ask_echo', nextNodeId: 'vael.echo.nature', insightGain: 10 },
         { id: 'offer.free_vael', textKey: 'dialogue.choice.offer_free_vael', nextNodeId: 'vael.freedom.offer', insightGain: 15, trustGain: 8, worldFlagSet: 'vael_offered_freedom' },
-        { id: 'ask.transcendence', textKey: 'dialogue.choice.ask_transcendence', nextNodeId: 'vael.transcendence.clue', insightGain: 12, trustGain: 4, requiresTier: 2 },
+        { id: 'ask.transcendence', textKey: 'dialogue.choice.ask_transcendence', nextNodeId: 'vael.transcendence.clue', insightGain: 12, trustGain: 4, requiresResonance: 2 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -129,8 +129,8 @@ export const VAEL_NPC: NPCFullData = {
       speakerKey: 'npc.vael.greeting.tier3',
       choices: [
         { id: 'ask.former.keeper', textKey: 'dialogue.choice.ask_former_keeper', nextNodeId: 'vael.keeper.confession', insightGain: 15, trustGain: 8 },
-        { id: 'ask.binding', textKey: 'dialogue.choice.ask_binding', nextNodeId: 'vael.binding.nature', insightGain: 12, requiresTier: 3 },
-        { id: 'ask.break.binding', textKey: 'dialogue.choice.ask_break_binding', nextNodeId: 'vael.break.binding', insightGain: 15, requiresTier: 3 },
+        { id: 'ask.binding', textKey: 'dialogue.choice.ask_binding', nextNodeId: 'vael.binding.nature', insightGain: 12, requiresResonance: 3 },
+        { id: 'ask.break.binding', textKey: 'dialogue.choice.ask_break_binding', nextNodeId: 'vael.break.binding', insightGain: 15, requiresResonance: 3 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -149,9 +149,9 @@ export const VAEL_NPC: NPCFullData = {
     'vael.greeting.tier4': {
       speakerKey: 'npc.vael.greeting.tier4',
       choices: [
-        { id: 'ask.binding.detail', textKey: 'dialogue.choice.ask_how_bound', nextNodeId: 'vael.binding.eternal', insightGain: 15, trustGain: 8, requiresTier: 4 },
+        { id: 'ask.binding.detail', textKey: 'dialogue.choice.ask_how_bound', nextNodeId: 'vael.binding.eternal', insightGain: 15, trustGain: 8, requiresResonance: 4 },
         { id: 'offer.help', textKey: 'dialogue.choice.offer_help', nextNodeId: 'vael.help.offer', insightGain: 10, trustGain: 5 },
-        { id: 'ask.original.imprisonment', textKey: 'dialogue.choice.ask_original_imprisonment', nextNodeId: 'vael.original.imprisonment', insightGain: 20, requiresTier: 4 },
+        { id: 'ask.original.imprisonment', textKey: 'dialogue.choice.ask_original_imprisonment', nextNodeId: 'vael.original.imprisonment', insightGain: 20, requiresResonance: 4 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -172,7 +172,7 @@ export const VAEL_NPC: NPCFullData = {
       choices: [
         { id: 'accept.bargain', textKey: 'dialogue.choice.accept_bargain', nextNodeId: 'vael.bargain.terms', insightGain: 20, trustGain: 15, moralWeight: 2, worldFlagSet: 'vael_bargain_offered' },
         { id: 'refuse.bargain', textKey: 'dialogue.choice.refuse_bargain', nextNodeId: 'vael.bargain.refused', moralWeight: -1, trustLoss: 5 },
-        { id: 'ask.the.choice', textKey: 'dialogue.choice.ask_the_choice', nextNodeId: 'vael.the.choice', insightGain: 25, requiresTier: 5 },
+        { id: 'ask.the.choice', textKey: 'dialogue.choice.ask_the_choice', nextNodeId: 'vael.the.choice', insightGain: 25, requiresResonance: 5 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },

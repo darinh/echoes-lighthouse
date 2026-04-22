@@ -61,8 +61,8 @@ export const ELARA_NPC: NPCFullData = {
     'elara.greeting.tier3': {
       speakerKey: 'npc.elara.greeting.tier3',
       choices: [
-        { id: 'ask.notebook', textKey: 'dialogue.choice.ask_notebook', nextNodeId: 'elara.notebook.share', insightGain: 12, trustGain: 8, requiresTier: 3 },
-        { id: 'ask.keepers.names', textKey: 'dialogue.choice.ask_keeper', nextNodeId: 'elara.keepers.names', insightGain: 15, requiresTier: 3 },
+        { id: 'ask.notebook', textKey: 'dialogue.choice.ask_notebook', nextNodeId: 'elara.notebook.share', insightGain: 12, trustGain: 8, requiresResonance: 3 },
+        { id: 'ask.keepers.names', textKey: 'dialogue.choice.ask_keeper', nextNodeId: 'elara.keepers.names', insightGain: 15, requiresResonance: 3 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -82,8 +82,8 @@ export const ELARA_NPC: NPCFullData = {
     'elara.greeting.tier4': {
       speakerKey: 'npc.elara.greeting.tier4',
       choices: [
-        { id: 'ask.beam.diagram', textKey: 'dialogue.choice.ask_beam_diagram', nextNodeId: 'elara.beam.diagram', insightGain: 15, trustGain: 6, requiresTier: 4 },
-        { id: 'ask.binding.ritual', textKey: 'dialogue.choice.ask_binding', nextNodeId: 'elara.binding.ritual', insightGain: 20, requiresTier: 4 },
+        { id: 'ask.beam.diagram', textKey: 'dialogue.choice.ask_beam_diagram', nextNodeId: 'elara.beam.diagram', insightGain: 15, trustGain: 6, requiresResonance: 4 },
+        { id: 'ask.binding.ritual', textKey: 'dialogue.choice.ask_binding', nextNodeId: 'elara.binding.ritual', insightGain: 20, requiresResonance: 4 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -96,7 +96,7 @@ export const ELARA_NPC: NPCFullData = {
     'elara.greeting.tier5': {
       speakerKey: 'npc.elara.greeting.tier5',
       choices: [
-        { id: 'ask.vael.signal', textKey: 'dialogue.choice.ask_vael_signal', nextNodeId: 'elara.vael.communication', insightGain: 20, trustGain: 10, worldFlagSet: 'light_source_truth_hint', requiresTier: 5 },
+        { id: 'ask.vael.signal', textKey: 'dialogue.choice.ask_vael_signal', nextNodeId: 'elara.vael.communication', insightGain: 20, trustGain: 10, worldFlagSet: 'light_source_truth_hint', requiresResonance: 5 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },

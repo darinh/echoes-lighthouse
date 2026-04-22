@@ -258,7 +258,7 @@ export const BRAM_NPC: NPCFullData = {
     'bram.greeting.tier4': {
       speakerKey: 'npc.bram.greeting.tier4',
       choices: [
-        { id: 'ask_father_keeper',  textKey: 'dialogue.choice.ask_keeper',  nextNodeId: 'bram.father.keeper', insightGain: 10, trustGain: 5, requiresTier: 4 },
+        { id: 'ask_father_keeper',  textKey: 'dialogue.choice.ask_keeper',  nextNodeId: 'bram.father.keeper', insightGain: 10, trustGain: 5, requiresResonance: 4 },
         { id: 'leave',              textKey: 'dialogue.choice.leave' },
       ],
     },

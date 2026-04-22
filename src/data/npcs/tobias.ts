@@ -61,8 +61,8 @@ export const TOBIAS_NPC: NPCFullData = {
     'tobias.greeting.tier3': {
       speakerKey: 'npc.tobias.greeting.tier3',
       choices: [
-        { id: 'ask.silence', textKey: 'dialogue.choice.ask_silenced', nextNodeId: 'tobias.paid.silence', insightGain: 12, trustGain: 5, moralWeight: 1, requiresTier: 3 },
-        { id: 'ask.trapdoor', textKey: 'dialogue.choice.ask_what_happened', nextNodeId: 'tobias.trapdoor.truth', insightGain: 12, requiresTier: 3 },
+        { id: 'ask.silence', textKey: 'dialogue.choice.ask_silenced', nextNodeId: 'tobias.paid.silence', insightGain: 12, trustGain: 5, moralWeight: 1, requiresResonance: 3 },
+        { id: 'ask.trapdoor', textKey: 'dialogue.choice.ask_what_happened', nextNodeId: 'tobias.trapdoor.truth', insightGain: 12, requiresResonance: 3 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -75,8 +75,8 @@ export const TOBIAS_NPC: NPCFullData = {
     'tobias.greeting.tier4': {
       speakerKey: 'npc.tobias.greeting.tier4',
       choices: [
-        { id: 'ask.gear.kept', textKey: 'dialogue.choice.ask_gear_kept', nextNodeId: 'tobias.gear.offer', insightGain: 15, trustGain: 8, requiresTier: 4 },
-        { id: 'ask.grandfather', textKey: 'dialogue.choice.ask_former_keeper', nextNodeId: 'tobias.grandfather.secret', insightGain: 18, requiresTier: 4 },
+        { id: 'ask.gear.kept', textKey: 'dialogue.choice.ask_gear_kept', nextNodeId: 'tobias.gear.offer', insightGain: 15, trustGain: 8, requiresResonance: 4 },
+        { id: 'ask.grandfather', textKey: 'dialogue.choice.ask_former_keeper', nextNodeId: 'tobias.grandfather.secret', insightGain: 18, requiresResonance: 4 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -96,7 +96,7 @@ export const TOBIAS_NPC: NPCFullData = {
     'tobias.greeting.tier5': {
       speakerKey: 'npc.tobias.greeting.tier5',
       choices: [
-        { id: 'ask.commissioner', textKey: 'dialogue.choice.ask_commissioner', nextNodeId: 'tobias.commissioner.silas', insightGain: 20, moralWeight: 2, worldFlagSet: 'tobias_named_silas', requiresTier: 5 },
+        { id: 'ask.commissioner', textKey: 'dialogue.choice.ask_commissioner', nextNodeId: 'tobias.commissioner.silas', insightGain: 20, moralWeight: 2, worldFlagSet: 'tobias_named_silas', requiresResonance: 5 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
