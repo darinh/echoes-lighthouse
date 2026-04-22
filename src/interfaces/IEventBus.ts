@@ -93,6 +93,10 @@ export type GameEventType =
   | 'encounter.resolved'
   | 'puzzle.solved'
   | 'puzzle.failed'
+  | 'lighthouse.repair.started'
+  | 'lighthouse.repair.step'
+  | 'lighthouse.repaired'
+  | 'lighthouse.repair.failed'
 
 | 'lighthouse.lit'
   | 'loop.dawn'

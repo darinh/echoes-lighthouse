@@ -149,4 +149,8 @@ export interface IGameState {
     readonly signalDials: readonly [number, number, number]
     readonly signalSolved: boolean
   }
+  // ── Lighthouse repair minigame ────────────────────────────────────────────
+  readonly activeMinigame?: 'lighthouse_repair' | null
+  readonly lighthouseRepairStep?: number   // 0–2: which of the 3 repair steps
+  readonly minigameTimerStart?: number     // Date.now() when current step started
 }

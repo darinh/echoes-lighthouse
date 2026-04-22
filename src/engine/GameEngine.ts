@@ -584,6 +584,58 @@ export class GameEngine {
         this.eventBus.emit('dilemma.choice.made', { choiceId })
         break
       }
+
+      case 'lighthouse.repair.start': {
+        if (this.state.player.currentLocation !== 'lighthouse_top') break
+        const inv = this.state.inventory
+        if (!inv.has('oil_flask') || !inv.has('wick') || !inv.has('lens_component')) break
+        if (this.state.worldFlags.has('lighthouse_repaired')) break
+        this.state = {
+          ...this.state,
+          phase: 'minigame',
+          priorPhase: this.state.phase,
+          activeMinigame: 'lighthouse_repair',
+          lighthouseRepairStep: 0,
+          minigameTimerStart: Date.now(),
+        }
+        this.eventBus.emit('lighthouse.repair.started', { step: 0 })
+        break
+      }
+
+      case 'minigame.confirm': {
+        if (this.state.activeMinigame !== 'lighthouse_repair') break
+        const elapsed = Date.now() - (this.state.minigameTimerStart ?? 0)
+        if (elapsed > 30000) {
+          // Timer expired — fail
+          this._failLighthouseRepair()
+          break
+        }
+        const step = this.state.lighthouseRepairStep ?? 0
+        if (step < 2) {
+          // Advance to next step
+          this.state = {
+            ...this.state,
+            lighthouseRepairStep: step + 1,
+            minigameTimerStart: Date.now(),
+          }
+          this.eventBus.emit('lighthouse.repair.step', { step: step + 1 })
+        } else {
+          // Step 3 complete — repair done!
+          const newFlags = new Set(this.state.worldFlags)
+          newFlags.add('lighthouse_repaired')
+          this.state = {
+            ...this.state,
+            phase: this.state.priorPhase ?? 'morning',
+            priorPhase: null,
+            activeMinigame: null,
+            lighthouseRepairStep: 0,
+            minigameTimerStart: 0,
+            worldFlags: newFlags,
+          }
+          this.eventBus.emit('lighthouse.repaired', {})
+        }
+        break
+      }
     }
   }
 

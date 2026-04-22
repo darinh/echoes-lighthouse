@@ -37,6 +37,8 @@ export type GameAction =
   | { type: 'puzzle.signal.submit' }
   | { type: 'hint.dismiss'; hintId: string }
   | { type: 'dilemma.choose'; choiceId: string }
+  | { type: 'lighthouse.repair.start' }
+  | { type: 'minigame.confirm' }
 
 export type ActionHandler = (action: GameAction) => void
 

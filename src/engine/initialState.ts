@@ -130,5 +130,8 @@ export function createInitialState(): IGameState {
       narrativeVolume: 0.8,
       locale: 'en',
     },
+    activeMinigame: null,
+    lighthouseRepairStep: 0,
+    minigameTimerStart: 0,
   }
 }
