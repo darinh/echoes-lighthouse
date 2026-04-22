@@ -59,7 +59,14 @@
     "no_threads": "Nothing recorded yet.",
     "seal_prompt": "Seal this insight as truth?",
     "seal_confirm": "Seal",
-    "seal_cancel": "Not yet"
+    "seal_cancel": "Not yet",
+    "tab_log": "LOG",
+    "tab_insights": "INSIGHTS",
+    "tab_threads": "THREADS",
+    "thread_complete": "★ Complete",
+    "thread_progress": "{revealed}/{total} revealed",
+    "thread_unrevealed": "[???]",
+    "no_threads_active": "No threads in progress yet. Seal insights to reveal chains."
   },
   "dialogue": {
     "requires_insight": "Requires {amount} Insight",

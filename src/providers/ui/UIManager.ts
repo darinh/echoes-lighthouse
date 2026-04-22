@@ -4,7 +4,8 @@ import type { II18n } from '@/interfaces/index.js'
 import { getAdjacentLocations } from '@/data/locations/phase1Locations.js'
 import { EXAMINE_DATA } from '@/data/locations/examineData.js'
 import { LOCATION_SECRET_BY_ID, secretSeenFlag } from '@/data/locations/secrets.js'
-import { INSIGHT_CARDS } from '@/data/insights/cards.js'
+import { INSIGHT_CARDS, INSIGHT_THREADS } from '@/data/insights/cards.js'
+import { buildThreadGroups, threadCompletionPct } from '@/data/insights/threadUtils.js'
 import { SaveSystem } from '@/systems/SaveSystem.js'
 import { CODEX_PAGES } from '@/data/codex/pages.js'
 import { ENDING_NARRATIVES } from '@/data/endings/index.js'
@@ -36,6 +37,7 @@ export class UIManager {
   private _codexActiveTab: ArchiveDomain | 'all' = 'all'
   private _codexSearchTerm = ''
   private _codexEscListener: ((e: KeyboardEvent) => void) | null = null
+  private _journalActiveTab: 'log' | 'insights' | 'threads' = 'log'
 
   // Title-screen lore rotation
   private _loreRotateTimer: ReturnType<typeof setInterval> | null = null
@@ -671,6 +673,7 @@ export class UIManager {
       }
       this._codexActiveTab = 'all'
       this._codexSearchTerm = ''
+      this._journalActiveTab = 'log'
       this._lastOverlayHtml = ''
       return
     }
@@ -696,11 +699,24 @@ export class UIManager {
 
   private renderJournal(state: IGameState): void {
     const { player } = state
-    let body = ''
+    const activeTab = this._journalActiveTab
 
+    // ── Tab bar ──────────────────────────────────────────────────────────────
+    const tabs: Array<{ id: 'log' | 'insights' | 'threads'; label: string }> = [
+      { id: 'log',      label: this.t('journal.tab_log') },
+      { id: 'insights', label: this.t('journal.tab_insights') },
+      { id: 'threads',  label: this.t('journal.tab_threads') },
+    ]
+    const tabBar = tabs.map(tab => `
+      <button class="codex-tab${tab.id === activeTab ? ' active' : ''}"
+              data-journal-tab="${tab.id}">${this.esc(tab.label)}</button>
+    `).join('')
+
+    // ── Log tab (existing loop-grouped entries) ───────────────────────────────
+    let logBody = ''
     const entries = [...player.journalEntries].sort((a, b) => b.timestamp - a.timestamp)
     if (entries.length === 0) {
-      body += `<p style="color:#465a72;font-size:12px;">No journal entries yet. Explore and examine to record discoveries.</p>`
+      logBody += `<p style="color:#465a72;font-size:12px;">No journal entries yet. Explore and examine to record discoveries.</p>`
     } else {
       const byLoop: Map<number, typeof entries> = new Map()
       for (const e of entries) {
@@ -708,28 +724,90 @@ export class UIManager {
         byLoop.get(e.timestamp)!.push(e)
       }
       for (const [loop, loopEntries] of [...byLoop.entries()].sort((a, b) => b[0] - a[0])) {
-        body += `<div class="journal-thread"><h3>LOOP ${loop}</h3>`
+        logBody += `<div class="journal-thread"><h3>LOOP ${loop}</h3>`
         for (const entry of loopEntries) {
           const loc = this.locationName(entry.locationId)
           const text = this.t(entry.textKey)
-          body += `<div class="journal-entry"><div class="entry-loc">${this.esc(loc)}</div><div class="entry-text">${this.esc(text)}</div></div>`
+          logBody += `<div class="journal-entry"><div class="entry-loc">${this.esc(loc)}</div><div class="entry-text">${this.esc(text)}</div></div>`
         }
-        body += `</div>`
+        logBody += `</div>`
       }
     }
 
-    if (player.sealedInsights.size > 0) {
-      body += `<h3 style="color:#e8a830;font-size:12px;margin:16px 0 8px;letter-spacing:1px;">◈ SEALED INSIGHTS</h3>`
+    // ── Insights tab (flat sealed list, unchanged behaviour) ─────────────────
+    let insightsBody = ''
+    if (player.sealedInsights.size === 0) {
+      insightsBody += `<p style="color:#465a72;font-size:12px;">No insights sealed yet.</p>`
+    } else {
+      insightsBody += `<h3 style="color:#e8a830;font-size:12px;margin:0 0 8px;letter-spacing:1px;">◈ SEALED INSIGHTS</h3>`
       for (const cardId of player.sealedInsights) {
         const card = INSIGHT_CARDS.find(c => c.id === cardId)
         if (!card) continue
         const title = this.t(card.titleKey)
         const desc = this.t(card.descKey)
-        body += `<div class="sealed-insight"><div class="insight-title">${this.esc(title)}</div><div class="insight-desc">${this.esc(desc)}</div></div>`
+        insightsBody += `<div class="sealed-insight"><div class="insight-title">${this.esc(title)}</div><div class="insight-desc">${this.esc(desc)}</div></div>`
       }
     }
 
-    this.setHtml(this.overlayPanel, this.overlayWrap('◆ JOURNAL', body, 'journal'), '_lastOverlayHtml')
+    // ── Threads tab ──────────────────────────────────────────────────────────
+    let threadsBody = ''
+    const groups = buildThreadGroups(INSIGHT_CARDS, INSIGHT_THREADS, player.sealedInsights)
+    const visibleGroups = groups.filter(g => g.totalCount > 0)
+    if (visibleGroups.length === 0) {
+      threadsBody += `<p style="color:#465a72;font-size:12px;">${this.esc(this.t('journal.no_threads_active'))}</p>`
+    } else {
+      for (const group of visibleGroups) {
+        const pct = threadCompletionPct(group)
+        const progressLabel = group.isComplete
+          ? this.t('journal.thread_complete')
+          : this.t('journal.thread_progress')
+              .replace('{revealed}', String(group.revealedCount))
+              .replace('{total}', String(group.totalCount))
+        const threadTitle = this.t(group.thread.titleKey)
+        const completeClass = group.isComplete ? ' thread-chain-complete' : ''
+
+        // Build the chain: [Title A] → [Title B] → [???]
+        const chainParts = group.slots.map(slot => {
+          if (slot.sealed) {
+            const title = this.t(slot.card.titleKey)
+            return `<span class="chain-node chain-node-sealed">${this.esc(title)}</span>`
+          }
+          return `<span class="chain-node chain-node-hidden">${this.esc(this.t('journal.thread_unrevealed'))}</span>`
+        })
+        const chainHtml = chainParts.join('<span class="chain-arrow"> → </span>')
+
+        threadsBody += `
+          <div class="thread-chain${completeClass}">
+            <div class="thread-chain-header">
+              <span class="thread-chain-title">${this.esc(threadTitle)}</span>
+              <span class="thread-chain-progress">${this.esc(progressLabel)}</span>
+            </div>
+            <div class="thread-chain-bar" style="width:${pct}%" aria-label="${pct}% complete"></div>
+            <div class="thread-chain-body">${chainHtml}</div>
+          </div>`
+      }
+    }
+
+    // Compose full body with tab bar + active panel
+    const body = `
+      <div class="codex-tabs journal-tabs">${tabBar}</div>
+      ${activeTab === 'log'      ? logBody      : ''}
+      ${activeTab === 'insights' ? insightsBody : ''}
+      ${activeTab === 'threads'  ? threadsBody  : ''}
+    `
+
+    if (!this.setHtml(this.overlayPanel, this.overlayWrap('◆ JOURNAL', body, 'journal'), '_lastOverlayHtml')) return
+
+    // Wire journal tab clicks
+    this.overlayPanel.querySelectorAll<HTMLButtonElement>('[data-journal-tab]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset['journalTab'] as 'log' | 'insights' | 'threads'
+        if (tab) {
+          this._journalActiveTab = tab
+          this.renderJournal(state)
+        }
+      })
+    })
   }
 
   private renderCodex(state: IGameState): void {
