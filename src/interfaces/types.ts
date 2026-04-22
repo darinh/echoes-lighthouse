@@ -18,6 +18,10 @@ export type GamePhase =
 
 /** The five narrative endings. */
 export type EndingId =
+  | 'liberation'
+  | 'keepers_peace'
+  | 'sacrifice'
+  | 'corruption'
   | 'keepers_bargain'
   | 'drowned_truth'
   | 'light_restored'

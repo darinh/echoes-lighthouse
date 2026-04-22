@@ -35,4 +35,6 @@ export interface NPCFullData {
   tierThresholds: number[]
   greetingNodes: string[]
   nodes: Record<string, DialogueNode>
+  /** Hidden truth about this NPC, used by narrator/journal systems. Never shown directly in dialogue. */
+  secret?: string
 }
