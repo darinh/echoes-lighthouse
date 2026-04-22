@@ -39,6 +39,19 @@ export type GameAction =
   | { type: 'dilemma.choose'; choiceId: string }
   | { type: 'lighthouse.repair.start' }
   | { type: 'minigame.confirm' }
+  // ── Title screen actions ──────────────────────────────────────────────────
+  /** Start a fresh game from the title screen, clearing any existing save. */
+  | { type: 'game.new' }
+  /** Continue from the most recent save. */
+  | { type: 'game.continue' }
+  /** Return to the title screen (e.g. from ending or death). */
+  | { type: 'game.title' }
+  /** Toggle audio mute (used in title-screen settings panel). */
+  | { type: 'audio.toggle' }
+  /** Open the title-screen settings sub-panel (handled by UIManager, not engine). */
+  | { type: 'title.settings.open' }
+  /** Close the title-screen settings sub-panel (handled by UIManager, not engine). */
+  | { type: 'title.settings.close' }
 
 export type ActionHandler = (action: GameAction) => void
 
