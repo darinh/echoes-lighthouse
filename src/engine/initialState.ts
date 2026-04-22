@@ -85,6 +85,9 @@ const DEFAULT_PLAYER: IPlayerState = {
   relationshipFlags: {},
   shownRelationshipDialogue: [],
   searchedLocations: new Set(),
+  questExpiry: {},
+  npcHarmCount: {},
+  pendingArchiveSeals: {},
 }
 
 export function createInitialState(): IGameState {

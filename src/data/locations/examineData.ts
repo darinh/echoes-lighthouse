@@ -7,6 +7,12 @@ export interface ExamineItem {
   readonly insight: number
   readonly worldFlag: string  // flag set when examined
   readonly domain: ArchiveDomain
+  /**
+   * Number of insight-card seals required before this page counts toward Archive
+   * Mastery on Hard difficulty (GDD §10).  Defaults to 1 (counts immediately).
+   * On Easy/Normal this field is ignored.
+   */
+  readonly requiresSeals?: number
 }
 
 export const EXAMINE_DATA: Partial<Record<LocationId, ExamineItem[]>> = {
@@ -19,8 +25,10 @@ export const EXAMINE_DATA: Partial<Record<LocationId, ExamineItem[]>> = {
     { id: 'keepers_last_log',  labelKey: 'examine.lighthouse_top.keepers_last_log.label',  textKey: 'examine.lighthouse_top.keepers_last_log.text',  insight: 8,  worldFlag: 'examined.lighthouse_top.keepers_last_log',  domain: 'history' },
   ],
   archive_basement: [
-    { id: 'sealed_ledger',     labelKey: 'examine.archive_basement.sealed_ledger.label',   textKey: 'examine.archive_basement.sealed_ledger.text',   insight: 8,  worldFlag: 'examined.archive_basement.sealed_ledger',   domain: 'history' },
-    { id: 'water_line_mark',   labelKey: 'examine.archive_basement.water_line_mark.label', textKey: 'examine.archive_basement.water_line_mark.text', insight: 5,  worldFlag: 'examined.archive_basement.water_line_mark', domain: 'ecology' },
+    // requiresSeals: 2 — "locked" archive entries per GDD §10; on Hard difficulty the page
+    // only counts toward mastery after 2 insight cards have been sealed.
+    { id: 'sealed_ledger',   labelKey: 'examine.archive_basement.sealed_ledger.label',   textKey: 'examine.archive_basement.sealed_ledger.text',   insight: 8, worldFlag: 'examined.archive_basement.sealed_ledger',   domain: 'history', requiresSeals: 2 },
+    { id: 'water_line_mark', labelKey: 'examine.archive_basement.water_line_mark.label', textKey: 'examine.archive_basement.water_line_mark.text', insight: 5, worldFlag: 'examined.archive_basement.water_line_mark', domain: 'ecology', requiresSeals: 2 },
   ],
   harbor: [
     { id: 'manifest_discrepancy', labelKey: 'examine.harbor.manifest_discrepancy.label', textKey: 'examine.harbor.manifest_discrepancy.text', insight: 6, worldFlag: 'examined.harbor.manifest_discrepancy', domain: 'maritime' },

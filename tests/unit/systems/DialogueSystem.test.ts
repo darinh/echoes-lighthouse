@@ -54,6 +54,9 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     shownRelationshipDialogue: [],
     examineHistory: {},
     searchedLocations: new Set(),
+    questExpiry: {},
+    npcHarmCount: {},
+    pendingArchiveSeals: {},
   }
 
   return {

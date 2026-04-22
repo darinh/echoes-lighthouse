@@ -39,6 +39,8 @@ export class KnowledgeSystem implements ISystem {
         return this.handleInsightGained(event, state)
       case 'archive.page.found':
         return this.handleArchivePage(event, state)
+      case 'insight.card.sealed':
+        return this.handleInsightCardSealed(state)
       case 'insight.card.requirements.met':
         return this.handleInsightCardMet(event, state)
       case 'location.entered':
@@ -70,7 +72,63 @@ export class KnowledgeSystem implements ISystem {
   }
 
   private handleArchivePage(event: IGameEvent, state: IGameState): IGameState {
-    const { domain } = event.payload as { domain: ArchiveDomain; pageId: string }
+    const { domain, itemFlag, requiresSeals } = event.payload as {
+      domain: ArchiveDomain
+      itemFlag?: string
+      requiresSeals?: number
+    }
+
+    // GDD §10 — Hard mode: entries with requiresSeals > 1 are buffered until
+    // the player seals that many insight cards.
+    const neededSeals = requiresSeals ?? 1
+    if (state.difficulty === 'hard' && neededSeals > 1 && itemFlag) {
+      const pending = { ...state.player.pendingArchiveSeals }
+      // Guard against duplicate events for the same item.
+      if (!pending[itemFlag]) {
+        pending[itemFlag] = { domain, sealsRemaining: neededSeals }
+      }
+      return {
+        ...state,
+        player: { ...state.player, pendingArchiveSeals: pending },
+      }
+    }
+
+    return this.applyArchivePage(domain, state)
+  }
+
+  /**
+   * On Hard difficulty, each insight-card seal decrements all pending archive
+   * page counters by 1.  Entries that reach 0 are applied to mastery.
+   * GDD §10 — Hard mode archive gate.
+   */
+  private handleInsightCardSealed(state: IGameState): IGameState {
+    if (state.difficulty !== 'hard') return state
+    const pending = { ...state.player.pendingArchiveSeals }
+    let newState = state
+    let changed = false
+
+    for (const key of Object.keys(pending)) {
+      const entry = pending[key]
+      const newRemaining = entry.sealsRemaining - 1
+      if (newRemaining <= 0) {
+        // All seals consumed — apply the page to mastery.
+        delete pending[key]
+        newState = this.applyArchivePage(entry.domain, newState)
+      } else {
+        pending[key] = { ...entry, sealsRemaining: newRemaining }
+      }
+      changed = true
+    }
+
+    if (!changed) return state
+    return {
+      ...newState,
+      player: { ...newState.player, pendingArchiveSeals: pending },
+    }
+  }
+
+  /** Apply one archive page to mastery (shared by immediate and deferred paths). */
+  private applyArchivePage(domain: ArchiveDomain, state: IGameState): IGameState {
     const currentCount = state.player.archiveMastery[domain] ?? 0
     const newCount = currentCount + 1
 
