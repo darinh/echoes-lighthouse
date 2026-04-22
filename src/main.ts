@@ -5,7 +5,7 @@ import { FileAudioProvider } from '@/providers/audio/FileAudioProvider.js'
 import { CanvasRenderer } from '@/providers/renderer/CanvasRenderer.js'
 import { UIManager } from '@/providers/ui/UIManager.js'
 import { HybridRenderer } from '@/providers/renderer/HybridRenderer.js'
-import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, RelationshipSystem, SaveSystem, AudioFeedbackSystem, NPCScheduleSystem, MilestoneSystem, WeatherSystem } from '@/systems/index.js'
+import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, RelationshipSystem, SaveSystem, AudioFeedbackSystem, NPCScheduleSystem, MilestoneSystem, WeatherSystem, StaminaSystem, InsightBankingSystem, NightSystem, ResonanceSystem, VisionSystem, EndingSystem } from '@/systems/index.js'
 import { AchievementSystem } from '@/systems/AchievementSystem.js'
 import { AmbientAudioSystem } from '@/systems/AmbientAudioSystem.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
@@ -49,6 +49,12 @@ async function boot(): Promise<void> {
   engine.registerSystem(new WeatherSystem(eventBus))
   engine.registerSystem(new AchievementSystem(eventBus))
   engine.registerSystem(new AmbientAudioSystem(eventBus))
+  engine.registerSystem(new StaminaSystem(eventBus))
+  engine.registerSystem(new InsightBankingSystem(eventBus))
+  engine.registerSystem(new NightSystem(eventBus))
+  engine.registerSystem(new ResonanceSystem(eventBus))
+  engine.registerSystem(new VisionSystem(eventBus))
+  engine.registerSystem(new EndingSystem(eventBus))
 
   setProgress(80, 'Preparing world...')
   const canvas = document.getElementById('game-canvas') as HTMLCanvasElement
