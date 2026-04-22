@@ -12,6 +12,7 @@ import { HINTS } from '@/data/hints/index.js'
 import { getItemAtLocation } from '@/data/items/index.js'
 import { RELATIONSHIP_UNLOCKS } from '@/data/npcs/relationships.js'
 import type { ArchiveDomain, LocationId } from '@/interfaces/types.js'
+import { DILEMMAS } from '@/data/dilemmas/index.js'
 
 export class UIManager {
   private onAction: ((action: GameAction) => void) | null = null
@@ -201,6 +202,13 @@ export class UIManager {
   private updateMainArea(state: IGameState): void {
     if (state.activePanel !== 'none') return
 
+    // Dilemma overlay — takes priority over any phase-specific content
+    if (state.activeDilemma !== null) {
+      this.renderDilemmaPanel(state)
+      this.setHtml(this.actionPanel, '', '_lastActionHtml')
+      return
+    }
+
     switch (state.phase) {
       case 'morning': case 'afternoon': case 'dusk': case 'dawn':
         if (state.activeDialogue?.isActive) {
@@ -233,6 +241,29 @@ export class UIManager {
       default:
         break
     }
+  }
+
+  private renderDilemmaPanel(state: IGameState): void {
+    const dilemma = DILEMMAS.find(d => d.id === state.activeDilemma)
+    if (!dilemma) return
+
+    const [choiceA, choiceB] = dilemma.choices
+
+    const actionA = JSON.stringify({ type: 'dilemma.choose', choiceId: choiceA.id } satisfies GameAction)
+    const actionB = JSON.stringify({ type: 'dilemma.choose', choiceId: choiceB.id } satisfies GameAction)
+
+    this.setHtml(this.contentPanel, `
+      <div class="dialogue-box dilemma-box">
+        <div class="dialogue-speaker">◈ MORAL CROSSROADS</div>
+        <div class="dialogue-rule"></div>
+        <div class="dilemma-title">${this.esc(dilemma.title)}</div>
+        <div class="dialogue-text">${this.esc(dilemma.description)}</div>
+        <div class="dialogue-choices">
+          <button class="dialogue-choice" data-action='${actionA}'>▷ ${this.esc(choiceA.label)}</button>
+          <button class="dialogue-choice" data-action='${actionB}'>▷ ${this.esc(choiceB.label)}</button>
+        </div>
+      </div>
+    `, '_lastContentHtml')
   }
 
   private renderLocationPanel(state: IGameState): void {

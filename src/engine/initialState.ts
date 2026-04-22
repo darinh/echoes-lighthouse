@@ -120,6 +120,8 @@ export function createInitialState(): IGameState {
     weather: 'clear',
     activeEncounter: null,
     nightEncounterShown: 0,
+    activeDilemma: null,
+    resolvedDilemmas: new Set<string>(),
     puzzleState: { signalDials: [0, 0, 0], signalSolved: false },
     settings: {
       masterVolume: 0.8,
