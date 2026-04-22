@@ -522,4 +522,8 @@ export const INA_NPC: NPCFullData = {
       ],
     },
   },
+  weatherDialogue: {
+    storm: 'npc.ina.weather.storm',
+    fog: 'npc.ina.weather.fog',
+  },
 }

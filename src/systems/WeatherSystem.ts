@@ -5,6 +5,7 @@ const WEATHER_TABLE: WeatherType[] = [
   'clear', 'clear', 'clear', 'clear', 'clear',
   'fog',   'fog',   'fog',
   'rain',  'rain',
+  'storm',
 ]
 
 export class WeatherSystem implements ISystem {

@@ -34,6 +34,7 @@ const LOCATIONS: Record<string, LocationData> = {
     adjacentLocations: ['village_square'],
     archiveHint: { domain: 'maritime', minLevel: 1 },
     dangerousAtNight: true,
+    closedInStorm: true,
   },
   lighthouse_base: {
     id: 'lighthouse_base',

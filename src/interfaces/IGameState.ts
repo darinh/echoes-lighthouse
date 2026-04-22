@@ -12,7 +12,7 @@ import type {
 } from './types.js'
 import type { EncounterId } from '@/data/encounters/index.js'
 
-export type WeatherType = 'clear' | 'fog' | 'rain'
+export type WeatherType = 'clear' | 'fog' | 'rain' | 'storm'
 export type Difficulty = 'easy' | 'normal' | 'hard'
 
 export interface IJournalEntry {

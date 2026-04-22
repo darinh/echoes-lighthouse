@@ -239,4 +239,7 @@ export const MAREN_NPC: NPCFullData = {
       ],
     },
   },
+  weatherDialogue: {
+    storm: 'npc.maren.weather.storm',
+  },
 }

@@ -162,4 +162,7 @@ export const KEEPER_PETRA_NPC: NPCFullData = {
     },
 
   },
+  weatherDialogue: {
+    storm: 'npc.keeper_petra.weather.storm',
+  },
 }

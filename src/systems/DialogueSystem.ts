@@ -110,10 +110,16 @@ export class DialogueSystem implements ISystem {
       hasDialogueKey(unlock.dialogueKey)
     )
 
+    // Weather-aware greeting: if the NPC has a line for the current weather, show it first
+    // Relationship reveals take priority since they are one-shot narrative moments
+    const weatherSpeakerKey = !relationshipReveal
+      ? npc.weatherDialogue?.[state.weather as keyof typeof npc.weatherDialogue]
+      : undefined
+
     const dialogueState: IDialogueState = {
       npcId,
       currentNodeId: greetingNodeId,
-      speakerTextKey: relationshipReveal?.dialogueKey ?? node.speakerKey,
+      speakerTextKey: relationshipReveal?.dialogueKey ?? weatherSpeakerKey ?? node.speakerKey,
       availableChoices,
       isActive: true,
     }
