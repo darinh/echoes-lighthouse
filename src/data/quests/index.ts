@@ -53,4 +53,4 @@ export async function loadQuestData(): Promise<Record<string, QuestDefinition>> 
   return QUEST_REGISTRY
 }
 
-export type { QuestDefinition, QuestStep } from './types.js'
+export type { QuestDefinition, QuestStep, TriggerCondition } from './types.js'

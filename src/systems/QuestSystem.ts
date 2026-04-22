@@ -1,5 +1,5 @@
 import type { ISystem, IGameState, IGameEvent, IEventBus } from '@/interfaces/index.js'
-import type { QuestDefinition, QuestStep } from '@/data/quests/index.js'
+import type { QuestDefinition, QuestStep, TriggerCondition } from '@/data/quests/index.js'
 import { QUEST_REGISTRY } from '@/data/quests/index.js'
 
 /**
@@ -21,6 +21,12 @@ export class QuestSystem implements ISystem {
       case 'dialogue.start':
       case 'insight.card.sealed':
       case 'loop.dawn':
+      // Extra events that can satisfy multi-condition triggers:
+      case 'npc.trust.changed':
+      case 'npc.trust.gained':
+      case 'npc.trust.up':
+      case 'npc.resonance.changed':
+      case 'item.taken':
         return this.processGameEvent(event, state)
       default:
         return state
@@ -53,6 +59,12 @@ export class QuestSystem implements ISystem {
   // ─── Quest trigger matching ───────────────────────────────────────────────
 
   private matchesTrigger(quest: QuestDefinition, event: IGameEvent, state: IGameState): boolean {
+    // ── Multi-condition path (AND semantics) ─────────────────────────────────
+    if (quest.triggerConditions && quest.triggerConditions.length > 0) {
+      return quest.triggerConditions.every(c => this.evaluateCondition(c, state))
+    }
+
+    // ── Legacy single-condition path ─────────────────────────────────────────
     const { triggerType, triggerValue } = quest
     switch (triggerType) {
       case 'location_visit':
@@ -81,6 +93,40 @@ export class QuestSystem implements ISystem {
 
       case 'automatic':
         return event.type === 'loop.dawn'
+
+      default:
+        return false
+    }
+  }
+
+  /**
+   * Evaluate a single TriggerCondition against the current game state.
+   * All checks are pure state reads — no event type filtering.
+   */
+  private evaluateCondition(condition: TriggerCondition, state: IGameState): boolean {
+    const { type, value, min = 1 } = condition
+    switch (type) {
+      case 'world_flag':
+        return state.worldFlags.has(value)
+
+      case 'npc_trust': {
+        const npcId = value as import('@/interfaces/types.js').NPCId
+        return (state.player.trust[npcId] ?? 0) >= min
+      }
+
+      case 'npc_resonance': {
+        const npcId = value as import('@/interfaces/types.js').NPCId
+        return (state.player.resonance[npcId] ?? 0) >= min
+      }
+
+      case 'loop_count':
+        return state.player.loopCount >= min
+
+      case 'location':
+        return state.player.currentLocation === value
+
+      case 'item_in_inventory':
+        return state.inventory.has(value as import('@/interfaces/types.js').ItemId)
 
       default:
         return false
