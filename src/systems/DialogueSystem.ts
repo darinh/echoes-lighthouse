@@ -29,6 +29,7 @@ import { KEEPER_PETRA_NPC } from '@/data/npcs/keeper_petra.js'
 import { KEEPER_TOBIAS_NPC } from '@/data/npcs/keeper_tobias.js'
 import { THE_WARDEN_NPC } from '@/data/npcs/the_warden.js'
 import { MIRROR_KEEPER_NPC } from '@/data/npcs/mirror_keeper.js'
+import { THE_KEEPER_NPC } from '@/data/npcs/the_keeper.js'
 
 const NPC_REGISTRY: Record<string, NPCFullData> = {
   maren:  MAREN_NPC  as unknown as NPCFullData,
@@ -55,6 +56,7 @@ sera:   SERA_NPC   as unknown as NPCFullData,
   keeper_tobias: KEEPER_TOBIAS_NPC as unknown as NPCFullData,
   the_warden:    THE_WARDEN_NPC    as unknown as NPCFullData,
   mirror_keeper: MIRROR_KEEPER_NPC as unknown as NPCFullData,
+  the_keeper:    THE_KEEPER_NPC    as unknown as NPCFullData,
 }
 
 function hasDialogueKey(key: string): boolean {

@@ -25,6 +25,7 @@ import { KEEPER_PETRA_NPC } from './keeper_petra.js'
 import { KEEPER_TOBIAS_NPC } from './keeper_tobias.js'
 import { THE_WARDEN_NPC } from './the_warden.js'
 import { MIRROR_KEEPER_NPC } from './mirror_keeper.js'
+import { THE_KEEPER_NPC } from './the_keeper.js'
 
 export async function loadNPCData(): Promise<Record<string, NPCData>> {
   return {
@@ -52,5 +53,6 @@ sera:   SERA_NPC   as unknown as NPCData,
     keeper_tobias: KEEPER_TOBIAS_NPC as unknown as NPCData,
     the_warden:    THE_WARDEN_NPC    as unknown as NPCData,
     mirror_keeper: MIRROR_KEEPER_NPC as unknown as NPCData,
+    the_keeper:    THE_KEEPER_NPC    as unknown as NPCData,
   }
 }

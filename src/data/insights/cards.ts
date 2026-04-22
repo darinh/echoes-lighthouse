@@ -10,6 +10,12 @@ export type InsightCardId =
   | 'warden_truth'
   | 'warden_identity'
   | 'warden_buried'
+  // ── Harbor arc — added in GDD §3.3 / §5.5 (closes #138) ──────────────────
+  | 'harbor_silence'
+  | 'alistair_connection'
+  | 'beacon_anomaly'
+  | 'loop_signature'
+  | 'drowned_archive'
 
 export interface InsightCard {
   id: InsightCardId
@@ -125,6 +131,42 @@ export const INSIGHT_CARDS: InsightCard[] = [
     worldFlagRequired: 'warden_buried_known',
     threadId: 'warden_awakening',
     threadOrder: 3,
+  },
+  // ── Harbor arc ─────────────────────────────────────────────────────────────
+  {
+    id: 'harbor_silence',
+    titleKey: 'insight.harbor_silence.title',
+    descKey: 'insight.harbor_silence.desc',
+    cost: 55,
+    worldFlagRequired: 'ina_prophecy_heard',
+  },
+  {
+    id: 'alistair_connection',
+    titleKey: 'insight.alistair_connection.title',
+    descKey: 'insight.alistair_connection.desc',
+    cost: 45,
+    worldFlagRequired: 'ina_alistair_story_told',
+  },
+  {
+    id: 'beacon_anomaly',
+    titleKey: 'insight.beacon_anomaly.title',
+    descKey: 'insight.beacon_anomaly.desc',
+    cost: 65,
+    worldFlagRequired: 'archive_basement_visited',
+  },
+  {
+    id: 'loop_signature',
+    titleKey: 'insight.loop_signature.title',
+    descKey: 'insight.loop_signature.desc',
+    cost: 70,
+    worldFlagRequired: 'loop_4_reached',
+  },
+  {
+    id: 'drowned_archive',
+    titleKey: 'insight.drowned_archive.title',
+    descKey: 'insight.drowned_archive.desc',
+    cost: 80,
+    worldFlagRequired: 'archive_basement_visited',
   },
 ]
 
