@@ -57,9 +57,10 @@ export class CanvasRenderer implements IRenderer {
     switch (state.phase) {
       case 'title': this.renderTitle(state); break
       case 'dawn': case 'morning': case 'afternoon': case 'dusk':
-        this.renderDayBackground(state); this.renderWeatherOverlay(state); break
-      case 'night_safe': this.renderNightSafeBackground(); break
-      case 'night_dark': this.renderNightDarkBackground(); break
+        this.renderDayBackground(state); this.renderWeatherOverlay(state)
+        this.renderLocationBackground(state); break
+      case 'night_safe': this.renderNightSafeBackground(); this.renderLocationBackground(state); break
+      case 'night_dark': this.renderNightDarkBackground(); this.renderLocationBackground(state); break
       case 'death': this.renderDeathBackground(); break
       case 'vision': this.renderVisionBackground(); break
       case 'ending': this.renderEndingBackground(); break
@@ -267,5 +268,187 @@ export class CanvasRenderer implements IRenderer {
     const glow = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, Math.max(width, height) * 0.5)
     glow.addColorStop(0, 'rgba(212,144,10,0.06)'); glow.addColorStop(1, 'rgba(0,0,0,0)')
     ctx.fillStyle = glow; ctx.fillRect(0, 0, width, height)
+  }
+
+  // ─── Location-specific bespoke backgrounds ────────────────────────────────
+
+  /**
+   * Deterministic pseudo-random in [0,1) from a numeric seed + index.
+   * Using the same seed+index always returns the same value, so particle
+   * positions don't jump on re-render.
+   */
+  private seededRandom(seed: number, index: number): number {
+    const x = Math.sin(seed * 9301 + index * 49297 + 233) * 100003
+    return x - Math.floor(x)
+  }
+
+  /** Dispatch to per-location background renderers for gameplay phases. */
+  private renderLocationBackground(state: IGameState): void {
+    const loc = state.player.currentLocation
+    const now = Date.now()
+    if (loc === 'tidal_caves') this.renderTidalCaves(now)
+    else if (loc === 'archive_basement') this.renderArchiveBasement(now)
+    else if (loc === 'mechanism_room') this.renderMechanismRoom(now)
+  }
+
+  /**
+   * Tidal Caves — dark teal base, animated sine-wave water ripples,
+   * seeded bioluminescence dots that pulse, and a bottom fog gradient.
+   * Seed value 1151 = sum of char codes for "tidal_caves".
+   */
+  private renderTidalCaves(timestamp: number): void {
+    const { ctx, width, height } = this
+
+    // Dark teal base
+    ctx.fillStyle = '#0a1a1a'
+    ctx.fillRect(0, 0, width, height)
+
+    // Animated water ripple lines (horizontal sine waves that slowly scroll)
+    ctx.lineWidth = 1.5
+    const rippleCount = 8
+    for (let i = 0; i < rippleCount; i++) {
+      ctx.strokeStyle = 'rgba(0,180,150,0.3)'
+      ctx.beginPath()
+      const yBase = height * 0.12 + (i / rippleCount) * height * 0.76
+      for (let x = 0; x <= width; x += 4) {
+        const y = yBase + Math.sin(x * 0.018 + timestamp * 0.0008 + i * 0.9) * 7
+        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y)
+      }
+      ctx.stroke()
+    }
+
+    // Bioluminescence dots — seeded positions, pulsing glow
+    // Seed 1151 = char-code sum of 'tidal_caves'
+    const bioSeed = 1151
+    const bioCount = 12
+    for (let i = 0; i < bioCount; i++) {
+      const x = this.seededRandom(bioSeed, i * 2) * width
+      const y = this.seededRandom(bioSeed, i * 2 + 1) * height
+      const pulse = 0.3 + 0.7 * Math.abs(Math.sin(timestamp * 0.0009 + i * 1.4))
+      const r = 2 + this.seededRandom(bioSeed, i + 100) * 3
+      // Soft outer glow
+      const glow = ctx.createRadialGradient(x, y, 0, x, y, r * 4)
+      glow.addColorStop(0, `rgba(0,220,180,${(0.6 * pulse).toFixed(3)})`)
+      glow.addColorStop(1, 'rgba(0,220,180,0)')
+      ctx.fillStyle = glow
+      ctx.fillRect(x - r * 4, y - r * 4, r * 8, r * 8)
+      // Bright core dot
+      ctx.fillStyle = `rgba(0,220,180,${(0.6 * pulse).toFixed(3)})`
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill()
+    }
+
+    // Fog: gradient rising from bottom 20% of canvas
+    const fogGrad = ctx.createLinearGradient(0, height * 0.8, 0, height)
+    fogGrad.addColorStop(0, 'rgba(0,40,30,0)')
+    fogGrad.addColorStop(1, 'rgba(0,40,30,0.7)')
+    ctx.fillStyle = fogGrad
+    ctx.fillRect(0, height * 0.8, width, height * 0.2)
+  }
+
+  /**
+   * Archive Basement — near-black base, bookshelf silhouettes, drifting
+   * dust motes, and a warm candlelight bloom in the bottom-left corner.
+   * Seed value 1780 = sum of char codes for "archive_basement".
+   */
+  private renderArchiveBasement(timestamp: number): void {
+    const { ctx, width, height } = this
+
+    // Near-black base
+    ctx.fillStyle = '#0a080a'
+    ctx.fillRect(0, 0, width, height)
+
+    // Shelf silhouettes — 4 horizontal dark rectangles at different heights
+    const shelfYRatios = [0.22, 0.40, 0.58, 0.76]
+    const shelfH = Math.max(8, height * 0.04)
+    ctx.fillStyle = 'rgba(20,15,25,0.9)'
+    for (const yr of shelfYRatios) {
+      ctx.fillRect(0, height * yr, width, shelfH)
+    }
+
+    // Dust motes — ~20 tiny particles drifting slowly upward with lateral sway
+    // Seed 1780 = char-code sum of 'archive_basement'
+    const moteSeed = 1780
+    const moteCount = 20
+    for (let i = 0; i < moteCount; i++) {
+      const bx = this.seededRandom(moteSeed, i * 2) * width
+      const by = this.seededRandom(moteSeed, i * 2 + 1) * height
+      const speed = 0.15 + this.seededRandom(moteSeed, i + 50) * 0.35
+      const drift = this.seededRandom(moteSeed, i + 100) * Math.PI * 2
+      const x = (bx + Math.sin(timestamp * speed * 0.00025 + drift) * 18 + width) % width
+      // Use ((a % n) + n) % n to guarantee a positive result regardless of
+      // how large `timestamp` grows (JS % returns negative for negative dividends).
+      const scrolled = (timestamp * speed * 0.008) % height
+      const y = ((by - scrolled) % height + height) % height
+      const alpha = 0.15 + 0.25 * Math.abs(Math.sin(timestamp * 0.0008 + i * 0.7))
+      ctx.fillStyle = `rgba(200,180,160,${alpha.toFixed(3)})`
+      ctx.beginPath(); ctx.arc(x, y, 1.2, 0, Math.PI * 2); ctx.fill()
+    }
+
+    // Candlelight bloom — soft warm radial glow in bottom-left corner
+    // Subtle flicker via timestamp to keep the effect alive
+    const gx = width * 0.14, gy = height * 0.80
+    const flickerAlpha = 0.12 + 0.03 * Math.sin(timestamp * 0.003)
+    const bloom = ctx.createRadialGradient(gx, gy, 0, gx, gy, 80)
+    bloom.addColorStop(0, `rgba(200,120,0,${flickerAlpha.toFixed(3)})`)
+    bloom.addColorStop(1, 'rgba(200,120,0,0)')
+    ctx.fillStyle = bloom
+    ctx.fillRect(gx - 100, gy - 100, 200, 200)
+  }
+
+  /**
+   * Mechanism Room — very dark blue-grey base, faint technical grid lines,
+   * amber lantern glow from center-left, and a large gear-wheel shadow
+   * partially visible in the top-right corner.
+   */
+  private renderMechanismRoom(timestamp: number): void {
+    const { ctx, width, height } = this
+
+    // Very dark blue-grey base
+    ctx.fillStyle = '#080a10'
+    ctx.fillRect(0, 0, width, height)
+
+    // Faint grid lines suggesting a technical diagram
+    ctx.strokeStyle = 'rgba(80,60,40,0.15)'
+    ctx.lineWidth = 1
+    const gridSize = 40
+    for (let x = 0; x < width; x += gridSize) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke()
+    }
+    for (let y = 0; y < height; y += gridSize) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke()
+    }
+
+    // Amber oil lantern glow from center-left with subtle flicker
+    const lx = width * 0.22, ly = height * 0.5
+    const lanternAlpha = 0.10 + 0.02 * Math.sin(timestamp * 0.0015)
+    const lanternGlow = ctx.createRadialGradient(lx, ly, 0, lx, ly, 200)
+    lanternGlow.addColorStop(0, `rgba(210,130,0,${lanternAlpha.toFixed(3)})`)
+    lanternGlow.addColorStop(1, 'rgba(210,130,0,0)')
+    ctx.fillStyle = lanternGlow
+    ctx.fillRect(0, 0, width, height)
+
+    // Gear wheel shadow — large partial gear in top-right corner (static silhouette)
+    const gearX = width * 0.90, gearY = height * 0.08
+    const gearR = Math.min(width, height) * 0.20
+    const toothCount = 12
+    const toothDepth = gearR * 0.14
+    ctx.fillStyle = 'rgba(60,50,40,0.6)'
+    ctx.beginPath()
+    for (let i = 0; i < toothCount; i++) {
+      const baseAngle = (i / toothCount) * Math.PI * 2
+      const a1 = baseAngle - (Math.PI / toothCount) * 0.35
+      const a2 = baseAngle + (Math.PI / toothCount) * 0.35
+      const outerR = gearR + toothDepth
+      ctx.lineTo(gearX + Math.cos(a1) * outerR, gearY + Math.sin(a1) * outerR)
+      ctx.lineTo(gearX + Math.cos(a2) * outerR, gearY + Math.sin(a2) * outerR)
+      const nextBase = ((i + 1) / toothCount) * Math.PI * 2 - (Math.PI / toothCount) * 0.35
+      const midA = (a2 + nextBase) / 2
+      ctx.lineTo(gearX + Math.cos(midA) * gearR, gearY + Math.sin(midA) * gearR)
+    }
+    ctx.closePath()
+    ctx.fill()
+    // Inner hub hole punched out
+    ctx.fillStyle = '#080a10'
+    ctx.beginPath(); ctx.arc(gearX, gearY, gearR * 0.38, 0, Math.PI * 2); ctx.fill()
   }
 }
