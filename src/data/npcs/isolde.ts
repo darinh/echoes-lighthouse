@@ -131,7 +131,7 @@ export const ISOLDE_NPC: NPCFullData = {
     'isolde.greeting.tier4': {
       speakerKey: 'npc.isolde.greeting.tier4',
       choices: [
-        { id: 'ask_figure',  textKey: 'dialogue.choice.ask_figure_seen',  nextNodeId: 'isolde.figure.description', insightGain: 20, trustGain: 10, requiresTier: 4, worldFlagSet: 'isolde_figure_known' },
+        { id: 'ask_figure',  textKey: 'dialogue.choice.ask_figure_seen',  nextNodeId: 'isolde.figure.description', insightGain: 20, trustGain: 10, requiresResonance: 4, worldFlagSet: 'isolde_figure_known' },
         { id: 'leave',       textKey: 'dialogue.choice.leave' },
       ],
     },

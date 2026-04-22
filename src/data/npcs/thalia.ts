@@ -169,7 +169,7 @@ export const THALIA_NPC: NPCFullData = {
           id: 'ask.cycles',
           textKey: 'dialogue.choice.ask_what_irreversible',
           nextNodeId: 'thalia.cycles.awareness',
-          requiresTier: 4,
+          requiresResonance: 4,
           insightGain: 15,
           trustGain: 5,
         },

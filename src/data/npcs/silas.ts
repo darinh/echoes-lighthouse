@@ -61,7 +61,7 @@ export const SILAS_NPC: NPCFullData = {
     'silas.greeting.tier2': {
       speakerKey: 'npc.silas.greeting.tier2',
       choices: [
-        { id: 'press.inconsistency', textKey: 'dialogue.choice.press_harder', nextNodeId: 'silas.timeline.pressure', insightGain: 12, moralWeight: 2, requiresTier: 2 },
+        { id: 'press.inconsistency', textKey: 'dialogue.choice.press_harder', nextNodeId: 'silas.timeline.pressure', insightGain: 12, moralWeight: 2, requiresResonance: 2 },
         { id: 'ask.keeper', textKey: 'dialogue.choice.ask_keeper', nextNodeId: 'silas.keeper.hurry', insightGain: 5 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
@@ -75,9 +75,9 @@ export const SILAS_NPC: NPCFullData = {
     'silas.greeting.tier3': {
       speakerKey: 'npc.silas.greeting.tier3',
       choices: [
-        { id: 'confront.coverup', textKey: 'dialogue.choice.confront_coverup', nextNodeId: 'silas.coverup.admit', insightGain: 15, moralWeight: 2, requiresTier: 3 },
+        { id: 'confront.coverup', textKey: 'dialogue.choice.confront_coverup', nextNodeId: 'silas.coverup.admit', insightGain: 15, moralWeight: 2, requiresResonance: 3 },
         { id: 'ask.keeper', textKey: 'dialogue.choice.ask_keeper', nextNodeId: 'silas.keeper.hurry' },
-        { id: 'ask.confession', textKey: 'dialogue.choice.ask_what_happened', nextNodeId: 'silas.confession', insightGain: 15, trustGain: 8, requiresTier: 3 },
+        { id: 'ask.confession', textKey: 'dialogue.choice.ask_what_happened', nextNodeId: 'silas.confession', insightGain: 15, trustGain: 8, requiresResonance: 3 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -97,8 +97,8 @@ export const SILAS_NPC: NPCFullData = {
     'silas.greeting.tier4': {
       speakerKey: 'npc.silas.greeting.tier4',
       choices: [
-        { id: 'ask.mechanism.harbor', textKey: 'dialogue.choice.ask_mechanism', nextNodeId: 'silas.mechanism.harbor', insightGain: 15, trustGain: 5, requiresTier: 4 },
-        { id: 'ask.buried.message', textKey: 'dialogue.choice.press_harder', nextNodeId: 'silas.buried.message', insightGain: 20, trustGain: 10, requiresTier: 4 },
+        { id: 'ask.mechanism.harbor', textKey: 'dialogue.choice.ask_mechanism', nextNodeId: 'silas.mechanism.harbor', insightGain: 15, trustGain: 5, requiresResonance: 4 },
+        { id: 'ask.buried.message', textKey: 'dialogue.choice.press_harder', nextNodeId: 'silas.buried.message', insightGain: 20, trustGain: 10, requiresResonance: 4 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -111,7 +111,7 @@ export const SILAS_NPC: NPCFullData = {
     'silas.greeting.tier5': {
       speakerKey: 'npc.silas.greeting.tier5',
       choices: [
-        { id: 'demand.full.truth', textKey: 'dialogue.choice.demand_truth', nextNodeId: 'silas.full.truth', insightGain: 20, moralWeight: 3, worldFlagSet: 'silas_truth_known', requiresTier: 5 },
+        { id: 'demand.full.truth', textKey: 'dialogue.choice.demand_truth', nextNodeId: 'silas.full.truth', insightGain: 20, moralWeight: 3, worldFlagSet: 'silas_truth_known', requiresResonance: 5 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
