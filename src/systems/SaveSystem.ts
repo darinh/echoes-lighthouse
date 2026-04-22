@@ -61,6 +61,7 @@ interface SaveSnapshot {
     questExpiry: Record<string, number>
     npcHarmCount: Record<string, number>
     pendingArchiveSeals: Record<string, { domain: string; sealsRemaining: number }>
+    darkNightsSurvived: number
   }
   npcStates: Record<string, {
     id: string
@@ -218,6 +219,7 @@ export class SaveSystem implements ISystem {
         pendingArchiveSeals: Object.fromEntries(
           Object.entries(state.player.pendingArchiveSeals).map(([k, v]) => [k, { ...v }])
         ),
+        darkNightsSurvived: state.player.darkNightsSurvived,
       },
       npcStates: Object.fromEntries(
         Object.entries(state.npcStates).map(([id, npc]) => [id, {
@@ -279,6 +281,7 @@ export class SaveSystem implements ISystem {
         questExpiry: (snapshot.player.questExpiry ?? {}) as IGameState['player']['questExpiry'],
         npcHarmCount: (snapshot.player.npcHarmCount ?? {}) as IGameState['player']['npcHarmCount'],
         pendingArchiveSeals: (snapshot.player.pendingArchiveSeals ?? {}) as IGameState['player']['pendingArchiveSeals'],
+        darkNightsSurvived: snapshot.player.darkNightsSurvived ?? 0,
       },
       npcStates: npcStates as unknown as IGameState['npcStates'],
       activePanel: 'none',

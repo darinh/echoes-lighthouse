@@ -57,6 +57,7 @@ function makeState(overrides: Partial<IGameState> = {}): IGameState {
     questExpiry: {},
     npcHarmCount: {},
     pendingArchiveSeals: {},
+    darkNightsSurvived: 0,
   }
 
   return {

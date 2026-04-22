@@ -87,6 +87,8 @@ export type GameEventType =
   | 'night.danger.escalate'
   | 'night.breaking_point'
   | 'night.encounter.started'
+  | 'night.consecDark'
+  | 'game.over'
   | 'vision.started'
   | 'vision.completed'
   | 'examine.completed'
