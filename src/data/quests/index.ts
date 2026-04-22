@@ -20,6 +20,7 @@ import { QUEST_OREN_PENANCE } from './quest_oren_penance.js'
 import { QUEST_CAL_SILENCE } from './quest_cal_silence.js'
 import { QUEST_INA_INVENTORY } from './quest_ina_inventory.js'
 import { QUEST_BRAM_COMMISSION } from './quest_bram_commission.js'
+import { QUEST_MECHANISM_PURPOSE } from './quest_mechanism_purpose.js'
 
 /** Synchronous registry for use in renderers and other non-async contexts. */
 export const QUEST_REGISTRY: Record<string, QuestDefinition> = {
@@ -44,6 +45,8 @@ export const QUEST_REGISTRY: Record<string, QuestDefinition> = {
   cal_silence:        QUEST_CAL_SILENCE,
   ina_inventory:      QUEST_INA_INVENTORY,
   bram_commission:    QUEST_BRAM_COMMISSION,
+  // Key insight quests
+  mechanism_purpose:  QUEST_MECHANISM_PURPOSE,
 }
 
 export async function loadQuestData(): Promise<Record<string, QuestDefinition>> {

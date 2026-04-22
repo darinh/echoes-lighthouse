@@ -113,6 +113,7 @@ export interface IGameState {
   readonly endingId: string | null
   readonly lastExaminedKey: string | null
   readonly nightDangerLevel: number
+  readonly consecutiveDarkNights: number
   readonly pendingVisions: ReadonlyArray<string>
   readonly priorPhase: GamePhase | null
   readonly lighthouseLitThisLoop: boolean
