@@ -238,6 +238,10 @@ export class UIManager {
         this.renderVisionScreen(state)
         this.renderActionPanel(state)
         break
+      case 'minigame':
+        this.renderLighthouseMinigame(state)
+        this.setHtml(this.actionPanel, '', '_lastActionHtml')
+        break
       default:
         break
     }
@@ -262,6 +266,47 @@ export class UIManager {
           <button class="dialogue-choice" data-action='${actionA}'>▷ ${this.esc(choiceA.label)}</button>
           <button class="dialogue-choice" data-action='${actionB}'>▷ ${this.esc(choiceB.label)}</button>
         </div>
+      </div>
+    `, '_lastContentHtml')
+  }
+
+  private renderLighthouseMinigame(state: IGameState): void {
+    const step = state.lighthouseRepairStep ?? 0
+    const timerStart = state.minigameTimerStart ?? 0
+    const elapsed = timerStart > 0 ? Date.now() - timerStart : 0
+    const remaining = Math.max(0, 30000 - elapsed)
+    const pct = Math.round((remaining / 30000) * 100)
+    const timerClass = pct > 50 ? 'timer-safe' : pct > 20 ? 'timer-warn' : 'timer-crit'
+
+    const steps = [
+      { label: 'Pour the oil',      icon: '🛢' },
+      { label: 'Replace the wick',  icon: '🕯' },
+      { label: 'Seat the lens',     icon: '🔭' },
+    ]
+
+    const confirmAction = JSON.stringify({ type: 'minigame.confirm' } satisfies GameAction)
+    const stepDots = steps.map((_s, i) =>
+      `<span class="mg-step-dot ${i < step ? 'done' : i === step ? 'active' : ''}">${i < step ? '✓' : (i + 1)}</span>`
+    ).join('')
+
+    const secs = (remaining / 1000).toFixed(1)
+
+    this.setHtml(this.contentPanel, `
+      <div class="dialogue-box mg-panel">
+        <div class="dialogue-speaker">🔧 LIGHTHOUSE REPAIR</div>
+        <div class="dialogue-rule"></div>
+        <div class="mg-step-indicator">
+          ${stepDots}
+          <span class="mg-step-label">Step ${step + 1}/3 — ${this.esc(steps[step]!.label)}</span>
+        </div>
+        <div class="mg-item-icon">${steps[step]!.icon}</div>
+        <div class="mg-timer-wrap">
+          <div class="mg-timer-bar ${timerClass}" style="width:${pct}%"></div>
+        </div>
+        <div class="mg-timer-label">${secs}s remaining</div>
+        <button class="action-btn mg-confirm" data-action='${confirmAction}'>
+          ◈ CONFIRM
+        </button>
       </div>
     `, '_lastContentHtml')
   }
@@ -562,6 +607,16 @@ export class UIManager {
       html += `<button class="${hasResources ? '' : 'dim-action'}" ${hasResources ? `data-action='{"type":"light.lighthouse"}'` : 'disabled'}>
         ◈ LIGHT THE BEACON${!hasResources ? '<span style="font-size:10px;display:block">needs 30 LGT + 2 STA</span>' : ''}
       </button>`
+
+      // Show repair button when player has all required items and lighthouse not yet repaired
+      if (!state.worldFlags.has('lighthouse_repaired') &&
+          state.inventory.has('oil_flask') &&
+          state.inventory.has('wick') &&
+          state.inventory.has('lens_component')) {
+        html += `<button class="safe-action" data-action='{"type":"lighthouse.repair.start"}'>
+          🔧 REPAIR LIGHTHOUSE
+        </button>`
+      }
     }
 
     if (state.player.currentLocation === 'village_inn') {
