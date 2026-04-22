@@ -606,17 +606,7 @@ export class GameEngine {
         if (this.state.activeMinigame !== 'lighthouse_repair') break
         const elapsed = Date.now() - (this.state.minigameTimerStart ?? 0)
         if (elapsed > 30000) {
-          // Timer expired — fail: reset minigame, cost 1 stamina
-          this.state = {
-            ...this.state,
-            phase: this.state.priorPhase ?? 'morning',
-            priorPhase: null,
-            activeMinigame: null,
-            lighthouseRepairStep: 0,
-            minigameTimerStart: 0,
-            player: { ...this.state.player, stamina: Math.max(0, this.state.player.stamina - 1) },
-          }
-          this.eventBus.emit('lighthouse.repair.failed', {})
+          this._failLighthouseRepair()
           break
         }
         const step = this.state.lighthouseRepairStep ?? 0
@@ -689,6 +679,20 @@ export class GameEngine {
     this.state = { ...this.state, worldFlags: newFlags }
   }
 
+  private _failLighthouseRepair(): void {
+    const newStamina = Math.max(0, this.state.player.stamina - 1)
+    this.state = {
+      ...this.state,
+      phase: this.state.priorPhase ?? 'morning',
+      priorPhase: null,
+      activeMinigame: null,
+      lighthouseRepairStep: 0,
+      minigameTimerStart: 0,
+      player: { ...this.state.player, stamina: newStamina },
+    }
+    this.eventBus.emit('lighthouse.repair.failed', {})
+  }
+
   private maybeTriggerNightEncounter(): void {
     if (this.state.nightEncounterShown >= 2) return
     if (this.state.activeEncounter !== null) return
@@ -731,6 +735,18 @@ export class GameEngine {
     }
 
     this.renderer.render(this.state)
+
+    // Auto-fail lighthouse repair if timer expires without a Confirm
+    if (
+      this.state.phase === 'minigame' &&
+      this.state.activeMinigame === 'lighthouse_repair' &&
+      this.state.minigameTimerStart != null &&
+      this.state.minigameTimerStart > 0 &&
+      Date.now() - this.state.minigameTimerStart > 30000
+    ) {
+      this._failLighthouseRepair()
+    }
+
     requestAnimationFrame(t => this.loop(t))
   }
 }
