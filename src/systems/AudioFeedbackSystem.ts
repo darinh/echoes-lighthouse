@@ -35,6 +35,8 @@ export class AudioFeedbackSystem implements ISystem {
       this.eventBus.on('quest.step.completed', () => this.audio.play('quest.completed')),
       this.eventBus.on('npc.trust.up',         () => this.audio.play('npc.trust.up')),
       this.eventBus.on('loop.dawn',            () => this.audio.play('dawn.break')),
+      // night.breaking_point only reaches eventBus (NightSystem uses emit, not applyEvent)
+      this.eventBus.on('night.breaking_point', () => this.audio.play('night.breaking_point')),
     )
     return state
   }
@@ -44,9 +46,31 @@ export class AudioFeedbackSystem implements ISystem {
   }
 
   onEvent(event: IGameEvent, state: IGameState): IGameState {
-    if (event.type === 'location.moved' && state.player.currentLocation === 'lighthouse_top') {
-      this.audio.play('lighthouse.top')
+    if (event.type === 'location.moved') {
+      // General ambient transition for every move
+      this.audio.play('location.moved')
+      // Extra landmark sting when arriving at the lighthouse top
+      if (state.player.currentLocation === 'lighthouse_top') {
+        this.audio.play('lighthouse.top')
+      }
     }
+
+    // Subtle chime on any NPC trust change (emitted only via applyEvent)
+    if (event.type === 'npc.trust.changed') {
+      this.audio.play('npc.trust.up')
+    }
+
+    // Core mechanic — sealing an insight card (comes through applyEvent AND emit;
+    // wired here to avoid double-play if we also subscribed via eventBus.on)
+    if (event.type === 'insight.card.sealed') {
+      this.audio.play('insight.sealed')
+    }
+
+    // Weighty decision sound for dilemma choices (same dual-emit pattern as above)
+    if (event.type === 'dilemma.choice.made') {
+      this.audio.play('dilemma.choice.made')
+    }
+
     return state
   }
 
