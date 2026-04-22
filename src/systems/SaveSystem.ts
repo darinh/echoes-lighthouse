@@ -29,6 +29,7 @@ interface SaveSnapshot {
   }
   pendingVisions: string[]
   priorPhase: IGameState['phase'] | null
+  consecutiveDarkNights: number
   player: {
     stamina: number
     lightReserves: number
@@ -184,6 +185,7 @@ export class SaveSystem implements ISystem {
       },
       pendingVisions: [...state.pendingVisions],
       priorPhase: state.priorPhase,
+      consecutiveDarkNights: state.consecutiveDarkNights,
       player: {
         stamina: state.player.stamina,
         lightReserves: state.player.lightReserves,
@@ -269,6 +271,7 @@ export class SaveSystem implements ISystem {
       endingId: null,
       lastExaminedKey: null,
       nightDangerLevel: 0,
+      consecutiveDarkNights: snapshot.consecutiveDarkNights ?? 0,
       pendingVisions: (snapshot.pendingVisions ?? []) as IGameState['pendingVisions'],
       priorPhase: (snapshot.priorPhase ?? null) as IGameState['priorPhase'],
       lighthouseLitThisLoop: false,

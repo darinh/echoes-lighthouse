@@ -374,5 +374,34 @@
     "loop_5": "Five dawns. The island holds its secrets tighter than you thought.",
     "loop_7": "Seven times the tide has turned. Something stirs in the deep pattern.",
     "loop_10": "Ten loops. The lighthouse has been waiting for someone like you."
+  },
+  "encounter": {
+    "fog_wraith": {
+      "desc": "A tendril of fog takes shape — watchful, hungry."
+    },
+    "beckoning_light": {
+      "desc": "A pale light bobs at the water's edge, drawing you closer."
+    },
+    "drowned_shade": {
+      "desc": "Something cold reaches up from the shallows."
+    },
+    "whispering_rocks": {
+      "desc": "The tide-worn stones murmur secrets in a tongue you almost recognise."
+    },
+    "spectral_tide": {
+      "desc": "The sea rises in ghostly waves, crashing through you."
+    },
+    "lighthouse_echo": {
+      "desc": "A warm echo from the lighthouse lantern steadies your nerves."
+    },
+    "kelp_tangle": {
+      "desc": "Coils of kelp wind around your legs, dragging you toward the dark water."
+    },
+    "broken_compass": {
+      "desc": "Your compass spins wildly — something is very wrong with this place."
+    },
+    "night": {
+      "breaking_point": "The darkness has grown unbearable. Three consecutive nights without light."
+    }
   }
 }

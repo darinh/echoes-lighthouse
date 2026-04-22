@@ -106,6 +106,7 @@ export function createInitialState(): IGameState {
     endingId: null,
     lastExaminedKey: null,
     nightDangerLevel: 0,
+    consecutiveDarkNights: 0,
     pendingVisions: [],
     priorPhase: null,
     lighthouseLitThisLoop: false,
