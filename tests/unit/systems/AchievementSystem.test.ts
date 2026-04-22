@@ -182,7 +182,7 @@ describe('AchievementSystem', () => {
     })
 
     it('does not unlock with only some endings seen', () => {
-      const state = withEndingsSeen(createInitialState(), ['liberation' as EndingId])
+      const state = withEndingsSeen(createInitialState(), ['keepers_bargain' as EndingId])
       const next = system.onEvent(makeEvent('ending.triggered'), state)
       expect(next.achievements.has('all_echoes')).toBe(false)
     })

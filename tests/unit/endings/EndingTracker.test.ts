@@ -17,13 +17,14 @@ describe('Endings Tracker', () => {
   })
 
   describe('ECHOES_CODEX', () => {
-    it('has exactly 5 entries matching the 5 ending IDs', () => {
-      expect(ECHOES_CODEX.length).toBe(5)
+    it('has exactly 6 entries matching the 6 ending IDs', () => {
+      expect(ECHOES_CODEX.length).toBe(6)
     })
 
     it('covers all EndingId values', () => {
       const expectedIds: EndingId[] = [
-        'liberation', 'keepers_peace', 'sacrifice', 'corruption', 'transcendence'
+        'keepers_bargain', 'drowned_truth', 'light_restored',
+        'sunken_accord', 'endless_loop', 'transcendence',
       ]
       const codexIds = ECHOES_CODEX.map(e => e.endingId)
       for (const id of expectedIds) {
@@ -44,22 +45,22 @@ describe('Endings Tracker', () => {
     it('can record a seen ending via immutable Set construction', () => {
       const state = createInitialState()
       const updated = new Set(state.endingsSeen)
-      updated.add('liberation' as EndingId)
+      updated.add('keepers_bargain' as EndingId)
       const newState = { ...state, endingsSeen: updated }
 
-      expect(newState.endingsSeen.has('liberation')).toBe(true)
+      expect(newState.endingsSeen.has('keepers_bargain')).toBe(true)
       expect(newState.endingsSeen.size).toBe(1)
       // original is unchanged
       expect(state.endingsSeen.size).toBe(0)
     })
 
     it('preserves previous endings when a new one is added', () => {
-      const s1 = new Set<EndingId>(['sacrifice'])
+      const s1 = new Set<EndingId>(['drowned_truth'])
       const s2 = new Set(s1)
-      s2.add('corruption')
+      s2.add('light_restored')
 
-      expect(s2.has('sacrifice')).toBe(true)
-      expect(s2.has('corruption')).toBe(true)
+      expect(s2.has('drowned_truth')).toBe(true)
+      expect(s2.has('light_restored')).toBe(true)
       expect(s2.size).toBe(2)
     })
 
@@ -78,7 +79,7 @@ describe('Endings Tracker', () => {
 
     it('new game state can be created with preserved endingsSeen', () => {
       const originalState = createInitialState()
-      const seenSet = new Set<EndingId>(['keepers_peace'])
+      const seenSet = new Set<EndingId>(['sunken_accord'])
       const stateAfterEnding = { ...originalState, endingsSeen: seenSet }
 
       // Simulate what GameEngine does on new.game
@@ -87,7 +88,7 @@ describe('Endings Tracker', () => {
         phase: 'dawn' as const,
         endingsSeen: stateAfterEnding.endingsSeen,
       }
-      expect(newGameState.endingsSeen.has('keepers_peace')).toBe(true)
+      expect(newGameState.endingsSeen.has('sunken_accord')).toBe(true)
       expect(newGameState.phase).toBe('dawn')
     })
   })

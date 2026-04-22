@@ -1538,7 +1538,7 @@ export class CanvasTextRenderer implements IRenderer {
     ctx.fillStyle = vig
     ctx.fillRect(0, 0, width, height)
 
-    const endingId = state.endingId ?? 'liberation'
+    const endingId = state.endingId ?? 'endless_loop'
     const narrative = ENDING_NARRATIVES[endingId]
 
     const title    = narrative ? this.t(narrative.titleKey)    : endingId.toUpperCase()
