@@ -551,6 +551,41 @@ export class SynthAudioProvider implements IAudioProvider {
         return nodes
       }
 
+      case 'night.breaking_point': {
+        // Tense descending dissonance — two detuned sawtooth waves, 600ms
+        const ctx = this.ctx!
+        const nodes: AudioNode[] = []
+        for (const [freq, detune, delay] of [[110, 0, 0], [116, 30, 60]] as [number, number, number][]) {
+          const osc = ctx.createOscillator()
+          const gainNode = ctx.createGain()
+          const filter = ctx.createBiquadFilter()
+          osc.type = 'sawtooth'
+          osc.frequency.value = freq
+          osc.frequency.linearRampToValueAtTime(freq * 0.6, ctx.currentTime + delay / 1000 + 0.6)
+          filter.type = 'lowpass'
+          filter.frequency.value = 800 + detune
+          filter.Q.value = 2
+          osc.connect(filter)
+          filter.connect(gainNode)
+          gainNode.connect(this.categoryGains['narrative']!)
+          const t = ctx.currentTime + delay / 1000
+          gainNode.gain.setValueAtTime(0, t)
+          gainNode.gain.linearRampToValueAtTime(0.25, t + 0.03)
+          gainNode.gain.linearRampToValueAtTime(0, t + 0.6)
+          osc.start(t)
+          osc.stop(t + 0.65)
+          nodes.push(osc, filter, gainNode)
+        }
+        return nodes
+      }
+
+      case 'dilemma.choice.made': {
+        // Weighty low bell toll — sine 130Hz, long decay with subtle overtone
+        const n1 = this.buildOscSound(130, null, 0, 'sine', 0.35, 10, 80, 0.5, 300, 800, 'narrative',   0)
+        const n2 = this.buildOscSound(261, null, 0, 'sine', 0.12, 10, 80, 0.5, 300, 600, 'narrative', 100)
+        return [...n1, ...n2]
+      }
+
       default:
         return null
     }
