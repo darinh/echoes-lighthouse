@@ -44,7 +44,8 @@ export class UIManager {
   private _loreRotateTimer: ReturnType<typeof setInterval> | null = null
   private _currentLoreIdx = 0
   private static readonly _lorePages = CODEX_PAGES.filter(p => p.bodyKey.length > 0)
-  private _cachedSaveLoopCount: number | null = null
+  // Title-screen settings sub-panel visibility
+  private _titleShowSettings = false
 
   setI18n(i18n: II18n): void { this._i18n = i18n }
   private t(key: string): string { return this._i18n ? this._i18n.t(key) : key }
@@ -87,6 +88,22 @@ export class UIManager {
       if (!raw) return
       try {
         const action = JSON.parse(raw) as GameAction
+        // Intercept title-screen settings navigation — these are pure UI state
+        // changes that never need to reach the engine.
+        if (action.type === 'title.settings.open') {
+          this._titleShowSettings = true
+          // Clear the title-prompt cache so the next update() re-renders the
+          // settings panel immediately.
+          const prompt = this.gameUI?.querySelector('.title-prompt') as HTMLElement | null
+          if (prompt) prompt.dataset['lastHtml'] = ''
+          return
+        }
+        if (action.type === 'title.settings.close') {
+          this._titleShowSettings = false
+          const prompt = this.gameUI?.querySelector('.title-prompt') as HTMLElement | null
+          if (prompt) prompt.dataset['lastHtml'] = ''
+          return
+        }
         this.onAction?.(action)
       } catch {
         // ignore malformed data-action JSON
@@ -114,41 +131,49 @@ export class UIManager {
     this.updateNotifications(state)
   }
 
-  private updateTitleUI(_state: IGameState): void {
-    // Always hide the overlay on the title screen — it starts without the
-    // 'hidden' class in HTML and updateOverlay() is skipped for title phase.
+  private updateTitleUI(state: IGameState): void {
+    // Always hide the overlay panel — it starts without 'hidden' in HTML, and
+    // updateOverlay() is skipped for the title phase.
     this.overlayPanel.classList.add('hidden')
 
+    // Ensure the title prompt div exists (created once, reused every frame).
     let prompt = this.gameUI.querySelector('.title-prompt') as HTMLElement | null
     if (!prompt) {
       prompt = document.createElement('div')
-      prompt.className = 'title-prompt'
+      prompt.className = 'title-prompt title-screen-fade'
       this.gameUI.appendChild(prompt)
     }
 
-    // Start lore rotation interval on first title frame
+    // Ensure the version badge exists as a sibling of .title-prompt.
+    let versionEl = this.gameUI.querySelector('.title-version') as HTMLElement | null
+    if (!versionEl) {
+      versionEl = document.createElement('div')
+      versionEl.className = 'title-version'
+      this.gameUI.appendChild(versionEl)
+      versionEl.textContent = `v${(import.meta as { env?: Record<string, string> }).env?.VITE_APP_VERSION ?? '1.0.0'}`
+    }
+
+    // Start lore-rotation timer on the first title frame.
     if (this._loreRotateTimer === null && UIManager._lorePages.length > 0) {
       this._currentLoreIdx = Math.floor(Math.random() * UIManager._lorePages.length)
-      this._cachedSaveLoopCount = this._readSaveLoopCount()
       this._loreRotateTimer = setInterval(() => {
         this._currentLoreIdx = (this._currentLoreIdx + 1) % UIManager._lorePages.length
+        // Invalidate cache to force a re-render on the next tick.
+        this._lastOverlayHtml = ''
       }, 6000)
     }
 
-    const hasSave = SaveSystem.hasSave()
+    const hasProgress = SaveSystem.hasSaveWithProgress()
     const endingsSeen = SaveSystem.loadEndingsSeen()
     const totalEndings = Object.keys(ENDING_NARRATIVES).length
-    const endingsText = `◇ ${endingsSeen.size} / ${totalEndings} endings discovered`
-
-    const loopHint = hasSave && this._cachedSaveLoopCount !== null
-      ? `<div class="title-loop-hint">Loop ${this._cachedSaveLoopCount}</div>`
+    const endingsText = endingsSeen.size > 0
+      ? `◇ ${endingsSeen.size} / ${totalEndings} endings discovered`
       : ''
 
-    const startLabel = hasSave ? '[ PRESS ENTER TO CONTINUE ]' : '[ PRESS ENTER TO START ]'
-
+    // ── Lore snippet (rotated every 6 s) ──────────────────────────────────
     let loreHtml = ''
     if (UIManager._lorePages.length > 0) {
-      const page = UIManager._lorePages[this._currentLoreIdx % UIManager._lorePages.length]
+      const page = UIManager._lorePages[this._currentLoreIdx % UIManager._lorePages.length]!
       const fullBody = this.t(page.bodyKey)
       const snippet = fullBody.length > 160 ? fullBody.slice(0, 157).trimEnd() + '…' : fullBody
       const domain = page.domain.charAt(0).toUpperCase() + page.domain.slice(1)
@@ -159,13 +184,69 @@ export class UIManager {
         </div>`
     }
 
-    prompt.innerHTML = `
+    // ── Settings sub-panel ────────────────────────────────────────────────
+    const panelHtml = this._titleShowSettings
+      ? this._renderTitleSettings(state)
+      : this._renderTitleMenu(hasProgress)
+
+    const html = `
+      <div class="title-game-title">ECHOES OF THE LIGHTHOUSE</div>
+      <div class="title-tagline">${this.esc(this.t('title.tagline'))}</div>
+      ${panelHtml}
       ${loreHtml}
-      <div class="title-endings">${this.esc(endingsText)}</div>
-      <button class="start-btn" data-action='{"type":"start.game"}'>${startLabel}</button>
-      ${loopHint}
-      ${hasSave ? `<button class="new-game-btn" data-action='{"type":"new.game"}'>[ N ] NEW GAME (clears save)</button>` : ''}
-      <div class="title-key-hint">Press Enter or Space to begin</div>
+      ${endingsText ? `<div class="title-endings">${this.esc(endingsText)}</div>` : ''}
+    `
+
+    // Use innerHTML directly — .title-prompt is not in the
+    // setHtml() cache system, so we manage it manually here.
+    // Only rewrite if content changed to avoid detaching click listeners
+    // from buttons that are currently in the DOM.
+    if (prompt.dataset['lastHtml'] !== html) {
+      prompt.dataset['lastHtml'] = html
+      prompt.innerHTML = html
+    }
+  }
+
+  /** Render the main title menu (New Game / Continue / Settings). */
+  private _renderTitleMenu(hasProgress: boolean): string {
+    const continueBtn = hasProgress
+      ? `<button class="title-menu-btn continue-btn" data-action='{"type":"game.continue"}'>▶  ${this.esc(this.t('title.continue'))}</button>`
+      : ''
+    return `
+      <div class="title-menu">
+        <button class="title-menu-btn" data-action='{"type":"game.new"}'>▶  ${this.esc(this.t('title.new_game'))}</button>
+        ${continueBtn}
+        <button class="title-menu-btn settings-btn" data-action='{"type":"title.settings.open"}'>⚙  ${this.esc(this.t('title.settings'))}</button>
+      </div>
+    `
+  }
+
+  /** Render the settings sub-panel. */
+  private _renderTitleSettings(state: IGameState): string {
+    const audioLabel = state.audioMuted
+      ? this.t('title.audio_off')
+      : this.t('title.audio_on')
+    const audioClass = state.audioMuted ? 'off' : 'on'
+
+    const diffBtns = (['easy', 'normal', 'hard'] as const).map(d => {
+      const active = state.difficulty === d ? ' active' : ''
+      const action = JSON.stringify({ type: 'settings.difficulty', value: d } satisfies GameAction)
+      return `<button class="title-diff-btn${active}" data-action='${action}'>${d.charAt(0).toUpperCase() + d.slice(1)}</button>`
+    }).join('')
+
+    return `
+      <div class="title-settings">
+        <div class="title-settings-heading">⚙ ${this.esc(this.t('title.settings'))}</div>
+        <div class="title-settings-row">
+          <span class="title-settings-label">${this.esc(this.t('hud.audio') || 'Audio')}</span>
+          <button class="title-setting-toggle ${audioClass}" data-action='{"type":"audio.toggle"}'>${this.esc(audioLabel)}</button>
+        </div>
+        <div class="title-settings-row">
+          <span class="title-settings-label">${this.esc(this.t('title.difficulty'))}</span>
+          <div class="title-difficulty-group">${diffBtns}</div>
+        </div>
+        <button class="title-menu-btn settings-btn" style="margin-top:12px" data-action='{"type":"title.settings.close"}'>◁  ${this.esc(this.t('title.back'))}</button>
+      </div>
     `
   }
 
@@ -173,24 +254,16 @@ export class UIManager {
     if (this._loreRotateTimer !== null) {
       clearInterval(this._loreRotateTimer)
       this._loreRotateTimer = null
-      this._cachedSaveLoopCount = null
     }
-  }
-
-  private _readSaveLoopCount(): number | null {
-    try {
-      const raw = localStorage.getItem('echoes-lighthouse-save')
-      if (!raw) return null
-      const snap = JSON.parse(raw) as { player?: { loopCount?: number } }
-      return snap?.player?.loopCount ?? null
-    } catch {
-      return null
-    }
+    // Reset settings panel visibility when leaving title screen.
+    this._titleShowSettings = false
   }
 
   private removeTitle(): void {
     const p = this.gameUI.querySelector('.title-prompt')
     if (p) p.remove()
+    const v = this.gameUI.querySelector('.title-version')
+    if (v) v.remove()
   }
 
   updateHUD(state: IGameState): void {
@@ -539,7 +612,7 @@ export class UIManager {
         <p class="death-cause">${this.esc(cause)}</p>
         <p class="death-cause">Loop ${state.player.loopCount} · Insight gathered: ${state.player.insight}</p>
         <button class="death-btn" data-action='{"type":"loop.dawn"}'>BEGIN AGAIN →</button>
-        <button class="death-btn" data-action='{"type":"main.menu"}'>MAIN MENU</button>
+        <button class="death-btn" data-action='{"type":"game.title"}'>${this.esc(this.t('title.return_to_title'))}</button>
       </div>
     `, '_lastContentHtml')
   }
@@ -553,7 +626,7 @@ export class UIManager {
       this.setHtml(this.contentPanel, `
         <div class="ending-screen">
           <div class="ending-title">${this.esc(title)}</div>
-          <button class="ending-btn" data-action='{"type":"main.menu"}'>RETURN TO LIGHTHOUSE</button>
+          <button class="ending-btn" data-action='{"type":"game.title"}'>${this.esc(this.t('title.return_to_title'))}</button>
         </div>
       `, '_lastContentHtml')
       return
@@ -586,7 +659,7 @@ export class UIManager {
         </div>
         <div class="ending-rule"></div>
         <p class="ending-closing">${this.esc(closing)}</p>
-        <button class="ending-btn" data-action='{"type":"main.menu"}'>RETURN TO LIGHTHOUSE</button>
+        <button class="ending-btn" data-action='{"type":"game.title"}'>${this.esc(this.t('title.return_to_title'))}</button>
       </div>
     `, '_lastContentHtml')
   }

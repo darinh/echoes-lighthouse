@@ -11,7 +11,11 @@ export class LoopSystem implements ISystem {
   constructor(private readonly eventBus: IEventBus) {}
 
   init(state: IGameState): IGameState {
-    return { ...state, phase: 'dawn', player: { ...state.player, loopCount: 1 } }
+    // Preserve the 'title' phase — the title screen drives the transition to
+    // 'dawn'.  LoopSystem no longer auto-advances past title on boot so that
+    // the player always sees the title screen.  loopCount is still initialised
+    // to 1 so the HUD shows the correct loop number the moment gameplay begins.
+    return { ...state, player: { ...state.player, loopCount: 1 } }
   }
 
   update(state: IGameState, deltaMs: number): IGameState {

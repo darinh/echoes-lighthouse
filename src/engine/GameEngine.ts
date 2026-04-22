@@ -671,6 +671,65 @@ export class GameEngine {
         }
         break
       }
+
+      // ── Title screen actions ──────────────────────────────────────────────
+
+      case 'game.new': {
+        // Start a fresh game from the title screen. Equivalent to 'new.game'
+        // but dispatched from the new title-screen UI.  Preserves difficulty
+        // and endingsSeen so the player's meta-progress carries over.
+        SaveSystem.clearSave()
+        const chosenDiff = this.state.difficulty
+        const freshState = createInitialState()
+        const baseStamina = freshState.player.stamina
+        const scaledStamina =
+          chosenDiff === 'easy' ? Math.ceil(baseStamina * 1.5) :
+          chosenDiff === 'hard' ? Math.max(3, Math.floor(baseStamina * 0.75)) :
+          baseStamina
+        this.state = {
+          ...freshState,
+          phase: 'dawn',
+          difficulty: chosenDiff,
+          endingsSeen: this.state.endingsSeen,
+          player: { ...freshState.player, stamina: scaledStamina, loopCount: 1 },
+        }
+        this.eventBus.emit('loop.started', { loopCount: 1 })
+        this.applyEvent('loop.started', { loopCount: 1 })
+        break
+      }
+
+      case 'game.continue': {
+        // Load the most recent save and resume.  Falls back to a fresh game
+        // if no save exists (defensive — the CONTINUE button is only shown
+        // when SaveSystem.hasSaveWithProgress() returns true).
+        const saved = SaveSystem.loadState()
+        if (saved) {
+          this.state = saved
+          this.eventBus.emit('loop.started', { loopCount: saved.player.loopCount })
+          this.applyEvent('loop.started', { loopCount: saved.player.loopCount })
+        } else {
+          this.handleAction({ type: 'game.new' })
+        }
+        break
+      }
+
+      case 'game.title':
+        // Return to the title screen (from ending, death, or settings).
+        this.state = { ...this.state, phase: 'title' }
+        break
+
+      case 'audio.toggle':
+        // Toggle audioMuted directly in state so the change is immediate
+        // and visible to the next render frame. AmbientAudioSystem.onEvent
+        // also handles 'audio.toggle' (for its own state mirror), but calling
+        // applyEvent here would cause a double-toggle (once here, once in the
+        // system). Emit on the event bus only to drive hardware gain changes.
+        this.state = { ...this.state, audioMuted: !this.state.audioMuted }
+        this.eventBus.emit('audio.toggle', {})
+        break
+
+      // title.settings.open and title.settings.close are handled entirely in
+      // UIManager and do not reach the engine.
     }
   }
 

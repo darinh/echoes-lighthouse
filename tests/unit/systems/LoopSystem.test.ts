@@ -18,9 +18,10 @@ describe('[GDD §1.1] LoopSystem — Death and loop reset', () => {
   })
 
   describe('init', () => {
-    it('sets phase to dawn on init', () => {
+    it('preserves title phase on init (title screen drives the dawn transition)', () => {
       const result = system.init(createInitialState())
-      expect(result.phase).toBe('dawn')
+      // createInitialState() starts at 'title'; LoopSystem no longer auto-advances.
+      expect(result.phase).toBe('title')
     })
 
     it('sets loopCount to 1 on first init', () => {

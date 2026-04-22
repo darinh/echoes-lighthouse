@@ -460,5 +460,16 @@
     "chapel_dark": "In darkness the chapel shows its true liturgy: names scratched beneath the plaster, prayers aimed not at heaven but at something anchored just offshore, waiting to be named.",
     "fifth_return": "The lighthouse blinks once for each return. Four slow pulses, and now a fifth — the light seems to hesitate, as though it too has begun to wonder whether you will ever leave.",
     "ina_keeper": "Keeper Petra's eyes carry a recognition that should be impossible; she has not met you, and yet she flinches as if remembering a wound you have not yet given her."
+  },
+  "title": {
+    "tagline": "A mystery of light and memory",
+    "new_game": "New Game",
+    "continue": "Continue",
+    "settings": "Settings",
+    "back": "Back",
+    "audio_on": "Audio: On",
+    "audio_off": "Audio: Off",
+    "difficulty": "Difficulty",
+    "return_to_title": "Return to Title"
   }
 }

@@ -147,6 +147,31 @@ export class SaveSystem implements ISystem {
     try { return localStorage.getItem(STORAGE_KEY) !== null } catch { return false }
   }
 
+  /**
+   * Returns true when a save exists AND the player has made meaningful progress
+   * (completed at least one loop OR discovered more than the starting location).
+   * Used by the title screen to decide whether to show the CONTINUE button.
+   *
+   * "Meaningful progress" is:
+   *  - loopCount ≥ 1  (completed a full loop, i.e. the player has died or
+   *                    reached an ending and restarted), OR
+   *  - more than one discovered location (keepers_cottage is always discovered
+   *    at game start, so > 1 means the player has genuinely explored).
+   */
+  static hasSaveWithProgress(): boolean {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY)
+      if (!raw) return false
+      const snapshot = JSON.parse(raw) as Partial<SaveSnapshot>
+      if (!snapshot?.player) return false
+      const loopCount = snapshot.player?.loopCount ?? 0
+      const discoveredLocations = snapshot.player?.discoveredLocations ?? []
+      return loopCount >= 1 || discoveredLocations.length > 1
+    } catch {
+      return false
+    }
+  }
+
   static clearSave(): void {
     localStorage.removeItem(STORAGE_KEY)
   }
