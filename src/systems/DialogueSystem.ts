@@ -24,6 +24,11 @@ import { ISOLDE_NPC } from '@/data/npcs/isolde.js'
 import { BRYNN_NPC }  from '@/data/npcs/brynn.js'
 import { CORVIN_NPC } from '@/data/npcs/corvin.js'
 import { ALDRIC_NPC } from '@/data/npcs/aldric.js'
+import { FENN_NPC } from '@/data/npcs/fenn.js'
+import { KEEPER_PETRA_NPC } from '@/data/npcs/keeper_petra.js'
+import { KEEPER_TOBIAS_NPC } from '@/data/npcs/keeper_tobias.js'
+import { THE_WARDEN_NPC } from '@/data/npcs/the_warden.js'
+import { MIRROR_KEEPER_NPC } from '@/data/npcs/mirror_keeper.js'
 
 const NPC_REGISTRY: Record<string, NPCFullData> = {
   maren:  MAREN_NPC  as unknown as NPCFullData,
@@ -43,8 +48,13 @@ cal:    CAL_NPC    as unknown as NPCFullData,
 sera:   SERA_NPC   as unknown as NPCFullData,
   isolde: ISOLDE_NPC as unknown as NPCFullData,
   brynn:  BRYNN_NPC  as unknown as NPCFullData,
-  corvin: CORVIN_NPC as unknown as NPCFullData,
-  aldric: ALDRIC_NPC as unknown as NPCFullData,
+  corvin:        CORVIN_NPC        as unknown as NPCFullData,
+  aldric:        ALDRIC_NPC        as unknown as NPCFullData,
+  fenn:          FENN_NPC          as unknown as NPCFullData,
+  keeper_petra:  KEEPER_PETRA_NPC  as unknown as NPCFullData,
+  keeper_tobias: KEEPER_TOBIAS_NPC as unknown as NPCFullData,
+  the_warden:    THE_WARDEN_NPC    as unknown as NPCFullData,
+  mirror_keeper: MIRROR_KEEPER_NPC as unknown as NPCFullData,
 }
 
 function hasDialogueKey(key: string): boolean {

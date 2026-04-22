@@ -39,8 +39,13 @@ cal:    'cliffside',
 sera:   'tidal_caves',
   isolde: 'village_inn',
   brynn:  'village_square',
-  corvin: 'harbor',
-  aldric: 'mill',
+  corvin:        'harbor',
+  aldric:        'mill',
+  fenn:          'mechanism_room',
+  keeper_petra:  'archive_basement',
+  keeper_tobias: 'lighthouse_top',
+  the_warden:    'tidal_caves',
+  mirror_keeper: 'cliffside',
 }
 
 const NPC_DEFAULT_ATTITUDES: Partial<Record<NPCId, NPCAttitude>> = {

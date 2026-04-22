@@ -887,6 +887,176 @@
       "suspicion": "The lighthouse had extra grain going somewhere. Not to the keeper — his regular order never changed. Somewhere else in the lighthouse. Something was being fed.",
       "conclusion": "Something in that lighthouse eats. And the keepers have been feeding it. The records prove it, if you know what you're looking at. I don't know what it is. But I know it's hungry.",
       "thank": "Just doing what a neighbor does. Thirty years on this island — I figure I owe the truth a little more than I've been paying."
+    },
+    "fenn": {
+      "name": "Elias",
+      "title": "The First Keeper's Echo",
+      "greeting": {
+        "tier0": "The gears are wrong. You feel it before you hear it — a half-beat missing, a vibration that should resolve and doesn't. Something has been waiting in that wrongness for a long time.",
+        "tier1": "The air near the main gear is different. Older. You smell oil that has not been fresh in decades. A voice, very faint, says: you can hear it too. I thought everyone had stopped being able to hear it.",
+        "tier2": "He is more present now. Still translucent at the edges, still more suggestion than solid, but standing near the mechanism with the careful familiarity of someone who built it. You came back, he says. Good. I was not sure you would.",
+        "tier3": "He is watching the gears when you enter. He does not move until you are beside him. I have been deciding, he says, what to tell you and in what order. I think I have been wrong about the order.",
+        "tier4": "He turns to face you fully. For a moment the gears behind him line up perfectly — all of them, the whole mechanism, in a configuration you have never seen before. This is what it looked like, he says, at the beginning. Before we changed it."
+      },
+      "mechanism": {
+        "builder": "I built it. Not all of it — the base had been here long before me. But the mechanism, the timing, the calibration for the lens — that was mine. I built it to do one thing. The keepers after me made it do something else.",
+        "sound": "It is the cycling. Every full rotation there is a moment — a fraction of a second — where the gears disengage. That gap is supposed to be there. It was designed into the rhythm. Without the gap, the light has no pause. Without the pause, it cannot breathe."
+      },
+      "light": {
+        "purpose": "It was meant to ask a question. One question, in light, every night, at the frequency the thing below can understand. I spent four years calibrating the lens to that frequency. The question was: are you still there? The answer was supposed to keep the light on.",
+        "press": "The question was meant to be answered. Not by the keeper — by the thing. If the thing answered, the light stayed lit. If it did not answer, the light was supposed to go dark, and that was supposed to mean something had changed. The keepers after me changed the mechanism so the light never goes dark. They thought that was safer. It was not."
+      },
+      "elias": {
+        "death": "I fell. Simple as that. I was recalibrating the gear linkage on the upper platform — the small one, the one no one can see from below — and I fell. It was early morning. No one knew I was up there. The mechanism ran for two days before anyone noticed I was gone. I found that very funny, later."
+      },
+      "cycle": {
+        "explanation": "The mechanism controls the frequency. The frequency controls the question. The thing below only hears the question when the gap is present. Without the gap, the thing does not hear the question. Without the question, it does not answer. Without the answer, it waits. While it waits, it hungers. While it hungers, keepers disappear. The cycle is not the light. The cycle is the silence between.",
+        "impossible": "You cannot stop it. Not by smashing the gears — the thing will still be there, and angrier. Not by leaving — someone else will come, and the same thing will happen. The only way to change the cycle is to change what the light asks. And for that you need the key."
+      },
+      "key": {
+        "revelation": "It is not a key. I called it that because I could not think of a better word. It is a calibration — a specific sequence of gear positions that resets the lens angle to the original frequency. I carved it into the base of the mechanism housing, under the oil grate, on my last full day before the fall. I did not know it was my last full day. I was just being careful."
+      },
+      "stayed": {
+        "reason": "I stayed because the mechanism is wrong and I am the only one who knows how it is supposed to work. I stayed because I could not leave while it was wrong. I have been here for a very long time. I am ready to leave now, if you will fix it."
+      }
+    },
+    "keeper_petra": {
+      "name": "Petra",
+      "title": "Keeper's Echo",
+      "greeting": {
+        "tier0": "The archive is not quiet. You assumed it would be — old paper, old shelves, old silence. But there is a sound beneath the sound. A scratching. Not mice. Something more deliberate.",
+        "tier1": "She is at the reading table. Not reading — there is nothing in front of her. Her hands are flat on the table surface and her head is bowed. She looks up when you come close enough. You are the new one, she says. You found this place faster than I did.",
+        "tier2": "She is standing now, more clearly present. She has the posture of someone who has been standing at a lectern for years. I was researching, she says. That is what I was doing when it happened. I want you to know that. I was close.",
+        "tier3": "She is looking at the shelves rather than at you. I keep expecting to find the book I was looking for, she says. The one that would have finished it. I think it was moved. I think it was moved specifically so I would not finish.",
+        "tier4": "She turns from the shelves and looks at you with the focused precision of someone who has had a long time to decide what matters. I have been waiting for someone who would understand what I found, she says. Not what happened to me. What I found."
+      },
+      "research": {
+        "what": "The pattern of keeper disappearances. Fourteen keepers in eighty years — not counting the ones they called voluntary departures, which I did not count. Fourteen who simply were not there one morning. I was looking for the interval. I thought if I found the interval I could predict the next one. I found the interval."
+      },
+      "identity": {
+        "before": "Keeper Petra Voss. Appointed eight years after Keeper Tobias. Before that, a historian at the eastern university. I came here because the lighthouse kept appearing in the archival records in ways that did not make sense. I thought it would take six months. I was here for four years."
+      },
+      "pattern": {
+        "found": "Every nineteen months, within a window of two weeks. That is the interval. Nineteen months from the previous disappearance, the next one occurs. It is not random and it is not natural. Something is maintaining a schedule. I was in my nineteenth month when I stopped being able to find the book.",
+        "press": "The book was a binding record from the original construction. It listed the names and purposes of every element of the mechanism, including elements that were never disclosed in the public record. I had it in my hands the morning before. The next morning it was gone and I was here."
+      },
+      "notes": {
+        "location": "I kept my notes in the secondary catalogue — the one behind the locked shelf, section seven. The key is behind the portrait of the founding commissioner. I put it there because I thought no one would look there. I was wrong about who would not look there."
+      },
+      "end": {
+        "what_happened": "I went to check the mechanism. I had a theory — the gear timing and the disappearance interval were connected. I went up in the early morning, before light. I remember standing at the top of the lighthouse. I remember the quality of the dark. And then I was here, in the archive, and it was years later, and I was not sure how many."
+      },
+      "warning": {
+        "given": "Do not go to the mechanism alone. Do not go before dawn. Do not carry the calibration notes openly — whatever removed my book can see what you are carrying. If you have found the sequence from Elias, keep it in your memory, not on paper."
+      },
+      "cipher": {
+        "revealed": "The binding record used a substitution cipher for the sensitive specifications. I broke it in my third year. The cipher key is the lighthouse keeper's oath — the original version, not the revised one. Substitute the oath letters in order against the encoded text. What you will find will tell you what the mechanism was originally asked to do, and what it was changed to do instead."
+      },
+      "witnessed": {
+        "peer": "She is still. Then: no one has ever asked me that before. Everyone asks what I found. No one asks how I am. She looks at her hands. I am tired, she says. I am very tired. I have been thorough for so long. I think I am allowed to be done now."
+      }
+    },
+    "keeper_tobias": {
+      "name": "Tobias",
+      "title": "Keeper's Echo",
+      "greeting": {
+        "tier0": "The glass at the top of the lighthouse is old. You can see the imperfections — small bubbles, a slight waviness that bends the horizon. Through one particular bubble, the horizon forms a perfect, closed loop. You stare at it longer than you intended.",
+        "tier1": "He is standing at the window. Not looking out — looking at the glass itself. He speaks without turning around. Another keeper, he says. Good. There has been a gap. I was beginning to think the light had gone out entirely.",
+        "tier2": "He turns now. He is older than the portrait in the keeper's cottage made him look. Longer in service, I think, he says. The portrait was done in my second year. I was here for eleven. He says it without particular feeling, which is its own kind of feeling.",
+        "tier3": "He is sitting on the floor near the mechanism housing, which surprises you — he does not seem like someone who sits on floors. I have been thinking about the night, he says. I have had time to think about it carefully. I know now what I did wrong. I did not know then.",
+        "tier4": "He stands when you enter, formally, as a keeper greeting a keeper. He looks at you for a long time before speaking. You have the look, he says, of someone who has found the things I left behind. He pauses. I left them on purpose. I was hoping someone would."
+      },
+      "light": {
+        "truth": "The light does not guide ships. It never did — the harbor lights do that, and always have. The lighthouse light faces inland on certain nights. Not all nights. Specific nights, at intervals I could not calculate but could observe. On those nights, standing in the beam felt wrong. Like standing in a question you did not know how to answer."
+      },
+      "saw": {
+        "first": "In my third year, I saw the darkness moving below the water at the base of the cliffs. Not the water moving — something below the water, moving independently. Slow. Deliberate. I wrote it down and then I did not write it down again, because writing it down made it more real."
+      },
+      "last_night": {
+        "what": "I had decided to recalibrate the mechanism. Not based on Elias's notes — I did not know about Elias then. Based on my own observations. I had calculated what I thought was the original frequency from the pattern of keeper disappearances and the cycle of the thing below. I thought I had it.",
+        "press": "I was wrong by six degrees. Six degrees off the original calibration means the light asks the wrong question. Not no question — the wrong one. The thing below heard the wrong question and answered it. I do not know what the answer to the wrong question is. I know what it cost."
+      },
+      "darkness": {
+        "seen": "You learn to look at the water differently when you are a keeper. You learn to see what is below the surface by the way the surface moves above it. The thing below the cliffs moves in a pattern. The pattern matches the gear timing. It is listening. It has always been listening."
+      },
+      "attempt": {
+        "made": "I was trying to reset the frequency. I thought if I could ask the right question, the hunger would stop, the disappearances would stop, the cycle would stop. I had the calibration almost right. Almost. Six degrees. I have spent a long time thinking about six degrees.",
+        "failed": "Because I did not have the original key. I calculated backwards from observation — close, but not exact. The thing below does not accept approximation. It answers the question it receives, not the question you intended to ask."
+      },
+      "lesson": {
+        "final": "Do not guess. Do not approximate. Do not use your own calculations, however careful they are, however many years went into them. Find the original. Elias built this, and Elias left a record, and if you can read it, you will have what I was missing. Six degrees. I spent eleven years on those six degrees."
+      },
+      "need": {
+        "nothing": "He is quiet for a long time. Then: nothing. I did not know that was the answer until you asked the question. I kept thinking I needed to do something — finish the calculation, warn the next keeper, correct my mistake. But the next keeper is here, and the warning is given, and what I needed was for someone to ask if there was anything I needed. He looks out at the glass. I think I am done now."
+      }
+    },
+    "the_warden": {
+      "name": "The Warden",
+      "title": "Ancient Keeper of the Cycle",
+      "greeting": {
+        "tier0": "The cave is wrong. Not wrong like danger — wrong like a room that has been sealed for centuries and remembers that sealing. The water sounds different. The dark is a different quality of dark. Something here has been waiting since before the lighthouse was built.",
+        "tier1": "You. Keeper. The word comes from everywhere and nowhere, neither voice nor sound but comprehended. You are early. Or late. The Warden does not experience time the way keepers do. You are between intervals. That is unusual.",
+        "tier2": "It is not a shape exactly. It is more like an absence that knows it is an absence. You look at it and understand that it has been here longer than the island has had a name. That it was here when the first keeper came. That it will be here when the last one does.",
+        "tier3": "It feels your presence differently now. Not with welcome — with recognition. You know more than the others did at this stage, it says. That is either promising or unfortunate. The Warden has not decided which.",
+        "tier4": "There is a stillness in the cave that was not there before. The water has stopped entirely. The darkness has a shape to it, a weight, a direction. The Warden is paying attention in a way it was not paying before. This is a conversation, it says. Not a report. I find I prefer conversations."
+      },
+      "nature": {
+        "answer": "I am the record. Every keeper who has come here — every one, in every loop — has added to what I am. I am the sum of their attempts, their failures, their final moments of understanding. I am not a god. I am a library. A library that enforces its own catalogue."
+      },
+      "passage": {
+        "refused": "Passage is not the question. The question is whether you have earned the understanding that would make passage meaningful. You have not. Come back when you have spoken to the echoes. Come back when you know what the mechanism was built to do. Come back when you understand why the light must keep asking."
+      },
+      "keepers": {
+        "count": "Two hundred and seven. That is the number since the mechanism was built. Before the mechanism — more. The hunger predates the lighthouse. The lighthouse predates the keeping. The keeping was the answer to a problem that had gone unanswered for a very long time. Some of those two hundred and seven came close. Two of them found the original calibration. Neither of them completed it."
+      },
+      "cycle": {
+        "what_it_is": "The cycle is a negotiation. The thing below is not malevolent — it is hungry, and hunger does not think about consequence, only about relief. The light asks a question. The question, properly phrased, gives the thing a way to express its hunger without acting on it. Without the question, the hunger acts. Keepers are the form it takes when it acts."
+      },
+      "purpose": {
+        "keeper": "My purpose is to hold the record and enforce the interval. I do not cause the disappearances. I record them. I remember them. Every keeper who disappears is still here, in some form, in some way. The ones you have spoken to — the ones in the mechanism room, the archive, the top of the lighthouse — they are here because I hold them here. They are held because the cycle was not completed. Complete the cycle and I release them."
+      },
+      "challenged": {
+        "answer": "Challenge it if you like. The Warden has heard challenges before. Two hundred and seven times, in various forms. The challenge changes nothing. The hunger exists. The mechanism was built to manage the hunger. The keeper exists to tend the mechanism. These are not choices. They are the shape of the agreement between those who built here and the thing that was here before them. You can disagree with the agreement. The agreement does not require your consent."
+      },
+      "bargain": {
+        "price": "Not a price. An exchange. You complete the calibration — the full calibration, the original frequency, using Elias's key — and the thing below receives the question it has been waiting for. It answers. The cycle completes. The echoes are released. The hunger is satisfied for another interval. In exchange: you remember. You carry the memory across the next loop. You are the only keeper who has ever been offered that.",
+        "accepted": "Good. The Warden records the agreement. Do not mistake this for protection. You will still have to complete the calibration. You will still have to ask the question. The only difference is that when the thing answers, you will be present for the answer rather than consumed by it. That is the exchange.",
+        "refused": "That is also acceptable. The Warden records the refusal. Other keepers have refused. Most of them still completed the calibration eventually — some instinct, some understanding they could not articulate, drove them to it even without the exchange. The record shows three who did not. They are still here. They are very tired."
+      }
+    },
+    "mirror_keeper": {
+      "name": "The Mirror Keeper",
+      "title": "Echo of the Keeper",
+      "greeting": {
+        "tier0": "At the edge of the cliffs, the light is strange. It comes from the wrong direction — not the lighthouse, not the horizon, but from somewhere between. In that wrong light, for a moment, you see a figure. It has your coat. It has your posture. It turns away before you can see its face.",
+        "tier1": "It is still there when you come close. Still turned away. Slowly, it turns. You see your own face — older by some interval you cannot calculate, tireder, but with an expression you do not yet recognize on yourself. You know, it says. The voice is yours. You just do not know yet that you know.",
+        "tier2": "It is facing you fully now. The wrongness of it has settled into something almost ordinary — the wrongness you feel when you see a recording of your own voice, a photograph from an angle you never see. You have been here before, it says. Not here exactly. Here in the way that matters.",
+        "tier3": "It is watching you with an expression you have finally placed: the expression of someone who knows how a story ends and is watching it happen anyway. I tried, it says. I want you to know that. Whatever you are thinking of trying — I tried it.",
+        "tier4": "Something has changed. The light is back to the wrong direction, but it no longer seems wrong — it seems like a different kind of right. The figure before you looks less like a warning and more like a message. I was supposed to tell you something, it says. I have been waiting until you could hear it."
+      },
+      "identity": {
+        "denial": "It does not answer. It looks at you with an expression that you realize, with a sickness that is not quite nausea, is the expression you make when someone asks a question you have decided not to answer yet. Then it says: you will find out. You will wish you had more time before you found out. But you will find out."
+      },
+      "turned_away": {
+        "gone": "It does not argue. It simply watches you go. You feel its gaze on your back all the way to the cliff edge. Later, you will think about what it means that your own echo let you walk away without saying what it came to say."
+      },
+      "memory": {
+        "loop": "The things you have done this loop — the conversations, the discoveries, the choices — it knows them. Not because it was watching. Because it did them. It was you, in an earlier loop, making the same progress, coming to the same discoveries. The question is whether you get further than it did.",
+        "press": "Further than I did means past the calibration. I completed the calibration. I asked the question. The thing below answered. I was present for the answer. That is as far as I got. Being present for the answer is not the same as completing the cycle. There is a step after. I did not know there was a step after."
+      },
+      "difference": {
+        "none": "That is the wrong question. There is no difference. There is only sequence. You are the current instance. I am a previous one. At some point there will be a next one. Unless something changes in the step I did not reach. That is why I am here."
+      },
+      "warning": {
+        "given": "After the calibration. After the question. After the answer. The thing below will offer you something — an exchange, a completion, a way out. The Warden calls it the bargain. The thing below calls it the finish. What it is, is a choice about whether you continue. Do not make the choice before you understand what continuing means. I did not understand. I chose wrong."
+      },
+      "tried": {
+        "yes": "I tried everything I am telling you not to rush. I tried the calibration without Elias's key — six degrees off, same as Tobias. I tried bargaining with the Warden without the full understanding — it accepted the bargain and then held me to terms I had not read carefully. I tried to leave — that is how I ended up here, at the cliff edge, as the echo that waits for the next keeper. You cannot leave. But you can finish. I did not finish."
+      },
+      "truth": {
+        "accepted": "It is very still. Then: good. That is all. Just good. Then it begins to lose coherence — not disappearing, not fading, but becoming less specific, less defined, as if the particular shape of it was only necessary until this moment. The wrong light straightens. The cliff edge is just a cliff edge. You are alone. But you are not the same alone as before.",
+        "rejected": "Its expression does not change. I know, it says. I rejected it too, the first time. The second time. I am not sure how many times. What I can tell you is that each time I rejected it, I came back here. To this cliff. To this conversation. I do not know when I started accepting things instead of rejecting them. I know that I started because I got tired of the cliff."
+      }
     }
   },
   "dialogue": {
@@ -1059,7 +1229,40 @@
       "ask_offerings": "Ask what she knows about the offerings",
       "ask_ferry_cargo": "Ask about the cargo you transported",
       "ask_mill_records": "Ask to see the mill records",
-      "thank_him": "Thank him for his honesty"
+      "thank_him": "Thank him for his honesty",
+      "ask_about_sound": "Ask about the sound",
+      "ask_who_built_this": "Ask who built the mechanism",
+      "ask_the_light_purpose": "Ask what the light is for",
+      "ask_about_cycle": "Ask about the cycle",
+      "ask_about_the_key": "Ask about the key",
+      "ask_why_stayed": "Ask why you stayed",
+      "ask_what_you_found": "Ask what you found",
+      "ask_about_pattern": "Ask about the pattern",
+      "ask_about_the_notes": "Ask about the notes",
+      "ask_about_the_end": "What happened to you?",
+      "ask_about_cipher": "Ask about the cipher",
+      "offer_to_witness": "You are not just a researcher. I see you.",
+      "ask_what_you_saw": "Ask what you saw",
+      "ask_what_you_learned": "Ask what you learned",
+      "ask_what_to_avoid": "Ask what to avoid",
+      "ask_why_it_failed": "Ask why it failed",
+      "ask_what_you_need": "Is there anything you need?",
+      "ask_what_are_you": "What are you?",
+      "demand_passage": "I need to pass",
+      "ask_your_purpose": "Ask about your purpose",
+      "challenge_the_order": "Challenge the order of things",
+      "ask_the_price": "What would the exchange be?",
+      "accept_the_price": "I accept the exchange",
+      "refuse_the_bargain": "I refuse",
+      "ask_about_darkness": "Ask about the darkness",
+      "ask_what_you_tried": "Ask what you tried",
+      "ask_if_you_tried": "Did you try?",
+      "ask_what_you_know": "What do you know?",
+      "ask_what_difference": "What's the difference between us?",
+      "turn_away": "Turn and walk away",
+      "reject_the_reflection": "This is not real",
+      "ask_how_to_stop": "Ask how to stop the cycle",
+      "accept_the_truth": "Yes. I understand."
     }
   }
 }
