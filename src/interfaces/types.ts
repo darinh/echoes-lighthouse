@@ -18,10 +18,11 @@ export type GamePhase =
 
 /** The five narrative endings. */
 export type EndingId =
-  | 'liberation'
-  | 'keepers_peace'
-  | 'sacrifice'
-  | 'corruption'
+  | 'keepers_bargain'
+  | 'drowned_truth'
+  | 'light_restored'
+  | 'sunken_accord'
+  | 'endless_loop'
   | 'transcendence'
 
 /** The seven knowledge domains of the Archive Mastery system. */
