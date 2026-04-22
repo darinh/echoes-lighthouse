@@ -8,6 +8,7 @@ import { INSIGHT_CARDS } from '@/data/insights/cards.js'
 import { SaveSystem } from '@/systems/SaveSystem.js'
 import { CODEX_PAGES } from '@/data/codex/pages.js'
 import { ENDING_NARRATIVES } from '@/data/endings/index.js'
+import { ENDING_EPILOGUES } from '@/data/endings/epilogues.js'
 import { HINTS } from '@/data/hints/index.js'
 import { getItemAtLocation } from '@/data/items/index.js'
 import { RELATIONSHIP_UNLOCKS } from '@/data/npcs/relationships.js'
@@ -529,10 +530,15 @@ export class UIManager {
 
   private renderEndingScreen(state: IGameState): void {
     if (!state.endingId) return
-    const narrative = ENDING_NARRATIVES[state.endingId]
-    const title = narrative ? this.t(narrative.titleKey) : 'THE END'
 
-    if (!narrative) {
+    // Prefer direct prose from ENDING_EPILOGUES; fall back to i18n key lookups
+    // via ENDING_NARRATIVES for any ending not yet covered by that module.
+    const epilogue = ENDING_EPILOGUES[state.endingId]
+    const narrative = ENDING_NARRATIVES[state.endingId]
+
+    const title = epilogue?.title ?? (narrative ? this.t(narrative.titleKey) : 'THE END')
+
+    if (!epilogue && !narrative) {
       this.setHtml(this.contentPanel, `
         <div class="ending-screen">
           <div class="ending-title">${this.esc(title)}</div>
@@ -542,26 +548,45 @@ export class UIManager {
       return
     }
 
-    const subtitle = this.t(narrative.subtitleKey)
-    const opening = this.t(narrative.openingKey)
-    const closing = this.t(narrative.closingKey)
+    const subtitle  = epilogue?.subtitle  ?? this.t(narrative!.subtitleKey)
+    const opening   = epilogue?.opening   ?? this.t(narrative!.openingKey)
+    const closing   = epilogue?.closing   ?? this.t(narrative!.closingKey)
 
-    const epilogueHtml = narrative.epilogueKeys.map(key => {
-      const npcId = key.split('.').pop() ?? ''
-      const npcName = this.t(`npc.${npcId}.name`)
-      const epilogueText = this.t(key)
-      return `<div class="ending-epilogue-entry">
-        <div class="ending-epilogue-name">${this.esc(npcName.toUpperCase())}</div>
-        <p class="ending-epilogue-text">${this.esc(epilogueText)}</p>
-      </div>`
-    }).join('')
+    // Build per-character epilogue entries.
+    // If epilogue prose is available, use it directly; otherwise resolve i18n keys.
+    const epilogueHtml = epilogue
+      ? epilogue.epilogues.map(entry => {
+          const npcName = this.t(`npc.${entry.npcId}.name`)
+          // Render newlines in multi-paragraph opening prose as paragraph breaks.
+          const paragraphs = entry.text.split('\n\n').map(p =>
+            `<p class="ending-epilogue-text">${this.esc(p)}</p>`
+          ).join('')
+          return `<div class="ending-epilogue-entry">
+            <div class="ending-epilogue-name">${this.esc(npcName.toUpperCase())}</div>
+            ${paragraphs}
+          </div>`
+        }).join('')
+      : narrative!.epilogueKeys.map(key => {
+          const npcId = key.split('.').pop() ?? ''
+          const npcName = this.t(`npc.${npcId}.name`)
+          const epilogueText = this.t(key)
+          return `<div class="ending-epilogue-entry">
+            <div class="ending-epilogue-name">${this.esc(npcName.toUpperCase())}</div>
+            <p class="ending-epilogue-text">${this.esc(epilogueText)}</p>
+          </div>`
+        }).join('')
+
+    // Render multi-paragraph opening prose correctly.
+    const openingHtml = opening.split('\n\n').map(p =>
+      `<p class="ending-text">${this.esc(p)}</p>`
+    ).join('')
 
     this.setHtml(this.contentPanel, `
       <div class="ending-screen">
         <div class="ending-title">${this.esc(title)}</div>
         <p class="ending-subtitle">${this.esc(subtitle)}</p>
         <div class="ending-rule"></div>
-        <p class="ending-text">${this.esc(opening)}</p>
+        ${openingHtml}
         <div class="ending-rule"></div>
         <div class="ending-epilogue-heading">WHAT BECAME OF THEM</div>
         <div class="ending-epilogue">
