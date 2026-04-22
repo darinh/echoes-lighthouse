@@ -563,6 +563,27 @@
       "name": "The Warden's Secret",
       "title": "The Warden's Secret",
       "desc": "There is a Warden beneath the island. Not the Vael — something that predates it. The Vael is not the prisoner. The Vael is the guard. And the guard has grown tired."
+    },
+    "warden_identity": {
+      "name": "The Warden Beneath",
+      "title": "The Warden Beneath",
+      "desc": "The Keepers knew about the Warden. Each one was told on their first night — not as a warning, but as a job description. The lighthouse does not keep ships safe. It keeps the Warden asleep."
+    },
+    "thread": {
+      "vael_truth": {
+        "title": "The Vael's Story"
+      },
+      "lighthouse_mystery": {
+        "title": "The Lighthouse Secret"
+      },
+      "warden_awakening": {
+        "title": "The Warden Below"
+      }
+    },
+    "warden_buried": {
+      "name": "What the Warden Buried",
+      "title": "What the Warden Buried",
+      "desc": "The Warden did not imprison the Vael. The Warden buried the truth of what the lighthouse is for — and replaced it with duty. Every Keeper since has died carrying a lie they believed was a calling."
     }
   },
   "quest": {
