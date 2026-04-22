@@ -130,4 +130,51 @@ export const VISION_TRIGGERS_DATA: readonly VisionTrigger[] = [
     condition: { npcId: 'keeper_petra', worldFlag: 'examined_old_journal' },
     visionKey: 'vision.ina_keeper',
   },
+
+  // ── Harbor arc (GDD §3.3 / §5.5 — closes #138) ───────────────────────────
+
+  // 11. First completed loop — sets world flag used to gate Ina's loops topic.
+  //     No visible vision text; visionKey is an empty atmospheric beat.
+  {
+    id: 'loop_1_flag_setter',
+    event: 'loop.started',
+    condition: { minLoop: 1 },
+    visionKey: 'vision.first_return',
+    worldFlagSet: 'loop_1_reached',
+    isRepeatable: false,
+  },
+
+  // 12. Fourth loop reached — gates Ina's Loop 4 prophecy topic and the
+  //     loop_signature insight card.
+  {
+    id: 'loop_4_flag_setter',
+    event: 'loop.started',
+    condition: { minLoop: 4 },
+    visionKey: 'vision.fourth_return',
+    worldFlagSet: 'loop_4_reached',
+    isRepeatable: false,
+  },
+
+  // 13. First visit to the archive basement — gates Ina's archive topic
+  //     and the beacon_anomaly / drowned_archive insight cards.
+  {
+    id: 'archive_basement_visit',
+    event: 'location.moved',
+    condition: { locationId: 'archive_basement' },
+    visionKey: 'vision.archive_descent',
+    worldFlagSet: 'archive_basement_visited',
+    isRepeatable: false,
+  },
+
+  // 14. Ina harbor vision — fires the next time the player opens dialogue with
+  //     Ina after selecting the vision-trigger topic (worldFlag set by that
+  //     choice). Once fired, the flag 'ina_harbor_vision_fired' prevents refire.
+  {
+    id: 'ina_harbor_vision',
+    event: 'dialogue.start',
+    condition: { npcId: 'ina', worldFlag: 'ina_harbor_vision_ready' },
+    visionKey: 'vision.ina_harbor',
+    worldFlagSet: 'ina_harbor_vision_fired',
+    isRepeatable: false,
+  },
 ]

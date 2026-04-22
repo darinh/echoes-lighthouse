@@ -56,6 +56,7 @@ export type NPCId =
   | 'fenn'            // The Lighthouse Keeper (Echo: Elias)
   | 'keeper_petra'    // Lighthouse Keeper Echo: Petra
   | 'keeper_tobias'   // Lighthouse Keeper Echo: Tobias
+  | 'the_keeper'      // The Keeper ghost — vision state only (GDD §5.5)
   | 'the_warden'      // The thing beneath (late-game)
   | 'mirror_keeper'   // The player's own echo (late-game)
 | 'dov'             // The Mechanic
