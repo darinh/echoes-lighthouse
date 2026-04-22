@@ -185,8 +185,15 @@ export class GameEngine {
         if (isFirstExamine) {
           this.eventBus.emit('insight.gained', { amount: item.insight })
           this.applyEvent('insight.gained', { amount: item.insight })
-          this.eventBus.emit('archive.page.found', { domain: item.domain })
-          this.applyEvent('archive.page.found', { domain: item.domain })
+          // Include itemFlag + requiresSeals so KnowledgeSystem can gate the
+          // archive page on Hard difficulty (GDD §10).
+          const archivePayload = {
+            domain: item.domain,
+            itemFlag: item.worldFlag,
+            requiresSeals: item.requiresSeals ?? 1,
+          }
+          this.eventBus.emit('archive.page.found', archivePayload)
+          this.applyEvent('archive.page.found', archivePayload)
         }
         this.eventBus.emit('examine.completed', { itemId, locationId, insight: item.insight })
         this.applyEvent('examine.completed', { itemId, locationId: locationId, insight: item.insight })
@@ -446,10 +453,25 @@ export class GameEngine {
         break
       }
 
-      case 'new.game':
+      case 'new.game': {
         SaveSystem.clearSave()
-        this.state = { ...createInitialState(), phase: 'dawn', endingsSeen: this.state.endingsSeen }
+        const chosenDifficulty = this.state.difficulty
+        const fresh = createInitialState()
+        const baseStamina = fresh.player.stamina
+        // GDD §10 — difficulty stamina scaling, applied once at new-game start.
+        const scaledStamina =
+          chosenDifficulty === 'easy' ? Math.ceil(baseStamina * 1.5) :
+          chosenDifficulty === 'hard' ? Math.max(3, Math.floor(baseStamina * 0.75)) :
+          baseStamina
+        this.state = {
+          ...fresh,
+          phase: 'dawn',
+          difficulty: chosenDifficulty,
+          endingsSeen: this.state.endingsSeen,
+          player: { ...fresh.player, stamina: scaledStamina },
+        }
         break
+      }
 
       case 'main.menu':
         this.state = { ...this.state, phase: 'title' }

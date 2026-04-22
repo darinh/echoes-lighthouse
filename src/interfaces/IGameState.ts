@@ -88,6 +88,16 @@ export interface IPlayerState {
   readonly relationshipFlags: Readonly<Record<string, boolean>>
   readonly shownRelationshipDialogue: ReadonlyArray<string>
   readonly searchedLocations: ReadonlySet<LocationId>
+  /** Maps questId → loopCount when the quest was first started, for expiry checks. */
+  readonly questExpiry: Readonly<Record<string, number>>
+  /** Counts harmful dialogue choices (trustChange < -1) per NPC, for decay scaling. */
+  readonly npcHarmCount: Readonly<Record<string, number>>
+  /**
+   * Archive pages buffered awaiting insight-card seals (Hard mode only).
+   * Key = ExamineItem.worldFlag; value = seals still needed before the page
+   * is applied to archiveMastery.  Always empty on Easy / Normal.
+   */
+  readonly pendingArchiveSeals: Readonly<Record<string, { readonly domain: ArchiveDomain; readonly sealsRemaining: number }>>
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

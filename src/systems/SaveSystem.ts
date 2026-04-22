@@ -58,6 +58,9 @@ interface SaveSnapshot {
       source: 'explore' | 'examine'
     }>
     currentLocation: string
+    questExpiry: Record<string, number>
+    npcHarmCount: Record<string, number>
+    pendingArchiveSeals: Record<string, { domain: string; sealsRemaining: number }>
   }
   npcStates: Record<string, {
     id: string
@@ -210,6 +213,11 @@ export class SaveSystem implements ISystem {
         activeJournalThreads: [...state.player.activeJournalThreads],
         journalEntries: [...state.player.journalEntries],
         currentLocation: state.player.currentLocation,
+        questExpiry: { ...state.player.questExpiry },
+        npcHarmCount: { ...state.player.npcHarmCount },
+        pendingArchiveSeals: Object.fromEntries(
+          Object.entries(state.player.pendingArchiveSeals).map(([k, v]) => [k, { ...v }])
+        ),
       },
       npcStates: Object.fromEntries(
         Object.entries(state.npcStates).map(([id, npc]) => [id, {
@@ -268,6 +276,9 @@ export class SaveSystem implements ISystem {
         activeJournalThreads: new Set(snapshot.player.activeJournalThreads) as IGameState['player']['activeJournalThreads'],
         journalEntries: (snapshot.player.journalEntries ?? []) as IGameState['player']['journalEntries'],
         currentLocation: snapshot.player.currentLocation as IGameState['player']['currentLocation'],
+        questExpiry: (snapshot.player.questExpiry ?? {}) as IGameState['player']['questExpiry'],
+        npcHarmCount: (snapshot.player.npcHarmCount ?? {}) as IGameState['player']['npcHarmCount'],
+        pendingArchiveSeals: (snapshot.player.pendingArchiveSeals ?? {}) as IGameState['player']['pendingArchiveSeals'],
       },
       npcStates: npcStates as unknown as IGameState['npcStates'],
       activePanel: 'none',
