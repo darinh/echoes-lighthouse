@@ -36,3 +36,40 @@ jobs:
 
       - name: Run tests
         run: npm run test -- --reporter=verbose
+
+  build-size:
+    name: Build & Bundle Size
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Check JS bundle size (≤ 600 KB)
+        run: |
+          echo "=== dist/assets JS files ==="
+          ls -la dist/assets/*.js
+          LIMIT_KB=600
+          FAILED=0
+          for f in dist/assets/*.js; do
+            size_kb=$(du -k "$f" | cut -f1)
+            echo "$f: ${size_kb} KB"
+            if [ "$size_kb" -gt "$LIMIT_KB" ]; then
+              echo "❌ FAIL: $f exceeds ${LIMIT_KB} KB limit (${size_kb} KB)"
+              FAILED=1
+            fi
+          done
+          if [ "$FAILED" -eq 1 ]; then
+            echo "One or more JS bundles exceed the ${LIMIT_KB} KB size limit."
+            echo "Run 'npm run build' locally and check for unexpected large imports."
+            exit 1
+          fi
+          echo "✅ All JS bundles are within the ${LIMIT_KB} KB limit."

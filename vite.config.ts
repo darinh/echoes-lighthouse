@@ -16,6 +16,8 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false,
     assetsInlineLimit: 2 * 1024 * 1024,
+    // Warn (and fail CI) if any JS chunk exceeds 600 KB
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
         manualChunks: undefined,

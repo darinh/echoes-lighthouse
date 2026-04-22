@@ -50,11 +50,18 @@ export class UIManager {
   private t(key: string): string { return this._i18n ? this._i18n.t(key) : key }
 
   /** Only set innerHTML when content actually changed — keeps buttons in the live DOM.
+   *  Preserves scrollTop so that panels that have been scrolled by the player do not
+   *  jump back to the top when the HTML content is updated (e.g. on each game tick).
    *  Returns true if the DOM was actually updated. */
   private setHtml(el: HTMLElement, html: string, cache: '_lastHudHtml' | '_lastContentHtml' | '_lastActionHtml' | '_lastOverlayHtml'): boolean {
     if (this[cache] === html) return false
     this[cache] = html
+    // Preserve scroll position: replacing innerHTML resets scrollTop to 0, which
+    // causes a coordinate mismatch — buttons visible at scroll-adjusted viewport Y
+    // jump to their unscrolled DOM Y after any state-driven HTML update.
+    const savedScroll = el.scrollTop
     el.innerHTML = html
+    if (savedScroll > 0) el.scrollTop = savedScroll
     return true
   }
 
@@ -66,8 +73,15 @@ export class UIManager {
     this.notifications = container.querySelector('#notifications') as HTMLElement
     this.gameUI = container.querySelector('#game-ui') as HTMLElement
 
+    // Event delegation: handle all data-action clicks on HTML panels.
+    // Only dispatch when the target is inside the game-ui overlay — this guard ensures
+    // that synthetic click events on the canvas (if pointer-events is ever re-enabled)
+    // cannot accidentally trigger game actions through this path.
     container.addEventListener('click', (e: Event) => {
-      const target = (e.target as HTMLElement).closest('[data-action]') as HTMLElement | null
+      const clickTarget = e.target as HTMLElement
+      // Ignore clicks that originate outside #game-ui (e.g. canvas or loading screen)
+      if (this.gameUI && !this.gameUI.contains(clickTarget)) return
+      const target = clickTarget.closest('[data-action]') as HTMLElement | null
       if (!target) return
       const raw = target.dataset['action']
       if (!raw) return
@@ -75,7 +89,7 @@ export class UIManager {
         const action = JSON.parse(raw) as GameAction
         this.onAction?.(action)
       } catch {
-        // ignore
+        // ignore malformed data-action JSON
       }
     })
   }
