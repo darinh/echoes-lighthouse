@@ -20,6 +20,11 @@ import { ISOLDE_NPC } from './isolde.js'
 import { BRYNN_NPC } from './brynn.js'
 import { CORVIN_NPC } from './corvin.js'
 import { ALDRIC_NPC } from './aldric.js'
+import { FENN_NPC } from './fenn.js'
+import { KEEPER_PETRA_NPC } from './keeper_petra.js'
+import { KEEPER_TOBIAS_NPC } from './keeper_tobias.js'
+import { THE_WARDEN_NPC } from './the_warden.js'
+import { MIRROR_KEEPER_NPC } from './mirror_keeper.js'
 
 export async function loadNPCData(): Promise<Record<string, NPCData>> {
   return {
@@ -40,7 +45,12 @@ cal:    CAL_NPC    as unknown as NPCData,
 sera:   SERA_NPC   as unknown as NPCData,
     isolde: ISOLDE_NPC as unknown as NPCData,
     brynn:  BRYNN_NPC  as unknown as NPCData,
-    corvin: CORVIN_NPC as unknown as NPCData,
-    aldric: ALDRIC_NPC as unknown as NPCData,
+    corvin:        CORVIN_NPC        as unknown as NPCData,
+    aldric:        ALDRIC_NPC        as unknown as NPCData,
+    fenn:          FENN_NPC          as unknown as NPCData,
+    keeper_petra:  KEEPER_PETRA_NPC  as unknown as NPCData,
+    keeper_tobias: KEEPER_TOBIAS_NPC as unknown as NPCData,
+    the_warden:    THE_WARDEN_NPC    as unknown as NPCData,
+    mirror_keeper: MIRROR_KEEPER_NPC as unknown as NPCData,
   }
 }
