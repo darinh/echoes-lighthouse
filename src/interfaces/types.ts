@@ -15,6 +15,7 @@ export type GamePhase =
   | 'death'        // death screen before loop reset
   | 'vision'       // narrative revelation sequence
   | 'ending'
+  | 'minigame'     // active minigame sequence (e.g. lighthouse repair)
 
 /** The five narrative endings. */
 export type EndingId =
@@ -110,6 +111,9 @@ export type ItemId =
   | 'rusted_key'
   | 'tide_chart'
   | 'brass_coupling'
+  | 'oil_flask'
+  | 'wick'
+  | 'lens_component'
 
 /** Achievement identifiers — one per milestone. */
 export type AchievementId =

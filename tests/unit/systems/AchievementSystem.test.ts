@@ -237,6 +237,37 @@ describe('AchievementSystem', () => {
     })
   })
 
+  // ── race condition / concurrent grants ────────────────────────────────────
+
+  describe('concurrent grant deduplication', () => {
+    it('grants the same achievement only once when two events fire before state propagates', () => {
+      // Simulate two events arriving in the same tick: both receive the
+      // same unmodified state snapshot (state never flows back between calls).
+      const state = createInitialState()
+      system.onEvent(makeEvent('location.moved'), state)
+      system.onEvent(makeEvent('location.moved'), state)
+
+      // achievement.unlocked must have been emitted exactly once
+      const firstStepsEmits = unlocked.filter(id => id === 'first_steps')
+      expect(firstStepsEmits.length).toBe(1)
+    })
+
+    it('can grant two different achievements in the same tick without interference', () => {
+      // Both events share the same baseline state (no achievements yet).
+      const state = createInitialState()
+      const s1 = system.onEvent(makeEvent('location.moved'), state)
+      const s2 = system.onEvent(makeEvent('examine.completed'), state)
+
+      // Each returned snapshot has its own new achievement
+      expect(s1.achievements.has('first_steps')).toBe(true)
+      expect(s2.achievements.has('curious_mind')).toBe(true)
+
+      // Both were emitted exactly once
+      expect(unlocked.filter(id => id === 'first_steps').length).toBe(1)
+      expect(unlocked.filter(id => id === 'curious_mind').length).toBe(1)
+    })
+  })
+
   // ── SaveSystem round-trip ─────────────────────────────────────────────────
 
   describe('persistence (SaveSystem integration)', () => {

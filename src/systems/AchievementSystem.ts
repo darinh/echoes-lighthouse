@@ -43,6 +43,21 @@ export class AchievementSystem implements ISystem {
 
   private readonly eventBus: IEventBus
 
+  /**
+   * Tracks achievement IDs that have been granted within the current
+   * synchronous event-processing tick but whose state commit has not yet
+   * propagated back to the snapshot seen by subsequent onEvent calls.
+   *
+   * Without this guard, two events fired in the same tick can both receive the
+   * same unmodified state snapshot, both pass the `state.achievements.has(id)`
+   * check, and both emit `achievement.unlocked` — the classic TOCTOU race.
+   *
+   * An entry is added here as soon as we decide to grant the achievement, and
+   * is removed once the state snapshot confirms the achievement is persisted
+   * (i.e. `state.achievements.has(id)` is already true on the next call).
+   */
+  private readonly _pendingGrants = new Set<string>()
+
   constructor(eventBus: IEventBus) {
     this.eventBus = eventBus
   }
@@ -113,10 +128,21 @@ export class AchievementSystem implements ISystem {
   // ─── Private helpers ─────────────────────────────────────────────────────
 
   private tryUnlock(id: AchievementId, state: IGameState): IGameState {
-    if (state.achievements.has(id)) return state
+    if (state.achievements.has(id)) {
+      // State has caught up — safe to retire the pending-grant sentinel.
+      this._pendingGrants.delete(id)
+      return state
+    }
+
+    // Deduplicate concurrent grants: if another synchronous call in the same
+    // tick already decided to grant this id, honour that decision and skip.
+    if (this._pendingGrants.has(id)) return state
 
     const def = ACHIEVEMENTS.find(a => a.id === id)
     if (!def) return state
+
+    // Reserve the id before any async boundary so no second caller sneaks through.
+    this._pendingGrants.add(id)
 
     const newAchievements = new Set(state.achievements)
     newAchievements.add(id)
