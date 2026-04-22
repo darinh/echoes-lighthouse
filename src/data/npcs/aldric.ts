@@ -123,7 +123,7 @@ export const ALDRIC_NPC: NPCFullData = {
     'aldric.greeting.tier4': {
       speakerKey: 'npc.aldric.greeting.tier4',
       choices: [
-        { id: 'ask_conclusion', textKey: 'dialogue.choice.ask_what_happened', nextNodeId: 'aldric.conclusion', insightGain: 20, trustGain: 10, requiresTier: 4 },
+        { id: 'ask_conclusion', textKey: 'dialogue.choice.ask_what_happened', nextNodeId: 'aldric.conclusion', insightGain: 20, trustGain: 10, requiresResonance: 4 },
         { id: 'thank_him',      textKey: 'dialogue.choice.thank_him',         nextNodeId: 'aldric.thank',      insightGain: 5,  trustGain: 5 },
         { id: 'leave',          textKey: 'dialogue.choice.leave' },
       ],

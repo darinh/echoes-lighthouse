@@ -263,7 +263,7 @@ export const YSEL_NPC: NPCFullData = {
           insightGain: 15,
           trustGain: 5,
         },
-        { id: 'ask_what_it_means',  textKey: 'dialogue.choice.press_harder',  nextNodeId: 'ysel.pattern.meaning', insightGain: 10, trustGain: 3, requiresTier: 4 },
+        { id: 'ask_what_it_means',  textKey: 'dialogue.choice.press_harder',  nextNodeId: 'ysel.pattern.meaning', insightGain: 10, trustGain: 3, requiresResonance: 4 },
         { id: 'leave',              textKey: 'dialogue.choice.leave' },
       ],
     },

@@ -148,7 +148,7 @@ export const MAREN_NPC: NPCFullData = {
     'maren.father.mention': {
       speakerKey: 'npc.maren.father.mention',
       choices: [
-        { id: 'press.more.father', textKey: 'dialogue.choice.press_harder', nextNodeId: 'maren.father.letters', insightGain: 12, trustGain: 5, moralWeight: 1, requiresTier: 3 },
+        { id: 'press.more.father', textKey: 'dialogue.choice.press_harder', nextNodeId: 'maren.father.letters', insightGain: 12, trustGain: 5, moralWeight: 1, requiresResonance: 3 },
         { id: 'change.subject', textKey: 'dialogue.choice.let_it_go', nextNodeId: 'maren.father.deflect', trustGain: 3 },
       ],
     },
@@ -173,7 +173,7 @@ export const MAREN_NPC: NPCFullData = {
     'maren.greeting.tier4': {
       speakerKey: 'npc.maren.greeting.tier4',
       choices: [
-        { id: 'ask.father.strange', textKey: 'dialogue.choice.ask_father_direct', nextNodeId: 'maren.father.strange', insightGain: 15, trustGain: 5, requiresTier: 4 },
+        { id: 'ask.father.strange', textKey: 'dialogue.choice.ask_father_direct', nextNodeId: 'maren.father.strange', insightGain: 15, trustGain: 5, requiresResonance: 4 },
         { id: 'ask.mechanism', textKey: 'dialogue.choice.ask_mechanism', nextNodeId: 'maren.mechanism.lore', insightGain: 10 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],

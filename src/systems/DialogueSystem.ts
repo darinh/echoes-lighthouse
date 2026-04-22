@@ -236,8 +236,8 @@ export class DialogueSystem implements ISystem {
     return choices.map(c => {
       let isAvailable = true
 
-      if (c.requiresTier !== undefined) {
-        isAvailable = isAvailable && (npcState?.dialogueTier ?? 0) >= c.requiresTier
+      if (c.requiresResonance !== undefined) {
+        isAvailable = isAvailable && (npcState?.dialogueTier ?? 0) >= c.requiresResonance
       }
       if (c.requiresInsight !== undefined) {
         isAvailable = isAvailable && state.player.insight >= c.requiresInsight
@@ -253,7 +253,7 @@ export class DialogueSystem implements ISystem {
         id: c.id,
         textKey: c.textKey,
         requiresInsight: c.requiresInsight,
-        requiresResonance: c.requiresTier,
+        requiresResonance: c.requiresResonance,
         requiresSealedInsight: c.requiresSealedInsight as InsightCardId | undefined,
         isAvailable,
       } satisfies IDialogueChoice

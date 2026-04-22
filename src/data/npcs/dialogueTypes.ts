@@ -6,7 +6,10 @@ export interface DialogueChoice {
   trustGain?: number
   trustLoss?: number
   moralWeight?: number
-  requiresTier?: number
+  /** Minimum NPC dialogue tier (trust level) required to see this choice. Canonical name — do NOT use requiresTier. */
+  requiresResonance?: number
+  /** @deprecated Use requiresResonance. Kept as `never` so TypeScript surfaces any stale data-file usage. */
+  requiresTier?: never
   requiresInsight?: number
   requiresSealedInsight?: string
   requiresArchiveDomain?: string | { domain: string; level: number }

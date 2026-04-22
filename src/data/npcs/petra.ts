@@ -75,7 +75,7 @@ export const PETRA_NPC: NPCFullData = {
       speakerKey: 'npc.petra.greeting.tier3',
       choices: [
         { id: 'ask.who.forgot', textKey: 'dialogue.choice.ask_who_needed_to_forget', nextNodeId: 'petra.memory.medicine', insightGain: 12, moralWeight: 1, trustGain: 5 },
-        { id: 'ask.beam.signal', textKey: 'dialogue.choice.ask_lighthouse', nextNodeId: 'petra.beam.signal', insightGain: 15, requiresTier: 3 },
+        { id: 'ask.beam.signal', textKey: 'dialogue.choice.ask_lighthouse', nextNodeId: 'petra.beam.signal', insightGain: 15, requiresResonance: 3 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -88,8 +88,8 @@ export const PETRA_NPC: NPCFullData = {
     'petra.greeting.tier4': {
       speakerKey: 'npc.petra.greeting.tier4',
       choices: [
-        { id: 'ask.family.silenced', textKey: 'dialogue.choice.ask_silenced', nextNodeId: 'petra.family.silenced', insightGain: 15, moralWeight: 2, requiresTier: 4 },
-        { id: 'ask.coordinates', textKey: 'dialogue.choice.press_harder', nextNodeId: 'petra.coordinates', insightGain: 20, requiresTier: 4 },
+        { id: 'ask.family.silenced', textKey: 'dialogue.choice.ask_silenced', nextNodeId: 'petra.family.silenced', insightGain: 15, moralWeight: 2, requiresResonance: 4 },
+        { id: 'ask.coordinates', textKey: 'dialogue.choice.press_harder', nextNodeId: 'petra.coordinates', insightGain: 20, requiresResonance: 4 },
         { id: 'leave', textKey: 'dialogue.choice.leave' },
       ],
     },

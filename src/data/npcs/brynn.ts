@@ -131,7 +131,7 @@ export const BRYNN_NPC: NPCFullData = {
     'brynn.greeting.tier4': {
       speakerKey: 'npc.brynn.greeting.tier4',
       choices: [
-        { id: 'ask_offerings',  textKey: 'dialogue.choice.ask_offerings',  nextNodeId: 'brynn.offerings.revelation', insightGain: 20, trustGain: 10, requiresTier: 4, worldFlagSet: 'brynn_offerings_known' },
+        { id: 'ask_offerings',  textKey: 'dialogue.choice.ask_offerings',  nextNodeId: 'brynn.offerings.revelation', insightGain: 20, trustGain: 10, requiresResonance: 4, worldFlagSet: 'brynn_offerings_known' },
         { id: 'leave',          textKey: 'dialogue.choice.leave' },
       ],
     },
