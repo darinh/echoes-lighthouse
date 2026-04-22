@@ -43,4 +43,8 @@ export interface QuestDefinition {
   steps: QuestStep[]
   rewardInsight: number
   rewardFact?: string
+  /** Quest expires if not completed within this many loops from when it was first started. */
+  expiresAfterLoops?: number
+  /** Quest is only active / startable when loopCount is within [min, max] inclusive. */
+  availableTurns?: { min: number; max: number }
 }
