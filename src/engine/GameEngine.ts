@@ -101,6 +101,11 @@ export class GameEngine {
             this.eventBus.emit('location.access.blocked', { locationId: action.target, requiredFlag: targetLocation.requiredWorldFlag })
             break
           }
+          // Storm blocks harbor/dock locations
+          if (this.state.weather === 'storm' && targetLocation?.closedInStorm) {
+            this.eventBus.emit('location.access.blocked', { locationId: action.target, reason: 'storm', message: 'The storm has made the harbor impassable.' })
+            break
+          }
           const wasDiscovered = this.state.player.discoveredLocations.has(action.target)
           this.state = { ...this.movement.moveTo(this.state, action.target), lastExaminedKey: null }
           this.applyEvent('location.moved', { locationId: action.target })

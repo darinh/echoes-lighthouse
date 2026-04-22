@@ -14,4 +14,6 @@ export interface LocationData {
   readonly dangerousAtNight: boolean
   /** World flag that must be set before this location can be entered */
   readonly requiredWorldFlag?: string
+  /** If true, this location is inaccessible during storm weather */
+  readonly closedInStorm?: boolean
 }

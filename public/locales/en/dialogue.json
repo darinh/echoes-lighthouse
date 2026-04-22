@@ -65,6 +65,9 @@
       "her_role_forget": "Whatever I knew in that previous iteration, the suppressor took it. I'm starting from less than zero. You may be further along than I am now.",
       "item": {
         "key": "I know this key. There is a room at the back of the cottage, behind the old wardrobe — the one the keeper always kept covered with sailcloth. The archive records show it was sealed by the council forty years ago after a cartographer refused to leave it. He claimed the room shifted at night and mapped something that should not have a shape. I never opened it. I was afraid the map might still be inside."
+      },
+      "weather": {
+        "storm": "Maren does not look up from the ledger, but her quill pauses. \"Storms always drive people underground. Into the archive, into themselves. Tell me — what are you running from?\""
       }
     },
     "vael": {
@@ -453,6 +456,9 @@
       },
       "loop": {
         "wisdom": "Every loop I've watched this island, I've learned one thing: the people who try to control what happens here end up inside what happens here. I move through it. I try not to become part of it. So far that's worked. So far."
+      },
+      "weather": {
+        "storm": "Rudd watches the storm-lashed cliffs through the doorway, expression unreadable. \"Storm like this, the sea remembers old debts. I stay well clear of the water.\""
       }
     },
     "ina": {
@@ -536,6 +542,10 @@
       },
       "petra": {
         "deeper": "Petra carries more than the apothecary's burden. She has knowledge that predates her practice here. The lighthouse records — the real ones, not the ones in the archive — she's seen them. I know because she once let slip a detail that isn't in any document the public can reach."
+      },
+      "weather": {
+        "storm": "Ina glances toward the shuttered window and pulls her shawl tighter. \"Stay off the harbor road — the sea is in a rage today. Last storm like this washed a man clean off the jetty.\"",
+        "fog": "Ina lowers her voice as if the fog might hear. \"Thick as wool out there. Strange things walk the village on nights like this.\""
       }
     },
     "bram": {
@@ -1008,6 +1018,9 @@
       },
       "what_you_protect": {
         "truth": "Ina. I protect the record of what Ina discovered — and what she became. She found the frequency the light uses to speak to the thing below. She translated it. Then she stepped into the beam and answered it. The archive has her notes. The lighthouse has her."
+      },
+      "weather": {
+        "storm": "Something shifts in the shadows where Petra lingers. When the storm comes, the archive breathes differently — older, colder. She turns toward you as if the wind itself carried your footsteps to her."
       }
     },
     "keeper_tobias": {

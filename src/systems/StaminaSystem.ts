@@ -29,7 +29,8 @@ export class StaminaSystem implements ISystem {
   }
 
   private handleMoved(state: IGameState): IGameState {
-    const newStamina = Math.max(0, state.player.stamina - STAMINA_DRAIN_PER_MOVE)
+    const stormBonus = state.weather === 'storm' ? 1 : 0
+    const newStamina = Math.max(0, state.player.stamina - STAMINA_DRAIN_PER_MOVE - stormBonus)
     const newState: IGameState = {
       ...state,
       player: { ...state.player, stamina: newStamina },

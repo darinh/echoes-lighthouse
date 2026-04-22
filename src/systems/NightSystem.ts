@@ -95,7 +95,10 @@ export class NightSystem implements ISystem {
   // ─── Danger escalation ───────────────────────────────────────────────────
 
   private handleDangerEscalate(state: IGameState): IGameState {
-    const newLevel = Math.min(100, state.nightDangerLevel + 10)
+    // Clear weather during night reduces danger escalation by 1 (floor 0)
+    const weatherReduction = state.weather === 'clear' ? 1 : 0
+    const increment = Math.max(0, 10 - weatherReduction)
+    const newLevel = Math.min(100, state.nightDangerLevel + increment)
     if (newLevel >= 100) {
       return { ...state, nightDangerLevel: 100, phase: 'death', deathCause: 'death.night_danger' }
     }

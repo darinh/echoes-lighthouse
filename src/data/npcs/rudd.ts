@@ -460,4 +460,7 @@ export const RUDD_NPC: NPCFullData = {
       ],
     },
   },
+  weatherDialogue: {
+    storm: 'npc.rudd.weather.storm',
+  },
 }

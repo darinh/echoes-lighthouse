@@ -61,5 +61,6 @@ export const PHASE2_LOCATIONS: Record<string, LocationData> = {
     adjacentLocations: ['cliffside'],
     archiveHint: { domain: 'maritime', minLevel: 2 },
     dangerousAtNight: true,
+    closedInStorm: true,
   },
 }

@@ -65,4 +65,13 @@ export interface NPCFullData {
    * Used by RelationshipSystem to enforce loop-based expiry and turn-window gating.
    */
   quests?: NPCQuestConfig[]
+  /**
+   * Weather-specific opening lines prepended to the NPC's greeting dialogue.
+   * Values are i18n keys resolved through the locale system.
+   */
+  weatherDialogue?: {
+    storm?: string
+    fog?: string
+    clear?: string
+  }
 }

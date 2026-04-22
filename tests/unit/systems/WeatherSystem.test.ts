@@ -25,7 +25,7 @@ describe('WeatherSystem', () => {
     let changed = false
     for (let i = 0; i < 50 && !changed; i++) {
       const next = system.onEvent(e, s)
-      if (next !== s) { changed = true; expect(['clear','fog','rain']).toContain(next.weather) }
+      if (next !== s) { changed = true; expect(['clear','fog','rain','storm']).toContain(next.weather) }
     }
     expect(changed).toBe(true)
   })
