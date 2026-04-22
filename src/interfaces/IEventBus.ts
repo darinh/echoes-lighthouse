@@ -20,6 +20,8 @@ export type GameEventType =
   | 'quest.completed'
   | 'quest.failed'
   | 'quest.step.completed'
+  | 'quest.expired'
+  | 'quest.expired'
   | 'journal.thread.failed'
   // NPCs
   | 'npc.dialogue.opened'
@@ -47,7 +49,9 @@ export type GameEventType =
   // Loop
   | 'loop.started'
   | 'loop.ended'
+  | 'turn.end'
   | 'loop.reset'
+  | 'turn.end'
   | 'phase.changed'
   | 'player.died'
   | 'player.rested'

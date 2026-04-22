@@ -229,7 +229,8 @@ export class GameEngine {
           this.applyEvent('dialogue.choice.selected', { choiceId: action.choiceId })
           for (const [npcId, trust] of Object.entries(this.state.player.trust as Readonly<Record<string, number>>)) {
             if ((prevTrust[npcId] ?? 0) !== trust) {
-              this.applyEvent('npc.trust.changed', { npcId, value: trust })
+              const delta = trust - (prevTrust[npcId] ?? 0)
+              this.applyEvent('npc.trust.changed', { npcId, value: trust, delta })
             }
           }
           for (const [npcId, resonance] of Object.entries(this.state.player.resonance as Readonly<Record<string, number>>)) {
@@ -436,7 +437,15 @@ export class GameEngine {
           break
         }
         if (this.state.phase === 'title' || this.state.phase === 'ending' || this.state.phase === 'death') {
+          // Signal end-of-turn to systems (e.g. RelationshipSystem quest expiry check)
+          // before resetting state for the new loop.
+          if (this.state.phase !== 'title') {
+            this.applyEvent('turn.end', { loopCount: this.state.player.loopCount })
+          }
           this.eventBus.emit('loop.started', { loopCount: this.state.player.loopCount })
+          // Also route loop.started through applyEvent so systems (e.g. RelationshipSystem)
+          // can record questExpiry for newly-active quests.
+          this.applyEvent('loop.started', { loopCount: this.state.player.loopCount })
           if (this.state.phase === 'title') {
             const saved = SaveSystem.loadState()
             if (saved) {
