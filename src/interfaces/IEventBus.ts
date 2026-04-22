@@ -78,6 +78,8 @@ export type GameEventType =
   | 'renderer.resized'
   | 'loop.dawn'
   | 'night.danger.escalate'
+  | 'night.breaking_point'
+  | 'night.encounter.started'
   | 'vision.started'
   | 'vision.completed'
   | 'examine.completed'
