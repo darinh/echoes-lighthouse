@@ -2,6 +2,7 @@ import type { NPCFullData } from './dialogueTypes.js'
 
 export const ISOLDE_NPC: NPCFullData = {
   id: 'isolde',
+  secret: "Isolde has cross-referenced three villagers' identical memory excisions with the lighthouse log and confirmed all three were on the cliff path the night the previous keeper vanished — their bodies remember what their minds were made to forget.",
   nameKey: 'npc.isolde.name',
   titleKey: 'npc.isolde.title',
   defaultLocation: 'village_inn',
@@ -53,8 +54,9 @@ export const ISOLDE_NPC: NPCFullData = {
       speakerKey: 'npc.isolde.greeting.tier1',
       choices: [
         { id: 'ask_honestly',   textKey: 'dialogue.choice.ask_honestly',   nextNodeId: 'isolde.honest.ask',     insightGain: 8, trustGain: 4 },
-        { id: 'deflect',        textKey: 'dialogue.choice.let_it_go',       nextNodeId: 'isolde.honest.deflect', insightGain: 3 },
-        { id: 'leave',          textKey: 'dialogue.choice.leave' },
+        { id: 'deflect',   textKey: 'dialogue.choice.let_it_go',          nextNodeId: 'isolde.honest.deflect',          insightGain: 3 },
+        { id: 'ask_lost',  textKey: 'dialogue.choice.ask_who_youve_lost', nextNodeId: 'isolde.who_youve_lost.admission', insightGain: 7, trustGain: 3 },
+        { id: 'leave',     textKey: 'dialogue.choice.leave' },
       ],
     },
 
@@ -78,8 +80,9 @@ export const ISOLDE_NPC: NPCFullData = {
       speakerKey: 'npc.isolde.greeting.tier2',
       choices: [
         { id: 'ask_night',   textKey: 'dialogue.choice.ask_night_before',  nextNodeId: 'isolde.night.hint',    insightGain: 12, trustGain: 5, worldFlagSet: 'isolde_overheard_partial' },
-        { id: 'ask_secret',  textKey: 'dialogue.choice.ask_unusual',        nextNodeId: 'isolde.secret.hint',   insightGain: 8,  trustGain: 3 },
-        { id: 'leave',       textKey: 'dialogue.choice.leave' },
+        { id: 'ask_secret',   textKey: 'dialogue.choice.ask_unusual',      nextNodeId: 'isolde.secret.hint',           insightGain: 8,  trustGain: 3 },
+        { id: 'ask_sickness', textKey: 'dialogue.choice.ask_sickness_here', nextNodeId: 'isolde.sickness_here.pattern',  insightGain: 11, trustGain: 5 },
+        { id: 'leave',        textKey: 'dialogue.choice.leave' },
       ],
     },
 
@@ -110,8 +113,9 @@ export const ISOLDE_NPC: NPCFullData = {
     'isolde.greeting.tier3': {
       speakerKey: 'npc.isolde.greeting.tier3',
       choices: [
-        { id: 'ask_full',  textKey: 'dialogue.choice.demand_truth',  nextNodeId: 'isolde.overheard.full', insightGain: 15, trustGain: 8, worldFlagSet: 'isolde_overheard_full' },
-        { id: 'leave',     textKey: 'dialogue.choice.leave' },
+        { id: 'ask_full',           textKey: 'dialogue.choice.demand_truth',             nextNodeId: 'isolde.overheard.full',             insightGain: 15, trustGain: 8, worldFlagSet: 'isolde_overheard_full' },
+        { id: 'ask_body_remembers', textKey: 'dialogue.choice.ask_what_body_remembers', nextNodeId: 'isolde.body_remembers.dark_knowledge', insightGain: 16, trustGain: 8 },
+        { id: 'leave',              textKey: 'dialogue.choice.leave' },
       ],
     },
 
@@ -136,6 +140,29 @@ export const ISOLDE_NPC: NPCFullData = {
       speakerKey: 'npc.isolde.figure.description',
       choices: [
         { id: 'leave',  textKey: 'dialogue.choice.leave' },
+      ],
+    },
+
+    // ── Depth topics: who she's lost, the sickness, what the body knows ──
+
+    'isolde.who_youve_lost.admission': {
+      speakerKey: 'npc.isolde.who_youve_lost.admission',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+
+    'isolde.sickness_here.pattern': {
+      speakerKey: 'npc.isolde.sickness_here.pattern',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'isolde_sickness_pattern_known' },
+      ],
+    },
+
+    'isolde.body_remembers.dark_knowledge': {
+      speakerKey: 'npc.isolde.body_remembers.dark_knowledge',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'isolde_body_memory_known' },
       ],
     },
 

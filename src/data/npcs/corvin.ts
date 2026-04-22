@@ -2,6 +2,7 @@ import type { NPCFullData } from './dialogueTypes.js'
 
 export const CORVIN_NPC: NPCFullData = {
   id: 'corvin',
+  secret: "Corvin has three conflicting charts of the island from different decades, each showing the lighthouse in a different position — the lighthouse migrates between loops, and his navigational memory is accurate enough to have noticed.",
   nameKey: 'npc.corvin.name',
   titleKey: 'npc.corvin.title',
   defaultLocation: 'harbor',
@@ -28,8 +29,9 @@ export const CORVIN_NPC: NPCFullData = {
       speakerKey: 'npc.corvin.greeting.tier0',
       choices: [
         { id: 'ask_ferry_schedule', textKey: 'dialogue.choice.ask_ferry',    nextNodeId: 'corvin.ferry.schedule',  insightGain: 3 },
-        { id: 'ask_mainland',       textKey: 'dialogue.choice.ask_mainland', nextNodeId: 'corvin.mainland.closed', insightGain: 3 },
-        { id: 'leave',              textKey: 'dialogue.choice.leave' },
+        { id: 'ask_mainland',  textKey: 'dialogue.choice.ask_mainland',    nextNodeId: 'corvin.mainland.closed', insightGain: 3 },
+        { id: 'ask_charts',    textKey: 'dialogue.choice.ask_your_charts', nextNodeId: 'corvin.charts.current',  insightGain: 5, trustGain: 1 },
+        { id: 'leave',         textKey: 'dialogue.choice.leave' },
       ],
     },
 
@@ -78,7 +80,8 @@ export const CORVIN_NPC: NPCFullData = {
       speakerKey: 'npc.corvin.greeting.tier2',
       choices: [
         { id: 'ask_cargo',       textKey: 'dialogue.choice.ask_ferry_cargo', nextNodeId: 'corvin.cargo.hint',       insightGain: 12, trustGain: 5 },
-        { id: 'ask_knew_keeper', textKey: 'dialogue.choice.ask_prev_keeper', nextNodeId: 'corvin.last_keeper.knew', insightGain: 8,  trustGain: 3 },
+        { id: 'ask_knew_keeper', textKey: 'dialogue.choice.ask_prev_keeper',      nextNodeId: 'corvin.last_keeper.knew',          insightGain: 8,  trustGain: 3 },
+        { id: 'ask_route',       textKey: 'dialogue.choice.ask_route_never_took', nextNodeId: 'corvin.route_never_took.admission', insightGain: 10, trustGain: 4 },
         { id: 'leave',           textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -111,8 +114,9 @@ export const CORVIN_NPC: NPCFullData = {
       speakerKey: 'npc.corvin.greeting.tier3',
       choices: [
         { id: 'ask_cargo_suspicion', textKey: 'dialogue.choice.ask_what_you_found', nextNodeId: 'corvin.cargo.suspicion', insightGain: 15, trustGain: 8 },
-        { id: 'ask_employer',        textKey: 'dialogue.choice.ask_who_ordered',    nextNodeId: 'corvin.employer.hint',  insightGain: 12, trustGain: 5 },
-        { id: 'leave',               textKey: 'dialogue.choice.leave' },
+        { id: 'ask_employer',  textKey: 'dialogue.choice.ask_who_ordered',    nextNodeId: 'corvin.employer.hint',   insightGain: 12, trustGain: 5 },
+        { id: 'ask_hiding',    textKey: 'dialogue.choice.ask_what_youre_hiding', nextNodeId: 'corvin.what_hiding.full', insightGain: 14, trustGain: 6 },
+        { id: 'leave',         textKey: 'dialogue.choice.leave' },
       ],
     },
 
@@ -152,6 +156,29 @@ export const CORVIN_NPC: NPCFullData = {
       speakerKey: 'npc.corvin.compassion',
       choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'corvin_remorse_acknowledged' },
+      ],
+    },
+
+    // ── Depth topics: charts, the route not taken, what he hides ─────────
+
+    'corvin.charts.current': {
+      speakerKey: 'npc.corvin.charts.current',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+
+    'corvin.route_never_took.admission': {
+      speakerKey: 'npc.corvin.route_never_took.admission',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'corvin_north_route_known' },
+      ],
+    },
+
+    'corvin.what_hiding.full': {
+      speakerKey: 'npc.corvin.what_hiding.full',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'corvin_chart_discrepancy_known' },
       ],
     },
 

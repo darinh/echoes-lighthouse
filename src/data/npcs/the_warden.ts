@@ -2,6 +2,7 @@ import type { NPCFullData } from './dialogueTypes.js'
 
 export const THE_WARDEN_NPC: NPCFullData = {
   id: 'the_warden',
+  secret: 'The Warden was bound to the island as a guardian by the second keeper — the binding has become a prison, and it enforces the cycle not from duty but because it no longer remembers how to exist without enforcement.',
   nameKey: 'npc.the_warden.name',
   titleKey: 'npc.the_warden.title',
   defaultLocation: 'tidal_caves',
@@ -33,6 +34,7 @@ export const THE_WARDEN_NPC: NPCFullData = {
       choices: [
         { id: 'ask_what_it_is',   textKey: 'dialogue.choice.ask_what_are_you',      nextNodeId: 'the_warden.nature.answer',     insightGain: 10, trustGain: 2,  moralWeight: -1 },
         { id: 'demand_passage',   textKey: 'dialogue.choice.demand_passage',         nextNodeId: 'the_warden.passage.refused',   insightGain: 0,  moralWeight: -2 },
+        { id: 'ask_laws',         textKey: 'dialogue.choice.ask_the_laws',           nextNodeId: 'the_warden.laws.here.statement', insightGain: 8, trustGain: 1 },
         { id: 'leave',            textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -58,6 +60,7 @@ export const THE_WARDEN_NPC: NPCFullData = {
       choices: [
         { id: 'ask_the_keepers',  textKey: 'dialogue.choice.ask_other_keepers',     nextNodeId: 'the_warden.keepers.count',     insightGain: 15, trustGain: 3 },
         { id: 'ask_the_cycle',    textKey: 'dialogue.choice.ask_about_cycle',       nextNodeId: 'the_warden.cycle.what_it_is',  insightGain: 18, trustGain: 5, worldFlagRequired: 'fenn_cycle_understood' },
+        { id: 'ask_answers_to',   textKey: 'dialogue.choice.ask_who_you_answer_to', nextNodeId: 'the_warden.answers_to.admission', insightGain: 12, trustGain: 3 },
         { id: 'leave',            textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -108,6 +111,7 @@ export const THE_WARDEN_NPC: NPCFullData = {
       choices: [
         { id: 'ask_the_price',    textKey: 'dialogue.choice.ask_the_price',         nextNodeId: 'the_warden.bargain.price',     insightGain: 30, trustGain: 10, worldFlagRequired: 'warden_purpose_known' },
         { id: 'refuse_bargain',   textKey: 'dialogue.choice.refuse_the_bargain',    nextNodeId: 'the_warden.bargain.refused',   insightGain: 10, moralWeight: 3 },
+        { id: 'ask_what_buried',  textKey: 'dialogue.choice.ask_what_youve_buried',  nextNodeId: 'the_warden.what_youve_buried.confession', insightGain: 22, trustGain: 8, worldFlagRequired: 'warden_purpose_known' },
         { id: 'leave',            textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -131,6 +135,29 @@ export const THE_WARDEN_NPC: NPCFullData = {
       speakerKey: 'npc.the_warden.bargain.refused',
       choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'warden_bargain_refused' },
+      ],
+    },
+
+    // ── Depth topics: the laws, authority, what was buried ────────────────
+
+    'the_warden.laws.here.statement': {
+      speakerKey: 'npc.the_warden.laws.here.statement',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+
+    'the_warden.answers_to.admission': {
+      speakerKey: 'npc.the_warden.answers_to.admission',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'warden_authority_known' },
+      ],
+    },
+
+    'the_warden.what_youve_buried.confession': {
+      speakerKey: 'npc.the_warden.what_youve_buried.confession',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'warden_buried_known' },
       ],
     },
 

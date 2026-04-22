@@ -2,6 +2,7 @@ import type { NPCFullData } from './dialogueTypes.js'
 
 export const MIRROR_KEEPER_NPC: NPCFullData = {
   id: 'mirror_keeper',
+  secret: "The mirror_keeper is the last echo of a keeper who chose to become the lighthouse's reflective conscience — their name dissolved into the mechanism, but their will to warn every subsequent keeper persists.",
   nameKey: 'npc.mirror_keeper.name',
   titleKey: 'npc.mirror_keeper.title',
   defaultLocation: 'cliffside',
@@ -33,6 +34,7 @@ export const MIRROR_KEEPER_NPC: NPCFullData = {
       choices: [
         { id: 'ask_who_it_is',    textKey: 'dialogue.choice.ask_who_are_you',        nextNodeId: 'mirror_keeper.identity.denial',   insightGain: 8,  trustGain: 3 },
         { id: 'refuse_to_look',   textKey: 'dialogue.choice.turn_away',              nextNodeId: 'mirror_keeper.turned_away',       insightGain: 0,  moralWeight: -1 },
+        { id: 'ask_what_shown',   textKey: 'dialogue.choice.ask_what_mirrors_show',  nextNodeId: 'mirror_keeper.mirrors_show.truth', insightGain: 7, trustGain: 2 },
         { id: 'leave',            textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -58,6 +60,7 @@ export const MIRROR_KEEPER_NPC: NPCFullData = {
       choices: [
         { id: 'ask_what_it_knows',  textKey: 'dialogue.choice.ask_what_you_know',     nextNodeId: 'mirror_keeper.memory.loop',       insightGain: 15, trustGain: 5 },
         { id: 'ask_the_difference', textKey: 'dialogue.choice.ask_what_difference',   nextNodeId: 'mirror_keeper.difference.none',   insightGain: 12, trustGain: 4 },
+        { id: 'ask_original_name',  textKey: 'dialogue.choice.ask_your_original_name', nextNodeId: 'mirror_keeper.original_name.partial', insightGain: 12, trustGain: 5 },
         { id: 'leave',              textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -91,6 +94,7 @@ export const MIRROR_KEEPER_NPC: NPCFullData = {
       choices: [
         { id: 'ask_the_warning',    textKey: 'dialogue.choice.ask_what_to_avoid',     nextNodeId: 'mirror_keeper.warning.given',     insightGain: 20, trustGain: 8, worldFlagRequired: 'mirror_loop_known' },
         { id: 'ask_if_it_tried',    textKey: 'dialogue.choice.ask_if_you_tried',      nextNodeId: 'mirror_keeper.tried.yes',         insightGain: 15, trustGain: 6 },
+        { id: 'ask_why_stay',       textKey: 'dialogue.choice.ask_why_you_stay',      nextNodeId: 'mirror_keeper.why_stay.revelation', insightGain: 18, trustGain: 7, worldFlagRequired: 'mirror_loop_known' },
         { id: 'leave',              textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -131,6 +135,29 @@ export const MIRROR_KEEPER_NPC: NPCFullData = {
       speakerKey: 'npc.mirror_keeper.truth.rejected',
       choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'self_denied' },
+      ],
+    },
+
+    // ── Depth topics: what mirrors show, original name, why they stay ─────
+
+    'mirror_keeper.mirrors_show.truth': {
+      speakerKey: 'npc.mirror_keeper.mirrors_show.truth',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+
+    'mirror_keeper.original_name.partial': {
+      speakerKey: 'npc.mirror_keeper.original_name.partial',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'mirror_keeper_name_sought' },
+      ],
+    },
+
+    'mirror_keeper.why_stay.revelation': {
+      speakerKey: 'npc.mirror_keeper.why_stay.revelation',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'mirror_keeper_purpose_known' },
       ],
     },
 

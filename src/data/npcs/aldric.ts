@@ -2,6 +2,7 @@ import type { NPCFullData } from './dialogueTypes.js'
 
 export const ALDRIC_NPC: NPCFullData = {
   id: 'aldric',
+  secret: "Aldric's mill debt was quietly purchased three years ago by whoever administers the lighthouse supply chain — his entire operation is leverage, and he is one conversation away from being silenced.",
   nameKey: 'npc.aldric.name',
   titleKey: 'npc.aldric.title',
   defaultLocation: 'mill',
@@ -29,6 +30,7 @@ export const ALDRIC_NPC: NPCFullData = {
       choices: [
         { id: 'ask_customs', textKey: 'dialogue.choice.ask_island', nextNodeId: 'aldric.customs.first', insightGain: 5, trustGain: 2 },
         { id: 'ask_mill',    textKey: 'dialogue.choice.ask_work',   nextNodeId: 'aldric.mill.intro',    insightGain: 3 },
+        { id: 'ask_trade',   textKey: 'dialogue.choice.ask_trade_conditions', nextNodeId: 'aldric.trade_conditions.current', insightGain: 4, trustGain: 1 },
         { id: 'leave',       textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -77,8 +79,9 @@ export const ALDRIC_NPC: NPCFullData = {
     'aldric.greeting.tier2': {
       speakerKey: 'npc.aldric.greeting.tier2',
       choices: [
-        { id: 'ask_records', textKey: 'dialogue.choice.ask_mill_records', nextNodeId: 'aldric.records.offer', insightGain: 12, trustGain: 5 },
-        { id: 'leave',       textKey: 'dialogue.choice.leave' },
+        { id: 'ask_records',      textKey: 'dialogue.choice.ask_mill_records',        nextNodeId: 'aldric.records.offer',           insightGain: 12, trustGain: 5 },
+        { id: 'ask_who_controls', textKey: 'dialogue.choice.ask_who_controls_supplies', nextNodeId: 'aldric.controls_supplies.hint',  insightGain: 10, trustGain: 4 },
+        { id: 'leave',            textKey: 'dialogue.choice.leave' },
       ],
     },
 
@@ -102,7 +105,8 @@ export const ALDRIC_NPC: NPCFullData = {
     'aldric.greeting.tier3': {
       speakerKey: 'npc.aldric.greeting.tier3',
       choices: [
-        { id: 'ask_suspicion', textKey: 'dialogue.choice.ask_unusual', nextNodeId: 'aldric.suspicion', insightGain: 15, trustGain: 8 },
+        { id: 'ask_suspicion', textKey: 'dialogue.choice.ask_unusual',      nextNodeId: 'aldric.suspicion',         insightGain: 15, trustGain: 8 },
+        { id: 'ask_debt',      textKey: 'dialogue.choice.ask_what_you_owe',  nextNodeId: 'aldric.what_you_owe.debt', insightGain: 14, trustGain: 7 },
         { id: 'leave',         textKey: 'dialogue.choice.leave' },
       ],
     },
@@ -136,6 +140,29 @@ export const ALDRIC_NPC: NPCFullData = {
       speakerKey: 'npc.aldric.thank',
       choices: [
         { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+
+    // ── Depth topics: trade conditions, supply control, personal debt ─────
+
+    'aldric.trade_conditions.current': {
+      speakerKey: 'npc.aldric.trade_conditions.current',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave' },
+      ],
+    },
+
+    'aldric.controls_supplies.hint': {
+      speakerKey: 'npc.aldric.controls_supplies.hint',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'aldric_supply_control_known' },
+      ],
+    },
+
+    'aldric.what_you_owe.debt': {
+      speakerKey: 'npc.aldric.what_you_owe.debt',
+      choices: [
+        { id: 'leave', textKey: 'dialogue.choice.leave', worldFlagSet: 'aldric_debt_known' },
       ],
     },
 
