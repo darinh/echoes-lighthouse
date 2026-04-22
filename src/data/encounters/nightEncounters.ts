@@ -15,6 +15,9 @@ export interface NightEncounter {
     dangerDelta?: number
     worldFlagSet?: string
     insightDelta?: number
+    moralWeightDelta?: number                              // moral weight change (positive = heavier)
+    visionTrigger?: string                                 // vision ID to queue
+    locationClosed?: boolean                              // temporarily close current location
   }
 }
 
@@ -66,6 +69,65 @@ export const DANGER_NIGHT_ENCOUNTERS: readonly NightEncounter[] = [
     descKey: 'encounter.broken_compass.desc',
     minDangerLevel: 60,
     effect: { dangerDelta: +20 },
+  },
+  // ── GDD §6.9 Dark Night encounter pool (Issue #121) ──────────────────────
+  {
+    id: 'harbor_patrol',
+    descKey: 'encounter.harbor_patrol.desc',
+    minDangerLevel: 0,
+    /** Weight up when player is at the harbor or has high trust with the harbormaster. */
+    weightFn: (state) => {
+      let w = 1
+      if (state.player.currentLocation === 'harbor') w += 2
+      const silasTrust = (state.player.trust as Record<string, number>)['silas'] ?? 0
+      if (silasTrust >= 3) w += 1
+      return w
+    },
+    effect: { staminaDelta: -1 },
+  },
+  {
+    id: 'shadow_of_old_keeper',
+    descKey: 'encounter.shadow_of_old_keeper.desc',
+    minDangerLevel: 0,
+    /** Weight up at high loop counts — the old keeper's shadow grows stronger. */
+    weightFn: (state) => {
+      const loopBonus = Math.min(3, Math.floor(state.player.loopCount / 3))
+      return 1 + loopBonus
+    },
+    effect: { visionTrigger: 'keeper_shadow' },
+  },
+  {
+    id: 'hollow_voice',
+    descKey: 'encounter.hollow_voice.desc',
+    minDangerLevel: 0,
+    /** Higher weight when player has low insight — the voice offers revelation. */
+    weightFn: (state) => {
+      return state.player.insight < 10 ? 3 : 1
+    },
+    effect: { insightDelta: +2 },
+  },
+  {
+    id: 'storm_surge',
+    descKey: 'encounter.storm_surge.desc',
+    minDangerLevel: 20,
+    /** Heavier in storm weather, lighter in clear conditions. */
+    weightFn: (state) => {
+      if (state.weather === 'storm') return 4
+      if (state.weather === 'rain') return 2
+      if (state.weather === 'clear') return 0
+      return 1
+    },
+    effect: { locationClosed: true },
+  },
+  {
+    id: 'creature_sighting',
+    descKey: 'encounter.creature_sighting.desc',
+    minDangerLevel: 30,
+    /** Weight increases with negative moral weight — dark acts attract dark things. */
+    weightFn: (state) => {
+      return state.player.moralWeight > 20 ? 3 : 1
+    },
+    effect: { moralWeightDelta: +5 },
   },
 ]
 

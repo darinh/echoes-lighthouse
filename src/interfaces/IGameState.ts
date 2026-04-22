@@ -98,6 +98,11 @@ export interface IPlayerState {
    * is applied to archiveMastery.  Always empty on Easy / Normal.
    */
   readonly pendingArchiveSeals: Readonly<Record<string, { readonly domain: ArchiveDomain; readonly sealsRemaining: number }>>
+  /**
+   * Total dark nights the player has survived across all loops.
+   * Used for NPC dialogue shifts and consequence tracking.
+   */
+  readonly darkNightsSurvived: number
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

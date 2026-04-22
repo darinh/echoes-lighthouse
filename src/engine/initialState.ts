@@ -88,6 +88,7 @@ const DEFAULT_PLAYER: IPlayerState = {
   questExpiry: {},
   npcHarmCount: {},
   pendingArchiveSeals: {},
+  darkNightsSurvived: 0,
 }
 
 export function createInitialState(): IGameState {
