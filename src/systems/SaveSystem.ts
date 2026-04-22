@@ -27,6 +27,7 @@ interface SaveSnapshot {
     signalDials: number[]
     signalSolved: boolean
   }
+  resolvedDilemmas: string[]
   pendingVisions: string[]
   priorPhase: IGameState['phase'] | null
   nightDangerLevel: number
@@ -184,6 +185,7 @@ export class SaveSystem implements ISystem {
         signalDials: [...state.puzzleState.signalDials],
         signalSolved: state.puzzleState.signalSolved,
       },
+      resolvedDilemmas: [...state.resolvedDilemmas],
       pendingVisions: [...state.pendingVisions],
       priorPhase: state.priorPhase,
       nightDangerLevel: state.nightDangerLevel,
@@ -286,6 +288,8 @@ export class SaveSystem implements ISystem {
       pendingMilestoneMessage: null,
       activeEncounter: null,
       nightEncounterShown: 0,
+      activeDilemma: null,
+      resolvedDilemmas: new Set(snapshot.resolvedDilemmas ?? []),
       weather: (snapshot.weather ?? 'clear') as WeatherType,
       puzzleState: {
         signalDials: (snapshot.puzzleState?.signalDials ?? [0, 0, 0]) as [number, number, number],

@@ -407,6 +407,7 @@ export class GameEngine {
         } else if (this.state.phase === 'dusk') {
           this.state = { ...this.state, phase: 'night_dark', nightDangerLevel: 2 }
           this.eventBus.emit('time.passed', { from: 'dusk', to: 'night_dark' })
+          this.applyEvent('loop.night', {})
           this.maybeTriggerNightEncounter()
         }
         break
@@ -574,6 +575,13 @@ export class GameEngine {
         } else {
           this.eventBus.emit('puzzle.failed', {})
         }
+        break
+      }
+
+      case 'dilemma.choose': {
+        const { choiceId } = action as { type: 'dilemma.choose'; choiceId: string }
+        this.applyEvent('dilemma.choice.made', { choiceId })
+        this.eventBus.emit('dilemma.choice.made', { choiceId })
         break
       }
     }

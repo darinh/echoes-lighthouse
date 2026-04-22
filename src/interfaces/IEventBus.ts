@@ -64,6 +64,8 @@ export type GameEventType =
   | 'time.passed'
   // Moral
   | 'moral.choice.made'
+  // Dilemma
+  | 'dilemma.choice.made'
   // System
   | 'game.saved'
   | 'game.loaded'
