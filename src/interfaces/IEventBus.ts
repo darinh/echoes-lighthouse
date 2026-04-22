@@ -14,6 +14,7 @@ export type GameEventType =
   | 'insight.card.requirements.met'
   | 'archive.page.found'
   | 'archive.domain.unlocked'
+  | 'mastery.unlocked'
   // Quests
   | 'quest.started'
   | 'quest.updated'

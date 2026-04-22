@@ -5,7 +5,7 @@ import { FileAudioProvider } from '@/providers/audio/FileAudioProvider.js'
 import { CanvasRenderer } from '@/providers/renderer/CanvasRenderer.js'
 import { UIManager } from '@/providers/ui/UIManager.js'
 import { HybridRenderer } from '@/providers/renderer/HybridRenderer.js'
-import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, RelationshipSystem, SaveSystem, AudioFeedbackSystem, NPCScheduleSystem, MilestoneSystem, WeatherSystem, StaminaSystem, InsightBankingSystem, NightSystem, ResonanceSystem, VisionSystem, EndingSystem } from '@/systems/index.js'
+import { KnowledgeSystem, QuestSystem, MoralWeightSystem, LoopSystem, DialogueSystem, RelationshipSystem, SaveSystem, AudioFeedbackSystem, NPCScheduleSystem, MilestoneSystem, WeatherSystem, StaminaSystem, InsightBankingSystem, NightSystem, ResonanceSystem, VisionSystem, EndingSystem, ArchiveMasterySystem } from '@/systems/index.js'
 import { AchievementSystem } from '@/systems/AchievementSystem.js'
 import { AmbientAudioSystem } from '@/systems/AmbientAudioSystem.js'
 import { MovementSystem } from '@/world/MovementSystem.js'
@@ -39,6 +39,7 @@ async function boot(): Promise<void> {
   engine.registerSystem(new LoopSystem(eventBus))
   engine.registerSystem(new MilestoneSystem(eventBus))
   engine.registerSystem(new KnowledgeSystem(eventBus))
+  engine.registerSystem(new ArchiveMasterySystem(eventBus))
   engine.registerSystem(new QuestSystem(eventBus))
   engine.registerSystem(new MoralWeightSystem(eventBus))
   engine.registerSystem(new DialogueSystem(eventBus))
